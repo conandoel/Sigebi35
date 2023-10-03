@@ -3,11 +3,31 @@ package entidades;
 public class Lector {
     private int idSocio;
     private String nombre;
+    private String apellido;
     private Object domicilio;
     private String mail;
     private boolean estado;
     
     public Lector(){}
+
+    public Lector(int idSocio, String nombre, String apellido, Object domicilio, String mail, boolean estado) {
+        this.idSocio = idSocio;
+        this.nombre = nombre;
+        this.apellido = apellido;
+        this.domicilio = domicilio;
+        this.mail = mail;
+        this.estado = estado;
+    }
+    
+
+    public String getApellido() {
+        return apellido;
+    }
+
+    public void setApellido(String apellido) {
+        this.apellido = apellido;
+    }
+    
 
     public int getIdSocio() {
         return idSocio;

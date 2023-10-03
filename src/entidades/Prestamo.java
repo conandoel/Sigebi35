@@ -3,6 +3,7 @@ package entidades;
 import java.util.Date;
 
 public class Prestamo {
+    private int idPrestamo;
     private Date fechaInicio;
     private Date fechaFin;
     private Ejemplar ejemplar;
@@ -11,6 +12,31 @@ public class Prestamo {
     
     public Prestamo(){};
 
+    public Prestamo(int idPrestamo, Date fechaInicio, Date fechaFin, Ejemplar ejemplar, Lector lector, boolean estado) {
+        this.idPrestamo = idPrestamo;
+        this.fechaInicio = fechaInicio;
+        this.fechaFin = fechaFin;
+        this.ejemplar = ejemplar;
+        this.lector = lector;
+        this.estado = estado;
+    }
+
+    public Prestamo(Date fechaInicio, Date fechaFin, Ejemplar ejemplar, Lector lector, boolean estado) {
+        this.fechaInicio = fechaInicio;
+        this.fechaFin = fechaFin;
+        this.ejemplar = ejemplar;
+        this.lector = lector;
+        this.estado = estado;
+    }
+
+    public int getIdPrestamo() {
+        return idPrestamo;
+    }
+
+    public void setIdPrestamo(int idPrestamo) {
+        this.idPrestamo = idPrestamo;
+    }
+    
     public Date getFechaInicio() {
         return fechaInicio;
     }
