@@ -7,6 +7,13 @@ public class Ejemplar {
     
     public Ejemplar(){}
 
+    public Ejemplar(int codigo, Libro libro, String estado) {
+        this.codigo = codigo;
+        this.libro = libro;
+        this.estado = estado;
+    }
+    
+
     public int getCodigo() {
         return codigo;
     }

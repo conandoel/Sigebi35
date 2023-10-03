@@ -8,8 +8,23 @@ public class Libro {
     private String genero;
     private String editorial;
     private boolean estado;
+    private int cantEjemplares;
     
     public Libro(){}
+
+
+    public Libro(int isbn, String titulo, Autor autor, int anio, String genero, String editorial, boolean estado, int cantEjemplares) {
+        this.isbn = isbn;
+        this.titulo = titulo;
+        this.autor = autor;
+        this.anio = anio;
+        this.genero = genero;
+        this.editorial = editorial;
+        this.estado = estado;
+        this.cantEjemplares = cantEjemplares;
+    }
+
+ 
 
     public int getIsbn() {
         return isbn;
@@ -61,4 +76,11 @@ public class Libro {
     }
     
     
+    public int getCantEjemplares() {
+        return cantEjemplares;
+    }
+
+    public void setCantEjemplares(int cantEjemplares) {
+        this.cantEjemplares = cantEjemplares;
+    }
 }
