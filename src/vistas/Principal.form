@@ -76,6 +76,11 @@
                 <Property name="text" type="java.lang.String" value="...libros"/>
               </Properties>
             </MenuItem>
+            <MenuItem class="javax.swing.JMenuItem" name="jMenuItem6">
+              <Properties>
+                <Property name="text" type="java.lang.String" value="...ejemplar"/>
+              </Properties>
+            </MenuItem>
             <MenuItem class="javax.swing.JMenuItem" name="jMModSocios">
               <Properties>
                 <Property name="text" type="java.lang.String" value="...socios"/>
@@ -96,6 +101,11 @@
             <MenuItem class="javax.swing.JMenuItem" name="jMElimLibros">
               <Properties>
                 <Property name="text" type="java.lang.String" value="...libros"/>
+              </Properties>
+            </MenuItem>
+            <MenuItem class="javax.swing.JMenuItem" name="jMenuItem7">
+              <Properties>
+                <Property name="text" type="java.lang.String" value="...ejemplar"/>
               </Properties>
             </MenuItem>
             <MenuItem class="javax.swing.JMenuItem" name="jMElimSocios">

@@ -39,10 +39,12 @@ public class Principal extends javax.swing.JFrame {
         jMBuscarPréstamos = new javax.swing.JMenuItem();
         jMModificar = new javax.swing.JMenu();
         jMModLibros = new javax.swing.JMenuItem();
+        jMenuItem6 = new javax.swing.JMenuItem();
         jMModSocios = new javax.swing.JMenuItem();
         jMModPrestamos = new javax.swing.JMenuItem();
         jMEliminar = new javax.swing.JMenu();
         jMElimLibros = new javax.swing.JMenuItem();
+        jMenuItem7 = new javax.swing.JMenuItem();
         jMElimSocios = new javax.swing.JMenuItem();
         jMElimPrestamos = new javax.swing.JMenuItem();
         jMenu2 = new javax.swing.JMenu();
@@ -111,6 +113,9 @@ public class Principal extends javax.swing.JFrame {
         jMModLibros.setText("...libros");
         jMModificar.add(jMModLibros);
 
+        jMenuItem6.setText("...ejemplar");
+        jMModificar.add(jMenuItem6);
+
         jMModSocios.setText("...socios");
         jMModificar.add(jMModSocios);
 
@@ -123,6 +128,9 @@ public class Principal extends javax.swing.JFrame {
 
         jMElimLibros.setText("...libros");
         jMEliminar.add(jMElimLibros);
+
+        jMenuItem7.setText("...ejemplar");
+        jMEliminar.add(jMenuItem7);
 
         jMElimSocios.setText("...socios");
         jMEliminar.add(jMElimSocios);
@@ -241,5 +249,7 @@ public class Principal extends javax.swing.JFrame {
     private javax.swing.JMenuItem jMenuItem3;
     private javax.swing.JMenuItem jMenuItem4;
     private javax.swing.JMenuItem jMenuItem5;
+    private javax.swing.JMenuItem jMenuItem6;
+    private javax.swing.JMenuItem jMenuItem7;
     // End of variables declaration//GEN-END:variables
 }
