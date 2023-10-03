@@ -10,17 +10,15 @@ import java.sql.Connection;
  *
  * @author conandoel
  */
-public class LibroData {
+public class LectorData {
     private Connection con = null;
-    public LibroData() {
+
+    public LectorData() {
         con = Conexion.getConexion();
     }
-    
-    public void guardarLibro(){}
-    public void modificarLibro(){}
-    public void eliminarLibro(){}
-    public void buscarLibroPorISBN(){}
-    public void buscarLibroPorAutor(){}
-    public void buscarLibroPorTitulo(){}
-    public void listarLibro(){}
+    public void agregarLector(){}
+    public void modificarLector(){}
+    public void eliminarLector(){}
+    public void buscarLectorPorDNI(){}
+    public void listarLector(){}
 }
