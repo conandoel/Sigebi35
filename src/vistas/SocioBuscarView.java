@@ -1,12 +1,18 @@
 package vistas;
 
-public class SocioBuscarView extends javax.swing.JInternalFrame {
+import java.util.ArrayList;
 
+public class SocioBuscarView extends javax.swing.JInternalFrame {
+    
+    //Se crea un ArrayList de tipo String que contiene el criterio de búsqueda
+    private String[] criteriosDeBusqueda = 
+    {"Número de Socio", "Nombre", "Domicilio", "Email", "Estado"};
     /**
      * Creates new form SocioBuscarView
      */
     public SocioBuscarView() {
         initComponents();
+        jCBCargarSocioBuscarCriterios();
     }
 
     /**
@@ -20,25 +26,39 @@ public class SocioBuscarView extends javax.swing.JInternalFrame {
 
         jPSocioBuscar = new javax.swing.JPanel();
         jLBuscarSocios = new javax.swing.JLabel();
-        jCBSociosBuscar = new javax.swing.JComboBox<>();
-        jTFSocioBuscar = new javax.swing.JTextField();
-        jLabel1 = new javax.swing.JLabel();
-        jLabel2 = new javax.swing.JLabel();
+        jCBSocioBuscarCriterio = new javax.swing.JComboBox<>();
+        jTFSocioBuscarIngreseValor = new javax.swing.JTextField();
+        jLSocioBuscarCriterio = new javax.swing.JLabel();
+        jLSocioBuscarIngreseValor = new javax.swing.JLabel();
         jScrollPane1 = new javax.swing.JScrollPane();
+        jButton1 = new javax.swing.JButton();
 
         jLBuscarSocios.setFont(new java.awt.Font("Segoe UI Historic", 1, 18)); // NOI18N
         jLBuscarSocios.setForeground(new java.awt.Color(0, 204, 204));
         jLBuscarSocios.setText("Búsqueda de socios");
 
-        jTFSocioBuscar.addActionListener(new java.awt.event.ActionListener() {
+        jCBSocioBuscarCriterio.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jTFSocioBuscarActionPerformed(evt);
+                jCBSocioBuscarCriterioActionPerformed(evt);
             }
         });
 
-        jLabel1.setText(" Ingrese criterio de búsqueda:");
+        jTFSocioBuscarIngreseValor.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jTFSocioBuscarIngreseValorActionPerformed(evt);
+            }
+        });
 
-        jLabel2.setText("Ingrese el X:");
+        jLSocioBuscarCriterio.setText(" Ingrese criterio de búsqueda:");
+
+        jLSocioBuscarIngreseValor.setText("Ingrese el X:");
+
+        jButton1.setText("Q");
+        jButton1.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButton1ActionPerformed(evt);
+            }
+        });
 
         javax.swing.GroupLayout jPSocioBuscarLayout = new javax.swing.GroupLayout(jPSocioBuscar);
         jPSocioBuscar.setLayout(jPSocioBuscarLayout);
@@ -48,10 +68,14 @@ public class SocioBuscarView extends javax.swing.JInternalFrame {
                 .addContainerGap()
                 .addGroup(jPSocioBuscarLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
                     .addComponent(jLBuscarSocios, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                    .addComponent(jCBSociosBuscar, 0, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                    .addComponent(jTFSocioBuscar)
-                    .addComponent(jLabel1, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                    .addComponent(jLabel2, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                    .addComponent(jCBSocioBuscarCriterio, 0, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                    .addComponent(jLSocioBuscarCriterio, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                    .addGroup(jPSocioBuscarLayout.createSequentialGroup()
+                        .addGroup(jPSocioBuscarLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addComponent(jLSocioBuscarIngreseValor, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                            .addComponent(jTFSocioBuscarIngreseValor))
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addComponent(jButton1, javax.swing.GroupLayout.PREFERRED_SIZE, 51, javax.swing.GroupLayout.PREFERRED_SIZE)))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 128, Short.MAX_VALUE)
                 .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 269, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGap(18, 18, 18))
@@ -62,14 +86,16 @@ public class SocioBuscarView extends javax.swing.JInternalFrame {
                 .addGap(32, 32, 32)
                 .addComponent(jLBuscarSocios, javax.swing.GroupLayout.PREFERRED_SIZE, 25, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(jLabel1)
+                .addComponent(jLSocioBuscarCriterio)
                 .addGap(5, 5, 5)
-                .addComponent(jCBSociosBuscar, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addComponent(jCBSocioBuscarCriterio, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGap(18, 18, 18)
-                .addComponent(jLabel2)
+                .addComponent(jLSocioBuscarIngreseValor)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(jTFSocioBuscar, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(0, 196, Short.MAX_VALUE))
+                .addGroup(jPSocioBuscarLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
+                    .addComponent(jTFSocioBuscarIngreseValor, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(jButton1))
+                .addGap(69, 195, Short.MAX_VALUE))
             .addComponent(jScrollPane1, javax.swing.GroupLayout.Alignment.TRAILING)
         );
 
@@ -87,18 +113,37 @@ public class SocioBuscarView extends javax.swing.JInternalFrame {
         pack();
     }// </editor-fold>//GEN-END:initComponents
 
-    private void jTFSocioBuscarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jTFSocioBuscarActionPerformed
+    private void jTFSocioBuscarIngreseValorActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jTFSocioBuscarIngreseValorActionPerformed
         // TODO add your handling code here:
-    }//GEN-LAST:event_jTFSocioBuscarActionPerformed
+    }//GEN-LAST:event_jTFSocioBuscarIngreseValorActionPerformed
+
+    private void jCBSocioBuscarCriterioActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jCBSocioBuscarCriterioActionPerformed
+        // TODO add your handling code here:
+        
+        String seleccion = jCBSocioBuscarCriterio.getSelectedItem().toString();
+        
+        jLSocioBuscarIngreseValor.setText("Ingrese el " + seleccion);
+    }//GEN-LAST:event_jCBSocioBuscarCriterioActionPerformed
+
+    private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_jButton1ActionPerformed
+    
+    private void jCBCargarSocioBuscarCriterios(){
+        for(String criterio : criteriosDeBusqueda){
+            jCBSocioBuscarCriterio.addItem(criterio);
+        }
+    }
 
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
-    private javax.swing.JComboBox<String> jCBSociosBuscar;
+    private javax.swing.JButton jButton1;
+    private javax.swing.JComboBox<String> jCBSocioBuscarCriterio;
     private javax.swing.JLabel jLBuscarSocios;
-    private javax.swing.JLabel jLabel1;
-    private javax.swing.JLabel jLabel2;
+    private javax.swing.JLabel jLSocioBuscarCriterio;
+    private javax.swing.JLabel jLSocioBuscarIngreseValor;
     private javax.swing.JPanel jPSocioBuscar;
     private javax.swing.JScrollPane jScrollPane1;
-    private javax.swing.JTextField jTFSocioBuscar;
+    private javax.swing.JTextField jTFSocioBuscarIngreseValor;
     // End of variables declaration//GEN-END:variables
 }
