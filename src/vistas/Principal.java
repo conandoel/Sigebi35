@@ -1,13 +1,5 @@
-/*
- * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
- * Click nbfs://nbhost/SystemFileSystem/Templates/GUIForms/JFrame.java to edit this template
- */
 package vistas;
 
-/**
- *
- * @author dimon
- */
 public class Principal extends javax.swing.JFrame {
 
     /**
@@ -55,6 +47,7 @@ public class Principal extends javax.swing.JFrame {
         jMenu1.setText("jMenu1");
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
+        setResizable(false);
 
         javax.swing.GroupLayout jDPEscritorioLayout = new javax.swing.GroupLayout(jDPEscritorio);
         jDPEscritorio.setLayout(jDPEscritorioLayout);
@@ -164,11 +157,11 @@ public class Principal extends javax.swing.JFrame {
         getContentPane().setLayout(layout);
         layout.setHorizontalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addComponent(jDPEscritorio)
+            .addComponent(jDPEscritorio, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addComponent(jDPEscritorio)
+            .addComponent(jDPEscritorio, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
         );
 
         pack();
@@ -176,6 +169,13 @@ public class Principal extends javax.swing.JFrame {
 
     private void jMBuscarSociosActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMBuscarSociosActionPerformed
         // TODO add your handling code here:
+        
+       jDPEscritorio.removeAll();
+        jDPEscritorio.repaint();
+        SocioBuscarView socioBuscarView=new SocioBuscarView();
+        socioBuscarView.setVisible(true);
+        jDPEscritorio.add(socioBuscarView);
+        jDPEscritorio.moveToFront(socioBuscarView);
     }//GEN-LAST:event_jMBuscarSociosActionPerformed
 
     private void jMBuscarPréstamosActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMBuscarPréstamosActionPerformed
