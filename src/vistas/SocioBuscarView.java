@@ -1,29 +1,21 @@
 package vistas;
 
-import datos.SocioData;
-import entidades.Socio;
-import java.awt.GridLayout;
 import java.util.List;
-import java.util.ArrayList;
 import javax.swing.BoxLayout;
-import javax.swing.JPanel;
 
 public class SocioBuscarView extends javax.swing.JInternalFrame {
     
     //Se crea un ArrayList de tipo String que contiene el criterio de búsqueda
-    private String[] criteriosDeBusqueda = 
+    private final String[] criteriosDeBusqueda = 
     {"Número de Socio", "Nombre", "Domicilio", "Mail", "Estado"};
     private SocioBuscarResultado resultado;
-    private SocioData metodoDeSocio;
-    private List <Socio> socios;
     private List <SocioBuscarResultado> resultados;
-    private List <String> aux;
     /**
      * Creates new form SocioBuscarView
      */
     public SocioBuscarView() {
         initComponents();
-        jCBCargarSocioBuscarCriterios();        
+        jCBCargarSocioBuscarCriterios();
     }
 
     /**
@@ -43,8 +35,6 @@ public class SocioBuscarView extends javax.swing.JInternalFrame {
         jLSocioBuscarIngreseValor = new javax.swing.JLabel();
         jSPResultados = new javax.swing.JScrollPane();
         jButton1 = new javax.swing.JButton();
-
-        setResizable(true);
 
         jLBuscarSocios.setFont(new java.awt.Font("Segoe UI Historic", 1, 18)); // NOI18N
         jLBuscarSocios.setForeground(new java.awt.Color(0, 204, 204));
@@ -79,18 +69,20 @@ public class SocioBuscarView extends javax.swing.JInternalFrame {
             jPSocioBuscarLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(jPSocioBuscarLayout.createSequentialGroup()
                 .addContainerGap()
-                .addGroup(jPSocioBuscarLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                    .addComponent(jLBuscarSocios, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                    .addComponent(jCBSocioBuscarCriterio, 0, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                .addGroup(jPSocioBuscarLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addComponent(jLBuscarSocios, javax.swing.GroupLayout.DEFAULT_SIZE, 196, Short.MAX_VALUE)
                     .addComponent(jLSocioBuscarCriterio, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                     .addGroup(jPSocioBuscarLayout.createSequentialGroup()
-                        .addGroup(jPSocioBuscarLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addComponent(jLSocioBuscarIngreseValor, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                            .addComponent(jTFSocioBuscarIngreseValor))
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addComponent(jButton1, javax.swing.GroupLayout.PREFERRED_SIZE, 51, javax.swing.GroupLayout.PREFERRED_SIZE)))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                .addComponent(jSPResultados, javax.swing.GroupLayout.DEFAULT_SIZE, 478, Short.MAX_VALUE)
+                        .addGroup(jPSocioBuscarLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING, false)
+                            .addComponent(jLSocioBuscarIngreseValor, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                            .addGroup(jPSocioBuscarLayout.createSequentialGroup()
+                                .addComponent(jTFSocioBuscarIngreseValor, javax.swing.GroupLayout.PREFERRED_SIZE, 124, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                                .addComponent(jButton1, javax.swing.GroupLayout.PREFERRED_SIZE, 51, javax.swing.GroupLayout.PREFERRED_SIZE))
+                            .addComponent(jCBSocioBuscarCriterio, javax.swing.GroupLayout.Alignment.LEADING, 0, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                        .addGap(0, 0, Short.MAX_VALUE)))
+                .addGap(12, 12, 12)
+                .addComponent(jSPResultados, javax.swing.GroupLayout.PREFERRED_SIZE, 466, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addContainerGap())
         );
         jPSocioBuscarLayout.setVerticalGroup(
@@ -104,23 +96,23 @@ public class SocioBuscarView extends javax.swing.JInternalFrame {
                 .addComponent(jCBSocioBuscarCriterio, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGap(18, 18, 18)
                 .addComponent(jLSocioBuscarIngreseValor)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addGroup(jPSocioBuscarLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
+                .addGap(7, 7, 7)
+                .addGroup(jPSocioBuscarLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jTFSocioBuscarIngreseValor, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(jButton1))
-                .addGap(69, 215, Short.MAX_VALUE))
-            .addComponent(jSPResultados, javax.swing.GroupLayout.Alignment.TRAILING)
+                .addGap(69, 232, Short.MAX_VALUE))
+            .addComponent(jSPResultados)
         );
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
         layout.setHorizontalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addComponent(jPSocioBuscar, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+            .addComponent(jPSocioBuscar, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addComponent(jPSocioBuscar, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+            .addComponent(jPSocioBuscar, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
         );
 
         pack();
@@ -140,14 +132,15 @@ public class SocioBuscarView extends javax.swing.JInternalFrame {
 
     private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
         // Creamos un panel para contener las tarjetas
-        JPanel panelTarjetas = new JPanel (); 
+        //JPanel panelTarjetas = new JPanel();
+        
+        DropShadowPanel panelTarjetas = new DropShadowPanel(10);
         // Le asignamos un administrador de diseño adecuado
         panelTarjetas.setLayout (new BoxLayout (panelTarjetas, BoxLayout.Y_AXIS));
         
         String valor = jTFSocioBuscarIngreseValor.getText();
         String indice = jCBSocioBuscarCriterio.getSelectedItem().toString();
         
-        metodoDeSocio = new SocioData();
         resultado = new SocioBuscarResultado();
         resultados = resultado.listarSocio(indice, valor);
         

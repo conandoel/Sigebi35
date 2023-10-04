@@ -5,7 +5,6 @@ import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
 import java.util.List;
 import datos.SocioData;
-import javax.swing.JOptionPane;
 
 public class SocioBuscarResultado extends javax.swing.JPanel {
     private List <Socio> socios;
@@ -40,7 +39,6 @@ public class SocioBuscarResultado extends javax.swing.JPanel {
         for(String columna : columnas){
             if(criterio.equals(columna)){
                 socios = metodoDeSocio.buscarHistorialSocios(criterio, valor);
-                JOptionPane.showMessageDialog(null, columna + " : " + criterio);
             }
         }
         
@@ -174,7 +172,7 @@ public class SocioBuscarResultado extends javax.swing.JPanel {
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
-                .addContainerGap()
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jLNumSocio)
                     .addComponent(jLNumeroDeSocio))
@@ -210,8 +208,7 @@ public class SocioBuscarResultado extends javax.swing.JPanel {
                     .addComponent(jLEst)
                     .addComponent(jLEstado))
                 .addGap(18, 18, 18)
-                .addComponent(jSeparator1, javax.swing.GroupLayout.PREFERRED_SIZE, 10, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                .addComponent(jSeparator1, javax.swing.GroupLayout.PREFERRED_SIZE, 10, javax.swing.GroupLayout.PREFERRED_SIZE))
         );
     }// </editor-fold>//GEN-END:initComponents
 
