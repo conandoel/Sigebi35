@@ -6,6 +6,7 @@ import java.awt.GridLayout;
 import java.util.List;
 import java.util.ArrayList;
 import javax.swing.BoxLayout;
+import javax.swing.JPanel;
 
 public class SocioBuscarView extends javax.swing.JInternalFrame {
     
@@ -22,9 +23,7 @@ public class SocioBuscarView extends javax.swing.JInternalFrame {
      */
     public SocioBuscarView() {
         initComponents();
-        jCBCargarSocioBuscarCriterios();
-        
-        //panelResultados.setLayout(new GridLayout (0, 1));
+        jCBCargarSocioBuscarCriterios();        
     }
 
     /**
@@ -146,12 +145,17 @@ public class SocioBuscarView extends javax.swing.JInternalFrame {
         metodoDeSocio = new SocioData();
         resultado = new SocioBuscarResultado();
         resultados = resultado.listarSocio(indice);
-        //panelResultados.add(resultado);
+        // Creamos un panel para contener las tarjetas
+        JPanel panelTarjetas = new JPanel ();
+        // Le asignamos un administrador de diseño adecuado
+        panelTarjetas.setLayout (new BoxLayout (panelTarjetas, BoxLayout.Y_AXIS));
         for(SocioBuscarResultado res : resultados){
             res.setVisible(true);
-            jSPResultados.setViewportView(res);
-            
+            // Agregamos cada tarjeta al panel
+            panelTarjetas.add(res);            
         }
+        // Asignamos el panel como la vista del JScrollPane
+        jSPResultados.setViewportView(panelTarjetas);
  
     }//GEN-LAST:event_jButton1ActionPerformed
     
