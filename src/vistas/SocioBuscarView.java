@@ -12,7 +12,7 @@ public class SocioBuscarView extends javax.swing.JInternalFrame {
     
     //Se crea un ArrayList de tipo String que contiene el criterio de búsqueda
     private String[] criteriosDeBusqueda = 
-    {"Número de Socio", "Nombre", "Domicilio", "Email", "Estado"};
+    {"Número de Socio", "Nombre", "Domicilio", "Mail", "Estado"};
     private SocioBuscarResultado resultado;
     private SocioData metodoDeSocio;
     private List <Socio> socios;
@@ -139,16 +139,19 @@ public class SocioBuscarView extends javax.swing.JInternalFrame {
     }//GEN-LAST:event_jCBSocioBuscarCriterioActionPerformed
 
     private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
-        // TODO add your handling code here:
-
-        int indice = jCBSocioBuscarCriterio.getSelectedIndex();
-        metodoDeSocio = new SocioData();
-        resultado = new SocioBuscarResultado();
-        resultados = resultado.listarSocio(indice);
         // Creamos un panel para contener las tarjetas
-        JPanel panelTarjetas = new JPanel ();
+        JPanel panelTarjetas = new JPanel (); 
         // Le asignamos un administrador de diseño adecuado
         panelTarjetas.setLayout (new BoxLayout (panelTarjetas, BoxLayout.Y_AXIS));
+        
+        String valor = jTFSocioBuscarIngreseValor.getText();
+        String indice = jCBSocioBuscarCriterio.getSelectedItem().toString();
+        
+        metodoDeSocio = new SocioData();
+        resultado = new SocioBuscarResultado();
+        resultados = resultado.listarSocio(indice, valor);
+        
+        
         for(SocioBuscarResultado res : resultados){
             res.setVisible(true);
             // Agregamos cada tarjeta al panel

@@ -9,8 +9,8 @@ import javax.swing.JOptionPane;
 
 public class SocioBuscarResultado extends javax.swing.JPanel {
     private List <Socio> socios;
+    private List <String> columnas;
     private List <SocioBuscarResultado> tarjetas;
-    private SocioBuscarResultado tarjeta;
     private SocioData metodoDeSocio;
     /**
      * Creates new form SocioBuscarResultado
@@ -19,14 +19,30 @@ public class SocioBuscarResultado extends javax.swing.JPanel {
         initComponents();
     }
     
-    public List <SocioBuscarResultado> listarSocio(int criterio){
+    public List <SocioBuscarResultado> listarSocio(String criterio, String valor){
         socios = new ArrayList<>();
+        columnas = new ArrayList<>();
+        tarjetas = new ArrayList<>();
+
         metodoDeSocio = new SocioData();
         
-        socios = metodoDeSocio.buscarHistorialSocios();
+        //socios = metodoDeSocio.buscarHistorialSocios();
+        columnas = metodoDeSocio.listarColumnas();
         
-        tarjetas = new ArrayList<>();
         DateTimeFormatter formato = DateTimeFormatter.ofPattern("dd MM yyyy");
+        
+        if(criterio.equals("Número de Socio")){
+            criterio = "idSocio";
+        }else{
+            criterio = criterio.toLowerCase();
+        }
+ 
+        for(String columna : columnas){
+            if(criterio.equals(columna)){
+                socios = metodoDeSocio.buscarHistorialSocios(criterio, valor);
+                JOptionPane.showMessageDialog(null, columna + " : " + criterio);
+            }
+        }
         
         for(Socio socio : socios){
             // Declaramos la variable tarjeta dentro del bucle
@@ -41,7 +57,6 @@ public class SocioBuscarResultado extends javax.swing.JPanel {
             //tarjeta.jLFechaDeBaja.setText(socio.isEstado()? "5 años desde fecha de alta" : socio.getFechaDeBaja().format(formato));
             //tarjeta.jLFoto;
             tarjeta.jLEstado.setText(socio.isEstado()? "Activo" : "Desasociado");
-            System.out.println(tarjeta.jLNombre.getText());
             tarjetas.add(tarjeta);
         }
         return tarjetas;

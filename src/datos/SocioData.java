@@ -29,12 +29,14 @@ public class SocioData {
     
     
     
-    public List buscarHistorialSocios(){
-        String sql = "SELECT * FROM lector;";
+    public List buscarHistorialSocios(String criterio, String valor){
+        String sql = "SELECT * FROM lector WHERE " + criterio + " = ?;";
         socios = new ArrayList<>();
         
         try{
             PreparedStatement ps = con.prepareStatement(sql);
+            ps.setString(1, valor);
+            
             ResultSet rs = ps.executeQuery();
             
             while(rs.next()){
@@ -46,7 +48,7 @@ public class SocioData {
                 //socio.setFechaDeAlta(rs.getDate("fechaDeAlta").toLocalDate());
                 //socio.setFechaDeBaja(rs.getBoolean("estado")? rs.getDate("fechaDeAlta").toLocalDate() : null );
                 socio.setEstado(rs.getBoolean("estado"));
-                
+                JOptionPane.showMessageDialog(null, socio.getDomicilio());
                 socios.add(socio);
             }
         }catch(SQLException ex){
