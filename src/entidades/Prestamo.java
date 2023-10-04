@@ -7,12 +7,12 @@ public class Prestamo {
     private Date fechaInicio;
     private Date fechaFin;
     private Ejemplar ejemplar;
-    private Lector lector;
+    private Socio lector;
     private boolean estado;
     
     public Prestamo(){};
 
-    public Prestamo(int idPrestamo, Date fechaInicio, Date fechaFin, Ejemplar ejemplar, Lector lector, boolean estado) {
+    public Prestamo(int idPrestamo, Date fechaInicio, Date fechaFin, Ejemplar ejemplar, Socio lector, boolean estado) {
         this.idPrestamo = idPrestamo;
         this.fechaInicio = fechaInicio;
         this.fechaFin = fechaFin;
@@ -21,7 +21,7 @@ public class Prestamo {
         this.estado = estado;
     }
 
-    public Prestamo(Date fechaInicio, Date fechaFin, Ejemplar ejemplar, Lector lector, boolean estado) {
+    public Prestamo(Date fechaInicio, Date fechaFin, Ejemplar ejemplar, Socio lector, boolean estado) {
         this.fechaInicio = fechaInicio;
         this.fechaFin = fechaFin;
         this.ejemplar = ejemplar;
@@ -58,10 +58,10 @@ public class Prestamo {
         this.ejemplar = ejemplar;
     }
 
-    public Lector getLector() {
+    public Socio getLector() {
         return lector;
     }
-    public void setLector(Lector lector) {
+    public void setLector(Socio lector) {
         this.lector = lector;
     }
 
@@ -72,11 +72,11 @@ public class Prestamo {
         this.estado = estado;
     }
     
-    public void solicitarLibro(Ejemplar e, Lector l){
+    public void solicitarLibro(Ejemplar e, Socio l){
         
     }
     
-    public void devolverLibro(Ejemplar e, Lector l){
+    public void devolverLibro(Ejemplar e, Socio l){
         
     }
 }

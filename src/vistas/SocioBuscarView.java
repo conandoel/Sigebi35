@@ -1,6 +1,11 @@
 package vistas;
 
-import entidades.Lector;
+import datos.SocioData;
+import entidades.Socio;
+import java.awt.GridLayout;
+import java.util.List;
+import java.util.ArrayList;
+import javax.swing.BoxLayout;
 
 public class SocioBuscarView extends javax.swing.JInternalFrame {
     
@@ -8,13 +13,18 @@ public class SocioBuscarView extends javax.swing.JInternalFrame {
     private String[] criteriosDeBusqueda = 
     {"Número de Socio", "Nombre", "Domicilio", "Email", "Estado"};
     private SocioBuscarResultado resultado;
-    private Lector lector;
+    private SocioData metodoDeSocio;
+    private List <Socio> socios;
+    private List <SocioBuscarResultado> resultados;
+    private List <String> aux;
     /**
      * Creates new form SocioBuscarView
      */
     public SocioBuscarView() {
         initComponents();
         jCBCargarSocioBuscarCriterios();
+        
+        //panelResultados.setLayout(new GridLayout (0, 1));
     }
 
     /**
@@ -81,7 +91,7 @@ public class SocioBuscarView extends javax.swing.JInternalFrame {
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                         .addComponent(jButton1, javax.swing.GroupLayout.PREFERRED_SIZE, 51, javax.swing.GroupLayout.PREFERRED_SIZE)))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                .addComponent(jSPResultados, javax.swing.GroupLayout.DEFAULT_SIZE, 475, Short.MAX_VALUE)
+                .addComponent(jSPResultados, javax.swing.GroupLayout.DEFAULT_SIZE, 478, Short.MAX_VALUE)
                 .addContainerGap())
         );
         jPSocioBuscarLayout.setVerticalGroup(
@@ -99,7 +109,7 @@ public class SocioBuscarView extends javax.swing.JInternalFrame {
                 .addGroup(jPSocioBuscarLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
                     .addComponent(jTFSocioBuscarIngreseValor, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(jButton1))
-                .addGap(69, 213, Short.MAX_VALUE))
+                .addGap(69, 215, Short.MAX_VALUE))
             .addComponent(jSPResultados, javax.swing.GroupLayout.Alignment.TRAILING)
         );
 
@@ -131,10 +141,18 @@ public class SocioBuscarView extends javax.swing.JInternalFrame {
 
     private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
         // TODO add your handling code here:
+
+        int indice = jCBSocioBuscarCriterio.getSelectedIndex();
+        metodoDeSocio = new SocioData();
         resultado = new SocioBuscarResultado();
-        resultado.setVisible(true);
-        jSPResultados.setViewportView(resultado);
-        
+        resultados = resultado.listarSocio(indice);
+        //panelResultados.add(resultado);
+        for(SocioBuscarResultado res : resultados){
+            res.setVisible(true);
+            jSPResultados.setViewportView(res);
+            
+        }
+ 
     }//GEN-LAST:event_jButton1ActionPerformed
     
     private void jCBCargarSocioBuscarCriterios(){

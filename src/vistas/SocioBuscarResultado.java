@@ -1,14 +1,51 @@
 package vistas;
 
-public class SocioBuscarResultado extends javax.swing.JPanel {
+import entidades.Socio;
+import java.time.format.DateTimeFormatter;
+import java.util.ArrayList;
+import java.util.List;
+import datos.SocioData;
+import javax.swing.JOptionPane;
 
+public class SocioBuscarResultado extends javax.swing.JPanel {
+    private List <Socio> socios;
+    private List <SocioBuscarResultado> tarjetas;
+    private SocioBuscarResultado tarjeta;
+    private SocioData metodoDeSocio;
     /**
      * Creates new form SocioBuscarResultado
      */
     public SocioBuscarResultado() {
         initComponents();
     }
-
+    
+    public List <SocioBuscarResultado> listarSocio(int criterio){
+        socios = new ArrayList<>();
+        metodoDeSocio = new SocioData();
+        
+        socios = metodoDeSocio.buscarHistorialSocios();
+        
+        tarjetas = new ArrayList<>();
+        DateTimeFormatter formato = DateTimeFormatter.ofPattern("dd MM yyyy");
+        
+        for(Socio socio : socios){
+            // Declaramos la variable tarjeta dentro del bucle
+            SocioBuscarResultado tarjeta = new SocioBuscarResultado();
+            
+            tarjeta.jLNumeroDeSocio.setText(Integer.toString(socio.getIdSocio()));
+            tarjeta.jLApellido.setText(socio.getApellido());
+            tarjeta.jLNombre.setText(socio.getNombre());
+            tarjeta.jLDomicilio.setText(socio.getDomicilio());
+            tarjeta.jLEmail.setText(socio.getMail());
+            //tarjeta.jLFechaDeAlta.setText(socio.getFechaDeAlta().format(formato));
+            //tarjeta.jLFechaDeBaja.setText(socio.isEstado()? "5 años desde fecha de alta" : socio.getFechaDeBaja().format(formato));
+            //tarjeta.jLFoto;
+            tarjeta.jLEstado.setText(socio.isEstado()? "Activo" : "Desasociado");
+            System.out.println(tarjeta.jLNombre.getText());
+            tarjetas.add(tarjeta);
+        }
+        return tarjetas;
+    }
     /**
      * This method is called from within the constructor to initialize the form.
      * WARNING: Do NOT modify this code. The content of this method is always
