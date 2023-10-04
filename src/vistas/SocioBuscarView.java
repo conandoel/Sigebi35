@@ -1,12 +1,14 @@
 package vistas;
 
-import java.util.ArrayList;
+import entidades.Lector;
 
 public class SocioBuscarView extends javax.swing.JInternalFrame {
     
     //Se crea un ArrayList de tipo String que contiene el criterio de búsqueda
     private String[] criteriosDeBusqueda = 
     {"Número de Socio", "Nombre", "Domicilio", "Email", "Estado"};
+    private SocioBuscarResultado resultado;
+    private Lector lector;
     /**
      * Creates new form SocioBuscarView
      */
@@ -30,8 +32,10 @@ public class SocioBuscarView extends javax.swing.JInternalFrame {
         jTFSocioBuscarIngreseValor = new javax.swing.JTextField();
         jLSocioBuscarCriterio = new javax.swing.JLabel();
         jLSocioBuscarIngreseValor = new javax.swing.JLabel();
-        jScrollPane1 = new javax.swing.JScrollPane();
+        jSPResultados = new javax.swing.JScrollPane();
         jButton1 = new javax.swing.JButton();
+
+        setResizable(true);
 
         jLBuscarSocios.setFont(new java.awt.Font("Segoe UI Historic", 1, 18)); // NOI18N
         jLBuscarSocios.setForeground(new java.awt.Color(0, 204, 204));
@@ -76,9 +80,9 @@ public class SocioBuscarView extends javax.swing.JInternalFrame {
                             .addComponent(jTFSocioBuscarIngreseValor))
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                         .addComponent(jButton1, javax.swing.GroupLayout.PREFERRED_SIZE, 51, javax.swing.GroupLayout.PREFERRED_SIZE)))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 128, Short.MAX_VALUE)
-                .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 269, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(18, 18, 18))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                .addComponent(jSPResultados, javax.swing.GroupLayout.DEFAULT_SIZE, 475, Short.MAX_VALUE)
+                .addContainerGap())
         );
         jPSocioBuscarLayout.setVerticalGroup(
             jPSocioBuscarLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -95,8 +99,8 @@ public class SocioBuscarView extends javax.swing.JInternalFrame {
                 .addGroup(jPSocioBuscarLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
                     .addComponent(jTFSocioBuscarIngreseValor, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(jButton1))
-                .addGap(69, 195, Short.MAX_VALUE))
-            .addComponent(jScrollPane1, javax.swing.GroupLayout.Alignment.TRAILING)
+                .addGap(69, 213, Short.MAX_VALUE))
+            .addComponent(jSPResultados, javax.swing.GroupLayout.Alignment.TRAILING)
         );
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
@@ -127,6 +131,10 @@ public class SocioBuscarView extends javax.swing.JInternalFrame {
 
     private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
         // TODO add your handling code here:
+        resultado = new SocioBuscarResultado();
+        resultado.setVisible(true);
+        jSPResultados.setViewportView(resultado);
+        
     }//GEN-LAST:event_jButton1ActionPerformed
     
     private void jCBCargarSocioBuscarCriterios(){
@@ -143,7 +151,7 @@ public class SocioBuscarView extends javax.swing.JInternalFrame {
     private javax.swing.JLabel jLSocioBuscarCriterio;
     private javax.swing.JLabel jLSocioBuscarIngreseValor;
     private javax.swing.JPanel jPSocioBuscar;
-    private javax.swing.JScrollPane jScrollPane1;
+    private javax.swing.JScrollPane jSPResultados;
     private javax.swing.JTextField jTFSocioBuscarIngreseValor;
     // End of variables declaration//GEN-END:variables
 }
