@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Servidor: 127.0.0.1
--- Tiempo de generación: 04-10-2023 a las 05:34:27
+-- Tiempo de generación: 05-10-2023 a las 03:43:14
 -- Versión del servidor: 10.4.28-MariaDB
 -- Versión de PHP: 8.0.28
 
@@ -90,9 +90,12 @@ INSERT INTO `ejemplar` (`idEjemplar`, `isbn`, `estado`) VALUES
 
 CREATE TABLE `lector` (
   `idSocio` int(8) NOT NULL,
+  `apellido` varchar(100) NOT NULL,
   `nombre` varchar(100) NOT NULL,
   `domicilio` varchar(100) NOT NULL,
   `mail` varchar(100) NOT NULL,
+  `fechaDeAlta` date NOT NULL,
+  `fechaDeBaja` date DEFAULT NULL,
   `estado` tinyint(1) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
@@ -100,17 +103,17 @@ CREATE TABLE `lector` (
 -- Volcado de datos para la tabla `lector`
 --
 
-INSERT INTO `lector` (`idSocio`, `nombre`, `domicilio`, `mail`, `estado`) VALUES
-(5556, 'Di Monte, Iván Sergio', 'Rawson 693', 'ivansdmonte@hotmail.com', 1),
-(5557, 'Manrique, Luis Emilio', 'Larrea 3552', 'luigui@gmail.com', 1),
-(5558, 'Torres, Nelson', 'Av. Falcón 1220 bis', 'nelsoncrack@gmail.com', 0),
-(5559, 'Ojeda, Silvia', 'Bv. Reconquista 770, 1º Piso, Dpto. \"C\"', 'siviaojeda@hotmail.com', 1),
-(5560, 'Ramirez, Augusto', 'Lima 55, 5º Piso, Dpto. \"2\"', 'yiyaya@gmail.com', 0),
-(5561, 'Caccia, Damián', 'Thompson 852', 'damicacci@gmail.com', 1),
-(5562, 'Zanabria, Eugenia', 'Felipe Moré 2477', 'eugizanabria96@gmail.com', 1),
-(5563, 'Baletto, Lorena', 'Balcarce 6510', 'loreloi@hotmail.com', 1),
-(5564, 'Edison, Lara', 'Estebanez 112', 'parssin@gmail.com', 0),
-(5565, 'Peuchele, Rubén', 'Mitre 3008', 'rubencito@hotmail.com', 1);
+INSERT INTO `lector` (`idSocio`, `apellido`, `nombre`, `domicilio`, `mail`, `fechaDeAlta`, `fechaDeBaja`, `estado`) VALUES
+(5556, 'Di Monte', 'Iván Sergio', 'Rawson 693', 'ivansdmonte@hotmail.com', '1984-01-12', NULL, 1),
+(5557, 'Manrique', 'Luis Emilio', 'Larrea 3552', 'luigui@gmail.com', '1980-05-15', NULL, 1),
+(5558, 'Torres', 'Nelson Tobías', 'Av. Falcón 1220 bis', 'nelsoncrack@gmail.com', '1994-12-01', '2009-02-27', 0),
+(5559, 'Ojeda', 'Silvia', 'Bv. Reconquista 770, 1º Piso, Dpto. \"C\"', 'siviaojeda@hotmail.com', '1997-02-18', NULL, 1),
+(5560, 'Ramirez', 'Augusto', 'Lima 55, 5º Piso, Dpto. \"2\"', 'yiyaya@gmail.com', '2001-06-07', '2022-10-09', 0),
+(5561, 'Caccia', 'Damián', 'Thompson 852', 'damicacci@gmail.com', '2005-09-21', NULL, 1),
+(5562, 'Zanabria', 'Eugenia', 'Felipe Moré 2477', 'eugizanabria96@gmail.com', '1978-11-30', NULL, 1),
+(5563, 'Baletto', 'Lorena', 'Balcarce 6510', 'loreloi@hotmail.com', '1996-08-19', NULL, 1),
+(5564, 'Edison', 'Lara', 'Estebanez 112', 'parssin@gmail.com', '1989-03-04', '2020-10-08', 0),
+(5565, 'Peuchele', 'Rubén', 'Mitre 3008', 'rubencito@hotmail.com', '1992-04-24', NULL, 1);
 
 -- --------------------------------------------------------
 

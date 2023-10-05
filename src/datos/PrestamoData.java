@@ -16,6 +16,7 @@ public class PrestamoData {
     
     public void agregarPrestamo(){}
     public void eliminarPrestamos(){}
+    
     public boolean buscarPrestamoEjemplar(int codigo){
         boolean flag=true;
         try {

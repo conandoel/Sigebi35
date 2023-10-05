@@ -5,19 +5,53 @@ import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
 import java.util.List;
 import datos.SocioData;
+import java.awt.Color;
+import java.awt.Graphics;
+import java.awt.Graphics2D;
+import java.awt.Image;
+import java.awt.LinearGradientPaint;
+import java.awt.MultipleGradientPaint.CycleMethod;
+import javax.swing.ImageIcon;
 
 public class SocioBuscarResultado extends javax.swing.JPanel {
     private List <Socio> socios;
     private List <String> columnas;
     private List <SocioBuscarResultado> tarjetas;
     private SocioData metodoDeSocio;
+    
     /**
      * Creates new form SocioBuscarResultado
      */
     public SocioBuscarResultado() {
         initComponents();
+        
     }
+    private static final Color ORANGE = new Color(255, 255, 255);
+    private static final Color WHITE = new Color(255, 150, 150);
+    private static final Color BLUE = new Color(215, 105, 110);
     
+    @Override
+    protected void paintComponent(Graphics g) {
+        super.paintComponent(g);
+        Graphics2D g2d = (Graphics2D) g;
+        // Crea un arreglo de colores con el naranja, el blanco y el azul
+        Color[] colors = {ORANGE, WHITE, BLUE};
+        // Crea un arreglo de fracciones que indica cómo se distribuyen los colores
+        // El naranja va desde el 0% al 50%, el blanco desde el 50% al 75%, y el azul desde el 75% al 100%
+        float[] fractions = {0f, 0.8f, 1f};
+        // Crea un degradado lineal desde la esquina superior izquierda hasta la inferior derecha
+        // con los colores y las fracciones especificadas
+        LinearGradientPaint gp = new LinearGradientPaint(0, 0, getHeight(), 0, fractions, colors, CycleMethod.NO_CYCLE);
+        // Aplica el degradado al panel
+        g2d.setPaint(gp);
+        // Rellena el panel con el degradado
+        g2d.fillRect(0, 0, getWidth(), getHeight());
+        
+        
+        
+        
+    }
+        
     public List <SocioBuscarResultado> listarSocio(String criterio, String valor){
         socios = new ArrayList<>();
         columnas = new ArrayList<>();
@@ -28,7 +62,7 @@ public class SocioBuscarResultado extends javax.swing.JPanel {
         //socios = metodoDeSocio.buscarHistorialSocios();
         columnas = metodoDeSocio.listarColumnas();
         
-        DateTimeFormatter formato = DateTimeFormatter.ofPattern("dd MM yyyy");
+        DateTimeFormatter formato = DateTimeFormatter.ofPattern("dd | MM | yyyy");
         
         if(criterio.equals("Número de Socio")){
             criterio = "idSocio";
@@ -51,12 +85,13 @@ public class SocioBuscarResultado extends javax.swing.JPanel {
             tarjeta.jLNombre.setText(socio.getNombre());
             tarjeta.jLDomicilio.setText(socio.getDomicilio());
             tarjeta.jLEmail.setText(socio.getMail());
-            //tarjeta.jLFechaDeAlta.setText(socio.getFechaDeAlta().format(formato));
-            //tarjeta.jLFechaDeBaja.setText(socio.isEstado()? "5 años desde fecha de alta" : socio.getFechaDeBaja().format(formato));
+            tarjeta.jLFechaDeAlta.setText(socio.getFechaDeAlta().format(formato));
+            tarjeta.jLFechaDeBaja.setText(socio.isEstado()? "PONER CUÁNDO TIENE LA BAJA" : socio.getFechaDeBaja().format(formato));
             //tarjeta.jLFoto;
-            tarjeta.jLEstado.setText(socio.isEstado()? "Activo" : "Desasociado");
+            tarjeta.jLEstado.setText(socio.isEstado()? "Socio Activo" : "Desasociado");
             tarjetas.add(tarjeta);
         }
+        
         return tarjetas;
     }
     /**
@@ -86,23 +121,32 @@ public class SocioBuscarResultado extends javax.swing.JPanel {
         jLFechaDeBaja = new javax.swing.JLabel();
         jLEstado = new javax.swing.JLabel();
         jLNumeroDeSocio = new javax.swing.JLabel();
+        labelFondo = new javax.swing.JLabel();
 
+        jLNumSocio.setForeground(new java.awt.Color(102, 102, 102));
         jLNumSocio.setText("Socio número:");
 
         jLFoto.setText("Imagen");
 
+        jLApe.setForeground(new java.awt.Color(102, 102, 102));
         jLApe.setText("Apellido:");
 
+        jLNom.setForeground(new java.awt.Color(102, 102, 102));
         jLNom.setText("Nombre:");
 
+        jLDom.setForeground(new java.awt.Color(102, 102, 102));
         jLDom.setText("Domicilio:");
 
+        jLEst.setForeground(new java.awt.Color(102, 102, 102));
         jLEst.setText("Estado:");
 
+        jLFecAlta.setForeground(new java.awt.Color(102, 102, 102));
         jLFecAlta.setText("Fecha de Alta:");
 
+        jLFecBaja.setForeground(new java.awt.Color(102, 102, 102));
         jLFecBaja.setText("Fecha de Baja:");
 
+        jLEm.setForeground(new java.awt.Color(102, 102, 102));
         jLEm.setText("E-Mail:");
 
         jLEmail.setText("anto.sa.villanueva@gmail.com");
@@ -113,12 +157,15 @@ public class SocioBuscarResultado extends javax.swing.JPanel {
 
         jLApellido.setText("Di Monte Di Monte Di Monte Di");
 
+        jLFechaDeAlta.setFont(new java.awt.Font("Segoe UI", 1, 12)); // NOI18N
         jLFechaDeAlta.setText("12 de Enero de 1982");
 
+        jLFechaDeBaja.setFont(new java.awt.Font("Segoe UI", 1, 12)); // NOI18N
         jLFechaDeBaja.setText("29 de Octubre de 2045");
 
         jLEstado.setText("Socio Activo");
 
+        jLNumeroDeSocio.setFont(new java.awt.Font("Segoe UI", 1, 14)); // NOI18N
         jLNumeroDeSocio.setText("12345678901");
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(this);
@@ -127,9 +174,6 @@ public class SocioBuscarResultado extends javax.swing.JPanel {
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addGroup(layout.createSequentialGroup()
-                        .addContainerGap()
-                        .addComponent(jSeparator1))
                     .addGroup(layout.createSequentialGroup()
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                             .addGroup(layout.createSequentialGroup()
@@ -166,13 +210,20 @@ public class SocioBuscarResultado extends javax.swing.JPanel {
                                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                                     .addComponent(jLEmail, javax.swing.GroupLayout.PREFERRED_SIZE, 214, javax.swing.GroupLayout.PREFERRED_SIZE)
                                     .addComponent(jLDomicilio, javax.swing.GroupLayout.PREFERRED_SIZE, 214, javax.swing.GroupLayout.PREFERRED_SIZE))))
-                        .addGap(0, 0, Short.MAX_VALUE)))
+                        .addGap(0, 0, Short.MAX_VALUE))
+                    .addGroup(layout.createSequentialGroup()
+                        .addContainerGap()
+                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addComponent(jSeparator1)
+                            .addComponent(labelFondo, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))))
                 .addContainerGap())
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                .addComponent(labelFondo)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jLNumSocio)
                     .addComponent(jLNumeroDeSocio))
@@ -232,5 +283,6 @@ public class SocioBuscarResultado extends javax.swing.JPanel {
     private javax.swing.JLabel jLNumSocio;
     private javax.swing.JLabel jLNumeroDeSocio;
     private javax.swing.JSeparator jSeparator1;
+    private javax.swing.JLabel labelFondo;
     // End of variables declaration//GEN-END:variables
 }

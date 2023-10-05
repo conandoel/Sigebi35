@@ -8,14 +8,11 @@ import java.util.List;
 import java.util.ArrayList;
 import entidades.Socio;
 import java.time.format.DateTimeFormatter;
-import javax.swing.JOptionPane;
-import vistas.SocioBuscarResultado;
 
 public class SocioData {
     private Connection con = null;
     private List <Socio> socios;
     private Socio socio;
-    private SocioBuscarResultado tarjeta;
     
     public SocioData() {
         con = Conexion.getConexion();
@@ -42,13 +39,14 @@ public class SocioData {
             while(rs.next()){
                 socio = new Socio();
                 socio.setIdSocio(rs.getInt("idSocio"));
+                socio.setApellido(rs.getString("apellido"));
                 socio.setNombre(rs.getString("nombre"));
                 socio.setDomicilio(rs.getString("domicilio"));
                 socio.setMail(rs.getString("mail"));
-                //socio.setFechaDeAlta(rs.getDate("fechaDeAlta").toLocalDate());
-                //socio.setFechaDeBaja(rs.getBoolean("estado")? rs.getDate("fechaDeAlta").toLocalDate() : null );
+                socio.setFechaDeAlta(rs.getDate("fechaDeAlta").toLocalDate());
+                //Esta parte hay que arreglarla
+                socio.setFechaDeBaja(rs.getBoolean("estado")? rs.getDate("fechaDeAlta").toLocalDate() : rs.getDate("fechaDeBaja").toLocalDate() );
                 socio.setEstado(rs.getBoolean("estado"));
-                JOptionPane.showMessageDialog(null, socio.getDomicilio());
                 socios.add(socio);
             }
         }catch(SQLException ex){
