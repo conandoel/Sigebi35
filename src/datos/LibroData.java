@@ -21,7 +21,7 @@ public class LibroData {
             PreparedStatement ps = con.prepareStatement(sql,Statement.RETURN_GENERATED_KEYS);
             ps.setInt(1, libro.getIsbn());
             ps.setString(2, libro.getTitulo());
-            ps.setString(3, libro.getAutor().getNombre());
+            ps.setInt(3, libro.getAutor().getIdAutor());
             ps.setInt(4, libro.getAnio());
             ps.setString(5, libro.getGenero());
             ps.setString(6, libro.getEditorial());
