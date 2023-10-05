@@ -4,6 +4,7 @@ import java.awt.FlowLayout;
 import java.awt.LayoutManager;
 import java.util.List;
 import javax.swing.BoxLayout;
+import javax.swing.JOptionPane;
 
 public class SocioBuscarView extends javax.swing.JInternalFrame {
     
@@ -11,22 +12,43 @@ public class SocioBuscarView extends javax.swing.JInternalFrame {
     private final String[] criteriosDeBusqueda = 
     {"Número de Socio", "Nombre", "Domicilio", "Mail", "Estado"};
     private SocioBuscarResultado resultado;
+    // Creamos un atributo privado y estático de tipo SocioBuscarView
+    private static SocioBuscarView sbr;
     private List <SocioBuscarResultado> resultados;
     private String valor;
     String indice;
     /**
      * Creates new form SocioBuscarView
      */
-    public SocioBuscarView() {
+    private SocioBuscarView() {
         initComponents();
         jCBCargarSocioBuscarCriterios();
+        sbr = this;
     }
     
+    // Creamos el método getInstance
+    public static SocioBuscarView getInstance() {
+        // Si el atributo sbr es nulo, lo creamos con el constructor
+        if (sbr == null) {
+            sbr = new SocioBuscarView();
+        }
+        // Devolvemos el atributo sbr
+        return sbr;
+    }
     public void afectarSocio(String EFECTO){
         
         resultados = resultado.listarSocio(indice, valor, EFECTO);
         
         cargarLasTarjetas();
+    }
+    //NO SE POR QUÉ NO FUNCIONA
+    //DEBERÍA ANDAR BIEN
+    public void actualizarSeccion(String SECCION){
+        switch(SECCION){
+            case "MODIFICAR" -> this.jLBuscarSocios.setText("Modificar socios");
+            case "ELIMINAR" -> this.jLBuscarSocios.setText("Eliminar socios");
+            default -> this.jLBuscarSocios.setText("Buscar socios");
+        }
     }
 
     /**
@@ -156,7 +178,7 @@ public class SocioBuscarView extends javax.swing.JInternalFrame {
     }//GEN-LAST:event_jCBSocioBuscarCriterioActionPerformed
 
     private void jBBuscarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jBBuscarActionPerformed
- 
+        
         final String NADA = "NADA";
 
         valor = jTFSocioBuscarIngreseValor.getText();

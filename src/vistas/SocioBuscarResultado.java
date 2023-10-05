@@ -19,11 +19,15 @@ public class SocioBuscarResultado extends javax.swing.JPanel {
     private List <SocioBuscarResultado> tarjetas;
     private SocioData metodoDeSocio;
     
+    
+    private Image modificar = new ImageIcon(getClass().getResource("/vistas/imagenes/modificar.png")).getImage();
+    private Image eliminar = new ImageIcon(getClass().getResource("/vistas/imagenes/eliminar.png")).getImage();
     /**
      * Creates new form SocioBuscarResultado
      */
     public SocioBuscarResultado() {
         initComponents();
+
     }
     private static final Color CELESTITO = new Color(120, 200, 255);
     private static final Color VERDECITO = new Color(0,159,210);
@@ -49,6 +53,9 @@ public class SocioBuscarResultado extends javax.swing.JPanel {
     }
         
     public List <SocioBuscarResultado> listarSocio(String criterio, String valor, String EFECTO){
+        
+        SocioBuscarView.getInstance().actualizarSeccion(EFECTO);
+        
         socios = new ArrayList<>();
         columnas = new ArrayList<>();
         tarjetas = new ArrayList<>();
@@ -87,15 +94,29 @@ public class SocioBuscarResultado extends javax.swing.JPanel {
             tarjeta.jLEstado.setText(socio.isEstado()? "Socio Activo" : "Desasociado");
             switch (EFECTO) {
                 case "MODIFICAR" -> {
-                    tarjeta.jLEfecto.setText(EFECTO);
+                    tarjeta.jLEfecto.setText("");
                     tarjeta.jLEfecto.setVisible(true);
+                    tarjeta.jLEfecto.setSize(20, 20);
+                    //JOptionPane.showMessageDialog(null, jLEfecto.getSize());
+                    Image dModificar = modificar.getScaledInstance(tarjeta.jLEfecto.getWidth(), tarjeta.jLEfecto.getHeight(), Image.SCALE_SMOOTH);
+                    // Crea un icono con la imagen redimensionada
+                    ImageIcon iconModificar = new ImageIcon(dModificar);
+                    // Asigna el icono al label
+                    tarjeta.jLEfecto.setIcon(iconModificar);
                 }
                 case "ELIMINAR" -> {
-                    tarjeta.jLEfecto.setText(EFECTO);
+                    tarjeta.jLEfecto.setText("");
                     tarjeta.jLEfecto.setVisible(true);
+                    tarjeta.jLEfecto.setSize(20, 20);
+                    //JOptionPane.showMessageDialog(null, jLEfecto.getSize());
+                    Image dEliminar = eliminar.getScaledInstance(tarjeta.jLEfecto.getWidth(), tarjeta.jLEfecto.getHeight(), Image.SCALE_SMOOTH);
+                    // Crea un icono con la imagen redimensionada
+                    ImageIcon iconEliminar = new ImageIcon(dEliminar);
+                    // Asigna el icono al label
+                    tarjeta.jLEfecto.setIcon(iconEliminar);
                 }
                 default -> {
-                    tarjeta.jLEfecto.setText(EFECTO);
+                    tarjeta.jLEfecto.setText("");
                     tarjeta.jLEfecto.setVisible(false);
                 }
             }

@@ -2,10 +2,9 @@ package vistas;
 
 public class Principal extends javax.swing.JFrame {
     
-    SocioBuscarView socioBuscarView=new SocioBuscarView();
     private final String MODIFICAR = "MODIFICAR";
     private final String ELIMINAR = "ELIMINAR";
-    private final String NADA = "";
+    private final String NADA = "NADA";
     private boolean primeraVez = true;
     /**
      * Creates new form Principal
@@ -205,10 +204,10 @@ public class Principal extends javax.swing.JFrame {
         jDPEscritorio.removeAll();
         jDPEscritorio.repaint();
         
-        socioBuscarView.setVisible(true);
+        SocioBuscarView.getInstance().setVisible(true);
 
-        jDPEscritorio.add(socioBuscarView);
-        jDPEscritorio.moveToFront(socioBuscarView);
+        jDPEscritorio.add(SocioBuscarView.getInstance());
+        jDPEscritorio.moveToFront(SocioBuscarView.getInstance());
     }
     private void jMBuscarSociosActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMBuscarSociosActionPerformed
         // TODO add your handling code here:
@@ -216,7 +215,7 @@ public class Principal extends javax.swing.JFrame {
             primeraVez = false;
             cargarBusquedaSocio();
         }else{
-            socioBuscarView.afectarSocio(NADA);
+            SocioBuscarView.getInstance().afectarSocio(NADA);
             cargarBusquedaSocio();
         }
     }//GEN-LAST:event_jMBuscarSociosActionPerformed
@@ -240,12 +239,12 @@ public class Principal extends javax.swing.JFrame {
 
     private void jMModificarSociosActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMModificarSociosActionPerformed
         // TODO add your handling code here:
-        socioBuscarView.afectarSocio(MODIFICAR);
+        SocioBuscarView.getInstance().afectarSocio(MODIFICAR);
     }//GEN-LAST:event_jMModificarSociosActionPerformed
 
     private void jMElimSociosActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMElimSociosActionPerformed
         // TODO add your handling code here:
-        socioBuscarView.afectarSocio(ELIMINAR);
+        SocioBuscarView.getInstance().afectarSocio(ELIMINAR);
     }//GEN-LAST:event_jMElimSociosActionPerformed
 
     /**
