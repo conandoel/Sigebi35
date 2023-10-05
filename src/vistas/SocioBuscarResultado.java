@@ -11,8 +11,11 @@ import java.awt.Graphics2D;
 import java.awt.Image;
 import java.awt.LinearGradientPaint;
 import java.awt.MultipleGradientPaint.CycleMethod;
+import java.awt.image.BufferedImage;
+import java.io.File;
+import java.io.IOException;
+import javax.imageio.ImageIO;
 import javax.swing.ImageIcon;
-import javax.swing.JOptionPane;
 
 public class SocioBuscarResultado extends javax.swing.JPanel {
     private List <Socio> socios;
@@ -24,6 +27,7 @@ public class SocioBuscarResultado extends javax.swing.JPanel {
     
     private Image modificar = new ImageIcon(getClass().getResource("/vistas/imagenes/modificar.png")).getImage();
     private Image eliminar = new ImageIcon(getClass().getResource("/vistas/imagenes/eliminar.png")).getImage();
+    //private Image fotoPerfil;
     /**
      * Creates new form SocioBuscarResultado
      */
@@ -80,9 +84,11 @@ public class SocioBuscarResultado extends javax.swing.JPanel {
             }
         }
         
-        for(Socio socio : socios){
+        for(Socio socio : socios){   
             // Declaramos la variable tarjeta dentro del bucle
             SocioBuscarResultado tarjeta = new SocioBuscarResultado();
+            
+            int NroX = socio.getIdSocio();
             
             tarjeta.jLNumeroDeSocio.setText(Integer.toString(socio.getIdSocio()));
             tarjeta.jLApellido.setText(socio.getApellido());
@@ -91,14 +97,30 @@ public class SocioBuscarResultado extends javax.swing.JPanel {
             tarjeta.jLEmail.setText(socio.getMail());
             tarjeta.jLFechaDeAlta.setText(socio.getFechaDeAlta().format(formato));
             tarjeta.jLFechaDeBaja.setText(socio.isEstado()? "PONER CUÁNDO TIENE LA BAJA" : socio.getFechaDeBaja().format(formato));
-            //tarjeta.jLFoto;
+            
+            try {
+                // Leer una imagen desde un archivo
+                File file = new File("./src/vistas/imagenes/foto_" + NroX + ".jpg");
+                BufferedImage fotoPerfil = ImageIO.read(file);
+                
+                tarjeta.jLFoto.setText("");
+                tarjeta.jLFoto.setVisible(true);
+                tarjeta.jLFoto.setSize(71, 81);
+                Image dFotoPerfil = fotoPerfil.getScaledInstance(tarjeta.jLFoto.getWidth(), tarjeta.jLFoto.getHeight(), Image.SCALE_SMOOTH);
+                // Poner la imagen en el jLabel usando setIcon()
+                tarjeta.jLFoto.setIcon(new ImageIcon(dFotoPerfil));
+                
+                NroX++;
+            } catch (IOException e) {
+
+            }
+            
             tarjeta.jLEstado.setText(socio.isEstado()? "Socio Activo" : "Desasociado");
             switch (EFECTO) {
                 case "MODIFICAR" -> {
                     tarjeta.jLEfecto.setText("");
                     tarjeta.jLEfecto.setVisible(true);
                     tarjeta.jLEfecto.setSize(20, 20);
-                    //JOptionPane.showMessageDialog(null, jLEfecto.getSize());
                     Image dModificar = modificar.getScaledInstance(tarjeta.jLEfecto.getWidth(), tarjeta.jLEfecto.getHeight(), Image.SCALE_SMOOTH);
                     // Crea un icono con la imagen redimensionada
                     ImageIcon iconModificar = new ImageIcon(dModificar);
@@ -109,7 +131,6 @@ public class SocioBuscarResultado extends javax.swing.JPanel {
                     tarjeta.jLEfecto.setText("");
                     tarjeta.jLEfecto.setVisible(true);
                     tarjeta.jLEfecto.setSize(20, 20);
-                    //JOptionPane.showMessageDialog(null, jLEfecto.getSize());
                     Image dEliminar = eliminar.getScaledInstance(tarjeta.jLEfecto.getWidth(), tarjeta.jLEfecto.getHeight(), Image.SCALE_SMOOTH);
                     // Crea un icono con la imagen redimensionada
                     ImageIcon iconEliminar = new ImageIcon(dEliminar);

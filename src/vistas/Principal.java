@@ -1,5 +1,8 @@
 package vistas;
 
+import datos.SocioData;
+import java.io.File;
+
 public class Principal extends javax.swing.JFrame {
     
     private static final String MODIFICAR = "MODIFICAR";
@@ -11,6 +14,19 @@ public class Principal extends javax.swing.JFrame {
      */
     public Principal() {
         initComponents();
+        SocioData sd = new SocioData();
+        //sd.insertarImagenesSocio();   NO UTILIZAR ! ! ! ! ! ! ! ! !
+        
+        chequearSiYaHayImagenes(sd);
+    }
+    
+    private void chequearSiYaHayImagenes(SocioData check){
+        File imagen = new File("./src/vistas/imagenes/foto_5556.jpg");
+        // Usar el método exists para verificar si el archivo existe
+        if (!imagen.exists()) {
+            //Cargar imágenes en la PC
+            check.obtenerImagenesSocio();
+        }
     }
 
   
