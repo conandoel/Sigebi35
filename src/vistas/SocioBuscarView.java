@@ -51,9 +51,9 @@ public class SocioBuscarView extends javax.swing.JInternalFrame {
     //DEBERÍA ANDAR BIEN
     public void actualizarSeccion(String SECCION){
         switch(SECCION){
-            case "MODIFICAR" -> this.jLBuscarSocios.setText("Modificar socios");
-            case "ELIMINAR" -> this.jLBuscarSocios.setText("Eliminar socios");
-            default -> this.jLBuscarSocios.setText("Buscar socios");
+            case "MODIFICAR" : this.jLBuscarSocios.setText("Modificar socios");
+            case "ELIMINAR" : this.jLBuscarSocios.setText("Eliminar socios");
+            default : this.jLBuscarSocios.setText("Buscar socios");
         }
     }
 
