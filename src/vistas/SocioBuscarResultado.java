@@ -94,7 +94,7 @@ public class SocioBuscarResultado extends javax.swing.JPanel {
             //tarjeta.jLFoto;
             tarjeta.jLEstado.setText(socio.isEstado()? "Socio Activo" : "Desasociado");
             switch (EFECTO) {
-                case "MODIFICAR" -> {
+                case "MODIFICAR" : {
                     tarjeta.jLEfecto.setText("");
                     tarjeta.jLEfecto.setVisible(true);
                     tarjeta.jLEfecto.setSize(20, 20);
@@ -105,7 +105,7 @@ public class SocioBuscarResultado extends javax.swing.JPanel {
                     // Asigna el icono al label
                     tarjeta.jLEfecto.setIcon(iconModificar);
                 }
-                case "ELIMINAR" -> {
+                case "ELIMINAR" : {
                     tarjeta.jLEfecto.setText("");
                     tarjeta.jLEfecto.setVisible(true);
                     tarjeta.jLEfecto.setSize(20, 20);
@@ -116,7 +116,7 @@ public class SocioBuscarResultado extends javax.swing.JPanel {
                     // Asigna el icono al label
                     tarjeta.jLEfecto.setIcon(iconEliminar);
                 }
-                default -> {
+                default : {
                     tarjeta.jLEfecto.setText("");
                     tarjeta.jLEfecto.setVisible(false);
                 }

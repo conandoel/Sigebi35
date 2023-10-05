@@ -1,18 +1,19 @@
 package entidades;
 
+import java.time.LocalDate;
 import java.util.Date;
 
 public class Prestamo {
     private int idPrestamo;
-    private Date fechaInicio;
-    private Date fechaFin;
+    private LocalDate fechaInicio;
+    private LocalDate fechaFin;
     private Ejemplar ejemplar;
     private Socio lector;
     private boolean estado;
     
     public Prestamo(){};
 
-    public Prestamo(int idPrestamo, Date fechaInicio, Date fechaFin, Ejemplar ejemplar, Socio lector, boolean estado) {
+    public Prestamo(int idPrestamo, LocalDate fechaInicio, LocalDate fechaFin, Ejemplar ejemplar, Socio lector, boolean estado) {
         this.idPrestamo = idPrestamo;
         this.fechaInicio = fechaInicio;
         this.fechaFin = fechaFin;
@@ -21,7 +22,7 @@ public class Prestamo {
         this.estado = estado;
     }
 
-    public Prestamo(Date fechaInicio, Date fechaFin, Ejemplar ejemplar, Socio lector, boolean estado) {
+    public Prestamo(LocalDate fechaInicio, LocalDate fechaFin, Ejemplar ejemplar, Socio lector, boolean estado) {
         this.fechaInicio = fechaInicio;
         this.fechaFin = fechaFin;
         this.ejemplar = ejemplar;
@@ -37,17 +38,17 @@ public class Prestamo {
         this.idPrestamo = idPrestamo;
     }
     
-    public Date getFechaInicio() {
+    public LocalDate getFechaInicio() {
         return fechaInicio;
     }
-    public void setFechaInicio(Date fechaInicio) {
+    public void setFechaInicio(LocalDate fechaInicio) {
         this.fechaInicio = fechaInicio;
     }
 
-    public Date getFechaFin() {
+    public LocalDate getFechaFin() {
         return fechaFin;
     }
-    public void setFechaFin(Date fechaFin) {
+    public void setFechaFin(LocalDate fechaFin) {
         this.fechaFin = fechaFin;
     }
 
