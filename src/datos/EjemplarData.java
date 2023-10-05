@@ -3,6 +3,7 @@ package datos;
 import entidades.Ejemplar;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
+import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
 import java.util.logging.Level;
@@ -23,7 +24,16 @@ public class EjemplarData {
             ps.setInt(1, ejemplar.getLibro().getIsbn());
             ps.setString(2, ejemplar.getEstado());
             ps.executeUpdate();
-            JOptionPane.showMessageDialog(null, "Se agrego el ejemplar correctamente");
+            ResultSet rs = ps.getGeneratedKeys();
+
+            if (rs.next()) {
+
+                ejemplar.setCodigo(rs.getInt(1));
+
+                JOptionPane.showMessageDialog(null, "Se agrego el ejemplar correctamente");
+            }
+            
+            ps.close();
         }catch(SQLException ex){
             JOptionPane.showMessageDialog(null, ex.getMessage());
         }
