@@ -16,7 +16,7 @@ public class SocioBuscarView extends javax.swing.JInternalFrame {
     private static SocioBuscarView sbr;
     private List <SocioBuscarResultado> resultados;
     private String valor;
-    String indice;
+    private String indice;
     /**
      * Creates new form SocioBuscarView
      */
@@ -24,6 +24,13 @@ public class SocioBuscarView extends javax.swing.JInternalFrame {
         initComponents();
         jCBCargarSocioBuscarCriterios();
         sbr = this;
+    }
+    
+    public String getValor(){
+        return valor;
+    }
+    public String getIndice(){
+        return indice;
     }
     
     // Creamos el método getInstance

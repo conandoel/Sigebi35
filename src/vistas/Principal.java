@@ -2,9 +2,9 @@ package vistas;
 
 public class Principal extends javax.swing.JFrame {
     
-    private final String MODIFICAR = "MODIFICAR";
-    private final String ELIMINAR = "ELIMINAR";
-    private final String NADA = "NADA";
+    private static final String MODIFICAR = "MODIFICAR";
+    private static final String ELIMINAR = "ELIMINAR";
+    private static final String NADA = "NADA";
     private boolean primeraVez = true;
     /**
      * Creates new form Principal

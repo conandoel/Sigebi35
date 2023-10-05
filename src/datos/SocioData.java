@@ -8,10 +8,12 @@ import java.util.List;
 import java.util.ArrayList;
 import entidades.Socio;
 import java.time.format.DateTimeFormatter;
+import javax.swing.JOptionPane;
 
 public class SocioData {
     private Connection con = null;
     private List <Socio> socios;
+    private List <String> columnas;
     private Socio socio;
     
     public SocioData() {
@@ -19,7 +21,39 @@ public class SocioData {
     }
     public void agregarLector(){}
     public void modificarLector(){}
-    public void eliminarLector(){}
+    
+    public Socio eliminarLector(String criterio, String valor){
+        //PROBLEMA DE CRITERIO SEA ESTADO CON VALOR 1
+        String sql = "UPDATE lector SET estado = 0 WHERE " + criterio + " = " + valor + ";";
+        JOptionPane.showMessageDialog(null, valor + " " + criterio);
+        try{
+            PreparedStatement ps = con.prepareStatement(sql);
+            int filas = ps.executeUpdate();
+            
+            columnas = new ArrayList<>();
+            columnas = listarColumnas();
+            
+            while(filas>0){       
+                Socio socio = new Socio();
+                if(criterio.equals("Número de Socio")){
+                    criterio = "idSocio";
+                }else{
+                    criterio = criterio.toLowerCase();
+                }
+ 
+                for(String columna : columnas){
+                    if(criterio.equals(columna)){
+                        socios = buscarHistorialSocios(criterio, valor);
+                    }
+                }
+            }
+            socio = socios.get(0);
+        }catch(SQLException ex){
+            
+        }
+        
+        return socio;
+    }
     public void buscarLectorPorDNI(){}
     public void listarLector(){}
     

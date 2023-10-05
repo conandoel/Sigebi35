@@ -12,12 +12,14 @@ import java.awt.Image;
 import java.awt.LinearGradientPaint;
 import java.awt.MultipleGradientPaint.CycleMethod;
 import javax.swing.ImageIcon;
+import javax.swing.JOptionPane;
 
 public class SocioBuscarResultado extends javax.swing.JPanel {
     private List <Socio> socios;
     private List <String> columnas;
     private List <SocioBuscarResultado> tarjetas;
     private SocioData metodoDeSocio;
+    private Socio socio;
     
     
     private Image modificar = new ImageIcon(getClass().getResource("/vistas/imagenes/modificar.png")).getImage();
@@ -62,11 +64,10 @@ public class SocioBuscarResultado extends javax.swing.JPanel {
 
         metodoDeSocio = new SocioData();
         
-        //socios = metodoDeSocio.buscarHistorialSocios();
         columnas = metodoDeSocio.listarColumnas();
         
         DateTimeFormatter formato = DateTimeFormatter.ofPattern("dd | MM | yyyy");
-        
+        //CANDIDATA A STATIC
         if(criterio.equals("Número de Socio")){
             criterio = "idSocio";
         }else{
@@ -203,6 +204,11 @@ public class SocioBuscarResultado extends javax.swing.JPanel {
         jLNumeroDeSocio.setText("12345678901");
 
         jLEfecto.setText("MODIFICAR");
+        jLEfecto.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                jLEfectoMouseClicked(evt);
+            }
+        });
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(this);
         this.setLayout(layout);
@@ -305,6 +311,15 @@ public class SocioBuscarResultado extends javax.swing.JPanel {
                 .addComponent(jSeparator1, javax.swing.GroupLayout.PREFERRED_SIZE, 10, javax.swing.GroupLayout.PREFERRED_SIZE))
         );
     }// </editor-fold>//GEN-END:initComponents
+
+    private void jLEfectoMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jLEfectoMouseClicked
+        // TODO add your handling code here:
+        String valor = SocioBuscarView.getInstance().getValor();
+        String criterio = SocioBuscarView.getInstance().getIndice();
+        metodoDeSocio = new SocioData();
+        socio = metodoDeSocio.eliminarLector(criterio, valor);
+        jLEstado.setText(socio.isEstado()? "Socio Activo" : "Desasociado");
+    }//GEN-LAST:event_jLEfectoMouseClicked
 
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
