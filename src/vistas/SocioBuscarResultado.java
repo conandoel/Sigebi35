@@ -24,7 +24,6 @@ public class SocioBuscarResultado extends javax.swing.JPanel {
      */
     public SocioBuscarResultado() {
         initComponents();
-        
     }
     private static final Color CELESTITO = new Color(120, 200, 255);
     private static final Color VERDECITO = new Color(0,159,210);
@@ -46,13 +45,10 @@ public class SocioBuscarResultado extends javax.swing.JPanel {
         g2d.setPaint(gp);
         // Rellena el panel con el degradado
         g2d.fillRect(0, 0, getWidth(), getHeight());
-        
-        
-        
-        
+
     }
         
-    public List <SocioBuscarResultado> listarSocio(String criterio, String valor){
+    public List <SocioBuscarResultado> listarSocio(String criterio, String valor, String EFECTO){
         socios = new ArrayList<>();
         columnas = new ArrayList<>();
         tarjetas = new ArrayList<>();
@@ -89,6 +85,22 @@ public class SocioBuscarResultado extends javax.swing.JPanel {
             tarjeta.jLFechaDeBaja.setText(socio.isEstado()? "PONER CUÁNDO TIENE LA BAJA" : socio.getFechaDeBaja().format(formato));
             //tarjeta.jLFoto;
             tarjeta.jLEstado.setText(socio.isEstado()? "Socio Activo" : "Desasociado");
+            switch (EFECTO) {
+                case "MODIFICAR" -> {
+                    tarjeta.jLEfecto.setText(EFECTO);
+                    tarjeta.jLEfecto.setVisible(true);
+                }
+                case "ELIMINAR" -> {
+                    tarjeta.jLEfecto.setText(EFECTO);
+                    tarjeta.jLEfecto.setVisible(true);
+                }
+                default -> {
+                    tarjeta.jLEfecto.setText(EFECTO);
+                    tarjeta.jLEfecto.setVisible(false);
+                }
+            }
+            
+
             tarjetas.add(tarjeta);
         }
         
@@ -122,6 +134,7 @@ public class SocioBuscarResultado extends javax.swing.JPanel {
         jLEstado = new javax.swing.JLabel();
         jLNumeroDeSocio = new javax.swing.JLabel();
         labelFondo = new javax.swing.JLabel();
+        jLEfecto = new javax.swing.JLabel();
 
         jLNumSocio.setForeground(new java.awt.Color(102, 102, 102));
         jLNumSocio.setText("Socio número:");
@@ -168,6 +181,8 @@ public class SocioBuscarResultado extends javax.swing.JPanel {
         jLNumeroDeSocio.setFont(new java.awt.Font("Segoe UI", 1, 14)); // NOI18N
         jLNumeroDeSocio.setText("12345678901");
 
+        jLEfecto.setText("MODIFICAR");
+
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(this);
         this.setLayout(layout);
         layout.setHorizontalGroup(
@@ -189,15 +204,13 @@ public class SocioBuscarResultado extends javax.swing.JPanel {
                                 .addContainerGap()
                                 .addComponent(jLNumSocio)))
                         .addGap(16, 16, 16)
-                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
                             .addGroup(layout.createSequentialGroup()
                                 .addComponent(jLNom)
                                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                                 .addComponent(jLNombre, javax.swing.GroupLayout.PREFERRED_SIZE, 214, javax.swing.GroupLayout.PREFERRED_SIZE))
                             .addComponent(jLNumeroDeSocio, javax.swing.GroupLayout.PREFERRED_SIZE, 214, javax.swing.GroupLayout.PREFERRED_SIZE)
                             .addComponent(jLFechaDeAlta, javax.swing.GroupLayout.PREFERRED_SIZE, 214, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addComponent(jLFechaDeBaja, javax.swing.GroupLayout.PREFERRED_SIZE, 214, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addComponent(jLEstado, javax.swing.GroupLayout.PREFERRED_SIZE, 214, javax.swing.GroupLayout.PREFERRED_SIZE)
                             .addGroup(layout.createSequentialGroup()
                                 .addComponent(jLApe)
                                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
@@ -209,8 +222,14 @@ public class SocioBuscarResultado extends javax.swing.JPanel {
                                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                                     .addComponent(jLEmail, javax.swing.GroupLayout.PREFERRED_SIZE, 214, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                    .addComponent(jLDomicilio, javax.swing.GroupLayout.PREFERRED_SIZE, 214, javax.swing.GroupLayout.PREFERRED_SIZE))))
-                        .addGap(0, 0, Short.MAX_VALUE))
+                                    .addComponent(jLDomicilio, javax.swing.GroupLayout.PREFERRED_SIZE, 214, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                            .addGroup(layout.createSequentialGroup()
+                                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                                    .addComponent(jLEstado, javax.swing.GroupLayout.PREFERRED_SIZE, 214, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                    .addComponent(jLFechaDeBaja, javax.swing.GroupLayout.PREFERRED_SIZE, 214, javax.swing.GroupLayout.PREFERRED_SIZE))
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                                .addComponent(jLEfecto, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)))
+                        .addGap(0, 17, Short.MAX_VALUE))
                     .addGroup(layout.createSequentialGroup()
                         .addContainerGap()
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -221,7 +240,7 @@ public class SocioBuscarResultado extends javax.swing.JPanel {
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                .addContainerGap(18, Short.MAX_VALUE)
                 .addComponent(labelFondo)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
@@ -251,13 +270,16 @@ public class SocioBuscarResultado extends javax.swing.JPanel {
                     .addComponent(jLFecAlta)
                     .addComponent(jLFechaDeAlta))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(jLFecBaja)
-                    .addComponent(jLFechaDeBaja))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(jLEst)
-                    .addComponent(jLEstado))
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                    .addGroup(layout.createSequentialGroup()
+                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                            .addComponent(jLFecBaja)
+                            .addComponent(jLFechaDeBaja))
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                            .addComponent(jLEst)
+                            .addComponent(jLEstado)))
+                    .addComponent(jLEfecto, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
                 .addGap(18, 18, 18)
                 .addComponent(jSeparator1, javax.swing.GroupLayout.PREFERRED_SIZE, 10, javax.swing.GroupLayout.PREFERRED_SIZE))
         );
@@ -269,6 +291,7 @@ public class SocioBuscarResultado extends javax.swing.JPanel {
     private javax.swing.JLabel jLApellido;
     private javax.swing.JLabel jLDom;
     private javax.swing.JLabel jLDomicilio;
+    private javax.swing.JLabel jLEfecto;
     private javax.swing.JLabel jLEm;
     private javax.swing.JLabel jLEmail;
     private javax.swing.JLabel jLEst;

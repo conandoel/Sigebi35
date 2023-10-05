@@ -1,7 +1,12 @@
 package vistas;
 
 public class Principal extends javax.swing.JFrame {
-
+    
+    SocioBuscarView socioBuscarView=new SocioBuscarView();
+    private final String MODIFICAR = "MODIFICAR";
+    private final String ELIMINAR = "ELIMINAR";
+    private final String NADA = "";
+    private boolean primeraVez = true;
     /**
      * Creates new form Principal
      */
@@ -34,7 +39,7 @@ public class Principal extends javax.swing.JFrame {
         jMModificar = new javax.swing.JMenu();
         jMModLibros = new javax.swing.JMenuItem();
         jMenuItem6 = new javax.swing.JMenuItem();
-        jMModSocios = new javax.swing.JMenuItem();
+        jMModificarSocios = new javax.swing.JMenuItem();
         jMModPrestamos = new javax.swing.JMenuItem();
         jMEliminar = new javax.swing.JMenu();
         jMElimLibros = new javax.swing.JMenuItem();
@@ -122,10 +127,20 @@ public class Principal extends javax.swing.JFrame {
         jMModificar.add(jMModLibros);
 
         jMenuItem6.setText("...ejemplar");
+        jMenuItem6.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jMenuItem6ActionPerformed(evt);
+            }
+        });
         jMModificar.add(jMenuItem6);
 
-        jMModSocios.setText("...socios");
-        jMModificar.add(jMModSocios);
+        jMModificarSocios.setText("...socios");
+        jMModificarSocios.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jMModificarSociosActionPerformed(evt);
+            }
+        });
+        jMModificar.add(jMModificarSocios);
 
         jMModPrestamos.setText("...préstamos");
         jMModificar.add(jMModPrestamos);
@@ -141,6 +156,11 @@ public class Principal extends javax.swing.JFrame {
         jMEliminar.add(jMenuItem7);
 
         jMElimSocios.setText("...socios");
+        jMElimSocios.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jMElimSociosActionPerformed(evt);
+            }
+        });
         jMEliminar.add(jMElimSocios);
 
         jMElimPrestamos.setText("...préstamos");
@@ -181,16 +201,24 @@ public class Principal extends javax.swing.JFrame {
 
         pack();
     }// </editor-fold>//GEN-END:initComponents
-
-    private void jMBuscarSociosActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMBuscarSociosActionPerformed
-        // TODO add your handling code here:
-        
+    private void cargarBusquedaSocio(){
         jDPEscritorio.removeAll();
         jDPEscritorio.repaint();
-        SocioBuscarView socioBuscarView=new SocioBuscarView();
+        
         socioBuscarView.setVisible(true);
+
         jDPEscritorio.add(socioBuscarView);
         jDPEscritorio.moveToFront(socioBuscarView);
+    }
+    private void jMBuscarSociosActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMBuscarSociosActionPerformed
+        // TODO add your handling code here:
+        if(primeraVez){
+            primeraVez = false;
+            cargarBusquedaSocio();
+        }else{
+            socioBuscarView.afectarSocio(NADA);
+            cargarBusquedaSocio();
+        }
     }//GEN-LAST:event_jMBuscarSociosActionPerformed
 
     private void jMBuscarPréstamosActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMBuscarPréstamosActionPerformed
@@ -204,6 +232,21 @@ public class Principal extends javax.swing.JFrame {
     private void jMSalirActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMSalirActionPerformed
         // TODO add your handling code here:
     }//GEN-LAST:event_jMSalirActionPerformed
+
+    private void jMenuItem6ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMenuItem6ActionPerformed
+        // TODO add your handling code here:
+
+    }//GEN-LAST:event_jMenuItem6ActionPerformed
+
+    private void jMModificarSociosActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMModificarSociosActionPerformed
+        // TODO add your handling code here:
+        socioBuscarView.afectarSocio(MODIFICAR);
+    }//GEN-LAST:event_jMModificarSociosActionPerformed
+
+    private void jMElimSociosActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMElimSociosActionPerformed
+        // TODO add your handling code here:
+        socioBuscarView.afectarSocio(ELIMINAR);
+    }//GEN-LAST:event_jMElimSociosActionPerformed
 
     /**
      * @param args the command line arguments
@@ -253,8 +296,8 @@ public class Principal extends javax.swing.JFrame {
     private javax.swing.JMenu jMEliminar;
     private javax.swing.JMenuItem jMModLibros;
     private javax.swing.JMenuItem jMModPrestamos;
-    private javax.swing.JMenuItem jMModSocios;
     private javax.swing.JMenu jMModificar;
+    private javax.swing.JMenuItem jMModificarSocios;
     private javax.swing.JMenuItem jMSalir;
     private javax.swing.JMenu jMenu1;
     private javax.swing.JMenu jMenu2;

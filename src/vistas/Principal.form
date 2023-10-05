@@ -80,11 +80,17 @@
               <Properties>
                 <Property name="text" type="java.lang.String" value="...ejemplar"/>
               </Properties>
+              <Events>
+                <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="jMenuItem6ActionPerformed"/>
+              </Events>
             </MenuItem>
-            <MenuItem class="javax.swing.JMenuItem" name="jMModSocios">
+            <MenuItem class="javax.swing.JMenuItem" name="jMModificarSocios">
               <Properties>
                 <Property name="text" type="java.lang.String" value="...socios"/>
               </Properties>
+              <Events>
+                <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="jMModificarSociosActionPerformed"/>
+              </Events>
             </MenuItem>
             <MenuItem class="javax.swing.JMenuItem" name="jMModPrestamos">
               <Properties>
@@ -112,6 +118,9 @@
               <Properties>
                 <Property name="text" type="java.lang.String" value="...socios"/>
               </Properties>
+              <Events>
+                <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="jMElimSociosActionPerformed"/>
+              </Events>
             </MenuItem>
             <MenuItem class="javax.swing.JMenuItem" name="jMElimPrestamos">
               <Properties>

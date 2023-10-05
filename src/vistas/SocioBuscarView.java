@@ -12,12 +12,21 @@ public class SocioBuscarView extends javax.swing.JInternalFrame {
     {"Número de Socio", "Nombre", "Domicilio", "Mail", "Estado"};
     private SocioBuscarResultado resultado;
     private List <SocioBuscarResultado> resultados;
+    private String valor;
+    String indice;
     /**
      * Creates new form SocioBuscarView
      */
     public SocioBuscarView() {
         initComponents();
         jCBCargarSocioBuscarCriterios();
+    }
+    
+    public void afectarSocio(String EFECTO){
+        
+        resultados = resultado.listarSocio(indice, valor, EFECTO);
+        
+        cargarLasTarjetas();
     }
 
     /**
@@ -147,18 +156,21 @@ public class SocioBuscarView extends javax.swing.JInternalFrame {
     }//GEN-LAST:event_jCBSocioBuscarCriterioActionPerformed
 
     private void jBBuscarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jBBuscarActionPerformed
-        // Creamos un panel para contener las tarjetas
-        //JPanel panelTarjetas = new JPanel();
-        
-        DropShadowPanel panelTarjetas = new DropShadowPanel(20);
-        // Le asignamos un administrador de diseño adecuado
+ 
+        final String NADA = "NADA";
 
-        String valor = jTFSocioBuscarIngreseValor.getText();
-        String indice = jCBSocioBuscarCriterio.getSelectedItem().toString();
+        valor = jTFSocioBuscarIngreseValor.getText();
+        indice = jCBSocioBuscarCriterio.getSelectedItem().toString();
         
         resultado = new SocioBuscarResultado();
-        resultados = resultado.listarSocio(indice, valor);
+        resultados = resultado.listarSocio(indice, valor, NADA);
         
+        cargarLasTarjetas();
+ 
+    }//GEN-LAST:event_jBBuscarActionPerformed
+    
+    private void cargarLasTarjetas(){
+        DropShadowPanel panelTarjetas = new DropShadowPanel(20);
         // Creamos una variable para almacenar el LayoutManager elegido
         LayoutManager layout;
         
@@ -180,9 +192,7 @@ public class SocioBuscarView extends javax.swing.JInternalFrame {
         }
         // Asignamos el panel como la vista del JScrollPane
         jSPResultados.setViewportView(panelTarjetas);
- 
-    }//GEN-LAST:event_jBBuscarActionPerformed
-    
+    }
     private void jCBCargarSocioBuscarCriterios(){
         for(String criterio : criteriosDeBusqueda){
             jCBSocioBuscarCriterio.addItem(criterio);
