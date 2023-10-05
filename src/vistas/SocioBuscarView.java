@@ -39,7 +39,7 @@ public class SocioBuscarView extends javax.swing.JInternalFrame {
         jBBuscar = new javax.swing.JButton();
 
         jLBuscarSocios.setFont(new java.awt.Font("Segoe UI Historic", 1, 18)); // NOI18N
-        jLBuscarSocios.setForeground(new java.awt.Color(0, 204, 204));
+        jLBuscarSocios.setForeground(new java.awt.Color(0, 160, 210));
         jLBuscarSocios.setText("Búsqueda de socios");
 
         jCBSocioBuscarCriterio.addActionListener(new java.awt.event.ActionListener() {

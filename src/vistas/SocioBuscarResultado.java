@@ -26,16 +26,16 @@ public class SocioBuscarResultado extends javax.swing.JPanel {
         initComponents();
         
     }
-    private static final Color ORANGE = new Color(255, 255, 255);
-    private static final Color WHITE = new Color(255, 150, 150);
-    private static final Color BLUE = new Color(215, 105, 110);
+    private static final Color CELESTITO = new Color(120, 200, 255);
+    private static final Color VERDECITO = new Color(0,159,210);
+    private static final Color AZULCITO = new Color(5,160,223);
     
     @Override
     protected void paintComponent(Graphics g) {
         super.paintComponent(g);
         Graphics2D g2d = (Graphics2D) g;
         // Crea un arreglo de colores con el naranja, el blanco y el azul
-        Color[] colors = {ORANGE, WHITE, BLUE};
+        Color[] colors = {CELESTITO, VERDECITO, AZULCITO};
         // Crea un arreglo de fracciones que indica cómo se distribuyen los colores
         // El naranja va desde el 0% al 50%, el blanco desde el 50% al 75%, y el azul desde el 75% al 100%
         float[] fractions = {0f, 0.8f, 1f};
