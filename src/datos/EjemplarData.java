@@ -1,6 +1,7 @@
 package datos;
 
 import entidades.Ejemplar;
+import entidades.Libro;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
@@ -62,6 +63,16 @@ public class EjemplarData {
             } catch (SQLException ex) {
                 Logger.getLogger(EjemplarData.class.getName()).log(Level.SEVERE, null, ex);
             }
+            Libro libro=new Libro();
+            LibroData ld=new LibroData();
+            libro=ld.buscarLibroPorISBN(ejemplar.getLibro().getIsbn());
+            String sql2="update libro set cantEjemplares = ? where isbn=?";
+            try{
+            PreparedStatement ps2=con.prepareStatement(sql2);
+            ps2.setInt(1, libro.getCantEjemplares()-1);
+            ps2.setInt(2, libro.getIsbn());
+            ps2.executeUpdate();
+            }catch(SQLException ex){}
         }else{
             JOptionPane.showMessageDialog(null, "Aun hay prestamos activos de este ejemplar");
         }
