@@ -22,7 +22,7 @@ public class EjemplarData {
         String sql="insert into ejemplar (isbn, estado) values(?,?)";
         try{
             PreparedStatement ps = con.prepareStatement(sql,Statement.RETURN_GENERATED_KEYS);
-            ps.setInt(1, ejemplar.getLibro().getIsbn());
+            ps.setLong(1, ejemplar.getLibro().getIsbn());
             ps.setString(2, ejemplar.getEstado());
             ps.executeUpdate();
             ResultSet rs = ps.getGeneratedKeys();
@@ -54,6 +54,27 @@ public class EjemplarData {
             JOptionPane.showMessageDialog(null, "Error al realizar la accion");
         }
     }
+    
+    public Ejemplar buscarEjemplar(long id){
+        Ejemplar ejemplar=new Ejemplar();
+        Libro libro=new Libro();
+        try {
+            String sql="select * from ejemplar where idejemplar=?";
+            PreparedStatement ps=con.prepareStatement(sql);
+            ps.setLong(1, id);
+            ResultSet rs=ps.executeQuery();
+            
+            libro.setIsbn(rs.getLong(2));
+            ejemplar.setCodigo(rs.getInt(1));
+            ejemplar.setLibro(libro);
+            ejemplar.setEstado(rs.getString(3));
+            ps.close();
+        } catch (SQLException ex) {
+            Logger.getLogger(EjemplarData.class.getName()).log(Level.SEVERE, null, ex);
+        }
+        return ejemplar;
+    }
+    
     public void eliminarEjemplar(Ejemplar ejemplar){
         String sql ="delete ejemplar where codigo = "+ejemplar.getCodigo();
         PrestamoData pd=new PrestamoData();
@@ -72,7 +93,7 @@ public class EjemplarData {
             try{
             PreparedStatement ps2=con.prepareStatement(sql2);
             ps2.setInt(1, libro.getCantEjemplares()-1);
-            ps2.setInt(2, libro.getIsbn());
+            ps2.setLong(2, libro.getIsbn());
             ps2.executeUpdate();
             ps2.close();
             }catch(SQLException ex){JOptionPane.showMessageDialog(null, "No se pudo descontar ejemplar de libro");}

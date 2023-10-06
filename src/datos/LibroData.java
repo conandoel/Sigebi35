@@ -24,7 +24,7 @@ public class LibroData {
         try {
             String sql="insert into libro (isbn, titulo, autor, anio, genero, editorial, estado, cantEjemplares) values(?,?,?,?,?,?,?,?)";
             PreparedStatement ps = con.prepareStatement(sql,Statement.RETURN_GENERATED_KEYS);
-            ps.setInt(1, libro.getIsbn());
+            ps.setLong(1, libro.getIsbn());
             ps.setString(2, libro.getTitulo());
             ps.setInt(3, libro.getAutor().getIdAutor());
             ps.setInt(4, libro.getAnio());
@@ -48,7 +48,7 @@ public class LibroData {
         }
     }
     
-    public void modificarLibro(int isbn, Libro libro2){
+    public void modificarLibro(long isbn, Libro libro2){
         //Libro2 contiene los cambios que se quieren hacer al libro de la base de datos
         /*Implementar un boton "Modificar" en la vista para modificar que, cuando se presione, guarda el ISBN actual
         del libro que se quiere modificar.
@@ -69,7 +69,7 @@ public class LibroData {
             
             PreparedStatement ps = con.prepareStatement(sql);
             
-            ps.setInt(1, libro2.getIsbn());
+            ps.setLong(1, libro2.getIsbn());
             ps.setString(2, libro2.getTitulo());
             ps.setInt(3, libro2.getAutor().getIdAutor());
             ps.setInt(4, libro2.getAnio());
@@ -92,11 +92,11 @@ public class LibroData {
         
     }
     
-    public void eliminarLibro(int isbn){
+    public void eliminarLibro(long isbn){
         try {
             String sql = "UPDATE libro SET estado = 0 WHERE isbn = ? and cantEjemplares = 0";
             PreparedStatement ps = con.prepareStatement(sql);
-            ps.setInt(1, isbn);
+            ps.setLong(1, isbn);
             int fila = ps.executeUpdate();
             if (fila == 1) {
                 JOptionPane.showMessageDialog(null, " Se eliminó el Libro.");
@@ -112,7 +112,7 @@ public class LibroData {
         }
     }
     
-    public Libro buscarLibroPorISBN(int isbn){
+    public Libro buscarLibroPorISBN(long isbn){
         String sql = "select * from libro where isbn = '" + isbn +"'";
         try {
             PreparedStatement ps = con.prepareStatement(sql);
@@ -129,7 +129,7 @@ public class LibroData {
             
             //autor.setIdAutor(rs.getInt("autor"));
             
-            libro.setIsbn(rs.getInt("isbn"));
+            libro.setIsbn(rs.getLong("isbn"));
             libro.setTitulo(rs.getString("titulo"));
             libro.setAutor(autor);
             libro.setAnio(rs.getInt("anio"));
@@ -171,7 +171,7 @@ public class LibroData {
                 autor.setGeneroFav(rs2.getString("generofav"));
                 //Se crea un objeto Autor para asignarle a Libro ->
                 
-                libro.setIsbn(rs.getInt("isbn"));
+                libro.setIsbn(rs.getLong("isbn"));
                 libro.setTitulo(rs.getString("titulo"));
                 libro.setAutor(autor);//<-
                 libro.setAnio(rs.getInt("anio"));
@@ -210,7 +210,7 @@ public class LibroData {
                 autor.setApellido(rs2.getString("apellido"));
                 autor.setGeneroFav(rs2.getString("generofav"));
                 
-                libro.setIsbn(rs.getInt("isbn"));
+                libro.setIsbn(rs.getLong("isbn"));
                 libro.setTitulo(rs.getString("titulo"));
                 libro.setAutor(autor);
                 libro.setAnio(rs.getInt("anio"));
@@ -250,7 +250,7 @@ public class LibroData {
                 
                 //autor.setIdAutor(rs.getInt("autor"));
                 
-                libro.setIsbn(rs.getInt("isbn"));
+                libro.setIsbn(rs.getLong("isbn"));
                 libro.setTitulo(rs.getString("titulo"));
                 libro.setAutor(autor);
                 libro.setAnio(rs.getInt("anio"));

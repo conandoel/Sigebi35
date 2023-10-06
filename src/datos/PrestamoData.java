@@ -114,7 +114,7 @@ public class PrestamoData {
             pres.setLector(socio);
             pres.setEjemplar(ejemplar);
             pres.setEstado(rs.getBoolean(6));
-            
+            ps.close();
         }catch(SQLException ex){
         
         }

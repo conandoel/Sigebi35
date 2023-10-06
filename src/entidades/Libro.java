@@ -1,7 +1,7 @@
 package entidades;
 
 public class Libro {
-    private int isbn;
+    private long isbn;
     private String titulo;
     private Autor autor;
     private int anio;
@@ -13,7 +13,7 @@ public class Libro {
     public Libro(){}
 
 
-    public Libro(int isbn, String titulo, Autor autor, int anio, String genero, String editorial, boolean estado, int cantEjemplares) {
+    public Libro(long isbn, String titulo, Autor autor, int anio, String genero, String editorial, boolean estado, int cantEjemplares) {
         this.isbn = isbn;
         this.titulo = titulo;
         this.autor = autor;
@@ -26,10 +26,10 @@ public class Libro {
 
  
 
-    public int getIsbn() {
+    public long getIsbn() {
         return isbn;
     }
-    public void setIsbn(int isbn) {
+    public void setIsbn(long isbn) {
         this.isbn = isbn;
     }
 
