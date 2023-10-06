@@ -48,18 +48,22 @@ public class LibroData {
         }
     }
     
-    public void modificarLibro(Libro libro1, Libro libro2){
-        //Libro1 es el libro que se quiere modificar de la base de datos
-        //Libro2 contiene los datos que se quieren modificar del libro 1
-        /*En la vista donde se modificarian los libros, se implementa un boton "Modificar", que cuando se aprieta
-        guarda en Libro1 los datos actuales del libro,
-        y un boton "Aceptar cambios", que cuando se aprieta guarda los cambios
-        que se quieran hacer sobre el libro1
+    public void modificarLibro(int isbn, Libro libro2){
+        //Libro2 contiene los cambios que se quieren hacer al libro de la base de datos
+        /*Implementar un boton "Modificar" en la vista para modificar que, cuando se presione, guarda el ISBN actual
+        del libro que se quiere modificar.
+        Implementar un boton "Confirmar Cambio" que genera un libro con los cambios que se quieran hacer al libro
+        de la base de datos.
+        Este metodo recibe el objeto Libro que contiene los cambios y usa el Isbn guardado por "Modificar" para
+        saber que libro modificar en la base de datos
+        
+        ...revisar la utilidad de un boton "Cancelar Cambio"
         */
+        
         String sql = "update libro set isbn = ?, titulo = '?', autor = ?, anio = ?, genero = '?'"
-                + ", editorial = '?', estado = ?, cantEjemplares = ?"
+                    + ", editorial = '?', estado = ?, cantEjemplares = ?"
                 
-                + "where isbn = ?, titulo = '?', autor = '?', anio =?, genero = '?', editorial = '?', estado = ? cantEjemplares = ?";
+                    + "where isbn = " + isbn;
         
         try {
             
@@ -73,29 +77,15 @@ public class LibroData {
             ps.setString(6, libro2.getEditorial());
             ps.setBoolean(7,libro2.isEstado());
             ps.setInt(8, libro2.getCantEjemplares());//Los datos por lo que se va a cambiar
-            
-            ps.setInt(9, libro.getIsbn());
-            ps.setString(10, libro.getTitulo());
-            ps.setInt(11, libro.getAutor().getIdAutor());
-            ps.setInt(12, libro.getAnio());
-            ps.setString(13, libro.getGenero());
-            ps.setString(14, libro.getEditorial());
-            ps.setBoolean(15,libro.isEstado());
-            ps.setInt(16, libro.getCantEjemplares());//Los datos del libro que buscas cambiar
-            
             int cambios = ps.executeUpdate();
             
             if(cambios == 0){
                 JOptionPane.showMessageDialog(null, "No se encontraron libros para cambiar");
             }else{
-                JOptionPane.showMessageDialog(null, "Se cambio el libro " + libro.getTitulo());
+                JOptionPane.showMessageDialog(null, "Libro modificado exitosamente");
             }
             
-            
-            
-            
-            
-            
+  
         } catch (SQLException ex) {
             Logger.getLogger(LibroData.class.getName()).log(Level.SEVERE, null, ex);
         }
@@ -115,7 +105,7 @@ public class LibroData {
             }
 
             ps.close();
-
+            
         } catch (SQLException e) {
 
             JOptionPane.showMessageDialog(null, " Error al acceder a la tabla Libro");
