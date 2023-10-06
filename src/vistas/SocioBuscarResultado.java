@@ -93,7 +93,12 @@ public class SocioBuscarResultado extends javax.swing.JPanel {
             tarjeta.jLDomicilio.setText(socio.getDomicilio());
             tarjeta.jLEmail.setText(socio.getMail());
             tarjeta.jLFechaDeAlta.setText(socio.getFechaDeAlta().format(formato));
-            tarjeta.jLFechaDeBaja.setText(socio.isEstado()? "PONER CUÁNDO TIENE LA BAJA" : socio.getFechaDeBaja().format(formato));
+            if(socio.isEstado()){
+                tarjeta.jLFechaDeBaja.setForeground(Color.green);
+            }else{
+                tarjeta.jLFechaDeBaja.setForeground(Color.red);
+            }
+            tarjeta.jLFechaDeBaja.setText(socio.getFechaDeBaja().format(formato));
             //tarjeta.jLEfecto.setText(Integer.toString(NroX));
             tarjeta.jLEfecto.setSize(20, 20);
 

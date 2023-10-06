@@ -240,8 +240,6 @@ public class SocioBuscarView extends javax.swing.JInternalFrame {
             // Asignamos el panel como la vista del JScrollPane
             jSPResultados.setViewportView(panelTarjetas);
             //CHEQUEA SI LAS TARJETAS ESTÁN BUSCADAS POR ESTADO CON VALOR 0
-            System.out.println(criterio);
-            System.out.println(valor);
             if(criterio.equalsIgnoreCase("estado") && valor.equals("0")){
                 Principal.getInstance().habilitarModificaciones(true, false);
             }else{

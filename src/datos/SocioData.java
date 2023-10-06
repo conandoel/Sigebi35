@@ -51,7 +51,6 @@ public class SocioData {
             columnas = listarColumnas();
             
             if(filas>0){
-                System.out.println("5");
                 Socio socio = new Socio();
 
                 for(String columna : columnas){
@@ -60,12 +59,10 @@ public class SocioData {
                     }
                 }
             }
-            System.out.println("6");
             socio = socios.get(0);
         }catch(SQLException ex){
             
         }
-        System.out.println("7");
         return socio;
     }
     public void buscarLectorPorDNI(){}
