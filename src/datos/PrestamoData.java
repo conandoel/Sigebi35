@@ -97,9 +97,23 @@ public class PrestamoData {
     
     public Prestamo buscarPrestamo(int codigo){
         Prestamo pres=new Prestamo();
+        Socio socio=new Socio();
+        Ejemplar ejemplar=new Ejemplar();
         try{
-            String sql="";
+            String sql="select * from prestamo where idPrestamo = ?";
             PreparedStatement ps=con.prepareStatement(sql);
+            ps.setInt(1, codigo);
+            ResultSet rs = ps.executeQuery();
+            
+            socio.setIdSocio(rs.getInt(5));
+            ejemplar.setCodigo(rs.getInt(4));
+            
+            pres.setIdPrestamo(rs.getInt(1));
+            pres.setFechaInicio(rs.getDate(2).toLocalDate());
+            pres.setFechaFin(rs.getDate(3).toLocalDate());
+            pres.setLector(socio);
+            pres.setEjemplar(ejemplar);
+            pres.setEstado(rs.getBoolean(6));
             
         }catch(SQLException ex){
         
