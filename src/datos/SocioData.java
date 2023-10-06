@@ -1,21 +1,18 @@
 package datos;
 
-import java.sql.Connection;
-import java.sql.PreparedStatement;
-import java.sql.ResultSet;
-import java.sql.SQLException;
-import java.util.List;
-import java.util.ArrayList;
+import entidades.Socio;
+
+import java.sql.*;
+import java.util.*;
 import entidades.Socio;
 import java.awt.image.BufferedImage;
-import java.io.ByteArrayInputStream;
-import java.io.File;
-import java.io.FileInputStream;
-import java.io.IOException;
+import java.io.*;
 import java.sql.Blob;
 import java.sql.Statement;
 import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import javax.imageio.ImageIO;
 
 public class SocioData {
@@ -27,6 +24,7 @@ public class SocioData {
     public SocioData() {
         con = Conexion.getConexion();
     }
+    
     public void agregarLector(){}
     public void modificarLector(){}
     
@@ -65,11 +63,43 @@ public class SocioData {
         }
         return socio;
     }
+    
     public void buscarLectorPorDNI(){}
-    public void listarLector(){}
     
+    public List<Socio> listarLector(int activo){/*Ingresa 0 para listar lectores inactivos
+                                                          1 para listar lectores activos
+                                                          cualquier otro numero para listarlos todos*/
+    List<Socio> listaLectores = new ArrayList<> ();
     
-    
+    String sql = "select * from lector ";
+    switch(activo){
+        case(0): sql = sql + "where estado = " + 0;
+        case(1): sql = sql + "where estado = " + 1;
+        default:
+    }
+        try {
+            PreparedStatement ps = con.prepareStatement(sql);
+            ResultSet rs = ps.executeQuery();
+            while(rs.next()){ //Faltaria modificacion: No se contempla la foto de perfil
+                socio.setIdSocio(rs.getInt("idSocio"));
+                socio.setApellido(rs.getString("apellido"));
+                socio.setNombre(rs.getString("nombre"));
+                socio.setDomicilio(rs.getString("domicilio"));
+                socio.setMail(rs.getString("mail"));
+                socio.setFechaDeAlta(rs.getDate("fechaDeAlta").toLocalDate());
+                //Tengo fe que esto funciona
+                socio.setFechaDeBaja(rs.getDate("fechaDeBaja").toLocalDate());
+                //No tengo mucha fe en que este ^ va a funcionar
+                socio.setEstado(rs.getBoolean("estado"));
+                
+                listaLectores.add(socio);
+            }   
+            
+        } catch (SQLException ex) {
+            Logger.getLogger(SocioData.class.getName()).log(Level.SEVERE, null, ex);
+        }
+    return listaLectores;
+    }
     
     public List buscarHistorialSocios(String criterio, String valor){
         String sql = "SELECT * FROM lector WHERE " + criterio + " = ?;";

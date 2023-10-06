@@ -43,6 +43,18 @@ public class AutorData {
             Logger.getLogger(AutorData.class.getName()).log(Level.SEVERE, null, ex);
         }
     }
-    public void modificarAutor(){}
-    public void eliminarAutor(){}
+    public void modificarAutor(Autor autor){
+        String sql = "update autor set nombre = '?', apellido = '?', generofav = '?' where idAutor = " + autor.getIdAutor() ;
+        try {
+            PreparedStatement ps = con.prepareStatement(sql, PreparedStatement.RETURN_GENERATED_KEYS);
+            ps.setString(1, autor.getNombre());
+            ps.setString(2, autor.getApellido());
+            ps.setString(3, autor.getGeneroFav());
+            
+        } catch (SQLException ex) {
+            Logger.getLogger(AutorData.class.getName()).log(Level.SEVERE, null, ex);
+        }
+    }
+    
+    public void eliminarAutor(Autor autor){}
 }
