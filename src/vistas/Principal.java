@@ -8,16 +8,28 @@ public class Principal extends javax.swing.JFrame {
     private static final String MODIFICAR = "MODIFICAR";
     private static final String ELIMINAR = "ELIMINAR";
     private static final String NADA = "NADA";
+    private static Principal pr;
     private boolean primeraVez = true;
     /**
      * Creates new form Principal
      */
     public Principal() {
         initComponents();
+        pr = this;
         SocioData sd = new SocioData();
         //sd.insertarImagenesSocio();   NO UTILIZAR ! ! ! ! ! ! ! ! !
-        
+        habilitarModificaciones(false, false);
         chequearSiYaHayImagenes(sd);
+    }
+    
+    // Creamos el método getInstance
+    public static Principal getInstance() {
+        // Si el atributo sbr es nulo, lo creamos con el constructor
+        if (pr == null) {
+            pr = new Principal();
+        }
+        // Devolvemos el atributo sbr
+        return pr;
     }
     
     private void chequearSiYaHayImagenes(SocioData check){
@@ -216,6 +228,12 @@ public class Principal extends javax.swing.JFrame {
 
         pack();
     }// </editor-fold>//GEN-END:initComponents
+    
+    public void habilitarModificaciones(boolean habilitarMod, boolean habilitarElim){
+        this.jMModificarSocios.setEnabled(habilitarMod);
+        this.jMElimSocios.setEnabled(habilitarElim);
+    }
+    
     private void cargarBusquedaSocio(){
         jDPEscritorio.removeAll();
         jDPEscritorio.repaint();
@@ -256,11 +274,18 @@ public class Principal extends javax.swing.JFrame {
     private void jMModificarSociosActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMModificarSociosActionPerformed
         // TODO add your handling code here:
         SocioBuscarView.getInstance().afectarSocio(MODIFICAR);
+        if(!(SocioBuscarView.getInstance().getCriterio().equalsIgnoreCase("estado") &&
+                SocioBuscarView.getInstance().getValor().equalsIgnoreCase("0"))){
+            this.habilitarModificaciones(false, true);
+        }else{
+            this.habilitarModificaciones(false, false);
+        }
     }//GEN-LAST:event_jMModificarSociosActionPerformed
 
     private void jMElimSociosActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMElimSociosActionPerformed
         // TODO add your handling code here:
         SocioBuscarView.getInstance().afectarSocio(ELIMINAR);
+        this.habilitarModificaciones(true, false);
     }//GEN-LAST:event_jMElimSociosActionPerformed
 
     /**

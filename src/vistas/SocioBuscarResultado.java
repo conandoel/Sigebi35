@@ -16,11 +16,12 @@ import java.io.File;
 import java.io.IOException;
 import javax.imageio.ImageIO;
 import javax.swing.ImageIcon;
+import javax.swing.JOptionPane;
 
 public class SocioBuscarResultado extends javax.swing.JPanel {
     private List <Socio> socios;
     private List <String> columnas;
-    private List <SocioBuscarResultado> tarjetas, tarjestatic;
+    private List <SocioBuscarResultado> tarjetas;
     private SocioData metodoDeSocio;
     private Socio socio;
 
@@ -32,21 +33,22 @@ public class SocioBuscarResultado extends javax.swing.JPanel {
         initComponents();
 
     }
-    private static final Color CELESTITO = new Color(120, 200, 255);
-    private static final Color VERDECITO = new Color(0,159,210);
-    private static final Color AZULCITO = new Color(5,160,223);
+    
+    private static final Color CELESTITO = new Color(226,135,67);
+    private static final Color VERDECITO = new Color(234,182,118);
+    private static final Color AZULCITO = new Color(135, 62, 35);
+    private final Image modificar = new ImageIcon(getClass().getResource("/vistas/imagenes/modificar.png")).getImage();
+    private final Image eliminar = new ImageIcon(getClass().getResource("/vistas/imagenes/eliminar.png")).getImage();
     
     @Override
     protected void paintComponent(Graphics g) {
         super.paintComponent(g);
         Graphics2D g2d = (Graphics2D) g;
-        // Crea un arreglo de colores con el naranja, el blanco y el azul
+
         Color[] colors = {CELESTITO, VERDECITO, AZULCITO};
         // Crea un arreglo de fracciones que indica cómo se distribuyen los colores
-        // El naranja va desde el 0% al 50%, el blanco desde el 50% al 75%, y el azul desde el 75% al 100%
-        float[] fractions = {0f, 0.8f, 1f};
-        // Crea un degradado lineal desde la esquina superior izquierda hasta la inferior derecha
-        // con los colores y las fracciones especificadas
+        float[] fractions = {0f, 0.2f, 1f};
+
         LinearGradientPaint gp = new LinearGradientPaint(0, 0, getHeight(), 0, fractions, colors, CycleMethod.NO_CYCLE);
         // Aplica el degradado al panel
         g2d.setPaint(gp);
@@ -57,14 +59,10 @@ public class SocioBuscarResultado extends javax.swing.JPanel {
         
     public List <SocioBuscarResultado> listarSocio(String criterio, String valor, String EFECTO){
         SocioBuscarView.getInstance().actualizarSeccion(EFECTO);
-        
-        Image modificar = new ImageIcon(getClass().getResource("/vistas/imagenes/modificar.png")).getImage();
-        Image eliminar = new ImageIcon(getClass().getResource("/vistas/imagenes/eliminar.png")).getImage();
-        
+
         socios = new ArrayList<>();
         columnas = new ArrayList<>();
         tarjetas = new ArrayList<>();
-        //tarjestatic = new ArrayList<>();
         
         metodoDeSocio = new SocioData();
         
@@ -77,7 +75,7 @@ public class SocioBuscarResultado extends javax.swing.JPanel {
         }else{
             criterio = criterio.toLowerCase();
         }
- 
+        
         for(String columna : columnas){
             if(criterio.equals(columna)){
                 socios = metodoDeSocio.buscarHistorialSocios(criterio, valor);
@@ -110,15 +108,16 @@ public class SocioBuscarResultado extends javax.swing.JPanel {
                 Image dFotoPerfil = fotoPerfil.getScaledInstance(tarjeta.jLFoto.getWidth(), tarjeta.jLFoto.getHeight(), Image.SCALE_SMOOTH);
                 // Poner la imagen en el jLabel usando setIcon()
                 tarjeta.jLFoto.setIcon(new ImageIcon(dFotoPerfil));
+                tarjeta.jLEfecto.setForeground(AZULCITO);
                 
-                NroX++;
             } catch (IOException e) {
 
             }
             tarjeta.jLEstado.setText(socio.isEstado()? "Socio Activo" : "Desasociado");
             switch (EFECTO) {
                 case "MODIFICAR" ->  {
-                    tarjeta.jLEfecto.setText(EFECTO);
+                    tarjeta.jLABM.setText("M");
+                    tarjeta.jLEfecto.setText(Integer.toString(NroX));
                     tarjeta.jLEfecto.setVisible(true);
                     tarjeta.jLEfecto.setSize(20, 20);
                     Image dModificar = modificar.getScaledInstance(tarjeta.jLEfecto.getWidth(), tarjeta.jLEfecto.getHeight(), Image.SCALE_SMOOTH);
@@ -128,7 +127,8 @@ public class SocioBuscarResultado extends javax.swing.JPanel {
                     tarjeta.jLEfecto.setIcon(iconModificar);
                 }
                 case "ELIMINAR" ->  {
-                    tarjeta.jLEfecto.setText(EFECTO);
+                    tarjeta.jLABM.setText("E");
+                    tarjeta.jLEfecto.setText(Integer.toString(NroX));
                     tarjeta.jLEfecto.setVisible(true);
                     tarjeta.jLEfecto.setSize(20, 20);
                     Image dEliminar = eliminar.getScaledInstance(tarjeta.jLEfecto.getWidth(), tarjeta.jLEfecto.getHeight(), Image.SCALE_SMOOTH);
@@ -138,15 +138,17 @@ public class SocioBuscarResultado extends javax.swing.JPanel {
                     tarjeta.jLEfecto.setIcon(iconEliminar);
                 }
                 default ->  {
-                    tarjeta.jLEfecto.setText(EFECTO);
+                    tarjeta.jLABM.setText("");
+                    tarjeta.jLEfecto.setText("");
                     tarjeta.jLEfecto.setVisible(false);
                 }
             }
             
 
             tarjetas.add(tarjeta);
+            NroX++;
         }
-        //tarjestatic = tarjetas;
+        
         return tarjetas;
     }
     /**
@@ -176,7 +178,7 @@ public class SocioBuscarResultado extends javax.swing.JPanel {
         jLFechaDeBaja = new javax.swing.JLabel();
         jLEstado = new javax.swing.JLabel();
         jLNumeroDeSocio = new javax.swing.JLabel();
-        labelFondo = new javax.swing.JLabel();
+        jLABM = new javax.swing.JLabel();
         jLEfecto = new javax.swing.JLabel();
 
         jLNumSocio.setForeground(new java.awt.Color(102, 102, 102));
@@ -282,14 +284,14 @@ public class SocioBuscarResultado extends javax.swing.JPanel {
                         .addContainerGap()
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                             .addComponent(jSeparator1)
-                            .addComponent(labelFondo, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))))
+                            .addComponent(jLABM, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))))
                 .addContainerGap())
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
                 .addContainerGap(18, Short.MAX_VALUE)
-                .addComponent(labelFondo)
+                .addComponent(jLABM)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jLNumSocio)
@@ -334,19 +336,32 @@ public class SocioBuscarResultado extends javax.swing.JPanel {
     }// </editor-fold>//GEN-END:initComponents
 
     private void jLEfectoMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jLEfectoMouseClicked
-        // TODO add your handling code here:
         String valor = SocioBuscarView.getInstance().getValor();
-        String criterio = SocioBuscarView.getInstance().getIndice();
+        String criterio = SocioBuscarView.getInstance().getCriterio();
+        
         metodoDeSocio = new SocioData();
-        for(SocioBuscarResultado t : tarjestatic){
-//HACEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEER                    
+        String idSocio = this.jLEfecto.getText();
+
+        if(this.jLABM.getText().equals("M")){
+            
+        }else if(this.jLABM.getText().equals("E")){
+            int respuesta = JOptionPane.showConfirmDialog(this, "Está seguro que desea dar de baja al socio Nº " + idSocio + "?", TOOL_TIP_TEXT_KEY, WIDTH);
+            if(respuesta==0){
+                this.jLEfecto.setVisible(false);
+                socio = metodoDeSocio.eliminarLector("Número de Socio", idSocio);
+                //tarjetas = listarSocio(criterio, valor, "ELIMINAR");
+                SocioBuscarView.getInstance().afectarSocio("ELIMINAR");
+            }
+
         }
-        //socio = metodoDeSocio.eliminarLector(criterio, valor);
+
+        //
         //jLEstado.setText(socio.isEstado()? "Socio Activo" : "Desasociado");
     }//GEN-LAST:event_jLEfectoMouseClicked
 
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
+    private javax.swing.JLabel jLABM;
     private javax.swing.JLabel jLApe;
     private javax.swing.JLabel jLApellido;
     private javax.swing.JLabel jLDom;
@@ -366,6 +381,5 @@ public class SocioBuscarResultado extends javax.swing.JPanel {
     private javax.swing.JLabel jLNumSocio;
     private javax.swing.JLabel jLNumeroDeSocio;
     private javax.swing.JSeparator jSeparator1;
-    private javax.swing.JLabel labelFondo;
     // End of variables declaration//GEN-END:variables
 }

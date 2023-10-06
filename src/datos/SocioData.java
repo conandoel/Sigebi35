@@ -14,6 +14,7 @@ import java.io.FileInputStream;
 import java.io.IOException;
 import java.sql.Blob;
 import java.sql.Statement;
+import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
 import javax.imageio.ImageIO;
 
@@ -29,14 +30,17 @@ public class SocioData {
     public void agregarLector(){}
     public void modificarLector(){}
     
+    
+    
     public Socio eliminarLector(String criterio, String valor){
         //PROBLEMA DE CRITERIO SEA ESTADO CON VALOR 1
-        String sql;
-        if(criterio.equalsIgnoreCase("estado")){
-            sql = "UPDATE lector;"; //haceeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeerrrrrrrrrrrrrrrrrrrrrr
+        if(criterio.equals("Número de Socio")){
+            criterio = "idSocio";
         }else{
-            sql = "UPDATE lector SET estado = 0 WHERE " + criterio + " = " + valor + ";";
+            criterio = criterio.toLowerCase();
         }
+        String sql = "UPDATE lector SET estado = 0 WHERE " + criterio + " = " + valor + ";";
+
         
         
         try{
@@ -46,25 +50,22 @@ public class SocioData {
             columnas = new ArrayList<>();
             columnas = listarColumnas();
             
-            while(filas>0){       
+            if(filas>0){
+                System.out.println("5");
                 Socio socio = new Socio();
-                if(criterio.equals("Número de Socio")){
-                    criterio = "idSocio";
-                }else{
-                    criterio = criterio.toLowerCase();
-                }
- 
+
                 for(String columna : columnas){
                     if(criterio.equals(columna)){
                         socios = buscarHistorialSocios(criterio, valor);
                     }
                 }
             }
+            System.out.println("6");
             socio = socios.get(0);
         }catch(SQLException ex){
             
         }
-        
+        System.out.println("7");
         return socio;
     }
     public void buscarLectorPorDNI(){}
@@ -92,7 +93,7 @@ public class SocioData {
                 socio.setMail(rs.getString("mail"));
                 socio.setFechaDeAlta(rs.getDate("fechaDeAlta").toLocalDate());
                 //Esta parte hay que arreglarla
-                socio.setFechaDeBaja(rs.getBoolean("estado")? rs.getDate("fechaDeAlta").toLocalDate() : rs.getDate("fechaDeBaja").toLocalDate() );
+                socio.setFechaDeBaja(rs.getDate("fechaDeBaja")==null? LocalDate.now() : rs.getDate("fechaDeBaja").toLocalDate() );
                 socio.setEstado(rs.getBoolean("estado"));
                 socios.add(socio);
             }

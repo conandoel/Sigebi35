@@ -15,7 +15,7 @@ public class SocioBuscarView extends javax.swing.JInternalFrame {
     private static SocioBuscarView sbr;
     private List <SocioBuscarResultado> resultados;
     private String valor;
-    private String indice;
+    private String criterio;
     /**
      * Creates new form SocioBuscarView
      */
@@ -28,8 +28,8 @@ public class SocioBuscarView extends javax.swing.JInternalFrame {
     public String getValor(){
         return valor;
     }
-    public String getIndice(){
-        return indice;
+    public String getCriterio(){
+        return criterio;
     }
     
     // Creamos el método getInstance
@@ -43,7 +43,7 @@ public class SocioBuscarView extends javax.swing.JInternalFrame {
     }
     public void afectarSocio(String EFECTO){
         
-        resultados = resultado.listarSocio(indice, valor, EFECTO);
+        resultados = resultado.listarSocio(criterio, valor, EFECTO);
         
         cargarLasTarjetas();
     }
@@ -74,6 +74,7 @@ public class SocioBuscarView extends javax.swing.JInternalFrame {
         jLSocioBuscarIngreseValor = new javax.swing.JLabel();
         jSPResultados = new javax.swing.JScrollPane();
         jBBuscar = new javax.swing.JButton();
+        jLInfo = new javax.swing.JLabel();
 
         jLBuscarSocios.setFont(new java.awt.Font("Segoe UI Historic", 1, 18)); // NOI18N
         jLBuscarSocios.setForeground(new java.awt.Color(0, 160, 210));
@@ -106,6 +107,8 @@ public class SocioBuscarView extends javax.swing.JInternalFrame {
             }
         });
 
+        jLInfo.setForeground(new java.awt.Color(255, 0, 51));
+
         javax.swing.GroupLayout jPSocioBuscarLayout = new javax.swing.GroupLayout(jPSocioBuscar);
         jPSocioBuscar.setLayout(jPSocioBuscarLayout);
         jPSocioBuscarLayout.setHorizontalGroup(
@@ -121,13 +124,17 @@ public class SocioBuscarView extends javax.swing.JInternalFrame {
                                 .addComponent(jLSocioBuscarIngreseValor, javax.swing.GroupLayout.PREFERRED_SIZE, 161, javax.swing.GroupLayout.PREFERRED_SIZE)
                                 .addGap(0, 0, Short.MAX_VALUE)))
                         .addGap(41, 41, 41))
-                    .addGroup(jPSocioBuscarLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING, false)
-                        .addComponent(jCBSocioBuscarCriterio, javax.swing.GroupLayout.Alignment.LEADING, 0, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                        .addGroup(jPSocioBuscarLayout.createSequentialGroup()
-                            .addComponent(jTFSocioBuscarIngreseValor, javax.swing.GroupLayout.PREFERRED_SIZE, 161, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                            .addComponent(jBBuscar, javax.swing.GroupLayout.PREFERRED_SIZE, 37, javax.swing.GroupLayout.PREFERRED_SIZE))))
-                .addComponent(jSPResultados, javax.swing.GroupLayout.DEFAULT_SIZE, 448, Short.MAX_VALUE)
+                    .addGroup(jPSocioBuscarLayout.createSequentialGroup()
+                        .addGroup(jPSocioBuscarLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addGroup(jPSocioBuscarLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING, false)
+                                .addComponent(jCBSocioBuscarCriterio, javax.swing.GroupLayout.Alignment.LEADING, 0, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                                .addGroup(jPSocioBuscarLayout.createSequentialGroup()
+                                    .addComponent(jTFSocioBuscarIngreseValor, javax.swing.GroupLayout.PREFERRED_SIZE, 161, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                    .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                                    .addComponent(jBBuscar, javax.swing.GroupLayout.PREFERRED_SIZE, 37, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                            .addComponent(jLInfo, javax.swing.GroupLayout.PREFERRED_SIZE, 204, javax.swing.GroupLayout.PREFERRED_SIZE))
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)))
+                .addComponent(jSPResultados, javax.swing.GroupLayout.DEFAULT_SIZE, 446, Short.MAX_VALUE)
                 .addGap(30, 30, 30))
         );
         jPSocioBuscarLayout.setVerticalGroup(
@@ -146,7 +153,10 @@ public class SocioBuscarView extends javax.swing.JInternalFrame {
                         .addGap(7, 7, 7)
                         .addGroup(jPSocioBuscarLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                             .addComponent(jTFSocioBuscarIngreseValor, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addComponent(jBBuscar)))
+                            .addComponent(jBBuscar))
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addComponent(jLInfo)
+                        .addGap(0, 0, Short.MAX_VALUE))
                     .addGroup(jPSocioBuscarLayout.createSequentialGroup()
                         .addContainerGap()
                         .addComponent(jSPResultados, javax.swing.GroupLayout.DEFAULT_SIZE, 385, Short.MAX_VALUE)))
@@ -184,16 +194,21 @@ public class SocioBuscarView extends javax.swing.JInternalFrame {
     }//GEN-LAST:event_jCBSocioBuscarCriterioActionPerformed
 
     private void jBBuscarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jBBuscarActionPerformed
-        
-        final String NADA = "NADA";
+        if(this.jTFSocioBuscarIngreseValor.getText().equals("")){
+            this.jTFSocioBuscarIngreseValor.requestFocus();
+            this.jLInfo.setText("El campo no debe estar vacío");
+        }else{
+            final String NADA = "NADA";
 
-        valor = jTFSocioBuscarIngreseValor.getText();
-        indice = jCBSocioBuscarCriterio.getSelectedItem().toString();
+            valor = jTFSocioBuscarIngreseValor.getText();
+            criterio= jCBSocioBuscarCriterio.getSelectedItem().toString();
         
-        resultado = new SocioBuscarResultado();
-        resultados = resultado.listarSocio(indice, valor, NADA);
+            resultado = new SocioBuscarResultado();
+            resultados = resultado.listarSocio(criterio, valor, NADA);
         
-        cargarLasTarjetas();
+            cargarLasTarjetas();
+        }
+        
  
     }//GEN-LAST:event_jBBuscarActionPerformed
     
@@ -205,25 +220,41 @@ public class SocioBuscarView extends javax.swing.JInternalFrame {
         if(resultados.size()>1){
             // Usamos un BoxLayout vertical
             layout = new BoxLayout (panelTarjetas, BoxLayout.Y_AXIS);
-        }else{
+        }else if(resultados.size()==1){
             // Usamos un FlowLayout con alineación a la izquierda
             layout = new FlowLayout (FlowLayout.LEFT);
+        }else{
+            this.jLInfo.setText("La búsqueda no arrojó resultados");
+            layout = null;
         }
         
-        // Asignamos el LayoutManager al panel de tarjetas una sola vez
-        panelTarjetas.setLayout (layout);
+        if(layout!=null){
+            // Asignamos el LayoutManager al panel de tarjetas una sola vez
+            panelTarjetas.setLayout (layout);
         
-        for(SocioBuscarResultado res : resultados){
-            res.setVisible(true);
-            // Agregamos cada tarjeta al panel
-            panelTarjetas.add(res);
+            for(SocioBuscarResultado res : resultados){
+                res.setVisible(true);
+                // Agregamos cada tarjeta al panel
+                panelTarjetas.add(res);
+            }
+            // Asignamos el panel como la vista del JScrollPane
+            jSPResultados.setViewportView(panelTarjetas);
+            //CHEQUEA SI LAS TARJETAS ESTÁN BUSCADAS POR ESTADO CON VALOR 0
+            System.out.println(criterio);
+            System.out.println(valor);
+            if(criterio.equalsIgnoreCase("estado") && valor.equals("0")){
+                Principal.getInstance().habilitarModificaciones(true, false);
+            }else{
+                Principal.getInstance().habilitarModificaciones(true, true);
+            }
+            
+            
+            jLInfo.setText("");
         }
-        // Asignamos el panel como la vista del JScrollPane
-        jSPResultados.setViewportView(panelTarjetas);
     }
     private void jCBCargarSocioBuscarCriterios(){
-        for(String criterio : criteriosDeBusqueda){
-            jCBSocioBuscarCriterio.addItem(criterio);
+        for(String criterioLocal : criteriosDeBusqueda){
+            jCBSocioBuscarCriterio.addItem(criterioLocal);
         }
     }
 
@@ -232,6 +263,7 @@ public class SocioBuscarView extends javax.swing.JInternalFrame {
     private javax.swing.JButton jBBuscar;
     private javax.swing.JComboBox<String> jCBSocioBuscarCriterio;
     private javax.swing.JLabel jLBuscarSocios;
+    private javax.swing.JLabel jLInfo;
     private javax.swing.JLabel jLSocioBuscarCriterio;
     private javax.swing.JLabel jLSocioBuscarIngreseValor;
     private javax.swing.JPanel jPSocioBuscar;
