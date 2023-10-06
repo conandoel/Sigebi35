@@ -16,17 +16,15 @@ import java.io.File;
 import java.io.IOException;
 import javax.imageio.ImageIO;
 import javax.swing.ImageIcon;
+import javax.swing.JOptionPane;
 
 public class SocioBuscarResultado extends javax.swing.JPanel {
     private List <Socio> socios;
     private List <String> columnas;
-    private List <SocioBuscarResultado> tarjetas;
+    private List <SocioBuscarResultado> tarjetas, tarjestatic;
     private SocioData metodoDeSocio;
     private Socio socio;
-    
-    
-    private Image modificar = new ImageIcon(getClass().getResource("/vistas/imagenes/modificar.png")).getImage();
-    private Image eliminar = new ImageIcon(getClass().getResource("/vistas/imagenes/eliminar.png")).getImage();
+
     //private Image fotoPerfil;
     /**
      * Creates new form SocioBuscarResultado
@@ -59,13 +57,16 @@ public class SocioBuscarResultado extends javax.swing.JPanel {
     }
         
     public List <SocioBuscarResultado> listarSocio(String criterio, String valor, String EFECTO){
-        
         SocioBuscarView.getInstance().actualizarSeccion(EFECTO);
+        
+        Image modificar = new ImageIcon(getClass().getResource("/vistas/imagenes/modificar.png")).getImage();
+        Image eliminar = new ImageIcon(getClass().getResource("/vistas/imagenes/eliminar.png")).getImage();
         
         socios = new ArrayList<>();
         columnas = new ArrayList<>();
         tarjetas = new ArrayList<>();
-
+        //tarjestatic = new ArrayList<>();
+        
         metodoDeSocio = new SocioData();
         
         columnas = metodoDeSocio.listarColumnas();
@@ -87,7 +88,6 @@ public class SocioBuscarResultado extends javax.swing.JPanel {
         for(Socio socio : socios){   
             // Declaramos la variable tarjeta dentro del bucle
             SocioBuscarResultado tarjeta = new SocioBuscarResultado();
-            
             int NroX = socio.getIdSocio();
             
             tarjeta.jLNumeroDeSocio.setText(Integer.toString(socio.getIdSocio()));
@@ -97,7 +97,9 @@ public class SocioBuscarResultado extends javax.swing.JPanel {
             tarjeta.jLEmail.setText(socio.getMail());
             tarjeta.jLFechaDeAlta.setText(socio.getFechaDeAlta().format(formato));
             tarjeta.jLFechaDeBaja.setText(socio.isEstado()? "PONER CUÁNDO TIENE LA BAJA" : socio.getFechaDeBaja().format(formato));
-            
+            //tarjeta.jLEfecto.setText(Integer.toString(NroX));
+            tarjeta.jLEfecto.setSize(20, 20);
+
             try {
                 // Leer una imagen desde un archivo
                 File file = new File("./src/vistas/imagenes/foto_" + NroX + ".jpg");
@@ -114,11 +116,11 @@ public class SocioBuscarResultado extends javax.swing.JPanel {
             } catch (IOException e) {
 
             }
-            
             tarjeta.jLEstado.setText(socio.isEstado()? "Socio Activo" : "Desasociado");
             switch (EFECTO) {
-                case "MODIFICAR" : {
-                    tarjeta.jLEfecto.setText("");
+                case "MODIFICAR" ->  {
+                    JOptionPane.showMessageDialog(null, "AQUI 2: " + tarjeta.jLEfecto.getText());
+                    tarjeta.jLEfecto.setText(EFECTO);
                     tarjeta.jLEfecto.setVisible(true);
                     tarjeta.jLEfecto.setSize(20, 20);
                     Image dModificar = modificar.getScaledInstance(tarjeta.jLEfecto.getWidth(), tarjeta.jLEfecto.getHeight(), Image.SCALE_SMOOTH);
@@ -127,8 +129,8 @@ public class SocioBuscarResultado extends javax.swing.JPanel {
                     // Asigna el icono al label
                     tarjeta.jLEfecto.setIcon(iconModificar);
                 }
-                case "ELIMINAR" : {
-                    tarjeta.jLEfecto.setText("");
+                case "ELIMINAR" ->  {
+                    tarjeta.jLEfecto.setText(EFECTO);
                     tarjeta.jLEfecto.setVisible(true);
                     tarjeta.jLEfecto.setSize(20, 20);
                     Image dEliminar = eliminar.getScaledInstance(tarjeta.jLEfecto.getWidth(), tarjeta.jLEfecto.getHeight(), Image.SCALE_SMOOTH);
@@ -137,8 +139,8 @@ public class SocioBuscarResultado extends javax.swing.JPanel {
                     // Asigna el icono al label
                     tarjeta.jLEfecto.setIcon(iconEliminar);
                 }
-                default : {
-                    tarjeta.jLEfecto.setText("");
+                default ->  {
+                    tarjeta.jLEfecto.setText(EFECTO);
                     tarjeta.jLEfecto.setVisible(false);
                 }
             }
@@ -146,7 +148,7 @@ public class SocioBuscarResultado extends javax.swing.JPanel {
 
             tarjetas.add(tarjeta);
         }
-        
+        //tarjestatic = tarjetas;
         return tarjetas;
     }
     /**
@@ -338,8 +340,12 @@ public class SocioBuscarResultado extends javax.swing.JPanel {
         String valor = SocioBuscarView.getInstance().getValor();
         String criterio = SocioBuscarView.getInstance().getIndice();
         metodoDeSocio = new SocioData();
-        socio = metodoDeSocio.eliminarLector(criterio, valor);
-        jLEstado.setText(socio.isEstado()? "Socio Activo" : "Desasociado");
+        for(SocioBuscarResultado t : tarjestatic){
+            JOptionPane.showMessageDialog(null, t.jLEfecto.getText());
+                    
+        }
+        //socio = metodoDeSocio.eliminarLector(criterio, valor);
+        //jLEstado.setText(socio.isEstado()? "Socio Activo" : "Desasociado");
     }//GEN-LAST:event_jLEfectoMouseClicked
 
 

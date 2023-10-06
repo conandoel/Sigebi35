@@ -4,6 +4,7 @@ import java.awt.FlowLayout;
 import java.awt.LayoutManager;
 import java.util.List;
 import javax.swing.BoxLayout;
+import javax.swing.JOptionPane;
 
 public class SocioBuscarView extends javax.swing.JInternalFrame {
     
@@ -47,13 +48,13 @@ public class SocioBuscarView extends javax.swing.JInternalFrame {
         
         cargarLasTarjetas();
     }
-    //NO SE POR QUÉ NO FUNCIONA
-    //DEBERÍA ANDAR BIEN
+
     public void actualizarSeccion(String SECCION){
+        SocioBuscarView.getInstance().jLBuscarSocios.setText("Modificar socios");
         switch(SECCION){
-            case "MODIFICAR" : this.jLBuscarSocios.setText("Modificar socios");
-            case "ELIMINAR" : this.jLBuscarSocios.setText("Eliminar socios");
-            default : this.jLBuscarSocios.setText("Buscar socios");
+            case "MODIFICAR" -> this.jLBuscarSocios.setText("Modificar socios");
+            case "ELIMINAR" -> this.jLBuscarSocios.setText("Eliminar socios");
+            default -> this.jLBuscarSocios.setText("Buscar socios");
         }
     }
 

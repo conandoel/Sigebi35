@@ -31,7 +31,13 @@ public class SocioData {
     
     public Socio eliminarLector(String criterio, String valor){
         //PROBLEMA DE CRITERIO SEA ESTADO CON VALOR 1
-        String sql = "UPDATE lector SET estado = 0 WHERE " + criterio + " = " + valor + ";";
+        String sql;
+        if(criterio.equalsIgnoreCase("estado")){
+            sql = "UPDATE lector;"; //haceeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeerrrrrrrrrrrrrrrrrrrrrr
+        }else{
+            sql = "UPDATE lector SET estado = 0 WHERE " + criterio + " = " + valor + ";";
+        }
+        
         
         try{
             PreparedStatement ps = con.prepareStatement(sql);
