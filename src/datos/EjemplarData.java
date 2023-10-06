@@ -49,6 +49,7 @@ public class EjemplarData {
             }else{
                 JOptionPane.showMessageDialog(null, "Se afectaron " + resultado + " filas.");
             }
+            ps.close();
         }catch(SQLException ex){
             JOptionPane.showMessageDialog(null, "Error al realizar la accion");
         }
@@ -60,6 +61,7 @@ public class EjemplarData {
             try {
                 PreparedStatement ps = con.prepareStatement(sql);
                 ps.execute();
+                ps.close();
             } catch (SQLException ex) {
                 Logger.getLogger(EjemplarData.class.getName()).log(Level.SEVERE, null, ex);
             }
@@ -72,7 +74,8 @@ public class EjemplarData {
             ps2.setInt(1, libro.getCantEjemplares()-1);
             ps2.setInt(2, libro.getIsbn());
             ps2.executeUpdate();
-            }catch(SQLException ex){}
+            ps2.close();
+            }catch(SQLException ex){JOptionPane.showMessageDialog(null, "No se pudo descontar ejemplar de libro");}
         }else{
             JOptionPane.showMessageDialog(null, "Aun hay prestamos activos de este ejemplar");
         }

@@ -88,6 +88,7 @@ public class PrestamoData {
             if(resultado.next()){
                 flag = false;
             }
+            ps.close();
         } catch (SQLException ex) {
             Logger.getLogger(PrestamoData.class.getName()).log(Level.SEVERE, null, ex);
         }
@@ -128,6 +129,7 @@ public class PrestamoData {
                 
                 prestamos.add(prestamo);
             }
+            ps.close();
         } catch (SQLException ex) {
             Logger.getLogger(PrestamoData.class.getName()).log(Level.SEVERE, null, ex);
         }
