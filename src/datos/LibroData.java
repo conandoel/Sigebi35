@@ -102,7 +102,25 @@ public class LibroData {
         
     }
     
-    public void eliminarLibro(){}
+    public void eliminarLibro(int isbn){
+        try {
+            String sql = "UPDATE libro SET estado = 0 WHERE isbn = ? and cantEjemplares = 0";
+            PreparedStatement ps = con.prepareStatement(sql);
+            ps.setInt(1, isbn);
+            int fila = ps.executeUpdate();
+            if (fila == 1) {
+                JOptionPane.showMessageDialog(null, " Se eliminó el Libro.");
+            }else{
+                JOptionPane.showMessageDialog(null, "El libro aun posee ejemplares");
+            }
+
+            ps.close();
+
+        } catch (SQLException e) {
+
+            JOptionPane.showMessageDialog(null, " Error al acceder a la tabla Libro");
+        }
+    }
     
     public Libro buscarLibroPorISBN(int isbn){
         String sql = "select * from libro where isbn = '" + isbn +"'";
