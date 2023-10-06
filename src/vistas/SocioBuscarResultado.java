@@ -16,7 +16,6 @@ import java.io.File;
 import java.io.IOException;
 import javax.imageio.ImageIO;
 import javax.swing.ImageIcon;
-import javax.swing.JOptionPane;
 
 public class SocioBuscarResultado extends javax.swing.JPanel {
     private List <Socio> socios;
@@ -119,7 +118,6 @@ public class SocioBuscarResultado extends javax.swing.JPanel {
             tarjeta.jLEstado.setText(socio.isEstado()? "Socio Activo" : "Desasociado");
             switch (EFECTO) {
                 case "MODIFICAR" ->  {
-                    JOptionPane.showMessageDialog(null, "AQUI 2: " + tarjeta.jLEfecto.getText());
                     tarjeta.jLEfecto.setText(EFECTO);
                     tarjeta.jLEfecto.setVisible(true);
                     tarjeta.jLEfecto.setSize(20, 20);
@@ -341,8 +339,7 @@ public class SocioBuscarResultado extends javax.swing.JPanel {
         String criterio = SocioBuscarView.getInstance().getIndice();
         metodoDeSocio = new SocioData();
         for(SocioBuscarResultado t : tarjestatic){
-            JOptionPane.showMessageDialog(null, t.jLEfecto.getText());
-                    
+//HACEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEER                    
         }
         //socio = metodoDeSocio.eliminarLector(criterio, valor);
         //jLEstado.setText(socio.isEstado()? "Socio Activo" : "Desasociado");

@@ -4,7 +4,6 @@ import java.awt.FlowLayout;
 import java.awt.LayoutManager;
 import java.util.List;
 import javax.swing.BoxLayout;
-import javax.swing.JOptionPane;
 
 public class SocioBuscarView extends javax.swing.JInternalFrame {
     
