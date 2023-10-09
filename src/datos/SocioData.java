@@ -29,9 +29,10 @@ public class SocioData {
     public void modificarLector(){}
     
     
-    
+    //Método para eliminar un socio
     public Socio eliminarSocio(String criterio, String valor){
-        //PROBLEMA DE CRITERIO SEA ESTADO CON VALOR 1
+        //PROBLEMA DE CRITERIO SEA ESTADO CON VALOR 1 //<-- Comenetario legacy, hasta que no sepa por qué lo voy a dejar
+        //Se toma el valor del JLabel que está a la izquierda del cuadro de texto que dic
         if(criterio.equals("Número de Socio")){
             criterio = "idSocio";
         }else{

@@ -36,7 +36,7 @@ public class SocioBuscarView extends javax.swing.JInternalFrame {
         return this.jTFSocioBuscarIngreseValor;
     }
     
-    //Se cre el método getInstance para el PATRÓN DE DISEÑO Singleton
+    //Se crea el método getInstance para el PATRÓN DE DISEÑO Singleton
     public static SocioBuscarView getInstance() {
         // Si el atributo sbr es nulo, lo creamos con el constructor
         if (sbr == null) {
