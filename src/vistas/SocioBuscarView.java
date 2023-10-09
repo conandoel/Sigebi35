@@ -10,10 +10,10 @@ public class SocioBuscarView extends javax.swing.JInternalFrame {
     //Se crea un ArrayList de tipo String que contiene el criterio de búsqueda
     private final String[] criteriosDeBusqueda = 
     {"Número de Socio", "Nombre", "Domicilio", "Mail", "Estado"};
-    private SocioBuscarResultado resultado;
+    private SocioTarjeta resultado;
     // Creamos un atributo privado y estático de tipo SocioBuscarView
     private static SocioBuscarView sbr;
-    private List <SocioBuscarResultado> resultados;
+    private List <SocioTarjeta> resultados;
     private String valor;
     private String criterio;
     /**
@@ -32,7 +32,7 @@ public class SocioBuscarView extends javax.swing.JInternalFrame {
         return criterio;
     }
     
-    // Creamos el método getInstance
+    //Se cre el método getInstance para el PATRÓN DE DISEÑO Singleton
     public static SocioBuscarView getInstance() {
         // Si el atributo sbr es nulo, lo creamos con el constructor
         if (sbr == null) {
@@ -183,6 +183,7 @@ public class SocioBuscarView extends javax.swing.JInternalFrame {
 
     private void jTFSocioBuscarIngreseValorActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jTFSocioBuscarIngreseValorActionPerformed
         // TODO add your handling code here:
+        this.jBBuscar.requestFocus();
     }//GEN-LAST:event_jTFSocioBuscarIngreseValorActionPerformed
 
     private void jCBSocioBuscarCriterioActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jCBSocioBuscarCriterioActionPerformed
@@ -203,10 +204,14 @@ public class SocioBuscarView extends javax.swing.JInternalFrame {
             valor = jTFSocioBuscarIngreseValor.getText();
             criterio= jCBSocioBuscarCriterio.getSelectedItem().toString();
         
-            resultado = new SocioBuscarResultado();
+            resultado = new SocioTarjeta();
             resultados = resultado.listarSocio(criterio, valor, NADA);
-        
+            
             cargarLasTarjetas();
+            
+            if(SocioTarjeta.getInstance().getEstado().equals("Desasociado")){
+                Principal.getInstance().habilitarModificaciones(true, false);
+            }
         }
         
  
@@ -232,7 +237,7 @@ public class SocioBuscarView extends javax.swing.JInternalFrame {
             // Asignamos el LayoutManager al panel de tarjetas una sola vez
             panelTarjetas.setLayout (layout);
         
-            for(SocioBuscarResultado res : resultados){
+            for(SocioTarjeta res : resultados){
                 res.setVisible(true);
                 // Agregamos cada tarjeta al panel
                 panelTarjetas.add(res);

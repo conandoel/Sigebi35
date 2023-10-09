@@ -1,7 +1,10 @@
 package vistas;
 
 import datos.SocioData;
+import java.awt.Component;
 import java.io.File;
+import java.util.ArrayList;
+import java.util.List;
 
 public class Principal extends javax.swing.JFrame {
     
@@ -235,6 +238,12 @@ public class Principal extends javax.swing.JFrame {
     }
     
     private void cargarBusquedaSocio(){
+        //Con el PATRON DE DISEÑO Singleton se ELIMINA la instancia de las TARJETAS
+        SocioTarjeta.getInstance().removeAll();
+        SocioTarjeta.getInstance().revalidate();
+        SocioTarjeta.getInstance().repaint();
+        SocioTarjeta.getInstance().setVisible(false);
+
         jDPEscritorio.removeAll();
         jDPEscritorio.repaint();
         
@@ -249,7 +258,9 @@ public class Principal extends javax.swing.JFrame {
             primeraVez = false;
             cargarBusquedaSocio();
         }else{
-            SocioBuscarView.getInstance().afectarSocio(NADA);
+            String LIMPIAR = "LIMPIAR";
+            SocioBuscarView.getInstance().afectarSocio(LIMPIAR);
+            //SocioBuscarView.getInstance().afectarSocio(NADA);
             cargarBusquedaSocio();
         }
     }//GEN-LAST:event_jMBuscarSociosActionPerformed
@@ -275,17 +286,28 @@ public class Principal extends javax.swing.JFrame {
         // TODO add your handling code here:
         SocioBuscarView.getInstance().afectarSocio(MODIFICAR);
         if(!(SocioBuscarView.getInstance().getCriterio().equalsIgnoreCase("estado") &&
-                SocioBuscarView.getInstance().getValor().equalsIgnoreCase("0"))){
-            this.habilitarModificaciones(false, true);
+                SocioBuscarView.getInstance().getValor().equalsIgnoreCase("0")) && !SocioTarjeta.getInstance().getEstado().equals("Desasociado")){
+                this.habilitarModificaciones(false, true);
         }else{
-            this.habilitarModificaciones(false, false);
+            if(SocioTarjeta.getInstance().getEstado().equals("Desasociado")){
+                this.habilitarModificaciones(false, false);
+            }else{
+                this.habilitarModificaciones(false, false);
+            }
         }
     }//GEN-LAST:event_jMModificarSociosActionPerformed
 
     private void jMElimSociosActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMElimSociosActionPerformed
         // TODO add your handling code here:
         SocioBuscarView.getInstance().afectarSocio(ELIMINAR);
-        this.habilitarModificaciones(true, false);
+        if(!(SocioBuscarView.getInstance().getCriterio().equalsIgnoreCase("estado") &&
+                SocioBuscarView.getInstance().getValor().equalsIgnoreCase("0"))){
+            this.habilitarModificaciones(true, false);
+        }else{
+            this.habilitarModificaciones(false, false);
+        }
+        //SocioBuscarView.getInstance().afectarSocio(ELIMINAR);
+        //this.habilitarModificaciones(true, false);
     }//GEN-LAST:event_jMElimSociosActionPerformed
 
     /**
