@@ -80,7 +80,7 @@ public class SocioTarjeta extends javax.swing.JPanel {
         //Se toma la instancia de esta TARJETA para PATRÓN DE DISEÑO Singleton
         socioTarjeta = this;
     }
-    
+    //Getter que devuelve "Desasociado" o "Socio Activo". Parte del Singleton
     public String getEstado(){
         return this.jLEstado.getText();
     }
@@ -503,57 +503,58 @@ public class SocioTarjeta extends javax.swing.JPanel {
                 
             }
         }
-        
-        //
-        //jLEstado.setText(socio.isEstado()? "Socio Activo" : "Desasociado");
+        //jLEstado.setText(socio.isEstado()? "Socio Activo" : "Desasociado"); // NO SÉ QUÉ HACE ESTO AQUÍ. REVISAR. ESTABA COMENTADO.
     }//GEN-LAST:event_jLEfectoMouseClicked
-
+    //Manejador que escucha cuándo se clickea sobre el JLabel de campos de la TARJETA
     private void jLNumSocioMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jLNumSocioMouseClicked
-        // TODO add your handling code here:
-        
+        //Cuando se presiona el click sobre el JLabel del campo Socio número en la TARJETA se llama al método indicado.
         preEditarCamposSocio(this.jLNumSocio);
-        
-        
     }//GEN-LAST:event_jLNumSocioMouseClicked
-
+    //Manejador que escucha cuándo se clickea sobre el JLabel de campos de la TARJETA
     private void jLFotoMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jLFotoMouseClicked
+        //Cuando se presiona el click sobre el JLabel del cuadro que tiene la foto de perfil en la TARJETA se llama al método indicado.
         preEditarCamposSocio(this.jLFoto);
     }//GEN-LAST:event_jLFotoMouseClicked
-
+    //Manejador que escucha cuándo se clickea sobre el JLabel de campos de la TARJETA
     private void jLApeMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jLApeMouseClicked
+        //Cuando se presiona el click sobre el JLabel del campo Apellido en la TARJETA se llama al método indicado.
         preEditarCamposSocio(this.jLApe);
     }//GEN-LAST:event_jLApeMouseClicked
-
+    //Manejador que escucha cuándo se clickea sobre el JLabel de campos de la TARJETA
     private void jLFecBajaMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jLFecBajaMouseClicked
+        //Cuando se presiona el click sobre el JLabel del campo Fecha de Baja en la TARJETA se llama al método indicado.
         preEditarCamposSocio(this.jLFecBaja);
     }//GEN-LAST:event_jLFecBajaMouseClicked
-
+    //Manejador que escucha cuándo se clickea sobre el JLabel de campos de la TARJETA
     private void jLNomMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jLNomMouseClicked
+        //Cuando se presiona el click sobre el JLabel del campo Nombre en la TARJETA se llama al método indicado.
         preEditarCamposSocio(this.jLNom);
     }//GEN-LAST:event_jLNomMouseClicked
-
+    //Manejador que escucha cuándo se clickea sobre el JLabel de campos de la TARJETA
     private void jLDomMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jLDomMouseClicked
+        //Cuando se presiona el click sobre el JLabel del campo Domicilio en la TARJETA se llama al método indicado.
         preEditarCamposSocio(this.jLDom);
     }//GEN-LAST:event_jLDomMouseClicked
-
+    //Manejador que escucha cuándo se clickea sobre el JLabel de campos de la TARJETA
     private void jLEstMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jLEstMouseClicked
+        //Cuando se presiona el click sobre el JLabel del campo Estado en la TARJETA se llama al método indicado.
         preEditarCamposSocio(this.jLEst);
     }//GEN-LAST:event_jLEstMouseClicked
-
+    //Manejador que escucha cuándo se clickea sobre el JLabel de campos de la TARJETA
     private void jLFecAltaMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jLFecAltaMouseClicked
+        //Cuando se presiona el click sobre el JLabel del campo Fecha de Alta en la TARJETA se llama al método indicado.
         preEditarCamposSocio(this.jLFecAlta);
     }//GEN-LAST:event_jLFecAltaMouseClicked
-
+    //Manejador que escucha cuándo se clickea sobre el JLabel de campos de la TARJETA
     private void jLEmMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jLEmMouseClicked
+        //Cuando se presiona el click sobre el JLabel del campo E-mail en la TARJETA se llama al método indicado.
         preEditarCamposSocio(this.jLEm);
     }//GEN-LAST:event_jLEmMouseClicked
     
     //Manejador de eventos para cuando se suelta una tecla en el JLabel jTFSocioMod
     public void jTFSocioModKeyReleased(java.awt.event.KeyEvent evt) {                                         
-        // TODO add your handling code here:
-        
+        //Al largarse la tecla se llama al método indicado (Esto está en construcción)
         this.modificarTextField();
-
     }
     
     public void jTFSocioModActionPerformed(java.awt.event.ActionEvent evt) {                                                           
@@ -641,7 +642,7 @@ public class SocioTarjeta extends javax.swing.JPanel {
         }
         
     }
-    
+    //EN CONSTRUCCIÓN !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
     public void modificarTextField(){
         if(this.jTFSocioMod.getText().length() == 4){
             this.jLABM.setText("PRESIONE ENTER PARA REALIZAR LA MODIFICACIÓN");

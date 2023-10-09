@@ -8,13 +8,16 @@ import javax.swing.JTextField;
 
 public class SocioBuscarView extends javax.swing.JInternalFrame {
     
-    //Se crea un ArrayList de tipo String que contiene el criterio de búsqueda
+    //Se crea un ArrayList de tipo String que contiene el criterio de búsqueda para rellenar JLabel sobre el campo de texto de la VISTA BUSCAR SOCIO
     private final String[] criteriosDeBusqueda = 
     {"Número de Socio", "Nombre", "Domicilio", "Mail", "Estado"};
-    private SocioTarjeta resultado;
-    // Creamos un atributo privado y estático de tipo SocioBuscarView
-    private static SocioBuscarView sbr;
+    //Se declara un List para guardar las TARJETAS
     private List <SocioTarjeta> resultados;
+    //Se declara una instancia de la TARJETA
+    private SocioTarjeta resultado;
+    //Se crea un atributo privado y estático de tipo SocioBuscarView para utilizar el PATRÓN DE DISEÑO Singleton
+    private static SocioBuscarView sbr;
+    //Variables para almacenar tanto criterio como valor, por ejemplo "idSocio" y "5560"
     private String valor;
     private String criterio;
     /**
@@ -25,40 +28,46 @@ public class SocioBuscarView extends javax.swing.JInternalFrame {
         jCBCargarSocioBuscarCriterios();
         sbr = this;
     }
-    
+    //Getter para revisar el valor dado en la búsqueda
     public String getValor(){
         return valor;
     }
+    //Getter para revisar el criterio dado en la búsqueda
     public String getCriterio(){
         return criterio;
     }
+    //Por alguna razón que no recuerdo, parece ser necesario acceder al cuadro de búsqueda desde otras clases
     public JTextField getCuadroDeBusqueda(){
         return this.jTFSocioBuscarIngreseValor;
     }
     
     //Se crea el método getInstance para el PATRÓN DE DISEÑO Singleton
     public static SocioBuscarView getInstance() {
-        // Si el atributo sbr es nulo, lo creamos con el constructor
+        //Si el atributo sbr es nulo, lo creamos con el constructor
         if (sbr == null) {
             sbr = new SocioBuscarView();
         }
-        // Devolvemos el atributo sbr
+        //Se devuelve el atributo sbr
         return sbr;
     }
+    //Método que comunica criterio y valor elegido en la VISTA para ser utilizado por el método listarSocio para crear las TARJETAS.
     public void afectarSocio(String EFECTO){
-        
+        //Se envía el pedido de rediseño de TARJETAS para ver si estarán en módo "BUSCAR", "ELIMINAR", o "MODIFICAR"
         resultados = resultado.listarSocio(criterio, valor, EFECTO);
-        
+        //Se recargan las TARJETAS
         cargarLasTarjetas();
     }
-
+    //Método para modificar la VISTA SocioBuscarView para que se adapte al modo "BUSCAR", "ELIMINAR", o "MODIFICAR"
     public void actualizarSeccion(String SECCION){
+        //Con el PATRÓN DE DISEÑO Singleton se actualiza el JLabel de la VISTA BUSCAR SOCIO (No creo que sea necesario Singleton aquí. Ver por qué lo hice. Quizá pensando en futuras vistas)
         SocioBuscarView.getInstance().jLBuscarSocios.setText("Modificar socios");
+        //Según la SECCION que va a tomar en realidad el valor de "EFECTO" que puede ser "MODIFICAR", "ELIMINAR", "LIMPIAR" (Aún no hace nada eso), y "NADA"
         switch(SECCION){
             case "MODIFICAR" -> this.jLBuscarSocios.setText("Modificar socios");
             case "ELIMINAR" -> this.jLBuscarSocios.setText("Eliminar socios");
             default -> this.jLBuscarSocios.setText("Buscar socios");
         }
+        //Cada case es para modificar el JLabel por tanto según sea el caso, la VISTA BUSCAR SOCIO será "Buscar socios" o "Eliminar Socios", etc
     }
 
     /**
@@ -184,35 +193,38 @@ public class SocioBuscarView extends javax.swing.JInternalFrame {
 
         pack();
     }// </editor-fold>//GEN-END:initComponents
-
+    //Maneja el evento ENTER dentro del JTextField que tiene el valor de búsqueda
     private void jTFSocioBuscarIngreseValorActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jTFSocioBuscarIngreseValorActionPerformed
-        // TODO add your handling code here:
+        //Cuando se presiona ENTER en el campo de texto, el JButton que se encarga de confirmar la búsqueda gana el FOCO
         this.jBBuscar.requestFocus();
     }//GEN-LAST:event_jTFSocioBuscarIngreseValorActionPerformed
-
+    //Manejador que escucha la elección de un elemento dentro del JComboBox de la VISTA BUSCAR SOCIO
     private void jCBSocioBuscarCriterioActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jCBSocioBuscarCriterioActionPerformed
-        // TODO add your handling code here:
-        
+        //Se guarda en una variable el valor String del item seleccionado en el JComboBox, por ejemplo "Número de Socio"
         String seleccion = jCBSocioBuscarCriterio.getSelectedItem().toString();
-        
+        //Se adapta el JLabel que apunta qué debe hacer el usuario. Por ejemplo "Ingrese el " + "Número de Socio":
         jLSocioBuscarIngreseValor.setText("Ingrese el " + seleccion);
     }//GEN-LAST:event_jCBSocioBuscarCriterioActionPerformed
-
+    //Método manejador del BOTÓN que realiza la confirmación de las búsquedas
     private void jBBuscarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jBBuscarActionPerformed
+        //Si el campo de texto en donde se ingresa el valor está vacío, el campo de texto vuelve a tomar el foco, y el JLabel que informa, hace el informe correspondiente
+        //CREO QUE HAY QUE MANEJAR OTRAS POSIBILIDADES - VER POR QUÉ OTROS INFORMES ESTÁN EN OTROS MÉTODOS
         if(this.jTFSocioBuscarIngreseValor.getText().equals("")){
             this.jTFSocioBuscarIngreseValor.requestFocus();
             this.jLInfo.setText("El campo no debe estar vacío");
         }else{
+            //Si hay algo escrito aparentemente se realiza la búsqueda. Se crea una CONSTANTE con valor String "NADA"
             final String NADA = "NADA";
-
+            //Se toman el valor y criterio de búsqueda de la VISTA BUSCAR SOCIO
             valor = jTFSocioBuscarIngreseValor.getText();
             criterio= jCBSocioBuscarCriterio.getSelectedItem().toString();
-        
+            //Se instancia una TARJETA (su molde)
             resultado = new SocioTarjeta();
+            //Se guardan en el LIST las TARJETAS devueltas con la BÚSQUEDA ya que NADA es para BÚSQUEDA
             resultados = resultado.listarSocio(criterio, valor, NADA);
-            
+            //Se cargan las TARJETAS en el contenedor para que las vea el usuario
             cargarLasTarjetas();
-            
+            //Se maneja chequeando si el JLabel que tiene el valor del estado dice "Desasociado" para condicionar el acceso a la eliminación desde el MENÚ
             if(SocioTarjeta.getInstance().getEstado().equals("Desasociado")){
                 Principal.getInstance().habilitarModificaciones(true, false);
             }
@@ -220,45 +232,50 @@ public class SocioBuscarView extends javax.swing.JInternalFrame {
         
  
     }//GEN-LAST:event_jBBuscarActionPerformed
-    
+    //Este método le da a las TARJETAS la disposición con las que se mostrarán según la cantidad
     private void cargarLasTarjetas(){
+        //Se crea una instancia de DropShadowPanel y se le pasa el grosor de la sombra con valor 20px
         DropShadowPanel panelTarjetas = new DropShadowPanel(20);
-        // Creamos una variable para almacenar el LayoutManager elegido
+        //Se crea una variable para almacenar el LayoutManager elegido
         LayoutManager layout;
-        
-        if(resultados.size()>1){
-            // Usamos un BoxLayout vertical
+        //Si la cantidad de TARJETAS que arroje la búsqueda es mayor a 1
+        if(resultados.size() > 1){
+            //Se aplica un BoxLayout vertical
             layout = new BoxLayout (panelTarjetas, BoxLayout.Y_AXIS);
+        //Si el resultado de la búsqueda arroja sólo una TARJETA    
         }else if(resultados.size()==1){
-            // Usamos un FlowLayout con alineación a la izquierda
+            //Se utiliza un FlowLayout con alineación a la izquierda (Porque sino se pone en el centro la TARJETA en lugar de arriba)
             layout = new FlowLayout (FlowLayout.LEFT);
+        //Si no regresaron TARJETAS entonces se informa mediante un JLabel ubicado debajo del JTextField para búsqueda, y el layout queda en null
         }else{
             this.jLInfo.setText("La búsqueda no arrojó resultados");
             layout = null;
         }
-        
+        //Si el layout es diferente de null, o sea que se han devuelto TARJETAS
         if(layout!=null){
-            // Asignamos el LayoutManager al panel de tarjetas una sola vez
+            //Se aplica el LayoutManager al panel de TARJETAS una sola vez
             panelTarjetas.setLayout (layout);
-        
+            //Se itera por las TARJETAS y se les da visibilidad ---PROBABLE SOLUCIÓN AL PROBLEMA DE BORRADO DE MÚLTIPLES TARJETAS
             for(SocioTarjeta res : resultados){
                 res.setVisible(true);
-                // Agregamos cada tarjeta al panel
+                //Se agrega cada TARJETA al panel
                 panelTarjetas.add(res);
             }
-            // Asignamos el panel como la vista del JScrollPane
+            //Se asigna el panel como la vista del JScrollPane
             jSPResultados.setViewportView(panelTarjetas);
-            //CHEQUEA SI LAS TARJETAS ESTÁN BUSCADAS POR ESTADO CON VALOR 0
+            //Chequea si las TARJETAS están buscadas por estado con valor 0 (DEBERÍA MANEJARSE CON LOS ATRIBUTOS "criterio" y "valor". ADAPTAR)
             if(criterio.equalsIgnoreCase("estado") && valor.equals("0")){
+                //Utilizando el PATRÓN DE DISEÑO Singleton se permite MODIFICAR desde el menú PRINCIPAL pero no ELIMINAR
                 Principal.getInstance().habilitarModificaciones(true, false);
             }else{
+                //Se permiten tanto MODIFICAR como ELIMINAR ya que es un socio activo
                 Principal.getInstance().habilitarModificaciones(true, true);
             }
-            
-            
+            //El JLabel que está debajo del cuadro de búsqueda que sirve para informar si las búsquedas están bien ejecutadas se vacía
             jLInfo.setText("");
         }
     }
+    //Método que carga el JComboBox de la VISTA BUSCAR SOCIO utilizando el arreglo de String criteriosDeBusqueda (DEBERÍA HACERSE PIDIENDO A BASE DE DATOS y MODIFICANDO EL idSocio)
     private void jCBCargarSocioBuscarCriterios(){
         for(String criterioLocal : criteriosDeBusqueda){
             jCBSocioBuscarCriterio.addItem(criterioLocal);

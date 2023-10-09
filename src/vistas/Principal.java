@@ -1,14 +1,11 @@
 package vistas;
 
 import datos.SocioData;
-import java.awt.Component;
 import java.io.File;
-import java.util.ArrayList;
-import java.util.List;
 import javax.swing.JTextField;
 
 public class Principal extends javax.swing.JFrame {
-    
+    //Constantes para manejar la creación de TARJETAS
     private static final String MODIFICAR = "MODIFICAR";
     private static final String ELIMINAR = "ELIMINAR";
     private static final String NADA = "NADA";
@@ -19,7 +16,9 @@ public class Principal extends javax.swing.JFrame {
      */
     public Principal() {
         initComponents();
+        //Se guarda en pr la instancia del PROGRAMA para utilizar el PATRÓN DE DISEÑO Singleton
         pr = this;
+        //Se crea un manejador de la lógica. No recuerdo ni sé por qué lo creo aquí
         SocioData sd = new SocioData();
         //sd.insertarImagenesSocio();   NO UTILIZAR ! ! ! ! ! ! ! ! ! (ESTO SE USA UNA SOLA VEZ PARA CARGAR LAS IMÁGENES EN LA BASE DE DATOS. DESPUÉS ES REDUNDANTE. POSIBLEMENTE USARÉ PARA CREAR NUEVO SOCIO
         //Se DESHABILITA tanto la posibilidad de MODIFICAR como ELIMINAR socios ya que aún no hay búsqueda. Podría ser algo más elegante que esto
@@ -37,7 +36,7 @@ public class Principal extends javax.swing.JFrame {
         // Devolvemos el atributo sbr
         return pr;
     }
-    
+    //Método para chequear si existen las fotos de perfil en la PC
     private void chequearSiYaHayImagenes(SocioData check){
         File imagen = new File("./src/vistas/imagenes/foto_5556.jpg");
         //Se usa el método exists para verificar si el ARCHIVO NO existe
@@ -318,13 +317,11 @@ public class Principal extends javax.swing.JFrame {
     private void jMElimSociosActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMElimSociosActionPerformed
         //Utilizando el PATRÓN DE DISEÑO Singleton se envía que se REIMPRIMAN las TARJETAS con ÍCONO y OTROS de ELIMINAR
         SocioBuscarView.getInstance().afectarSocio(ELIMINAR);
-        //PROBABLEMENTE ESTE CÓDIGO ESTÁ DE MÁS. NO HICE LAS PRUEBAS SUFICIENTES COMO PARA ELIMINARLO
-        /*if(!(SocioBuscarView.getInstance().getCriterio().equalsIgnoreCase("estado") &&
+        //Si el criterio NO es estado Y al mismo tiempo el valor NO es 0 se habilita la MODIFICACIÓN y se deshabilita la ELIMINACIÓN pues ya está en modo ELIMINAR
+        if(!(SocioBuscarView.getInstance().getCriterio().equalsIgnoreCase("estado") &&
                 SocioBuscarView.getInstance().getValor().equalsIgnoreCase("0"))){
             this.habilitarModificaciones(true, false);
-        }else{
-            this.habilitarModificaciones(false, false);
-        }*/
+        }
     }//GEN-LAST:event_jMElimSociosActionPerformed
 
     /**
