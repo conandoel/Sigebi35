@@ -35,7 +35,13 @@ public class SocioTarjeta extends javax.swing.JPanel {
     private static SocioTarjeta socioTarjeta;
     
     private SocioData metodoDeSocio;
+    //Cuadro de texto que emerge al modificar un campo de la TARJETA
     private JTextField jTFSocioMod;
+    //JLabel temporal que va a guardar el JLabel con el nombre del campo
+    private JLabel campoAModificar;
+    //JLabel temporal qeu va a guardar el JLabel con el valor del campo
+    private JLabel valorAModificar;
+    
     private JComboBox <String> jCBEstado;
     private String numeroSocioAnterior;
     private Socio socio;
@@ -508,60 +514,81 @@ public class SocioTarjeta extends javax.swing.JPanel {
     //Manejador que escucha cuándo se clickea sobre el JLabel de campos de la TARJETA
     private void jLNumSocioMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jLNumSocioMouseClicked
         //Cuando se presiona el click sobre el JLabel del campo Socio número en la TARJETA se llama al método indicado.
-        preEditarCamposSocio(this.jLNumSocio);
+        campoAModificar = this.jLNumSocio;
+        valorAModificar = this.jLNumeroDeSocio;
+        preEditarCamposSocio(campoAModificar);
     }//GEN-LAST:event_jLNumSocioMouseClicked
     //Manejador que escucha cuándo se clickea sobre el JLabel de campos de la TARJETA
     private void jLFotoMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jLFotoMouseClicked
         //Cuando se presiona el click sobre el JLabel del cuadro que tiene la foto de perfil en la TARJETA se llama al método indicado.
-        preEditarCamposSocio(this.jLFoto);
+        campoAModificar = this.jLFoto;
+        //valorAModificar = this.jLFoto;
+        valorAModificar = new JLabel();
+        preEditarCamposSocio(campoAModificar); //CREO QUE AÚN NO TIENE VALOR. PASO HARDCODE POR ESO MISO ---> EN CONSTRUCCIÓN!!!!!!!!!!!!!!!!!!!!!!
     }//GEN-LAST:event_jLFotoMouseClicked
     //Manejador que escucha cuándo se clickea sobre el JLabel de campos de la TARJETA
     private void jLApeMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jLApeMouseClicked
         //Cuando se presiona el click sobre el JLabel del campo Apellido en la TARJETA se llama al método indicado.
-        preEditarCamposSocio(this.jLApe);
+        campoAModificar = this.jLApe;
+        valorAModificar = this.jLApellido;
+        preEditarCamposSocio(campoAModificar);
     }//GEN-LAST:event_jLApeMouseClicked
     //Manejador que escucha cuándo se clickea sobre el JLabel de campos de la TARJETA
     private void jLFecBajaMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jLFecBajaMouseClicked
         //Cuando se presiona el click sobre el JLabel del campo Fecha de Baja en la TARJETA se llama al método indicado.
-        preEditarCamposSocio(this.jLFecBaja);
+        campoAModificar = this.jLFecBaja;
+        valorAModificar = this.jLFechaDeBaja;
+        preEditarCamposSocio(campoAModificar);
     }//GEN-LAST:event_jLFecBajaMouseClicked
     //Manejador que escucha cuándo se clickea sobre el JLabel de campos de la TARJETA
     private void jLNomMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jLNomMouseClicked
         //Cuando se presiona el click sobre el JLabel del campo Nombre en la TARJETA se llama al método indicado.
-        preEditarCamposSocio(this.jLNom);
+        campoAModificar = this.jLNom;
+        valorAModificar = this.jLNombre;
+        preEditarCamposSocio(campoAModificar);
     }//GEN-LAST:event_jLNomMouseClicked
     //Manejador que escucha cuándo se clickea sobre el JLabel de campos de la TARJETA
     private void jLDomMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jLDomMouseClicked
         //Cuando se presiona el click sobre el JLabel del campo Domicilio en la TARJETA se llama al método indicado.
-        preEditarCamposSocio(this.jLDom);
+        campoAModificar = this.jLDom;
+        valorAModificar = this.jLDomicilio;
+        preEditarCamposSocio(campoAModificar);
     }//GEN-LAST:event_jLDomMouseClicked
     //Manejador que escucha cuándo se clickea sobre el JLabel de campos de la TARJETA
     private void jLEstMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jLEstMouseClicked
         //Cuando se presiona el click sobre el JLabel del campo Estado en la TARJETA se llama al método indicado.
-        preEditarCamposSocio(this.jLEst);
+        campoAModificar = this.jLEst;
+        valorAModificar = this.jLEstado;
+        preEditarCamposSocio(campoAModificar);
     }//GEN-LAST:event_jLEstMouseClicked
     //Manejador que escucha cuándo se clickea sobre el JLabel de campos de la TARJETA
     private void jLFecAltaMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jLFecAltaMouseClicked
         //Cuando se presiona el click sobre el JLabel del campo Fecha de Alta en la TARJETA se llama al método indicado.
-        preEditarCamposSocio(this.jLFecAlta);
+        campoAModificar = this.jLFecAlta;
+        valorAModificar = this.jLFechaDeAlta;
+        preEditarCamposSocio(campoAModificar);
     }//GEN-LAST:event_jLFecAltaMouseClicked
     //Manejador que escucha cuándo se clickea sobre el JLabel de campos de la TARJETA
     private void jLEmMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jLEmMouseClicked
         //Cuando se presiona el click sobre el JLabel del campo E-mail en la TARJETA se llama al método indicado.
-        preEditarCamposSocio(this.jLEm);
+        campoAModificar = this.jLEm;
+        valorAModificar = this.jLEmail;
+        preEditarCamposSocio(campoAModificar);
     }//GEN-LAST:event_jLEmMouseClicked
     
     //Manejador de eventos para cuando se suelta una tecla en el JLabel jTFSocioMod
     public void jTFSocioModKeyReleased(java.awt.event.KeyEvent evt) {                                         
         //Al largarse la tecla se llama al método indicado (Esto está en construcción)
-        this.modificarTextField();
+        this.modificarTextField(evt, this.campoAModificar, this.valorAModificar);
     }
-    
+    //Manejador del evento ENTER sobre el JTextField que surje en el modo MODIFICAR --- EN CONSTRUCCIÓN!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!! NO SE VA A UTILIZAR CREOOOO
     public void jTFSocioModActionPerformed(java.awt.event.ActionEvent evt) {                                                           
-        // TODO add your handling code here:
+        //Se pone dentro de un try para manejar la excepción de que pongan letras en lugar de números
+        /*int forzarNullPointerException;
         try{
             if(this.jTFSocioMod.getText().length() == 4){
-                this.jLNumeroDeSocio.setText(jTFSocioMod.getText());
+                forzarNullPointerException = Integer.valueOf(jTFSocioMod.getText());
+                this.jLNumeroDeSocio.setText(Integer.toString(forzarNullPointerException));
                 this.jTFSocioMod.setVisible(false);
             }else if(this.jTFSocioMod.getText().length() == 0){
                 this.jLNumeroDeSocio.setText(placeholder);
@@ -571,7 +598,7 @@ public class SocioTarjeta extends javax.swing.JPanel {
             }
         }catch(NumberFormatException ex){
             JOptionPane.showMessageDialog(this, "Debe ingresar un número de cuatro cifras");
-        }
+        }*/
     }   
     
     public void jTFSocioModMouseClicked(java.awt.event.MouseEvent evt) {                                  
@@ -643,40 +670,90 @@ public class SocioTarjeta extends javax.swing.JPanel {
         
     }
     //EN CONSTRUCCIÓN !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
-    public void modificarTextField(){
-        if(this.jTFSocioMod.getText().length() == 4){
-            this.jLABM.setText("PRESIONE ENTER PARA REALIZAR LA MODIFICACIÓN");
+    public void modificarTextField(KeyEvent e, JLabel campoMod, JLabel valorMod){
+        //Se guarda el código de la tecla presionada y se asigna una constante para el código del ENTER
+        int tecla = e.getKeyCode();
+        final int ENTER = 10;
+        
+        //Por comodidad y legibilidad se guarda en una variable al JTextFiel que sirve para MODIFICAR las TARJETAS
+        JTextField valoresModificados = jTFSocioMod;
+        //Se guardan en dos variables tanto los valores que se van ingresando cada vez que se ejecuta este método como la cantidad de caracteres que tiene
+        String caracteresIngresados = this.jTFSocioMod.getText();
+        int cantidadDeCaracteres = this.jTFSocioMod.getText().length();
+        //Se guardan en dos variables tanto el texto del campo (Por ejemplo "Apellido:") como el texto de los valores (Por ejemplo "Domínguez")
+        String campo = campoMod.getText();
+        String valorDelCampo = valorMod.getText();
+
+        //Si se presionó la tecla ENTER en el JTextField que sirve para MODIFICAR
+        if(tecla == ENTER){
+            //Si el campo que se está afectando es "Socio número:" (A esto hay que manejarlo de manera más elegante. Quizá haciendo referencia al arreglo del ComboBox
+            if(campo.equals("Socio número:")){
+                //Se pone dentro de un try para manejar la excepción de que pongan letras en lugar de números y para ello creamos una variable entera (Puede mejorarse el nombre)
+                int forzarNullPointerException;
+                
+                try{
+                    //Si la cantidad de caracteres es igual a 4 (ESTO ES SÓLO PARA EL NÚMERO DE SOCIO)
+                    if(cantidadDeCaracteres == 4){
+                        //Se fuerza la excepción pasando a entero el número ingresado como cadena
+                        forzarNullPointerException = Integer.valueOf(campo);
+                        //Si no hay NumberFormatException entonces se establece en el JLabel a MODIFICAR el valor String del número de socio y luego se quita de pantalla el JTextField
+                        valorMod.setText(Integer.toString(forzarNullPointerException));
+                        valoresModificados.setVisible(false);
+                    //Si se ha apretado ENTER y dentro del JTextField no hay nada, entonces se establece el valor previo y luego se quita de pantalla el JTextField    
+                    }else if(this.jTFSocioMod.getText().length() == 0){
+                        valorMod.setText(placeholder);
+                        valoresModificados.setVisible(false);
+                    }else{
+                        //Si se presiona ENTER y no es ni 0 ni 4 la cantidad de caracteres en el JTextField, entonces se informa en un JLabel la situación
+                        this.jLABM.setText("Debe ser un número entero de 4 cifras");
+                    }
+                }catch(NumberFormatException ex){
+                    //Se maneja la excepción utilizando un JLabel
+                    this.jLABM.setText("Se han ingresado caracteres no válidos");
+                }
+            }else{
+            }
+        //Si la tecla presionada NO es ENTER
         }else{
-            this.jLABM.setText("M");
-        }
-        switch(this.jTFSocioMod.getText().length()){
-            case 0:
-                System.out.println(jTFSocioMod.getText().length());
-                this.jLNumeroDeSocio.setText(placeholder.substring(0, 4));
-                this.repaint();
-                break;
-            case 1:
-                System.out.println(jTFSocioMod.getText().length());
-                this.jLNumeroDeSocio.setText("  " + placeholder.substring(0, 3));
-                this.repaint();
-                break;
-            case 2:
-                System.out.println(jTFSocioMod.getText().length());
-                this.jLNumeroDeSocio.setText("    " + placeholder.substring(0, 2));
-                this.repaint();
-                break;
-            case 3:
-                this.jLNumeroDeSocio.setText("      " + placeholder.substring(0, 1));
-                this.repaint();
-                break;
-            case 4:
-                this.jLNumeroDeSocio.setText(" ");
-                this.repaint();
-                break;
-            case 5:
-                this.jTFSocioMod.setText(this.jTFSocioMod.getText().substring(0, 4));
-                JOptionPane.showMessageDialog(this, "No se admite un número mayor a: CONSEGUIR NÚMERO DE SOCIO MAYOR + 1");
-                break;
+            //Si el campo es "Socio número:"
+            if(campo.equals("Socio número:")){
+                //Si la cantidad de caracteres llega a 4 (Esto aplica para "Socio número") un JLabel informa que se presione ENTER para pedir confirmación de cambios
+                if(cantidadDeCaracteres == 4){
+                    //Sólo chequea e informa el texto de abajo. El manejador de eventos del JTextField va a ser el encargado de pedir confirmación de UPDATE
+                    this.jLABM.setText("Presione ENTER para realizar la MODIFICACIÓN");
+                }else{
+                    //Esto probablemente sea para manejar comportamientos
+                    this.jLABM.setText("M");
+                }
+                //Este switch se encarga por medio de unas substring y espaciado, de hacer que el número de socio anterior se borre y complete a medida que manipulamos el JTextField para MODIFICAR
+                switch(this.jTFSocioMod.getText().length()){
+                    case 0:
+                        this.jLNumeroDeSocio.setText(placeholder.substring(0, 4));
+                        this.repaint();
+                        break;
+                    case 1:
+                        this.jLNumeroDeSocio.setText("  " + placeholder.substring(1, 4));
+                        this.repaint();
+                        break;
+                    case 2:
+                        this.jLNumeroDeSocio.setText("    " + placeholder.substring(2, 4));
+                        this.repaint();
+                        break;
+                    case 3:
+                        this.jLNumeroDeSocio.setText("      " + placeholder.substring(3, 4));
+                        this.repaint();
+                        break;
+                    case 4:
+                        this.jLNumeroDeSocio.setText(" ");
+                        this.repaint();
+                        break;
+                    //En este case se cerciora que la cantidad de caracteres no sea mayor a 4 forzando un borrado del quinto caracter y enviando un molesto aviso de JOptionPane
+                    case 5:
+                        this.jTFSocioMod.setText(this.jTFSocioMod.getText().substring(0, 4));
+                        JOptionPane.showMessageDialog(this, "No se admite un número mayor a: CONSEGUIR NÚMERO DE SOCIO MAYOR + 1"); //Aquí hay que chequear con la BASE DE DATOS cuál es el último idSocio
+                        break;
+                }
+            }
         }
     }
 

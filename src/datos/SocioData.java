@@ -26,7 +26,7 @@ public class SocioData {
     }
     
     public void agregarLector(){}
-    public void modificarLector(){}
+    public void modificarSocio(){}
     
     
     //Método para eliminar un socio
