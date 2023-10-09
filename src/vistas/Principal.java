@@ -5,6 +5,7 @@ import java.awt.Component;
 import java.io.File;
 import java.util.ArrayList;
 import java.util.List;
+import javax.swing.JTextField;
 
 public class Principal extends javax.swing.JFrame {
     
@@ -20,12 +21,14 @@ public class Principal extends javax.swing.JFrame {
         initComponents();
         pr = this;
         SocioData sd = new SocioData();
-        //sd.insertarImagenesSocio();   NO UTILIZAR ! ! ! ! ! ! ! ! !
+        //sd.insertarImagenesSocio();   NO UTILIZAR ! ! ! ! ! ! ! ! ! (ESTO SE USA UNA SOLA VEZ PARA CARGAR LAS IMÁGENES EN LA BASE DE DATOS. DESPUÉS ES REDUNDANTE. POSIBLEMENTE USARÉ PARA CREAR NUEVO SOCIO
+        //Se DESHABILITA tanto la posibilidad de MODIFICAR como ELIMINAR socios ya que aún no hay búsqueda. Podría ser algo más elegante que esto
         habilitarModificaciones(false, false);
+        //Se llama al método encargado de chequear si las imágenes ya están en la PC o si hay que crearlas
         chequearSiYaHayImagenes(sd);
     }
     
-    // Creamos el método getInstance
+    //Se crea el método getInstance
     public static Principal getInstance() {
         // Si el atributo sbr es nulo, lo creamos con el constructor
         if (pr == null) {
@@ -37,9 +40,9 @@ public class Principal extends javax.swing.JFrame {
     
     private void chequearSiYaHayImagenes(SocioData check){
         File imagen = new File("./src/vistas/imagenes/foto_5556.jpg");
-        // Usar el método exists para verificar si el archivo existe
+        //Se usa el método exists para verificar si el ARCHIVO NO existe
         if (!imagen.exists()) {
-            //Cargar imágenes en la PC
+            //Si NO EXISTE, se cargan las imágenes en la PC
             check.obtenerImagenesSocio();
         }
     }
@@ -231,36 +234,46 @@ public class Principal extends javax.swing.JFrame {
 
         pack();
     }// </editor-fold>//GEN-END:initComponents
-    
+    //Método encargado de deshabilitar y habilitar la MODIFICACIÓN y ELIMINACIÓN desde el menú
     public void habilitarModificaciones(boolean habilitarMod, boolean habilitarElim){
         this.jMModificarSocios.setEnabled(habilitarMod);
         this.jMElimSocios.setEnabled(habilitarElim);
     }
     
+    //Método que sólo debería cargar la VISTA de BUSCAR SOCIOS, pero está tratando de borrar el muestreo de TARJETAS al recargar una nueva búsqueda de socios
     private void cargarBusquedaSocio(){
-        //Con el PATRON DE DISEÑO Singleton se ELIMINA la instancia de las TARJETAS
+        //Con el PATRON DE DISEÑO Singleton se ELIMINA la instancia de las TARJETAS (SOLO UNA TARJETA. PARA MÚLTIPLES TARJETAS AÚN NO DOY EN EL CLAVO
         SocioTarjeta.getInstance().removeAll();
         SocioTarjeta.getInstance().revalidate();
         SocioTarjeta.getInstance().repaint();
         SocioTarjeta.getInstance().setVisible(false);
-
+        //Se limpia el DesktopPane (QUIZÁ LA UBICACIÓN o el JPANEL panel tengan que ver CON EL PROBLEMA DE LIMPIADO DE MÚLTIPLES TARJETAS
         jDPEscritorio.removeAll();
         jDPEscritorio.repaint();
-        
+        //Se le da visibiilidad a la instancia de la VISTA de BUSCAR SOCIOS (Chequear si es necesario)
         SocioBuscarView.getInstance().setVisible(true);
-
+        //Se agrega la VISTA al CONTENEDOR y luego se pone al frente
         jDPEscritorio.add(SocioBuscarView.getInstance());
         jDPEscritorio.moveToFront(SocioBuscarView.getInstance());
     }
+    //Manejador de eventos del menú al elegir "Buscar -> Socios"
     private void jMBuscarSociosActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMBuscarSociosActionPerformed
-        // TODO add your handling code here:
+        //Si es la primera vez "primeraVez" tiene valor "true"
         if(primeraVez){
+            //Se guarda el CUADRO DE BÚSQUEDA utilizando el PATRÓN DE DISEÑO Singleton
+            JTextField cuadroDeBusqueda = SocioBuscarView.getInstance().getCuadroDeBusqueda();
+            //Aquí "primeraVez" pasa a tener valor "false" para que a la segunda vez en adelante se limpie el contenedor de TARJETAS
             primeraVez = false;
+            //Aquí se llama al método que carga la VISTA de BUSCAR SOCIOS (PARECE SER QUE ESTOY INTENTANDO LIMPIAR EN ESE MÉTODO LAS TARJETAS)
             cargarBusquedaSocio();
+            //Se le da el FOCO al CUADRO DE TEXTO en donde se ingresa el valor de la búsqueda
+            cuadroDeBusqueda.requestFocus();
         }else{
+            //Aqui le paso al método que prepara todo para crear TARJETAS el valor LIMPIAR QUE AÚN NO ADECUÉ PERO PARECE SER QUE ERA LA IDEA PRIMARIA PARA LIMPIAR LOS RESULTADOS
             String LIMPIAR = "LIMPIAR";
             SocioBuscarView.getInstance().afectarSocio(LIMPIAR);
-            //SocioBuscarView.getInstance().afectarSocio(NADA);
+            //SocioBuscarView.getInstance().afectarSocio(NADA); //NADA o LIMPIAR o CHORIPAN da lo mismo por ahora
+            //Se llama al método que carga la VISTA de BUSCAR SOCIOS
             cargarBusquedaSocio();
         }
     }//GEN-LAST:event_jMBuscarSociosActionPerformed
@@ -281,33 +294,37 @@ public class Principal extends javax.swing.JFrame {
         // TODO add your handling code here:
 
     }//GEN-LAST:event_jMenuItem6ActionPerformed
-
+    
+    //Manejador del evento al seleccionar MODIFICAR -> SOCIOS
     private void jMModificarSociosActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMModificarSociosActionPerformed
-        // TODO add your handling code here:
+        //Utilizando el PATRÓN DE DISEÑO Singleton se envía que se REIMPRIMAN las TARJETAS con ÍCONO y OTROS de MODIFICAR
         SocioBuscarView.getInstance().afectarSocio(MODIFICAR);
+        //Con el PATRÓN DE DISEÑO Singleton se chequea si el CRITERIO NO es "estado" Y "valor" es 0 (AMBOS) Y que el rótulo del label específico no sea "Desasociado"
         if(!(SocioBuscarView.getInstance().getCriterio().equalsIgnoreCase("estado") &&
                 SocioBuscarView.getInstance().getValor().equalsIgnoreCase("0")) && !SocioTarjeta.getInstance().getEstado().equals("Desasociado")){
+                //...entonces se DESHABILITA el menú item para MODIFICAR (Pues ya está en "MODIFICAR" y se habilita la posibilidad de "ELIMINAR" pues son SOCIOS ACTIVOS
                 this.habilitarModificaciones(false, true);
         }else{
+            //Si son DESASOCIADOS entonces se DESHABILITA tanto MODIFICAR (pues ya está en "MODIFICAR" y "ELIMINAR" pues ya están DESASOCIADOS
             if(SocioTarjeta.getInstance().getEstado().equals("Desasociado")){
                 this.habilitarModificaciones(false, false);
+            //Si ninguna de estas dos cosas se da, es porque aún no hubo búsqueda alguna, por tanto se DESHABILITAN AMBAS
             }else{
                 this.habilitarModificaciones(false, false);
             }
         }
     }//GEN-LAST:event_jMModificarSociosActionPerformed
-
+    //Manejador del evento al seleccionar ELIMINAR -> SOCIOS
     private void jMElimSociosActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMElimSociosActionPerformed
-        // TODO add your handling code here:
+        //Utilizando el PATRÓN DE DISEÑO Singleton se envía que se REIMPRIMAN las TARJETAS con ÍCONO y OTROS de ELIMINAR
         SocioBuscarView.getInstance().afectarSocio(ELIMINAR);
-        if(!(SocioBuscarView.getInstance().getCriterio().equalsIgnoreCase("estado") &&
+        //PROBABLEMENTE ESTE CÓDIGO ESTÁ DE MÁS. NO HICE LAS PRUEBAS SUFICIENTES COMO PARA ELIMINARLO
+        /*if(!(SocioBuscarView.getInstance().getCriterio().equalsIgnoreCase("estado") &&
                 SocioBuscarView.getInstance().getValor().equalsIgnoreCase("0"))){
             this.habilitarModificaciones(true, false);
         }else{
             this.habilitarModificaciones(false, false);
-        }
-        //SocioBuscarView.getInstance().afectarSocio(ELIMINAR);
-        //this.habilitarModificaciones(true, false);
+        }*/
     }//GEN-LAST:event_jMElimSociosActionPerformed
 
     /**

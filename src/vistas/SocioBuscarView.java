@@ -4,6 +4,7 @@ import java.awt.FlowLayout;
 import java.awt.LayoutManager;
 import java.util.List;
 import javax.swing.BoxLayout;
+import javax.swing.JTextField;
 
 public class SocioBuscarView extends javax.swing.JInternalFrame {
     
@@ -30,6 +31,9 @@ public class SocioBuscarView extends javax.swing.JInternalFrame {
     }
     public String getCriterio(){
         return criterio;
+    }
+    public JTextField getCuadroDeBusqueda(){
+        return this.jTFSocioBuscarIngreseValor;
     }
     
     //Se cre el método getInstance para el PATRÓN DE DISEÑO Singleton

@@ -30,7 +30,7 @@ public class SocioData {
     
     
     
-    public Socio eliminarLector(String criterio, String valor){
+    public Socio eliminarSocio(String criterio, String valor){
         //PROBLEMA DE CRITERIO SEA ESTADO CON VALOR 1
         if(criterio.equals("Número de Socio")){
             criterio = "idSocio";
@@ -131,104 +131,113 @@ public class SocioData {
         return socios;
     }
     
+    //Método utilitario o función para obtener los nombres de las COLUMNAS de la TABLA
     public List listarColumnas(){
+        //Consulta que devuelve el nombre de las COLUMNAS de la TABLA lector de la BASE DE DATOS biblioteca
         String sql = "SELECT COLUMN_NAME FROM INFORMATION_SCHEMA.COLUMNS WHERE TABLE_SCHEMA = 'biblioteca' AND TABLE_NAME = 'lector';";
+        //Se crea un ArrayList (Parece ser que podría utilizarse el atributo pero hay que chequearlo) para guardar los nombres de las columnas en formato String
         List <String> columnas = new ArrayList<>();
         try{
             PreparedStatement ps = con.prepareStatement(sql);
             ResultSet rs = ps.executeQuery();
-            
+            //A cada iteración se agrega el nombre de la nueva COLUMNA al ArrayList
             while(rs.next()){       
                 columnas.add(rs.getString("COLUMN_NAME"));
             }
         }catch(SQLException ex){
             
         }
-        
+        //Se devuelve el ArrayList con todas las columnas de la TABLA lector
         return columnas;
     }
     
+    //Método utilitario para obtener la cantidad de socios
     public int obtenerCantidadSocios(){
-       String sql = "SELECT COUNT(*) AS total FROM lector;";
+        //Esta consulta devuelve la cantidad de REGISTROS (o FILAS) de la TABLA lector
+        String sql = "SELECT COUNT(*) AS total FROM lector;";
+        //Se inicializa la variable que guardará la cantidad de REGISTROS
         int cantidad = 0;
         try{
             PreparedStatement ps = con.prepareStatement(sql);
             ResultSet rs = ps.executeQuery();
-            
+            //Se obtiene la cantidad que devuelve la consulta de existir registros
             if(rs.next()){       
                 cantidad = rs.getInt(1);
             }
         }catch(SQLException ex){
             // Manejar la excepción
         }
-        
+        //Devuelve la cantidad de REGISTROS (y por tanto SOCIOS). Si no hay devuelve 0
         return cantidad; 
     }
     
+    //Método encargado de cargar las imágenes en la PC, en el archivo "imagenes"
     public void obtenerImagenesSocio(){
         Connection conexion = Conexion.getConexion();
-        
+        //Consulta que  devuelve las imágenes y su path de la TABLA lector
         String sql = "SELECT fotoPerfil, fotoPerfilNombre FROM lector";
         
         try{
-            // Crear un objeto Statement con la consulta
+            //Se crea un objeto Statement con la consulta
             Statement st = conexion.createStatement();
-            // Ejecutar la consulta y obtener el resultado
+            //Se ejecutar la consulta y se obtiene el resultado
             ResultSet rs = st.executeQuery(sql);
-            // Si hay un resultado, obtener la imagen y el nombre
+            //Si hay un resultado, se obtiene la imagen y el nombre
             while(rs.next()) {
-                // Obtener el objeto BLOB de la columna imagen
+                //Se obtiene el objeto BLOB de la columna fotoPerfil
                 Blob fotoPerfil = rs.getBlob("fotoPerfil");
-                // Obtener el nombre de la columna nombre
+                //Se obtiene el nombre de la columna "fotoPerfilNombre"
                 String fotoPerfilNombre = rs.getString("fotoPerfilNombre");
-                // Convertir el objeto BLOB en un arreglo de bytes
+                //Se convierte el objeto BLOB en un arreglo de bytes
                 byte[] data = fotoPerfil.getBytes(1, (int) fotoPerfil.length());
-                // Crear un objeto BufferedImage con el arreglo de bytes
+                //Se crea un objeto BufferedImage con el arreglo de bytes
                 try{
                     BufferedImage img = ImageIO.read(new ByteArrayInputStream(data));
-                    // Escribir la imagen en un archivo con el mismo nombre
+                    //Se escribe la imagen en un archivo con el mismo nombre
                     ImageIO.write(img, "jpg", new File(fotoPerfilNombre + ".jpg"));
                 }catch(IOException ex){
                     
                 }
-                // Cerrar los recursos
+                //Se cierran los recursos
                 rs.close();
                 st.close();
             }
         }catch(SQLException ex){
                     
         }
-        
     }
-    
+    //Método que se utiliza para cargar la BASE DE DATOS con todas las imágnenes de perfil de los socios
     public void insertarImagenesSocio(){
+        //Se guarda el valor del número de socio más bajo de la BASE DE DATOS (DEBERÍA HACERSE UNA QUERY)
         int idSocio = 5556;
         Connection conexion = Conexion.getConexion();
-        
+        //Se guarda el valor de la cantidad de socios
         int cantidadSocios = obtenerCantidadSocios();
         
         try{
+            //Se itera por todos los socios utilizando el valor que nos dio el método utilitario obtenerCantidadSocios
             for(int i = 0; i < cantidadSocios; i++){
-                // Crear un objeto File con la ruta de la imagen
+                //Se crea un objeto File con la ruta de la imagen
+                //AQUÍ NO SÉ POR QUÉ NO ADAPTÉ "obtenerImagenesSocio" PARA LOGRAR ESTO. HAY QUE REVEER
                 File fotoPerfil = new File("./src/vistas/imagenes/foto_" + idSocio + ".jpg");
-                // Obtener la longitud del archivo en bytes
+                //Se obtiene la longitud del archivo en bytes
                 int fotoPerfilLength = (int) fotoPerfil.length();
-                // Crear un objeto FileInputStream con el archivo
+                //Se crea un objeto FileInputStream con el archivo
                 FileInputStream fis;
                 fis = new FileInputStream(fotoPerfil);
  
-                // Crear una consulta SQL para insertar la imagen y el nombre
+                //Esta consulta inserta la imagen y el nombre según el idSocio
                 String sql = "UPDATE lector SET fotoPerfil = ?, fotoPerfilNombre = ? WHERE idSocio = ?;";
-                // Crear un objeto PreparedStatement con la consulta
+                //Se crea un objeto PreparedStatement con la consulta
                 PreparedStatement ps = conexion.prepareStatement(sql);
-                // Establecer el primer parámetro con el flujo binario de la imagen y su longitud
+                //Se establece el primer parámetro con el flujo binario de la imagen y su longitud
                 ps.setBinaryStream(1, fis, fotoPerfilLength);
-                // Establecer el segundo parámetro con el nombre de la imagen
+                //Se establece el segundo parámetro con el nombre de la imagen
                 ps.setString(2, "./src/vistas/imagenes/foto_" + idSocio);
                 ps.setInt(3, idSocio);
-                // Ejecutar la consulta
+                //Se ejecuta la consulta
                 ps.executeUpdate();
-                // Cerrar los recursos
+                //Se cierran los recursos
                 ps.close();
                 fis.close(); 
                 idSocio++;

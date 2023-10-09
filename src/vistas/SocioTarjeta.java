@@ -495,7 +495,7 @@ public class SocioTarjeta extends javax.swing.JPanel {
                 //Si se responde OK se hace invisible el ÍCONO ELIMINAR, se elimina el lector de la BASE DE DATOS y se RECARGAN LAS TARJETAS para actualizar los cambios
                 if(respuesta==0){
                     this.jLEfecto.setVisible(false);
-                    socio = metodoDeSocio.eliminarLector("Número de Socio", idSocio);
+                    socio = metodoDeSocio.eliminarSocio("Número de Socio", idSocio);
                     SocioBuscarView.getInstance().afectarSocio("ELIMINAR");
                 }
 
