@@ -15,6 +15,7 @@ import javax.swing.JOptionPane;
 public class LibroData {
     private Connection con = null;
     private Libro libro = null;
+    List<Libro> listaLibros = new ArrayList<> ();
     private Autor autor = null;
     public LibroData() {
         con = Conexion.getConexion();
@@ -149,7 +150,6 @@ public class LibroData {
     }
     
     public List<Libro> buscarLibroPorAutor(String nombre){
-        List<Libro> listaLibro = new ArrayList<> ();
         
         String sql = "select * from libro inner join autor where autor.nombre = " + nombre + " AND libro.autor = autor.idAutor";
         //Busca los libros usando el nombre del autor como filtro, comparando el idAutor del autor y 'autor' del libro 
@@ -180,7 +180,7 @@ public class LibroData {
                 libro.setEstado(rs.getBoolean("estado"));
                 libro.setCantEjemplares(rs.getInt("cantEjemplares"));
             
-                listaLibro.add(libro);
+                listaLibros.add(libro);
             }
             
             
@@ -192,11 +192,11 @@ public class LibroData {
         
         
         
-        return listaLibro;
+        return listaLibros;
     }
     
-    public Libro buscarLibroPorTitulo(String titulo){
-        String sql = "select * from libro where titulo = '" + titulo + "'";
+    public List<Libro> buscarLibroPorTituloGenero(String filtro, String busqueda ){
+        String sql = "select * from libro where " + filtro + " = '" + busqueda + "'";
         try {
             PreparedStatement ps = con.prepareStatement(sql);
             ResultSet rs = ps.executeQuery();
@@ -225,11 +225,10 @@ public class LibroData {
             Logger.getLogger(LibroData.class.getName()).log(Level.SEVERE, null, ex);
         }
         
-    return libro;
+    return listaLibros;
     }
     
     public List<Libro> listarLibro(){
-        List<Libro> listaLibros = new ArrayList<> ();
         
         String sql = "select * from libro";
         try {
