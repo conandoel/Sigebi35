@@ -5,6 +5,7 @@ import java.awt.LayoutManager;
 import java.util.List;
 import javax.swing.BoxLayout;
 import javax.swing.JTextField;
+import javax.swing.JOptionPane;
 
 public class SocioBuscarView extends javax.swing.JInternalFrame {
     
@@ -50,12 +51,35 @@ public class SocioBuscarView extends javax.swing.JInternalFrame {
         //Se devuelve el atributo sbr
         return sbr;
     }
+    private int activarEliminar=0;
     //Método que comunica criterio y valor elegido en la VISTA para ser utilizado por el método listarSocio para crear las TARJETAS.
     public void afectarSocio(String EFECTO){
         //Se envía el pedido de rediseño de TARJETAS para ver si estarán en módo "BUSCAR", "ELIMINAR", o "MODIFICAR"
-        resultados = resultado.listarSocio(criterio, valor, EFECTO);
+        resultados = SocioTarjeta.getInstance().listarSocio(criterio, valor, EFECTO);
+        //Si el valor de EFECTO es "LIMPIAR" entonces la visibilidad de las TARJETAS es false
+        if(EFECTO.equals("LIMPIAR")){
+            activarEliminar--;
+            for(SocioTarjeta resultado : resultados){
+                resultado.setVisible(false);
+            }
+        }else if(EFECTO.equals("ELIMINAR")){
+            activarEliminar++;
+            if(activarEliminar==2){
+                for(SocioTarjeta resultado : resultados){
+                    resultado.getInstance().getEfecto().setVisible(false);
+                    activarEliminar=0;
+                }
+
+            }else{
+                activarEliminar--;
+            }
+        }else{
+            //AQUÍ LÓGICA DE MODIFICACIÓN
+        }
+        
         //Se recargan las TARJETAS
         cargarLasTarjetas();
+        resultados.clear();
     }
     //Método para modificar la VISTA SocioBuscarView para que se adapte al modo "BUSCAR", "ELIMINAR", o "MODIFICAR"
     public void actualizarSeccion(String SECCION){
@@ -221,7 +245,7 @@ public class SocioBuscarView extends javax.swing.JInternalFrame {
             //Se instancia una TARJETA (su molde)
             resultado = new SocioTarjeta();
             //Se guardan en el LIST las TARJETAS devueltas con la BÚSQUEDA ya que NADA es para BÚSQUEDA
-            resultados = resultado.listarSocio(criterio, valor, NADA);
+            resultados = SocioTarjeta.getInstance().listarSocio(criterio, valor, NADA);
             //Se cargan las TARJETAS en el contenedor para que las vea el usuario
             cargarLasTarjetas();
             //Se maneja chequeando si el JLabel que tiene el valor del estado dice "Desasociado" para condicionar el acceso a la eliminación desde el MENÚ
@@ -257,7 +281,6 @@ public class SocioBuscarView extends javax.swing.JInternalFrame {
             panelTarjetas.setLayout (layout);
             //Se itera por las TARJETAS y se les da visibilidad ---PROBABLE SOLUCIÓN AL PROBLEMA DE BORRADO DE MÚLTIPLES TARJETAS
             for(SocioTarjeta res : resultados){
-                res.setVisible(true);
                 //Se agrega cada TARJETA al panel
                 panelTarjetas.add(res);
             }

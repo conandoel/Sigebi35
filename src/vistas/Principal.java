@@ -240,7 +240,7 @@ public class Principal extends javax.swing.JFrame {
     }
     
     //Método que sólo debería cargar la VISTA de BUSCAR SOCIOS, pero está tratando de borrar el muestreo de TARJETAS al recargar una nueva búsqueda de socios
-    private void cargarBusquedaSocio(){
+    public void cargarBusquedaSocio(){
         //Con el PATRON DE DISEÑO Singleton se ELIMINA la instancia de las TARJETAS (SOLO UNA TARJETA. PARA MÚLTIPLES TARJETAS AÚN NO DOY EN EL CLAVO
         SocioTarjeta.getInstance().removeAll();
         SocioTarjeta.getInstance().revalidate();
@@ -274,6 +274,8 @@ public class Principal extends javax.swing.JFrame {
             //SocioBuscarView.getInstance().afectarSocio(NADA); //NADA o LIMPIAR o CHORIPAN da lo mismo por ahora
             //Se llama al método que carga la VISTA de BUSCAR SOCIOS
             cargarBusquedaSocio();
+            //Se deshabilita la posibilidad de acceder desde el menú a las MODIFICACIONES y ELIMINACIONES
+            Principal.getInstance().habilitarModificaciones(false, false);
         }
     }//GEN-LAST:event_jMBuscarSociosActionPerformed
 
