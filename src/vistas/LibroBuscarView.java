@@ -1,10 +1,21 @@
 package vistas;
 
-public class LibroBuscarView extends javax.swing.JInternalFrame {
+import entidades.Libro;
+import datos.LibroData;
+import java.util.*;
+import javax.swing.*;
+import javax.swing.table.DefaultTableModel;
 
-    /**
-     * Creates new form LibroBuscarView
-     */
+
+
+
+
+public class LibroBuscarView extends javax.swing.JInternalFrame {
+    private DefaultTableModel modelo = new DefaultTableModel();
+    LibroData lData;
+    Libro libro;
+    List<Libro> libros = new ArrayList<>();
+
     public LibroBuscarView() {
         initComponents();
     }
@@ -18,15 +29,21 @@ public class LibroBuscarView extends javax.swing.JInternalFrame {
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
     private void initComponents() {
 
-        jComboBox1 = new javax.swing.JComboBox<>();
-        jTextField1 = new javax.swing.JTextField();
+        jcbDato = new javax.swing.JComboBox<>();
+        jtfBusqueda = new javax.swing.JTextField();
         jScrollPane1 = new javax.swing.JScrollPane();
         jTable1 = new javax.swing.JTable();
-        jButton1 = new javax.swing.JButton();
+        jbtnBuscar = new javax.swing.JButton();
+        jLabel1 = new javax.swing.JLabel();
 
-        jComboBox1.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Item 1", "Item 2", "Item 3", "Item 4" }));
+        jcbDato.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Item 1", "Item 2", "Item 3", "Item 4" }));
+        jcbDato.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jcbDatoActionPerformed(evt);
+            }
+        });
 
-        jTextField1.setText("jTextField1");
+        jtfBusqueda.setFont(new java.awt.Font("Dialog", 0, 14)); // NOI18N
 
         jTable1.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
@@ -41,20 +58,31 @@ public class LibroBuscarView extends javax.swing.JInternalFrame {
         ));
         jScrollPane1.setViewportView(jTable1);
 
-        jButton1.setText("jButton1");
+        jbtnBuscar.setText("Buscar");
+        jbtnBuscar.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jbtnBuscarActionPerformed(evt);
+            }
+        });
+
+        jLabel1.setFont(new java.awt.Font("Dialog", 1, 14)); // NOI18N
+        jLabel1.setForeground(new java.awt.Color(100, 100, 250));
+        jLabel1.setText("Buscar por:");
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
         layout.setHorizontalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
-                .addGap(100, 100, 100)
-                .addComponent(jComboBox1, javax.swing.GroupLayout.PREFERRED_SIZE, 140, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(76, 76, 76)
-                .addComponent(jTextField1, javax.swing.GroupLayout.PREFERRED_SIZE, 216, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(21, 21, 21)
+                .addComponent(jLabel1, javax.swing.GroupLayout.PREFERRED_SIZE, 101, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGap(18, 18, 18)
-                .addComponent(jButton1)
-                .addContainerGap(79, Short.MAX_VALUE))
+                .addComponent(jcbDato, javax.swing.GroupLayout.PREFERRED_SIZE, 140, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(36, 36, 36)
+                .addComponent(jtfBusqueda, javax.swing.GroupLayout.PREFERRED_SIZE, 216, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(18, 18, 18)
+                .addComponent(jbtnBuscar)
+                .addContainerGap(85, Short.MAX_VALUE))
             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
                 .addContainerGap()
                 .addComponent(jScrollPane1)
@@ -65,9 +93,10 @@ public class LibroBuscarView extends javax.swing.JInternalFrame {
             .addGroup(layout.createSequentialGroup()
                 .addGap(25, 25, 25)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(jTextField1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(jComboBox1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(jButton1))
+                    .addComponent(jtfBusqueda, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(jcbDato, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(jbtnBuscar)
+                    .addComponent(jLabel1))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 217, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addContainerGap(23, Short.MAX_VALUE))
@@ -76,12 +105,71 @@ public class LibroBuscarView extends javax.swing.JInternalFrame {
         pack();
     }// </editor-fold>//GEN-END:initComponents
 
+    private void jcbDatoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jcbDatoActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_jcbDatoActionPerformed
+
+    private void jbtnBuscarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jbtnBuscarActionPerformed
+        
+        String condicion = (String)(jcbDato.getSelectedItem());//Lee el filtro por el que se quiere listar los libros
+        
+        switch(condicion){
+            case("ISBN"): //Si se busca por ISBN, por ser un numero unico, se devuelve un solo libro
+                libro = lData.buscarLibroPorISBN(Integer.parseInt(jtfBusqueda.getText()));
+            case("Autor")://Si se busca por Autor, devuelve la lista de libros del autor buscado
+                libros = lData.buscarLibroPorAutor(jtfBusqueda.getText());
+            case("")://Si filtro esta vacio(si por alguna razon queda vacio), avisara que no puede estarlo
+                JOptionPane.showMessageDialog(null, "Filtro de busqueda vacio");
+            default:
+                //Los otros posibles filtros de busqueda es por Titulo y Genero. Como sus metodos de busqueda son iguales, estan agrupados en uno solo
+                //La diferencia esta en que si se busca por Titulo, devuelve una lista con un solo libro, si se busca por genero devuelve una lista completa
+                libros = lData.buscarLibroPorTituloGenero(condicion, jtfBusqueda.getText());
+        }
+        
+        Iterator<Libro> iterador = libros.iterator();
+        
+        if(iterador.hasNext()){//Lee si la lista Libros tiene algun libro añadido.
+            while(iterador.hasNext()){
+                
+                libro = iterador.next();
+                
+                modelo.addRow(new Object[] {libro.getIsbn(), libro.getTitulo(), libro.getAutor(), libro.getAnio(),
+                                            libro.getGenero(), libro.getCantEjemplares()});
+                
+            }
+            
+        }else{ //Si no tiene libros la lista, se añade al listado el unico libro que se busco
+            
+            modelo.addRow(new Object[] {libro.getIsbn(), libro.getTitulo(), libro.getAutor(), libro.getAnio(),
+                                            libro.getGenero(), libro.getCantEjemplares()});
+            
+        }
+        
+        
+    }//GEN-LAST:event_jbtnBuscarActionPerformed
+
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
-    private javax.swing.JButton jButton1;
-    private javax.swing.JComboBox<String> jComboBox1;
+    private javax.swing.JLabel jLabel1;
     private javax.swing.JScrollPane jScrollPane1;
     private javax.swing.JTable jTable1;
-    private javax.swing.JTextField jTextField1;
+    private javax.swing.JButton jbtnBuscar;
+    private javax.swing.JComboBox<String> jcbDato;
+    private javax.swing.JTextField jtfBusqueda;
     // End of variables declaration//GEN-END:variables
+
+    private void cargarTabla(){
+    modelo.addColumn("ISBN");
+    modelo.addColumn("Titulo");
+    modelo.addColumn("Autor");
+    modelo.addColumn("Año de publicación");
+    modelo.addColumn("Genero");
+    modelo.addColumn("Cantidad de ejemplares");
+    }
+    private void cargarCombo(){
+        jcbDato.addItem("ISBN");
+        jcbDato.addItem("Titulo");
+        jcbDato.addItem("Autor");
+        jcbDato.addItem("Genero");
+    }
 }
