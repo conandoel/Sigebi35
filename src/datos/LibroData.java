@@ -17,6 +17,7 @@ public class LibroData {
     private Libro libro = null;
     List<Libro> listaLibros = new ArrayList<> ();
     private Autor autor = null;
+    
     public LibroData() {
         con = Conexion.getConexion();
     }
@@ -113,31 +114,37 @@ public class LibroData {
         }
     }
     
-    public Libro buscarLibroPorISBN(long isbn){
-        String sql = "select * from libro where isbn = '" + isbn +"'";
+    public List<Libro>buscarLibroPorISBN(long isbn){
+        String sql = "select * from libro where isbn like '" + isbn +"%'";
         try {
             PreparedStatement ps = con.prepareStatement(sql);
             ResultSet rs = ps.executeQuery();
             
-            String sql2 = "select * from autor where idAutor = '" + rs.getInt("autor") + "'";
-            PreparedStatement ps2 = con.prepareStatement(sql2);
-            ResultSet rs2 = ps2.executeQuery();
+            while(rs.next()){
+                String sql2 = "select * from autor where idAutor = '" + rs.getInt("autor") + "'";
+                PreparedStatement ps2 = con.prepareStatement(sql2);
+                ResultSet rs2 = ps2.executeQuery();
             
-            autor.setIdAutor(rs2.getInt("idAutor"));
-            autor.setNombre(rs2.getString("nombre"));
-            autor.setApellido(rs2.getString("apellido"));
-            autor.setGeneroFav(rs2.getString("generofav"));
+                autor.setIdAutor(rs2.getInt("idAutor"));
+                autor.setNombre(rs2.getString("nombre"));
+                autor.setApellido(rs2.getString("apellido"));
+                autor.setGeneroFav(rs2.getString("generofav"));
             
-            //autor.setIdAutor(rs.getInt("autor"));
+                //autor.setIdAutor(rs.getInt("autor"));
             
-            libro.setIsbn(rs.getLong("isbn"));
-            libro.setTitulo(rs.getString("titulo"));
-            libro.setAutor(autor);
-            libro.setAnio(rs.getInt("anio"));
-            libro.setGenero(rs.getString("genero"));
-            libro.setEditorial(rs.getString("editorial"));
-            libro.setEstado(rs.getBoolean("estado"));
-            libro.setCantEjemplares(rs.getInt("cantEjemplares"));
+                libro.setIsbn(rs.getLong("isbn"));
+                libro.setTitulo(rs.getString("titulo"));
+                libro.setAutor(autor);
+                libro.setAnio(rs.getInt("anio"));
+                libro.setGenero(rs.getString("genero"));
+                libro.setEditorial(rs.getString("editorial"));
+                libro.setEstado(rs.getBoolean("estado"));
+                libro.setCantEjemplares(rs.getInt("cantEjemplares"));
+                
+                listaLibros.add(libro);
+            }
+            
+            
         
         
         
@@ -146,12 +153,12 @@ public class LibroData {
         }
         
         
-        return libro;
+        return listaLibros;
     }
     
     public List<Libro> buscarLibroPorAutor(String nombre){
         
-        String sql = "select * from libro inner join autor where autor.nombre = " + nombre + " AND libro.autor = autor.idAutor";
+        String sql = "select * from libro inner join autor where autor.nombre like '%" + nombre + "%' AND libro.autor = autor.idAutor";
         //Busca los libros usando el nombre del autor como filtro, comparando el idAutor del autor y 'autor' del libro 
         
         try {
@@ -196,7 +203,7 @@ public class LibroData {
     }
     
     public List<Libro> buscarLibroPorTituloGenero(String filtro, String busqueda ){
-        String sql = "select * from libro where " + filtro + " = '" + busqueda + "'";
+        String sql = "select * from libro where " + filtro + " like '%" + busqueda + "%'";
         try {
             PreparedStatement ps = con.prepareStatement(sql);
             ResultSet rs = ps.executeQuery();
@@ -228,7 +235,7 @@ public class LibroData {
     return listaLibros;
     }
     
-    public List<Libro> listarLibro(){
+    public List<Libro> listarLibro(/*para algo debera servir, qsy*/){
         
         String sql = "select * from libro";
         try {
