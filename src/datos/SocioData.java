@@ -11,14 +11,14 @@ import java.sql.Blob;
 import java.sql.Statement;
 import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
-import java.util.logging.Level;
-import java.util.logging.Logger;
 import javax.imageio.ImageIO;
+import vistas.SocioTarjeta;
 
 public class SocioData {
     private Connection con = null;
     private List <Socio> socios;
     private List <String> columnas;
+    private int [] idSocios;
     private Socio socio;
     
     public SocioData() {
@@ -31,46 +31,53 @@ public class SocioData {
     
     //Método para eliminar un socio
     public Socio eliminarSocio(String criterio, String valor){
-        //PROBLEMA DE CRITERIO SEA ESTADO CON VALOR 1 //<-- Comenetario legacy, hasta que no sepa por qué lo voy a dejar
-        //Se toma el valor del JLabel que está a la izquierda del cuadro de texto que dic
-        if(criterio.equals("Número de Socio")){
+        //PROBLEMA DE CRITERIO SEA ESTADO CON VALOR 1 //<-- Comentario legacy, hasta que no sepa por qué lo voy a dejar
+        //Se toma el valor del JComboBox que contiene los criterios de búsqueda y se adapta a su valor en BASE DE DATOS
+        if(criterio.equals("Número de Socio") | criterio.equals("Estado")){
             criterio = "idSocio";
         }else{
+            //Para "idSocio" el cambio es radical, pero para los demás como "Estado" sólo basta pasarlos a minúsculas
             criterio = criterio.toLowerCase();
         }
-        String sql = "UPDATE lector SET estado = 0 WHERE " + criterio + " = " + valor + ";";
+        //Se crea la consulta con la actualización de estado por ejemplo WHERE "domicilio" = "Brown 333"
+        String sql = "UPDATE lector SET estado = 0 WHERE " + criterio + " = '" + valor + "';";
+                               
 
-        
-        
+        //Se ejecuta la consulta SQL
         try{
             PreparedStatement ps = con.prepareStatement(sql);
             int filas = ps.executeUpdate();
-            
+            //Se crea un ArrayList que se llena con los nombres de las columnas con el método utilitario
             columnas = new ArrayList<>();
             columnas = listarColumnas();
             
-            if(filas>0){
+            if(filas > 0){
+                //Si se eliminó algo se crea un socio
                 Socio socio = new Socio();
-
+                //Se itera por la columna buscando el match entre criterio y columna
                 for(String columna : columnas){
                     if(criterio.equals(columna)){
+                        //En el List de socios se guarda el socio eliminado con el criterio-valor establecido en la búsqueda
+                        //Podría hacerse una sobrecarga de buscarHistorialSocios para que pueda devolver un socio
                         socios = buscarHistorialSocios(criterio, valor);
                     }
                 }
             }
+            //el primer socio (Siempre va a ser uno) se guarda en una instancia de socio
             socio = socios.get(0);
         }catch(SQLException ex){
             
         }
+        //Se devuelve un objeto Socio (Aunque aún no sé para qué. Supongo que preveo)
         return socio;
     }
     
     public void buscarLectorPorDNI(){}
     
-    public List<Socio> listarLector(int activo){/*Ingresa 0 para listar lectores inactivos
+    /*public List<Socio> listarLector(int activo){/*Ingresa 0 para listar lectores inactivos
                                                           1 para listar lectores activos
                                                           cualquier otro numero para listarlos todos*/
-    List<Socio> listaLectores = new ArrayList<> ();
+    /*List<Socio> listaLectores = new ArrayList<> ();
     
     String sql = "select * from lector ";
     switch(activo){
@@ -97,11 +104,30 @@ public class SocioData {
             }   
             
         } catch (SQLException ex) {
-            Logger.getLogger(SocioData.class.getName()).log(Level.SEVERE, null, ex);
+
         }
     return listaLectores;
+    }*/
+    public int[] buscarSocios(){
+        int dimension = obtenerCantidadSocios();
+        idSocios = new int[dimension];
+        String sql = "SELECT idSocio FROM lector;";
+        
+        try{
+            Statement st = con.createStatement();
+            
+             ResultSet rs = st.executeQuery(sql);
+            
+            int i = 0;
+            while(rs.next()){
+                idSocios[i++] = rs.getInt("idSocio");
+            }
+            
+        }catch(SQLException ex){
+            
+        }
+        return idSocios;
     }
-    
     public List buscarHistorialSocios(String criterio, String valor){
         String sql = "SELECT * FROM lector WHERE " + criterio + " = ?;";
         socios = new ArrayList<>();
@@ -174,13 +200,12 @@ public class SocioData {
     
     //Método encargado de cargar las imágenes en la PC, en el archivo "imagenes"
     public void obtenerImagenesSocio(){
-        Connection conexion = Conexion.getConexion();
         //Consulta que  devuelve las imágenes y su path de la TABLA lector
         String sql = "SELECT fotoPerfil, fotoPerfilNombre FROM lector";
         
         try{
             //Se crea un objeto Statement con la consulta
-            Statement st = conexion.createStatement();
+            Statement st = con.createStatement();
             //Se ejecutar la consulta y se obtiene el resultado
             ResultSet rs = st.executeQuery(sql);
             //Si hay un resultado, se obtiene la imagen y el nombre
@@ -211,7 +236,6 @@ public class SocioData {
     public void insertarImagenesSocio(){
         //Se guarda el valor del número de socio más bajo de la BASE DE DATOS (DEBERÍA HACERSE UNA QUERY)
         int idSocio = 5556;
-        Connection conexion = Conexion.getConexion();
         //Se guarda el valor de la cantidad de socios
         int cantidadSocios = obtenerCantidadSocios();
         
@@ -230,7 +254,7 @@ public class SocioData {
                 //Esta consulta inserta la imagen y el nombre según el idSocio
                 String sql = "UPDATE lector SET fotoPerfil = ?, fotoPerfilNombre = ? WHERE idSocio = ?;";
                 //Se crea un objeto PreparedStatement con la consulta
-                PreparedStatement ps = conexion.prepareStatement(sql);
+                PreparedStatement ps = con.prepareStatement(sql);
                 //Se establece el primer parámetro con el flujo binario de la imagen y su longitud
                 ps.setBinaryStream(1, fis, fotoPerfilLength);
                 //Se establece el segundo parámetro con el nombre de la imagen
@@ -243,7 +267,7 @@ public class SocioData {
                 fis.close(); 
                 idSocio++;
             }
-            conexion.close();
+            con.close();
         }catch(SQLException | IOException ex){
             
         }
