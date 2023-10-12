@@ -2,11 +2,7 @@ package datos;
 
 import entidades.Libro;
 import entidades.Autor;
-import java.sql.Connection;
-import java.sql.PreparedStatement;
-import java.sql.ResultSet;
-import java.sql.SQLException;
-import java.sql.Statement;
+import java.sql.*;
 import java.util.*;
 import java.util.logging.Level;
 import java.util.logging.Logger;
@@ -79,6 +75,7 @@ public class LibroData {
             ps.setString(6, libro2.getEditorial());
             ps.setBoolean(7,libro2.isEstado());
             ps.setInt(8, libro2.getCantEjemplares());//Los datos por lo que se va a cambiar
+            
             int cambios = ps.executeUpdate();
             
             if(cambios == 0){
@@ -309,11 +306,5 @@ public class LibroData {
     yeh
     estoy seguro que hay forma mas facil de hacer esto mismo, pero se escapa de mis habilidades
     */
-    
-    
-    
-    
-    
-    
     
 }
