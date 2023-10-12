@@ -30,6 +30,8 @@ public class LibroBuscarView extends javax.swing.JInternalFrame {
         jtListaLibro = new javax.swing.JTable();
         jbtnBuscar = new javax.swing.JButton();
         jLabel1 = new javax.swing.JLabel();
+        jbtnModificar = new javax.swing.JButton();
+        jbtnEliminar = new javax.swing.JButton();
 
         jcbDato.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Item 1", "Item 2", "Item 3", "Item 4" }));
         jcbDato.addActionListener(new java.awt.event.ActionListener() {
@@ -64,23 +66,51 @@ public class LibroBuscarView extends javax.swing.JInternalFrame {
         jLabel1.setForeground(new java.awt.Color(100, 100, 250));
         jLabel1.setText("Buscar por:");
 
+        jbtnModificar.setFont(new java.awt.Font("Dialog", 1, 14)); // NOI18N
+        jbtnModificar.setText("Modificar");
+        jbtnModificar.setVisible(false);
+        jbtnModificar.setEnabled(false);
+        jbtnModificar.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jbtnModificarActionPerformed(evt);
+            }
+        });
+
+        jbtnEliminar.setFont(new java.awt.Font("Dialog", 1, 14)); // NOI18N
+        jbtnEliminar.setForeground(new java.awt.Color(255, 0, 0));
+        jbtnEliminar.setText("Eliminar");
+        jbtnEliminar.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jbtnEliminarActionPerformed(evt);
+            }
+        });
+
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
         layout.setHorizontalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
-                .addGap(21, 21, 21)
-                .addComponent(jLabel1, javax.swing.GroupLayout.PREFERRED_SIZE, 101, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(18, 18, 18)
-                .addComponent(jcbDato, javax.swing.GroupLayout.PREFERRED_SIZE, 140, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(36, 36, 36)
-                .addComponent(jtfBusqueda, javax.swing.GroupLayout.PREFERRED_SIZE, 216, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(18, 18, 18)
-                .addComponent(jbtnBuscar)
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
-            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
-                .addContainerGap()
-                .addComponent(jScrollPane1)
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
+                        .addContainerGap()
+                        .addComponent(jScrollPane1))
+                    .addGroup(layout.createSequentialGroup()
+                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addGroup(layout.createSequentialGroup()
+                                .addGap(21, 21, 21)
+                                .addComponent(jLabel1, javax.swing.GroupLayout.PREFERRED_SIZE, 101, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addGap(18, 18, 18)
+                                .addComponent(jcbDato, javax.swing.GroupLayout.PREFERRED_SIZE, 140, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addGap(36, 36, 36)
+                                .addComponent(jtfBusqueda, javax.swing.GroupLayout.PREFERRED_SIZE, 216, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addGap(18, 18, 18)
+                                .addComponent(jbtnBuscar))
+                            .addGroup(layout.createSequentialGroup()
+                                .addContainerGap()
+                                .addComponent(jbtnModificar)
+                                .addGap(18, 18, 18)
+                                .addComponent(jbtnEliminar)))
+                        .addGap(0, 0, Short.MAX_VALUE)))
                 .addContainerGap())
         );
         layout.setVerticalGroup(
@@ -94,7 +124,11 @@ public class LibroBuscarView extends javax.swing.JInternalFrame {
                     .addComponent(jLabel1))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 157, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(72, 72, 72))
+                .addGap(18, 18, 18)
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                    .addComponent(jbtnModificar, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                    .addComponent(jbtnEliminar, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                .addContainerGap(19, Short.MAX_VALUE))
         );
 
         pack();
@@ -124,23 +158,34 @@ public class LibroBuscarView extends javax.swing.JInternalFrame {
         if(iterador.hasNext()){
             
             limpiarTabla();
-            while(iterador.hasNext()){
+            
+            while(iterador.hasNext()){//Llena la tabla con la lista de libros encontrados en la base de datos
                 
                 libro = iterador.next();
                 
-                modelo.addRow(new Object[] {libro.getIsbn(), libro.getTitulo(), libro.getAutor(), libro.getAnio(),
+                modelo.addRow(new Object[] {libro.getIsbn(), libro.getTitulo(), libro.getAutor().getNombre(), libro.getAnio(),
                                             libro.getGenero(), libro.getCantEjemplares()});
-            
+                
             }
         }
         
     }//GEN-LAST:event_jbtnBuscarActionPerformed
+
+    private void jbtnModificarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jbtnModificarActionPerformed
+        //Debe enviarte a otra vista para modificar el libro seleccionado. Me quede sin tiempo. Mañana
+    }//GEN-LAST:event_jbtnModificarActionPerformed
+
+    private void jbtnEliminarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jbtnEliminarActionPerformed
+        //Hacer algo para la confirmacion.qsy, mañana
+    }//GEN-LAST:event_jbtnEliminarActionPerformed
 
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JLabel jLabel1;
     private javax.swing.JScrollPane jScrollPane1;
     private javax.swing.JButton jbtnBuscar;
+    private javax.swing.JButton jbtnEliminar;
+    private javax.swing.JButton jbtnModificar;
     private javax.swing.JComboBox<String> jcbDato;
     private javax.swing.JTable jtListaLibro;
     private javax.swing.JTextField jtfBusqueda;
