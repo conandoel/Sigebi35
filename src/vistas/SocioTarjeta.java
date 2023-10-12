@@ -746,7 +746,6 @@ public class SocioTarjeta extends javax.swing.JPanel {
         //Se guardan en dos variables tanto el texto del campo (Por ejemplo "Apellido:") como el texto de los valores (Por ejemplo "Domínguez")
         String campo = campoMod.getText();
         String valorDelCampo = valorMod.getText();
-        
         //Se guarda el código de la tecla presionada y se asigna una constante para el código del ENTER
         int tecla = e.getKeyCode();
         final int ENTER = 10;
@@ -794,7 +793,9 @@ public class SocioTarjeta extends javax.swing.JPanel {
                     }else{
                         valorMod.setText(caracteresIngresados);
                         valoresModificados.setVisible(false);
+                        valorMod.setVisible(true);
                         labelInformativo.setText("El Apellido ha sido modificado correctamente");
+                        metodoDeSocio.eliminarSocio("M", valorDelCampo, campo.replaceAll(":", ""), valorMod.getText());
                     }
                     break;
                 case "Nombre:":
@@ -803,7 +804,9 @@ public class SocioTarjeta extends javax.swing.JPanel {
                     }else{
                         valorMod.setText(caracteresIngresados);
                         valoresModificados.setVisible(false);
+                        valorMod.setVisible(true);
                         labelInformativo.setText("El Nombre ha sido modificado correctamente");
+                        metodoDeSocio.eliminarSocio("M", valorDelCampo, campo.replaceAll(":", ""), valorMod.getText());
                     }
                     break;
                 case "Domicilio:":
@@ -812,7 +815,9 @@ public class SocioTarjeta extends javax.swing.JPanel {
                     }else{
                         valorMod.setText(caracteresIngresados);
                         valoresModificados.setVisible(false);
+                        valorMod.setVisible(true);
                         labelInformativo.setText("El Domicilio ha sido modificado correctamente");
+                        metodoDeSocio.eliminarSocio("M", valorDelCampo, campo.replaceAll(":", ""), valorMod.getText());
                     }
                     break;
                 case "E-Mail:":
@@ -821,7 +826,9 @@ public class SocioTarjeta extends javax.swing.JPanel {
                     }else{
                         valorMod.setText(caracteresIngresados);
                         valoresModificados.setVisible(false);
+                        valorMod.setVisible(true);
                         labelInformativo.setText("El E-Mail ha sido modificado correctamente");
+                        metodoDeSocio.eliminarSocio("M", valorDelCampo, campo.replaceAll("[:-]", "").substring(1), valorMod.getText());
                     }
                     break;
                 case "Fecha de Alta:":
@@ -837,9 +844,7 @@ public class SocioTarjeta extends javax.swing.JPanel {
                         LocalDate fechaActualLD = LocalDate.now();
                         DateTimeFormatter formato = DateTimeFormatter.ofPattern("yyyy-MM-dd");
                         String fechaActualString = fechaActualLD.format(formato);
-                        JOptionPane.showMessageDialog(null, fechaActualString);
                         int fechaActual = Integer.parseInt(fechaActualString.replaceAll("-", ""));
-                        JOptionPane.showMessageDialog(null, fechaActual);
 
                         String fechaAdecuada = "^(0[1-9]|[12]\\d|3[01])[-/](0[1-9]|1[012])[-/](19|20)\\d{2}$";
                         if(!caracteresIngresados.matches(fechaAdecuada)){
@@ -950,7 +955,10 @@ public class SocioTarjeta extends javax.swing.JPanel {
                         int fechaDeALTA= Integer.parseInt(fechaAlta);
                         //LocalDate fechaActual = LocalDate.now();
                         String fechaAdecuada = "^(0[1-9]|[12]\\d|3[01])[-/](0[1-9]|1[012])[-/](19|20)\\d{2}$";
+                        
                         if(!caracteresIngresados.matches(fechaAdecuada)){
+                            
+                            
                             if(cantidadDeCaracteres == 0){
                                 valorMod.setText(valorDelCampo);
                                 valorMod.setVisible(true);
@@ -964,6 +972,13 @@ public class SocioTarjeta extends javax.swing.JPanel {
                             String anyoBaja = caracteresIngresados.replaceAll("[-/]", "").substring(4, 8);
                             String fechaBaja= anyoBaja + mesBaja + diaBaja;
                             int fechaDeBAJA = Integer.parseInt(fechaBaja);
+                            
+                            LocalDate fechaActualLD = LocalDate.now();
+                            DateTimeFormatter formato = DateTimeFormatter.ofPattern("yyyy-MM-dd");
+                            String fechaActualString = fechaActualLD.format(formato);
+                            int fechaActual = Integer.parseInt(fechaActualString.replaceAll("-", ""));
+                            
+                            if(fechaActual >= fechaDeBAJA && fechaDeBAJA <= fechaDeALTA){
                             boolean febrero = Integer.parseInt(caracteresIngresados.substring(0, 2)) == 2 ? true : false;
                             int anyoDeAlta = Integer.parseInt(this.jLFechaDeAlta.getText().substring(10, 14));
                             int anyoIngresado = Integer.parseInt(caracteresIngresados.substring(6, 10));
@@ -979,6 +994,7 @@ public class SocioTarjeta extends javax.swing.JPanel {
                                             caracteresIngresados = caracteresIngresados.replaceAll("[-/]", " | ");
                                             valoresModificados.setVisible(false);
                                             valorMod.setText(caracteresIngresados.substring(0, 10) + (anyoDeAlta + 5));
+                                            valorMod.setVisible(true);
                                             labelInformativo.setText("La Fecha de Baja ha sido modificado correctamente");
                                         }else{
                                             labelInformativo.setText("La Fecha de Alta debe ser menor a la Fecha de Baja");
@@ -993,6 +1009,7 @@ public class SocioTarjeta extends javax.swing.JPanel {
                                                 caracteresIngresados = caracteresIngresados.replaceAll("[-/]", " | ");
                                                 valoresModificados.setVisible(false);
                                                 valorMod.setText(caracteresIngresados.substring(0, 10) + (anyoDeAlta + 5));
+                                                valorMod.setVisible(true);
                                                 labelInformativo.setText("La Fecha de Baja ha sido modificado correctamente");
                                             }else{
                                                 labelInformativo.setText("La Fecha de Alta debe ser menor a la Fecha de Baja");
@@ -1011,6 +1028,7 @@ public class SocioTarjeta extends javax.swing.JPanel {
                                         caracteresIngresados = caracteresIngresados.replaceAll("[-/]", " | ");
                                         valoresModificados.setVisible(false);
                                         valorMod.setText(caracteresIngresados.substring(0, 10) + (anyoDeAlta + 5));
+                                        valorMod.setVisible(true);
                                         labelInformativo.setText("La Fecha de Baja ha sido modificado correctamente");
                                     }else{
                                         labelInformativo.setText("La Fecha de Alta debe ser menor a la Fecha de Baja");
@@ -1025,8 +1043,16 @@ public class SocioTarjeta extends javax.swing.JPanel {
                             }
                             
                             
-                        }
+                        }else{
+                                caracteresIngresados = caracteresIngresados.replaceAll("[-/]", " | ");
+                                    valorMod.setText(caracteresIngresados);
+                                    valoresModificados.setVisible(false);
+                                    valorMod.setForeground(Color.RED);
+                                    valorMod.setVisible(true);
+                                    labelInformativo.setText("La Fecha de Baja ha sido modificado correctamente");
+                            }
                         break;
+                    }
                     }
                 case "Estado:":
                     
@@ -1079,19 +1105,19 @@ public class SocioTarjeta extends javax.swing.JPanel {
                     }   break;
                 case "Apellido:":
                     labelInformativo.setText("Modificando el Apellido");
-                    valorMod.setText("");
+                    valorMod.setVisible(false);
                     break;
                 case "Nombre:":
                     labelInformativo.setText("Modificando el Nombre");
-                    valorMod.setText("");
+                    valorMod.setVisible(false);
                     break;
                 case "Domicilio:":
-                    labelInformativo.setText("Modificando el Apellido");
-                    valorMod.setText("");
+                    labelInformativo.setText("Modificando el Domicilio");
+                    valorMod.setVisible(false);
                     break;
                 case "E-Mail:":
                     labelInformativo.setText("El E-Mail debe tener el formato ejemploDirección@dominio.extensión");
-                    valorMod.setText("");
+                    valorMod.setVisible(false);
                     break;
                 case "Fecha de Alta:":
                     labelInformativo.setText("La Fecha debe tener el formato 01-01-1995");
@@ -1099,7 +1125,7 @@ public class SocioTarjeta extends javax.swing.JPanel {
                     break;
                 case "Fecha de Baja:":
                     labelInformativo.setText("La Fecha debe tener el formato 01-01-1995");
-                    valorMod.setText("");
+                    valorMod.setVisible(false);
                     break;
                 case "Estado:":
                     

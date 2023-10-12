@@ -38,14 +38,16 @@ public class SocioData {
             if(criterio.equals("Número de Socio") | criterio.equals("Estado")){
                 criterio = "idSocio";
             }else{
-            //Para "idSocio" el cambio es radical, pero para los demás como "Estado" sólo basta pasarlos a minúsculas
-            criterio = criterio.toLowerCase();
+                //Para "idSocio" el cambio es radical, pero para los demás como "Estado" sólo basta pasarlos a minúsculas
+                criterio = criterio.toLowerCase();
             }
             //Se crea la consulta con la actualización de estado por ejemplo WHERE "domicilio" = "Brown 333"
             sql = "UPDATE lector SET estado = 0 WHERE " + criterio + " = '" + valor + "';";
         }else{
+            criterio = criterio.toLowerCase();
             //Se crea la consulta con la actualización de estado por ejemplo WHERE "domicilio" = "Brown 333"
             sql = "UPDATE lector SET " + criterio + " = '" + valor + "' WHERE " + criterio + " = '" + soloMod + "';";
+            System.out.println(sql);
         }
         
                                
