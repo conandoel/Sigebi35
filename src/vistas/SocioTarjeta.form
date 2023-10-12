@@ -247,22 +247,22 @@
     </Component>
     <Component class="javax.swing.JLabel" name="jLEmail">
       <Properties>
-        <Property name="text" type="java.lang.String" value="anto.sa.villanueva@gmail.com"/>
+        <Property name="text" type="java.lang.String" value="ivansdmonte@hotmail.com"/>
       </Properties>
     </Component>
     <Component class="javax.swing.JLabel" name="jLDomicilio">
       <Properties>
-        <Property name="text" type="java.lang.String" value="Azucena 2155 Azucena 2155 Azu"/>
+        <Property name="text" type="java.lang.String" value="Rawson 693"/>
       </Properties>
     </Component>
     <Component class="javax.swing.JLabel" name="jLNombre">
       <Properties>
-        <Property name="text" type="java.lang.String" value="Iv&#xe1;n Iv&#xe1;n Iv&#xe1;n Iv&#xe1;n Iv&#xe1;n Iv&#xe1;n Iv&#xe1;n"/>
+        <Property name="text" type="java.lang.String" value="Iv&#xe1;n Sergio"/>
       </Properties>
     </Component>
     <Component class="javax.swing.JLabel" name="jLApellido">
       <Properties>
-        <Property name="text" type="java.lang.String" value="Di Monte Di Monte Di Monte Di"/>
+        <Property name="text" type="java.lang.String" value="Di Monte"/>
       </Properties>
     </Component>
     <Component class="javax.swing.JLabel" name="jLFechaDeAlta">
@@ -270,7 +270,7 @@
         <Property name="font" type="java.awt.Font" editor="org.netbeans.beaninfo.editors.FontEditor">
           <Font name="Segoe UI" size="12" style="1"/>
         </Property>
-        <Property name="text" type="java.lang.String" value="12 de Enero de 1982"/>
+        <Property name="text" type="java.lang.String" value="12 | 01 | 1984"/>
       </Properties>
     </Component>
     <Component class="javax.swing.JLabel" name="jLFechaDeBaja">
@@ -278,7 +278,7 @@
         <Property name="font" type="java.awt.Font" editor="org.netbeans.beaninfo.editors.FontEditor">
           <Font name="Segoe UI" size="12" style="1"/>
         </Property>
-        <Property name="text" type="java.lang.String" value="29 de Octubre de 2045"/>
+        <Property name="text" type="java.lang.String" value="12 | 01 | 1989"/>
       </Properties>
     </Component>
     <Component class="javax.swing.JLabel" name="jLEstado">
@@ -291,7 +291,7 @@
         <Property name="font" type="java.awt.Font" editor="org.netbeans.beaninfo.editors.FontEditor">
           <Font name="Segoe UI" size="14" style="1"/>
         </Property>
-        <Property name="text" type="java.lang.String" value="12345678901"/>
+        <Property name="text" type="java.lang.String" value="5556"/>
       </Properties>
     </Component>
     <Component class="javax.swing.JLabel" name="jLABM">
