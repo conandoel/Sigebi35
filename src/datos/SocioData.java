@@ -1,7 +1,5 @@
 package datos;
 
-import entidades.Socio;
-
 import java.sql.*;
 import java.util.*;
 import entidades.Socio;
@@ -10,9 +8,7 @@ import java.io.*;
 import java.sql.Blob;
 import java.sql.Statement;
 import java.time.LocalDate;
-import java.time.format.DateTimeFormatter;
 import javax.imageio.ImageIO;
-import vistas.SocioTarjeta;
 
 public class SocioData {
     private Connection con = null;
@@ -31,7 +27,6 @@ public class SocioData {
     
     //Método para eliminar un socio
     public Socio eliminarSocio(String efecto, String soloMod, String criterio, String valor){
-        //PROBLEMA DE CRITERIO SEA ESTADO CON VALOR 1 //<-- Comentario legacy, hasta que no sepa por qué lo voy a dejar
         //Se toma el valor del JComboBox que contiene los criterios de búsqueda y se adapta a su valor en BASE DE DATOS
         String sql;
         if(efecto.equals("E")){
@@ -44,14 +39,16 @@ public class SocioData {
             //Se crea la consulta con la actualización de estado por ejemplo WHERE "domicilio" = "Brown 333"
             sql = "UPDATE lector SET estado = 0 WHERE " + criterio + " = '" + valor + "';";
         }else{
-            criterio = criterio.toLowerCase();
-            //Se crea la consulta con la actualización de estado por ejemplo WHERE "domicilio" = "Brown 333"
-            sql = "UPDATE lector SET " + criterio + " = '" + valor + "' WHERE " + criterio + " = '" + soloMod + "';";
+            if(criterio.equals("fechaDeAlta") || criterio.equals("fechaDeBaja")){
+                //Se crea la consulta con la actualización de estado por ejemplo WHERE "domicilio" = "Brown 333"
+                sql = "UPDATE lector SET " + criterio + " = '" + valor + "' WHERE " + criterio + " = '" + soloMod + "';";
+            }else{
+                criterio = criterio.toLowerCase();
+                //Se crea la consulta con la actualización de estado por ejemplo WHERE "domicilio" = "Brown 333"
+                sql = "UPDATE lector SET " + criterio + " = '" + valor + "' WHERE " + criterio + " = '" + soloMod + "';";
+            }
             System.out.println(sql);
         }
-        
-                               
-
         //Se ejecuta la consulta SQL
         try{
             PreparedStatement ps = con.prepareStatement(sql);
@@ -117,7 +114,7 @@ public class SocioData {
         }
     return listaLectores;
     }*/
-    public int[] buscarSocios(){
+    /*public int[] buscarSocios(){
         int dimension = obtenerCantidadSocios();
         idSocios = new int[dimension];
         String sql = "SELECT idSocio FROM lector;";
@@ -136,11 +133,10 @@ public class SocioData {
             
         }
         return idSocios;
-    }
+    }*/
     public List buscarHistorialSocios(String criterio, String valor){
         String sql = "SELECT * FROM lector WHERE " + criterio + " = ?;";
         socios = new ArrayList<>();
-        
         try{
             PreparedStatement ps = con.prepareStatement(sql);
             ps.setString(1, valor);

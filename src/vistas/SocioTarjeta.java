@@ -1,7 +1,6 @@
 package vistas;
 
 import entidades.Socio;
-import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
 import java.util.List;
 import datos.SocioData;
@@ -967,6 +966,11 @@ public class SocioTarjeta extends javax.swing.JPanel {
                                 labelInformativo.setText("La Fecha de Baja está mal especificada");
                             }
                         }else{
+                            String diaBajaSM = valorDelCampo.replaceAll(" \\| ", "").substring(0, 2);
+                            String mesBajaSM = valorDelCampo.replaceAll(" \\| ", "").substring(2, 4);
+                            String anyoBajaSM = valorDelCampo.replaceAll(" \\| ", "").substring(4, 8);
+                            String soloMod = anyoBajaSM + "-" + mesBajaSM + "-" + diaBajaSM;
+                            
                             String diaBaja = caracteresIngresados.replaceAll("[-/]", "").substring(0, 2);
                             String mesBaja = caracteresIngresados.replaceAll("[-/]", "").substring(2, 4);
                             String anyoBaja = caracteresIngresados.replaceAll("[-/]", "").substring(4, 8);
@@ -977,6 +981,7 @@ public class SocioTarjeta extends javax.swing.JPanel {
                             DateTimeFormatter formato = DateTimeFormatter.ofPattern("yyyy-MM-dd");
                             String fechaActualString = fechaActualLD.format(formato);
                             int fechaActual = Integer.parseInt(fechaActualString.replaceAll("-", ""));
+                            String fechaDB = anyoBaja + "-" + mesBaja + "-" + diaBaja;
                             
                             if(fechaActual >= fechaDeBAJA && fechaDeBAJA <= fechaDeALTA){
                             boolean febrero = Integer.parseInt(caracteresIngresados.substring(0, 2)) == 2 ? true : false;
@@ -995,6 +1000,7 @@ public class SocioTarjeta extends javax.swing.JPanel {
                                             valoresModificados.setVisible(false);
                                             valorMod.setText(caracteresIngresados.substring(0, 10) + (anyoDeAlta + 5));
                                             valorMod.setVisible(true);
+                                            metodoDeSocio.eliminarSocio("M", soloMod, "fechaDeBaja", fechaDB);
                                             labelInformativo.setText("La Fecha de Baja ha sido modificado correctamente");
                                         }else{
                                             labelInformativo.setText("La Fecha de Alta debe ser menor a la Fecha de Baja");
@@ -1010,6 +1016,7 @@ public class SocioTarjeta extends javax.swing.JPanel {
                                                 valoresModificados.setVisible(false);
                                                 valorMod.setText(caracteresIngresados.substring(0, 10) + (anyoDeAlta + 5));
                                                 valorMod.setVisible(true);
+                                                metodoDeSocio.eliminarSocio("M", soloMod, "fechaDeBaja", fechaDB);
                                                 labelInformativo.setText("La Fecha de Baja ha sido modificado correctamente");
                                             }else{
                                                 labelInformativo.setText("La Fecha de Alta debe ser menor a la Fecha de Baja");
@@ -1029,6 +1036,7 @@ public class SocioTarjeta extends javax.swing.JPanel {
                                         valoresModificados.setVisible(false);
                                         valorMod.setText(caracteresIngresados.substring(0, 10) + (anyoDeAlta + 5));
                                         valorMod.setVisible(true);
+                                        metodoDeSocio.eliminarSocio("M", soloMod, "fechaDeBaja", fechaDB);
                                         labelInformativo.setText("La Fecha de Baja ha sido modificado correctamente");
                                     }else{
                                         labelInformativo.setText("La Fecha de Alta debe ser menor a la Fecha de Baja");
@@ -1038,6 +1046,7 @@ public class SocioTarjeta extends javax.swing.JPanel {
                                     valorMod.setText(caracteresIngresados);
                                     valoresModificados.setVisible(false);
                                     valorMod.setVisible(true);
+                                    metodoDeSocio.eliminarSocio("M", soloMod, "fechaDeBaja", fechaDB);
                                     labelInformativo.setText("La Fecha de Baja ha sido modificado correctamente");
                                 }
                             }
@@ -1049,6 +1058,7 @@ public class SocioTarjeta extends javax.swing.JPanel {
                                     valoresModificados.setVisible(false);
                                     valorMod.setForeground(Color.RED);
                                     valorMod.setVisible(true);
+                                    metodoDeSocio.eliminarSocio("M", soloMod, "fechaDeBaja", fechaDB);
                                     labelInformativo.setText("La Fecha de Baja ha sido modificado correctamente");
                             }
                         break;
