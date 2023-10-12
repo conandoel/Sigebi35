@@ -30,17 +30,24 @@ public class SocioData {
     
     
     //Método para eliminar un socio
-    public Socio eliminarSocio(String criterio, String valor){
+    public Socio eliminarSocio(String efecto, String soloMod, String criterio, String valor){
         //PROBLEMA DE CRITERIO SEA ESTADO CON VALOR 1 //<-- Comentario legacy, hasta que no sepa por qué lo voy a dejar
         //Se toma el valor del JComboBox que contiene los criterios de búsqueda y se adapta a su valor en BASE DE DATOS
-        if(criterio.equals("Número de Socio") | criterio.equals("Estado")){
-            criterio = "idSocio";
-        }else{
+        String sql;
+        if(efecto.equals("E")){
+            if(criterio.equals("Número de Socio") | criterio.equals("Estado")){
+                criterio = "idSocio";
+            }else{
             //Para "idSocio" el cambio es radical, pero para los demás como "Estado" sólo basta pasarlos a minúsculas
             criterio = criterio.toLowerCase();
+            }
+            //Se crea la consulta con la actualización de estado por ejemplo WHERE "domicilio" = "Brown 333"
+            sql = "UPDATE lector SET estado = 0 WHERE " + criterio + " = '" + valor + "';";
+        }else{
+            //Se crea la consulta con la actualización de estado por ejemplo WHERE "domicilio" = "Brown 333"
+            sql = "UPDATE lector SET " + criterio + " = '" + valor + "' WHERE " + criterio + " = '" + soloMod + "';";
         }
-        //Se crea la consulta con la actualización de estado por ejemplo WHERE "domicilio" = "Brown 333"
-        String sql = "UPDATE lector SET estado = 0 WHERE " + criterio + " = '" + valor + "';";
+        
                                
 
         //Se ejecuta la consulta SQL

@@ -28,6 +28,7 @@ import javax.swing.JLabel;
 import javax.swing.JOptionPane;
 import javax.swing.JTextField;
 import java.time.LocalDate;
+import java.time.format.DateTimeFormatter;
 
 public class SocioTarjeta extends javax.swing.JPanel {
     //Listas para utilizar en los métodos
@@ -558,11 +559,11 @@ public class SocioTarjeta extends javax.swing.JPanel {
                     this.jLEfecto.setVisible(false);
                     //Si el criterio es "Estado" se enviará como valor el idSocio y se adaptará "Estado" porque sino borrará toda los socios
                     if(criterio.equals("Estado")){
-                        socio = metodoDeSocio.eliminarSocio(criterio, idSocio);
+                        socio = metodoDeSocio.eliminarSocio(valorBME, "", criterio, idSocio);
                         SocioBuscarView.getInstance().afectarSocio("ELIMINAR");
                     //Si el criterio no es "Estado" entonces se manda criterio y valor elegidos por el usuario
                     }else{
-                        socio = metodoDeSocio.eliminarSocio(criterio, valor);
+                        socio = metodoDeSocio.eliminarSocio(valorBME, "", criterio, valor);
                         SocioBuscarView.getInstance().afectarSocio("ELIMINAR");
                     }
                 }
@@ -829,9 +830,17 @@ public class SocioTarjeta extends javax.swing.JPanel {
                         String diaBaja = this.jLFechaDeBaja.getText().replaceAll(" \\| ", "").substring(0, 2);
                         String mesBaja = this.jLFechaDeBaja.getText().replaceAll(" \\| ", "").substring(2, 4);
                         String anyoBaja = this.jLFechaDeBaja.getText().replaceAll(" \\| ", "").substring(4, 8);
+                        
                         String fechaBaja = anyoBaja + mesBaja + diaBaja;
-                        int fechaDeBAJA= Integer.parseInt(fechaBaja);
-                        //LocalDate fechaActual = LocalDate.now();
+                        int fechaDeBAJA = Integer.parseInt(fechaBaja);
+                        
+                        LocalDate fechaActualLD = LocalDate.now();
+                        DateTimeFormatter formato = DateTimeFormatter.ofPattern("yyyy-MM-dd");
+                        String fechaActualString = fechaActualLD.format(formato);
+                        JOptionPane.showMessageDialog(null, fechaActualString);
+                        int fechaActual = Integer.parseInt(fechaActualString.replaceAll("-", ""));
+                        JOptionPane.showMessageDialog(null, fechaActual);
+
                         String fechaAdecuada = "^(0[1-9]|[12]\\d|3[01])[-/](0[1-9]|1[012])[-/](19|20)\\d{2}$";
                         if(!caracteresIngresados.matches(fechaAdecuada)){
                             if(cantidadDeCaracteres == 0){
@@ -842,75 +851,96 @@ public class SocioTarjeta extends javax.swing.JPanel {
                                 labelInformativo.setText("La Fecha de Alta está mal especificada");
                             }
                         }else{
+                            
+                            String diaAltaSM = valorDelCampo.replaceAll(" \\| ", "").substring(0, 2);
+                            String mesAltaSM = valorDelCampo.replaceAll(" \\| ", "").substring(2, 4);
+                            String anyoAltaSM = valorDelCampo.replaceAll(" \\| ", "").substring(4, 8);
+                            String soloMod = anyoAltaSM + "-" + mesAltaSM + "-" + diaAltaSM;
+                           
                             String diaAlta = caracteresIngresados.replaceAll("[-/]", "").substring(0, 2);
                             String mesAlta = caracteresIngresados.replaceAll("[-/]", "").substring(2, 4);
                             String anyoAlta = caracteresIngresados.replaceAll("[-/]", "").substring(4, 8);
-                            String fechaAlta= anyoAlta + mesAlta + diaAlta;
+                            String fechaAlta = anyoAlta + mesAlta + diaAlta;
                             int fechaDeALTA = Integer.parseInt(fechaAlta);
-                            boolean febrero = Integer.parseInt(caracteresIngresados.substring(0, 2)) == 2 ? true : false;
-                            int anyoIngresado = Integer.parseInt(caracteresIngresados.substring(6, 10));
+                            JOptionPane.showMessageDialog(null, "fechaDeALTA: " + fechaDeALTA);
+                            if(fechaActual >= fechaDeALTA){
+                                String fechaDB = anyoAlta + "-" + mesAlta + "-" + diaAlta;
+                                JOptionPane.showMessageDialog(null, fechaActual > fechaDeALTA);
+                                boolean febrero = Integer.parseInt(caracteresIngresados.substring(0, 2)) == 2 ? true : false;
+                                int anyoIngresado = Integer.parseInt(caracteresIngresados.substring(6, 10));
                             
-                            if(febrero){
-                                int diaFebrero = Integer.parseInt(caracteresIngresados.substring(3, 5));
-                                
-                                if(diaFebrero < 29){
-                                    //Si la baja es menor a la fecha de alta entonces se toma como reinscripción
+                                if(febrero){
+                                    int diaFebrero = Integer.parseInt(caracteresIngresados.substring(3, 5));
+
+                                    if(diaFebrero < 29){
+                                        //Si la baja es menor a la fecha de alta entonces se toma como reinscripción
+                                        if(fechaDeBAJA < fechaDeALTA){
+                                            int respuesta = JOptionPane.showConfirmDialog(this, "Se tomará como reinscripción. De acuerdo?");
+                                            if(respuesta == 0){
+                                                metodoDeSocio.eliminarSocio("M", soloMod, "fechaDeAlta", fechaDB);
+                                                caracteresIngresados =  caracteresIngresados.replaceAll("[-/]", " | ");
+                                                this.jLFechaDeBaja.setText(caracteresIngresados.substring(0, 10) + (anyoIngresado + 5));
+                                                
+                                                valorMod.setText(caracteresIngresados);
+                                                valoresModificados.setVisible(false);
+                                                valorMod.setVisible(true);
+                                                labelInformativo.setText("La Fecha de Alta ha sido modificado correctamente");
+                                                
+                                            }else{
+                                                labelInformativo.setText("La Fecha de Alta debe ser menor a la Fecha de Baja");
+                                            }
+                                        }   
+                                    }else{
+                                        if((anyoIngresado % 4 == 0 && anyoIngresado % 100 != 0) || (anyoIngresado % 400 == 0)){
+                                            if(fechaDeBAJA < fechaDeALTA){
+                                                int respuesta = JOptionPane.showConfirmDialog(this, "Se tomará como reinscripción. De acuerdo?");
+                                                if(respuesta == 0){
+                                                    metodoDeSocio.eliminarSocio("M", soloMod, "fechaDeAlta", fechaDB);
+                                                    caracteresIngresados =  caracteresIngresados.replaceAll("[-/]", " | ");
+                                                    this.jLFechaDeBaja.setText(caracteresIngresados.substring(0, 10) + (anyoIngresado + 5));
+
+                                                    valorMod.setText(caracteresIngresados);
+                                                    valoresModificados.setVisible(false);
+                                                    valorMod.setVisible(true);
+                                                    labelInformativo.setText("La Fecha de Alta ha sido modificado correctamente");
+                                                }else{
+                                                    labelInformativo.setText("La Fecha de Alta debe ser menor a la Fecha de Baja");
+                                                }
+                                            }else{
+                                                valorMod.setText(caracteresIngresados);
+                                                valorMod.setVisible(true);
+                                            }
+                                        }
+                                    }
+                                }else{
                                     if(fechaDeBAJA < fechaDeALTA){
                                         int respuesta = JOptionPane.showConfirmDialog(this, "Se tomará como reinscripción. De acuerdo?");
                                         if(respuesta == 0){
+                                            metodoDeSocio.eliminarSocio("M", soloMod, "fechaDeAlta", fechaDB);
                                             caracteresIngresados =  caracteresIngresados.replaceAll("[-/]", " | ");
+                                            this.jLFechaDeBaja.setText(caracteresIngresados.substring(0, 10) + (anyoIngresado + 5));
+ 
                                             valorMod.setText(caracteresIngresados);
                                             valoresModificados.setVisible(false);
-                                            this.jLFechaDeBaja.setText(caracteresIngresados.substring(0, 5) + (anyoIngresado + 5));
+                                            valorMod.setVisible(true);
                                             labelInformativo.setText("La Fecha de Alta ha sido modificado correctamente");
                                         }else{
                                             labelInformativo.setText("La Fecha de Alta debe ser menor a la Fecha de Baja");
                                         }
-                                    }
-                                    
-                                }else{
-                                    if((anyoIngresado % 4 == 0 && anyoIngresado % 100 != 0) || (anyoIngresado % 400 == 0)){
-                                        if(fechaDeBAJA < fechaDeALTA){
-                                            int respuesta = JOptionPane.showConfirmDialog(this, "Se tomará como reinscripción. De acuerdo?");
-                                            if(respuesta == 0){
-                                                caracteresIngresados = caracteresIngresados.replaceAll("[-/]", " | ");
-                                                valorMod.setText(caracteresIngresados);
-                                                valoresModificados.setVisible(false);
-                                                this.jLFechaDeBaja.setText(caracteresIngresados.substring(0, 6) + (anyoIngresado + 5));
-                                                labelInformativo.setText("La Fecha de Alta ha sido modificado correctamente");
-                                            }else{
-                                                labelInformativo.setText("La Fecha de Alta debe ser menor a la Fecha de Baja");
-                                            }
-                                        }else{
-                                            valorMod.setText(caracteresIngresados);
-                                            valorMod.setVisible(true);
-                                        }
-                                    }
-                                }
-                                
-                            }else{
-                                if(fechaDeBAJA < fechaDeALTA){
-                                    int respuesta = JOptionPane.showConfirmDialog(this, "Se tomará como reinscripción. De acuerdo?");
-                                    if(respuesta == 0){
+                                    }else{
+                                        metodoDeSocio.eliminarSocio("M", soloMod, "fechaDeAlta", fechaDB);
                                         caracteresIngresados = caracteresIngresados.replaceAll("[-/]", " | ");
                                         valorMod.setText(caracteresIngresados);
                                         valoresModificados.setVisible(false);
-                                        this.jLFechaDeBaja.setText(caracteresIngresados.substring(0, 6) + (anyoIngresado + 5));
+                                        valorMod.setVisible(true);
                                         labelInformativo.setText("La Fecha de Alta ha sido modificado correctamente");
-                                    }else{
-                                        labelInformativo.setText("La Fecha de Alta debe ser menor a la Fecha de Baja");
                                     }
-                                }else{
-                                    caracteresIngresados = caracteresIngresados.replaceAll("[-/]", " | ");
-                                    valorMod.setText(caracteresIngresados);
-                                    valoresModificados.setVisible(false);
-                                    valorMod.setVisible(true);
-                                    labelInformativo.setText("La Fecha de Alta ha sido modificado correctamente");
                                 }
-                            }
-                            
-                        }       break;
+                        }else{
+                            labelInformativo.setText("La Fecha de Alta no puede ser mayor a la Fecha Actual");
+                        }break;
                     }
+                }
                 case "Fecha de Baja:":
                     {
                         String diaAlta = this.jLFechaDeAlta.getText().replaceAll(" \\| ", "").substring(0, 2);
