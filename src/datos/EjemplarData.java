@@ -88,7 +88,7 @@ public class EjemplarData {
             }
             Libro libro=new Libro();
             LibroData ld=new LibroData();
-            libro=ld.buscarLibroPorISBN(ejemplar.getLibro().getIsbn());
+            //libro=ld.buscarLibroPorISBN(ejemplar.getLibro().getIsbn());
             String sql2="update libro set cantEjemplares = ? where isbn=?";
             try{
             PreparedStatement ps2=con.prepareStatement(sql2);

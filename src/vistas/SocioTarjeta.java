@@ -828,7 +828,7 @@ public class SocioTarjeta extends javax.swing.JPanel {
                 int fechaDeBAJA= Integer.parseInt(fechaBaja);
                 //LocalDate fechaActual = LocalDate.now();
 
-                String fechaAdecuada = "^(0[1-9]|[12]\\d|3[01])-(0[1-9]|1[012])-(19|20)\\d{2}$";
+                String fechaAdecuada = "^(0[1-9]|[12]\\d|3[01])[-/](0[1-9]|1[012])[-/](19|20)\\d{2}$";
                 if(!caracteresIngresados.matches(fechaAdecuada)){
                     if(cantidadDeCaracteres == 0){
                         valorMod.setText(placeholder);
@@ -838,15 +838,14 @@ public class SocioTarjeta extends javax.swing.JPanel {
                         labelInformativo.setText("La Fecha de Alta está mal especificada");
                     }
                 }else{
-                    String diaAlta = caracteresIngresados.replaceAll("-", "").substring(0, 2);
-                    String mesAlta = caracteresIngresados.replaceAll("-", "").substring(2, 4);
-                    String anyoAlta = caracteresIngresados.replaceAll("-", "").substring(4, 8);
+                    String diaAlta = caracteresIngresados.replaceAll("[-/]", "").substring(0, 2);
+                    String mesAlta = caracteresIngresados.replaceAll("[-/]", "").substring(2, 4);
+                    String anyoAlta = caracteresIngresados.replaceAll("[-/]", "").substring(4, 8);
                     String fechaAlta= anyoAlta + mesAlta + diaAlta;
-                    int fechaDeALTA = Integer.parseInt(fechaAlta);
-                    JOptionPane.showMessageDialog(null, "ALTA: " + fechaDeALTA + "\nBAJA: " + fechaDeBAJA + "\nResta: " + (fechaDeALTA - fechaDeBAJA));
-                    JOptionPane.showMessageDialog(null, fechaDeBAJA < fechaDeALTA);
+                    int fechaDeALTA = Integer.parseInt(fechaAlta);                   
                     boolean febrero = Integer.valueOf(caracteresIngresados.substring(0, 2)) == 2 ? true : false;
                     int anyoIngresado = Integer.valueOf(caracteresIngresados.substring(6, 10));
+                    
                     if(febrero){
                         int diaFebrero = Integer.valueOf(caracteresIngresados.substring(3, 5));
                         
@@ -855,7 +854,7 @@ public class SocioTarjeta extends javax.swing.JPanel {
                             if(fechaDeBAJA < fechaDeALTA){
                                 int respuesta = JOptionPane.showConfirmDialog(this, "Se tomará como reinscripción. De acuerdo?");
                                 if(respuesta == 0){
-                                    caracteresIngresados.replaceAll("[-/]", " | ");
+                                   caracteresIngresados =  caracteresIngresados.replaceAll("[-/]", " | ");
                                     valorMod.setText(caracteresIngresados);
                                     valoresModificados.setVisible(false);
                                     this.jLFechaDeBaja.setText(caracteresIngresados.substring(0, 5) + (anyoIngresado + 5));
@@ -870,7 +869,7 @@ public class SocioTarjeta extends javax.swing.JPanel {
                                 if(fechaDeBAJA < fechaDeALTA){
                                     int respuesta = JOptionPane.showConfirmDialog(this, "Se tomará como reinscripción. De acuerdo?");
                                     if(respuesta == 0){
-                                        caracteresIngresados.replaceAll("[-/]", " | ");
+                                        caracteresIngresados = caracteresIngresados.replaceAll("[-/]", " | ");
                                         valorMod.setText(caracteresIngresados);
                                         valoresModificados.setVisible(false);
                                         this.jLFechaDeBaja.setText(caracteresIngresados.substring(0, 6) + (anyoIngresado + 5));
@@ -879,8 +878,6 @@ public class SocioTarjeta extends javax.swing.JPanel {
                                         labelInformativo.setText("La Fecha de Alta debe ser menor a la Fecha de Baja");
                                     }
                                 }else{
-                                    JOptionPane.showMessageDialog(null, "?" + valorDelCampo);//borrar
-                                    JOptionPane.showMessageDialog(null, "?" + caracteresIngresados);
                                     valorMod.setText(caracteresIngresados);
                                     valorMod.setVisible(true);
                                 }
@@ -891,7 +888,7 @@ public class SocioTarjeta extends javax.swing.JPanel {
                         if(fechaDeBAJA < fechaDeALTA){
                             int respuesta = JOptionPane.showConfirmDialog(this, "Se tomará como reinscripción. De acuerdo?");
                             if(respuesta == 0){
-                                caracteresIngresados.replaceAll("[-/]", " | ");
+                                caracteresIngresados = caracteresIngresados.replaceAll("[-/]", " | ");
                                 valorMod.setText(caracteresIngresados);
                                 valoresModificados.setVisible(false);
                                 this.jLFechaDeBaja.setText(caracteresIngresados.substring(0, 6) + (anyoIngresado + 5));
@@ -921,7 +918,7 @@ public class SocioTarjeta extends javax.swing.JPanel {
                 int fechaDeALTA= Integer.parseInt(fechaAlta);
                 //LocalDate fechaActual = LocalDate.now();
 
-                String fechaAdecuada = "^(0[1-9]|[12]\\d|3[01])-(0[1-9]|1[012])-(19|20)\\d{2}$";
+                String fechaAdecuada = "^(0[1-9]|[12]\\d|3[01])[-/](0[1-9]|1[012])[-/](19|20)\\d{2}$";
                 if(!caracteresIngresados.matches(fechaAdecuada)){
                     if(cantidadDeCaracteres == 0){
                         valorMod.setText(valorDelCampo);
@@ -931,16 +928,15 @@ public class SocioTarjeta extends javax.swing.JPanel {
                         labelInformativo.setText("La Fecha de Baja está mal especificada");
                     }
                 }else{
-                    String diaBaja = caracteresIngresados.replaceAll("-", "").substring(0, 2);
-                    String mesBaja = caracteresIngresados.replaceAll("-", "").substring(2, 4);
-                    String anyoBaja = caracteresIngresados.replaceAll("-", "").substring(4, 8);
+                    String diaBaja = caracteresIngresados.replaceAll("[-/]", "").substring(0, 2);
+                    String mesBaja = caracteresIngresados.replaceAll("[-/]", "").substring(2, 4);
+                    String anyoBaja = caracteresIngresados.replaceAll("[-/]", "").substring(4, 8);
                     String fechaBaja= anyoBaja + mesBaja + diaBaja;
                     int fechaDeBAJA = Integer.parseInt(fechaBaja);
-                    JOptionPane.showMessageDialog(null, "ALTA: " + fechaDeALTA + "\nBAJA: " + fechaDeBAJA + "\nResta: " + (fechaDeALTA - fechaDeBAJA));
-                    JOptionPane.showMessageDialog(null, fechaDeBAJA < fechaDeALTA);
                     boolean febrero = Integer.valueOf(caracteresIngresados.substring(0, 2)) == 2 ? true : false;
                     int anyoDeAlta = Integer.parseInt(this.jLFechaDeAlta.getText().substring(10, 14));
                     int anyoIngresado = Integer.parseInt(caracteresIngresados.substring(6, 10));
+                    
                     if(febrero){
                         int diaFebrero = Integer.valueOf(caracteresIngresados.substring(3, 5));
                         
@@ -971,8 +967,6 @@ public class SocioTarjeta extends javax.swing.JPanel {
                                         labelInformativo.setText("La Fecha de Alta debe ser menor a la Fecha de Baja");
                                     }
                                 }else{
-                                    JOptionPane.showMessageDialog(null, "?" + valorDelCampo);//borrar
-                                    JOptionPane.showMessageDialog(null, "?" + caracteresIngresados);
                                     valorMod.setText(caracteresIngresados);
                                     valorMod.setVisible(true);
                                 }
