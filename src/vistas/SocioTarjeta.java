@@ -998,12 +998,12 @@ public class SocioTarjeta extends javax.swing.JPanel {
                         } else {
                             if (fechaDeBAJA > fechaActual) {
 
-                                boolean febrero = Integer.parseInt(caracteresIngresados.substring(0, 2)) == 2 ? true : false;
+                                boolean febrero = Integer.parseInt(caracteresIngresados.substring(3, 5)) == 2 ? true : false;
                                 int anyoDeAlta = Integer.parseInt(this.jLFechaDeAlta.getText().substring(10, 14));
                                 int anyoIngresado = Integer.parseInt(caracteresIngresados.substring(6, 10));
 
                                 if (febrero) {
-                                    int diaFebrero = Integer.parseInt(caracteresIngresados.substring(3, 5));
+                                    int diaFebrero = Integer.parseInt(caracteresIngresados.substring(0, 2));
                                     JOptionPane.showMessageDialog(null, diaFebrero);
                                     if (diaFebrero < 29) {
                                         JOptionPane.showMessageDialog(null, "Febrero < 29");
@@ -1026,7 +1026,7 @@ public class SocioTarjeta extends javax.swing.JPanel {
                                         if ((anyoIngresado % 4 == 0 && anyoIngresado % 100 != 0) || (anyoIngresado % 400 == 0)) {
                                             caracteresIngresados = caracteresIngresados.replaceAll("[-/]", " | ");
                                             valoresModificados.setVisible(false);
-                                            valorMod.setText(caracteresIngresados.substring(0, 10) + (anyoDeAlta + 5));
+                                            valorMod.setText(caracteresIngresados);
                                             valorMod.setVisible(true);
                                             metodoDeSocio.eliminarSocio("M", soloMod, "fechaDeBaja", fechaDB);
                                             labelInformativo.setText("La Fecha de Baja ha sido modificado correctamente");
@@ -1071,19 +1071,19 @@ public class SocioTarjeta extends javax.swing.JPanel {
                                         JOptionPane.showMessageDialog(null, "Aquí P");
                                         if (this.jLEstado.getText().equals("Socio Activo")) {
                                             this.jLEstado.setText("Desasociado");
-                                            metodoDeSocio.eliminarSocio("M", this.jLNumeroDeSocio.getText(), this.jLEst.getText().replace(":", ""), "1");
+                                            metodoDeSocio.eliminarSocio("M", this.jLNumeroDeSocio.getText(), this.jLEst.getText().replace(":", ""), "0");
                                         }
                                         this.jLEstado.setForeground(Color.RED);
                                     }
                                 }
 
                             } else {
-                                boolean febrero = Integer.parseInt(caracteresIngresados.substring(0, 2)) == 2 ? true : false;
+                                boolean febrero = Integer.parseInt(caracteresIngresados.substring(3, 5)) == 2 ? true : false;
                                 int anyoDeAlta = Integer.parseInt(this.jLFechaDeAlta.getText().substring(10, 14));
                                 int anyoIngresado = Integer.parseInt(caracteresIngresados.substring(6, 10));
 
                                 if (febrero) {
-                                    int diaFebrero = Integer.parseInt(caracteresIngresados.substring(3, 5));
+                                    int diaFebrero = Integer.parseInt(caracteresIngresados.substring(0, 2));
                                     JOptionPane.showMessageDialog(null, diaFebrero);
                                     if (diaFebrero < 29) {
                                         JOptionPane.showMessageDialog(null, "Febrero < 29");
@@ -1095,26 +1095,27 @@ public class SocioTarjeta extends javax.swing.JPanel {
                                         metodoDeSocio.eliminarSocio("M", soloMod, "fechaDeBaja", fechaDB);
                                         labelInformativo.setText("La Fecha de Baja ha sido modificado correctamente");
                                         labelInformativo.setForeground(Color.GREEN);
-                                        if (this.jLEstado.getText().equals("Desasociado")) {
-                                            this.jLEstado.setText("Socio Activo");
-                                            metodoDeSocio.eliminarSocio("M", this.jLNumeroDeSocio.getText(), this.jLEst.getText().replace(":", ""), "1");
+                                        if (this.jLEstado.getText().equals("Socio Activo")) {
+                                            this.jLEstado.setText("Desasociado");
+                                            metodoDeSocio.eliminarSocio("M", this.jLNumeroDeSocio.getText(), this.jLEst.getText().replace(":", ""), "0");
                                         }
-
+                                        this.jLEstado.setForeground(Color.RED);
                                     } else if(diaFebrero == 29) {
                                         JOptionPane.showMessageDialog(null, "Febrero == 29");
                                         JOptionPane.showMessageDialog(null, soloMod + this.jLNumeroDeSocio.getText() + " " + this.jLEst.getText());
                                         if ((anyoIngresado % 4 == 0 && anyoIngresado % 100 != 0) || (anyoIngresado % 400 == 0)) {
                                             caracteresIngresados = caracteresIngresados.replaceAll("[-/]", " | ");
                                             valoresModificados.setVisible(false);
-                                            valorMod.setText(caracteresIngresados.substring(0, 10) + (anyoDeAlta + 5));
+                                            valorMod.setText(caracteresIngresados);
                                             valorMod.setVisible(true);
                                             metodoDeSocio.eliminarSocio("M", soloMod, "fechaDeBaja", fechaDB);
                                             labelInformativo.setText("La Fecha de Baja ha sido modificado correctamente");
                                             labelInformativo.setForeground(Color.GREEN);
-                                            if (this.jLEstado.getText().equals("Desasociado")) {
-                                                this.jLEstado.setText("Socio Activo");
-                                                metodoDeSocio.eliminarSocio("M", this.jLNumeroDeSocio.getText(), this.jLEst.getText().replace(":", ""), "1");
+                                            if (this.jLEstado.getText().equals("Socio Activo")) {
+                                                this.jLEstado.setText("Desasociado");
+                                                metodoDeSocio.eliminarSocio("M", this.jLNumeroDeSocio.getText(), this.jLEst.getText().replace(":", ""), "0");
                                             }
+                                            this.jLEstado.setForeground(Color.RED);
                                         } else {
                                             labelInformativo.setText("Revise la Fecha de Baja pues el año ingresado no es un año bisiesto");
                                             labelInformativo.setForeground(Color.RED);
@@ -1124,7 +1125,7 @@ public class SocioTarjeta extends javax.swing.JPanel {
                                         labelInformativo.setForeground(Color.RED);
                                     }
 
-                                } else {
+                                } else {//Esta se puede sacar, la de abajo no creo
                                     if (fechaDeBAJA > fechaActual) {
                                         JOptionPane.showMessageDialog(null, "fechaDeBaja > fechaActual");
                                         caracteresIngresados = caracteresIngresados.replaceAll("[-/]", " | ");
@@ -1133,6 +1134,7 @@ public class SocioTarjeta extends javax.swing.JPanel {
                                         valorMod.setVisible(true);
                                         metodoDeSocio.eliminarSocio("M", soloMod, "fechaDeBaja", fechaDB);
                                         labelInformativo.setText("La Fecha de Baja ha sido modificado correctamente");
+                                        JOptionPane.showMessageDialog(null, "HOLA");
                                         labelInformativo.setForeground(Color.GREEN);
                                         if (this.jLEstado.getText().equals("Desasociado")) {
                                             this.jLEstado.setText("Socio Activo");
@@ -1148,10 +1150,9 @@ public class SocioTarjeta extends javax.swing.JPanel {
                                         metodoDeSocio.eliminarSocio("M", soloMod, "fechaDeBaja", fechaDB);
                                         labelInformativo.setText("La Fecha de Baja ha sido modificado correctamente");
                                         labelInformativo.setForeground(Color.GREEN);
-                                        JOptionPane.showMessageDialog(null, "Aquí P");
                                         if (this.jLEstado.getText().equals("Socio Activo")) {
                                             this.jLEstado.setText("Desasociado");
-                                            metodoDeSocio.eliminarSocio("M", this.jLNumeroDeSocio.getText(), this.jLEst.getText().replace(":", ""), "1");
+                                            metodoDeSocio.eliminarSocio("M", this.jLNumeroDeSocio.getText(), this.jLEst.getText().replace(":", ""), "0");
                                         }
                                         this.jLEstado.setForeground(Color.RED);
                                     }

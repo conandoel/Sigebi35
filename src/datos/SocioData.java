@@ -48,21 +48,21 @@ public class SocioData {
                 //Se crea la consulta con la actualización de estado por ejemplo WHERE "domicilio" = "Brown 333"
                 sql = "UPDATE lector SET " + criterio + " = '" + valor + "' WHERE " + criterio + " = '" + soloMod + "';";
                 valor = soloMod;
-            } else {
+            }else if (criterio.equalsIgnoreCase("Número de Socio") | criterio.equalsIgnoreCase("Estado")) {//Ver si es Número de Socio o Socio número
+                criterio = "idSocio";
+                int valorInt = Integer.parseInt(valor);
+                int soloModInt = Integer.parseInt(soloMod);
+                sql = "UPDATE lector SET estado = " + valorInt + " WHERE " + criterio + " = " + soloModInt + ";";
+                valor = String.valueOf(soloModInt);
+            }else {
                 criterio = criterio.toLowerCase();
                 //Se crea la consulta con la actualización de estado por ejemplo WHERE "domicilio" = "Brown 333"
                 sql = "UPDATE lector SET " + criterio + " = '" + valor + "' WHERE " + criterio + " = '" + soloMod + "';";
                 
             }
 
-            if (criterio.equalsIgnoreCase("Número de Socio") | criterio.equalsIgnoreCase("Estado")) {//Ver si es Número de Socio o Socio número
-                criterio = "idSocio";
-                int valorInt = Integer.parseInt(valor);
-                int soloModInt = Integer.parseInt(soloMod);
-                sql = "UPDATE lector SET estado = " + valorInt + " WHERE " + criterio + " = " + soloModInt + ";";
-                valor = String.valueOf(soloModInt);
-            }
-        }
+            
+        }System.out.println(sql);
         //Se ejecuta la consulta SQL
         try {
             PreparedStatement ps = con.prepareStatement(sql);
@@ -186,20 +186,33 @@ public class SocioData {
         }
         return idSocios;
     }*/
-    public List buscarHistorialSocios(String criterio, String valor){
+    public List buscarHistorialSocios(String criterio, String valorStringInt){
+        int valorInt=-1;
+        String valorString="";
+        String sql;
+
         try{
-            valor = String.valueOf(valor);
+            valorInt = Integer.parseInt(valorStringInt);
+            sql = "SELECT * FROM lector WHERE " + criterio + " = ?;";
         }catch(NumberFormatException ex){
-            
+            valorString = valorStringInt;
+            sql = "SELECT * FROM lector WHERE " + criterio + " = '?';";
         }
-        String sql = "SELECT * FROM lector WHERE " + criterio + " = ?;";
+        
         socios = new ArrayList<>();
         try{
+            
             PreparedStatement ps = con.prepareStatement(sql);
-            ps.setString(1, valor);
+            if(valorInt >= 0){
+                ps.setInt(1, valorInt);
+            }else{
+                ps.setString(1, valorString);
+            }
             
             ResultSet rs = ps.executeQuery();
             System.out.println(sql);
+            System.out.println(valorInt);
+            System.out.println(valorString);
             while(rs.next()){
                 socio = new Socio();
                 socio.setIdSocio(rs.getInt("idSocio"));
@@ -211,8 +224,9 @@ public class SocioData {
                 //Esta parte hay que arreglarla
                 socio.setFechaDeBaja(rs.getDate("fechaDeBaja").toLocalDate());
                 socio.setEstado(rs.getBoolean("estado"));
-                socios.add(socio);
+                
             }
+            socios.add(socio);
         }catch(SQLException ex){
             
         }
