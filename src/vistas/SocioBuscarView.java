@@ -6,6 +6,8 @@ import java.util.List;
 import javax.swing.BoxLayout;
 import javax.swing.JTextField;
 import javax.swing.JOptionPane;
+import javax.swing.KeyStroke;
+import java.awt.event.ActionEvent;
 
 public class SocioBuscarView extends javax.swing.JInternalFrame {
     
@@ -28,6 +30,10 @@ public class SocioBuscarView extends javax.swing.JInternalFrame {
         initComponents();
         jCBCargarSocioBuscarCriterios();
         sbr = this;
+        //jBBuscar.addActionListener(action);
+        //jBBuscar.getInputMap().put(KeyStroke.getKeyStroke("ENTER"), "doClick");
+        //jBBuscar.getActionMap().put("doClick", action);
+        
     }
     //Getter para revisar el valor dado en la búsqueda
     public String getValor(){
@@ -143,6 +149,11 @@ public class SocioBuscarView extends javax.swing.JInternalFrame {
                 jBBuscarActionPerformed(evt);
             }
         });
+        jBBuscar.addKeyListener(new java.awt.event.KeyAdapter() {
+            public void keyReleased(java.awt.event.KeyEvent evt) {
+                jBBuscarKeyReleased(evt);
+            }
+        });
 
         jLInfo.setForeground(new java.awt.Color(255, 0, 51));
 
@@ -256,6 +267,13 @@ public class SocioBuscarView extends javax.swing.JInternalFrame {
         
  
     }//GEN-LAST:event_jBBuscarActionPerformed
+    
+    private void jBBuscarKeyReleased(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_jBBuscarKeyReleased
+        // TODO add your handling code here:
+        if(evt.getKeyCode()==10){
+            //this.jBBuscarActionPerformed(java.awt.event.ActionEvent evt);
+        }
+    }//GEN-LAST:event_jBBuscarKeyReleased
     //Este método le da a las TARJETAS la disposición con las que se mostrarán según la cantidad
     private void cargarLasTarjetas(){
         //Se crea una instancia de DropShadowPanel y se le pasa el grosor de la sombra con valor 20px

@@ -9,6 +9,10 @@ import java.sql.Blob;
 import java.sql.Statement;
 import java.time.LocalDate;
 import javax.imageio.ImageIO;
+import javax.swing.JOptionPane;
+import java.time.Instant;
+import java.time.ZoneId;
+import java.util.Date;
 
 public class SocioData {
     private Connection con = null;
@@ -28,6 +32,7 @@ public class SocioData {
     //Método para eliminar un socio
     public Socio eliminarSocio(String efecto, String soloMod, String criterio, String valor){
         //Se toma el valor del JComboBox que contiene los criterios de búsqueda y se adapta a su valor en BASE DE DATOS
+
         String sql;
         if(efecto.equals("E")){
             if(criterio.equals("Número de Socio") | criterio.equals("Estado")){
@@ -42,27 +47,36 @@ public class SocioData {
             if(criterio.equals("fechaDeAlta") || criterio.equals("fechaDeBaja")){
                 //Se crea la consulta con la actualización de estado por ejemplo WHERE "domicilio" = "Brown 333"
                 sql = "UPDATE lector SET " + criterio + " = '" + valor + "' WHERE " + criterio + " = '" + soloMod + "';";
-            }else{
+                valor = soloMod;
+            } else {
                 criterio = criterio.toLowerCase();
                 //Se crea la consulta con la actualización de estado por ejemplo WHERE "domicilio" = "Brown 333"
                 sql = "UPDATE lector SET " + criterio + " = '" + valor + "' WHERE " + criterio + " = '" + soloMod + "';";
+                
             }
-            System.out.println(sql);
+
+            if (criterio.equalsIgnoreCase("Número de Socio") | criterio.equalsIgnoreCase("Estado")) {//Ver si es Número de Socio o Socio número
+                criterio = "idSocio";
+                int valorInt = Integer.parseInt(valor);
+                int soloModInt = Integer.parseInt(soloMod);
+                sql = "UPDATE lector SET estado = " + valorInt + " WHERE " + criterio + " = " + soloModInt + ";";
+                valor = String.valueOf(soloModInt);
+            }
         }
         //Se ejecuta la consulta SQL
-        try{
+        try {
             PreparedStatement ps = con.prepareStatement(sql);
             int filas = ps.executeUpdate();
             //Se crea un ArrayList que se llena con los nombres de las columnas con el método utilitario
             columnas = new ArrayList<>();
             columnas = listarColumnas();
-            
-            if(filas > 0){
+
+            if (filas > 0) {
                 //Si se eliminó algo se crea un socio
                 Socio socio = new Socio();
                 //Se itera por la columna buscando el match entre criterio y columna
-                for(String columna : columnas){
-                    if(criterio.equals(columna)){
+                for (String columna : columnas) {
+                    if (criterio.equals(columna)) {
                         //En el List de socios se guarda el socio eliminado con el criterio-valor establecido en la búsqueda
                         //Podría hacerse una sobrecarga de buscarHistorialSocios para que pueda devolver un socio
                         socios = buscarHistorialSocios(criterio, valor);
@@ -71,14 +85,52 @@ public class SocioData {
             }
             //el primer socio (Siempre va a ser uno) se guarda en una instancia de socio
             socio = socios.get(0);
-        }catch(SQLException ex){
-            
+        } catch (SQLException ex) {
+
         }
         //Se devuelve un objeto Socio (Aunque aún no sé para qué. Supongo que preveo)
         return socio;
     }
     
     public void buscarLectorPorDNI(){}
+    
+    public List <Socio> buscarSociosPorFecha(String criterioFecha, String fecha){
+        
+        String sql = "SELECT * FROM lector WHERE ? = '" + fecha + "';";
+        
+        try{
+            PreparedStatement ps = con.prepareStatement(sql);
+            ps.setString(1, criterioFecha);
+            
+            ResultSet rs = ps.executeQuery();
+            
+            Socio socio = new Socio();
+            while(rs.next()){
+                
+                Instant instant;
+                LocalDate ld;
+                
+                socio.setIdSocio(rs.getInt("idSocio"));
+                socio.setApellido(rs.getString("apellido"));
+                socio.setNombre(rs.getString("nombre"));
+                socio.setDomicilio(rs.getString("domicilio"));
+                socio.setMail(rs.getString("mail"));
+                socio.setEstado(rs.getBoolean("estado"));
+                
+                if(criterioFecha.equalsIgnoreCase("fechaDeAlta")){
+                    socio.setFechaDeAlta(rs.getDate(criterioFecha).toLocalDate());
+                }else{
+                    socio.setFechaDeAlta(rs.getDate(criterioFecha).toLocalDate());
+                }
+                
+                socios.add(socio);
+            }
+        }catch(SQLException ex){
+            
+        }
+        
+        return socios;
+    }
     
     /*public List<Socio> listarLector(int activo){/*Ingresa 0 para listar lectores inactivos
                                                           1 para listar lectores activos
@@ -135,6 +187,11 @@ public class SocioData {
         return idSocios;
     }*/
     public List buscarHistorialSocios(String criterio, String valor){
+        try{
+            valor = String.valueOf(valor);
+        }catch(NumberFormatException ex){
+            
+        }
         String sql = "SELECT * FROM lector WHERE " + criterio + " = ?;";
         socios = new ArrayList<>();
         try{
@@ -142,7 +199,7 @@ public class SocioData {
             ps.setString(1, valor);
             
             ResultSet rs = ps.executeQuery();
-            
+            System.out.println(sql);
             while(rs.next()){
                 socio = new Socio();
                 socio.setIdSocio(rs.getInt("idSocio"));
@@ -152,7 +209,7 @@ public class SocioData {
                 socio.setMail(rs.getString("mail"));
                 socio.setFechaDeAlta(rs.getDate("fechaDeAlta").toLocalDate());
                 //Esta parte hay que arreglarla
-                socio.setFechaDeBaja(rs.getDate("fechaDeBaja")==null? LocalDate.now() : rs.getDate("fechaDeBaja").toLocalDate() );
+                socio.setFechaDeBaja(rs.getDate("fechaDeBaja").toLocalDate());
                 socio.setEstado(rs.getBoolean("estado"));
                 socios.add(socio);
             }
