@@ -7,12 +7,9 @@ import java.awt.image.BufferedImage;
 import java.io.*;
 import java.sql.Blob;
 import java.sql.Statement;
-import java.time.LocalDate;
 import javax.imageio.ImageIO;
 import javax.swing.JOptionPane;
-import java.time.Instant;
-import java.time.ZoneId;
-import java.util.Date;
+import java.io.IOException;
 
 public class SocioData {
     private Connection con = null;
@@ -92,7 +89,67 @@ public class SocioData {
         return socio;
     }
     
+    public void eliminarSocio(File file, FileInputStream fis, String rutaMasNombreDeFoto) throws FileNotFoundException{
+        String sql = "UPDATE lector SET fotoPerfil = ? WHERE fotoPerfilNombre = '?';";
+
+        PreparedStatement ps = null; // declarar el PreparedStatement fuera del bloque try
+        try {
+            ps = con.prepareStatement(sql);
+    
+            // Usar el fis y la longitud del archivo para establecer el valor del primer parámetro de la consulta SQL
+            ps.setBlob(1, fis, file.length());
+            // Usar la variable rutaMasNombreDeFoto para establecer el valor del segundo parámetro de la consulta SQL
+            ps.setString(2, rutaMasNombreDeFoto);
+            ps.executeUpdate();
+     
+        }catch(SQLException ex){
+            // manejar la excepción
+            JOptionPane.showMessageDialog(null, "Error al actualizar el Blob en la base de datos", "Error", JOptionPane.ERROR_MESSAGE);
+            // o lanzar la excepción
+            // throw ex;
+        }finally{
+            // Cerrar el PreparedStatement y el FileInputStream en el bloque finally
+            try{
+                if (ps != null) {
+                    ps.close();
+                }
+                if (fis != null) {
+                    try{
+                        fis.close();
+                    }catch(IOException ex){
+                        
+                    }
+                }
+            }catch(SQLException ex){
+                // manejar la excepción al cerrar
+                JOptionPane.showMessageDialog(null, "Error al cerrar los recursos", "Error", JOptionPane.ERROR_MESSAGE);
+
+            }
+        }
+    }
+
     public void buscarLectorPorDNI(){}
+    
+    public Socio obtenerNombreDeImagen(String idSocioString){
+        int idSocio = Integer.parseInt(idSocioString);
+        String sql = "SELECT fotoPerfilNombre FROM lector WHERE idSocio = " + idSocio;
+        Socio socioLocal = null;
+        try{
+            PreparedStatement ps = con.prepareStatement(sql);
+            ps.setInt(1, idSocio);
+            
+            ResultSet rs = ps.executeQuery();
+            socioLocal = new Socio();
+            while(rs.next()){
+                
+                socioLocal.setFotoPerfilNombre(rs.getString("fotoPerfilNombre"));
+                socioLocal.setIdSocio(idSocio);
+            }
+        }catch(SQLException ex){
+            
+        }
+        return socioLocal;
+    }
     
     public List <Socio> buscarSociosPorFecha(String criterioFecha, String fecha){
         
@@ -104,26 +161,24 @@ public class SocioData {
             
             ResultSet rs = ps.executeQuery();
             
-            Socio socio = new Socio();
+            Socio socioLocal = new Socio();
             while(rs.next()){
+
                 
-                Instant instant;
-                LocalDate ld;
-                
-                socio.setIdSocio(rs.getInt("idSocio"));
-                socio.setApellido(rs.getString("apellido"));
-                socio.setNombre(rs.getString("nombre"));
-                socio.setDomicilio(rs.getString("domicilio"));
-                socio.setMail(rs.getString("mail"));
-                socio.setEstado(rs.getBoolean("estado"));
+                socioLocal.setIdSocio(rs.getInt("idSocio"));
+                socioLocal.setApellido(rs.getString("apellido"));
+                socioLocal.setNombre(rs.getString("nombre"));
+                socioLocal.setDomicilio(rs.getString("domicilio"));
+                socioLocal.setMail(rs.getString("mail"));
+                socioLocal.setEstado(rs.getBoolean("estado"));
                 
                 if(criterioFecha.equalsIgnoreCase("fechaDeAlta")){
-                    socio.setFechaDeAlta(rs.getDate(criterioFecha).toLocalDate());
+                    socioLocal.setFechaDeAlta(rs.getDate(criterioFecha).toLocalDate());
                 }else{
-                    socio.setFechaDeAlta(rs.getDate(criterioFecha).toLocalDate());
+                    socioLocal.setFechaDeAlta(rs.getDate(criterioFecha).toLocalDate());
                 }
                 
-                socios.add(socio);
+                socios.add(socioLocal);
             }
         }catch(SQLException ex){
             
@@ -132,61 +187,8 @@ public class SocioData {
         return socios;
     }
     
-    /*public List<Socio> listarLector(int activo){/*Ingresa 0 para listar lectores inactivos
-                                                          1 para listar lectores activos
-                                                          cualquier otro numero para listarlos todos*/
-    /*List<Socio> listaLectores = new ArrayList<> ();
-    
-    String sql = "select * from lector ";
-    switch(activo){
-        case(0): sql = sql + "where estado = " + 0;
-        case(1): sql = sql + "where estado = " + 1;
-        default:
-    }
-        try {
-            PreparedStatement ps = con.prepareStatement(sql);
-            ResultSet rs = ps.executeQuery();
-            while(rs.next()){ //Faltaria modificacion: No se contempla la foto de perfil
-                socio.setIdSocio(rs.getInt("idSocio"));
-                socio.setApellido(rs.getString("apellido"));
-                socio.setNombre(rs.getString("nombre"));
-                socio.setDomicilio(rs.getString("domicilio"));
-                socio.setMail(rs.getString("mail"));
-                socio.setFechaDeAlta(rs.getDate("fechaDeAlta").toLocalDate());
-                //Tengo fe que esto funciona
-                socio.setFechaDeBaja(rs.getDate("fechaDeBaja").toLocalDate());
-                //No tengo mucha fe en que este ^ va a funcionar
-                socio.setEstado(rs.getBoolean("estado"));
-                
-                listaLectores.add(socio);
-            }   
-            
-        } catch (SQLException ex) {
-
-        }
-    return listaLectores;
-    }*/
-    /*public int[] buscarSocios(){
-        int dimension = obtenerCantidadSocios();
-        idSocios = new int[dimension];
-        String sql = "SELECT idSocio FROM lector;";
-        
-        try{
-            Statement st = con.createStatement();
-            
-             ResultSet rs = st.executeQuery(sql);
-            
-            int i = 0;
-            while(rs.next()){
-                idSocios[i++] = rs.getInt("idSocio");
-            }
-            
-        }catch(SQLException ex){
-            
-        }
-        return idSocios;
-    }*/
     public List buscarHistorialSocios(String criterio, String valorStringInt){
+        //ESE -1 EN ALGÚN LADO ME TIRÓ ERROR
         int valorInt=-1;
         String valorString="";
         String sql;
@@ -198,8 +200,8 @@ public class SocioData {
             valorString = valorStringInt;
             sql = "SELECT * FROM lector WHERE " + criterio + " = '?';";
         }
-        
         socios = new ArrayList<>();
+        Socio socioLocal=null;
         try{
             
             PreparedStatement ps = con.prepareStatement(sql);
@@ -208,25 +210,24 @@ public class SocioData {
             }else{
                 ps.setString(1, valorString);
             }
-            
             ResultSet rs = ps.executeQuery();
             System.out.println(sql);
             System.out.println(valorInt);
             System.out.println(valorString);
             while(rs.next()){
-                socio = new Socio();
-                socio.setIdSocio(rs.getInt("idSocio"));
-                socio.setApellido(rs.getString("apellido"));
-                socio.setNombre(rs.getString("nombre"));
-                socio.setDomicilio(rs.getString("domicilio"));
-                socio.setMail(rs.getString("mail"));
-                socio.setFechaDeAlta(rs.getDate("fechaDeAlta").toLocalDate());
+                socioLocal = new Socio();
+                socioLocal.setIdSocio(rs.getInt("idSocio"));
+                socioLocal.setApellido(rs.getString("apellido"));
+                socioLocal.setNombre(rs.getString("nombre"));
+                socioLocal.setDomicilio(rs.getString("domicilio"));
+                socioLocal.setMail(rs.getString("mail"));
+                socioLocal.setFechaDeAlta(rs.getDate("fechaDeAlta").toLocalDate());
                 //Esta parte hay que arreglarla
-                socio.setFechaDeBaja(rs.getDate("fechaDeBaja").toLocalDate());
-                socio.setEstado(rs.getBoolean("estado"));
-                
+                socioLocal.setFechaDeBaja(rs.getDate("fechaDeBaja").toLocalDate());
+                socioLocal.setEstado(rs.getBoolean("estado"));
+                socios.add(socioLocal);
             }
-            socios.add(socio);
+            
         }catch(SQLException ex){
             
         }
@@ -348,4 +349,66 @@ public class SocioData {
             
         }
     }
+    
+    
+    
+    
+    
+    /*public List<Socio> listarLector(int activo){/*Ingresa 0 para listar lectores inactivos
+                                                          1 para listar lectores activos
+                                                          cualquier otro numero para listarlos todos*/
+    /*List<Socio> listaLectores = new ArrayList<> ();
+    
+    String sql = "select * from lector ";
+    switch(activo){
+        case(0): sql = sql + "where estado = " + 0;
+        case(1): sql = sql + "where estado = " + 1;
+        default:
+    }
+        try {
+            PreparedStatement ps = con.prepareStatement(sql);
+            ResultSet rs = ps.executeQuery();
+            while(rs.next()){ //Faltaria modificacion: No se contempla la foto de perfil
+                socio.setIdSocio(rs.getInt("idSocio"));
+                socio.setApellido(rs.getString("apellido"));
+                socio.setNombre(rs.getString("nombre"));
+                socio.setDomicilio(rs.getString("domicilio"));
+                socio.setMail(rs.getString("mail"));
+                socio.setFechaDeAlta(rs.getDate("fechaDeAlta").toLocalDate());
+                //Tengo fe que esto funciona
+                socio.setFechaDeBaja(rs.getDate("fechaDeBaja").toLocalDate());
+                //No tengo mucha fe en que este ^ va a funcionar
+                socio.setEstado(rs.getBoolean("estado"));
+                
+                listaLectores.add(socio);
+            }   
+            
+        } catch (SQLException ex) {
+
+        }
+    return listaLectores;
+    }*/
+    /*public int[] buscarSocios(){
+        int dimension = obtenerCantidadSocios();
+        idSocios = new int[dimension];
+        String sql = "SELECT idSocio FROM lector;";
+        
+        try{
+            Statement st = con.createStatement();
+            
+             ResultSet rs = st.executeQuery(sql);
+            
+            int i = 0;
+            while(rs.next()){
+                idSocios[i++] = rs.getInt("idSocio");
+            }
+            
+        }catch(SQLException ex){
+            
+        }
+        return idSocios;
+    }*/
+    
+    
+    
 }

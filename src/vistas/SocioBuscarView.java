@@ -5,9 +5,6 @@ import java.awt.LayoutManager;
 import java.util.List;
 import javax.swing.BoxLayout;
 import javax.swing.JTextField;
-import javax.swing.JOptionPane;
-import javax.swing.KeyStroke;
-import java.awt.event.ActionEvent;
 
 public class SocioBuscarView extends javax.swing.JInternalFrame {
     
@@ -252,7 +249,7 @@ public class SocioBuscarView extends javax.swing.JInternalFrame {
             final String NADA = "NADA";
             //Se toman el valor y criterio de búsqueda de la VISTA BUSCAR SOCIO
             valor = jTFSocioBuscarIngreseValor.getText();
-            criterio= jCBSocioBuscarCriterio.getSelectedItem().toString();
+            criterio = jCBSocioBuscarCriterio.getSelectedItem().toString();
             //Se instancia una TARJETA (su molde)
             resultado = new SocioTarjeta();
             //Se guardan en el LIST las TARJETAS devueltas con la BÚSQUEDA ya que NADA es para BÚSQUEDA

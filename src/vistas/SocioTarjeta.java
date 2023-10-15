@@ -17,7 +17,10 @@ import java.awt.event.KeyEvent;
 import java.awt.event.KeyListener;
 import java.awt.image.BufferedImage;
 import java.io.File;
+import java.io.FileInputStream;
 import java.io.IOException;
+import java.nio.file.Files;
+import java.nio.file.StandardCopyOption;
 import javax.imageio.ImageIO;
 import javax.swing.Timer;
 import javax.swing.ImageIcon;
@@ -28,27 +31,27 @@ import javax.swing.JOptionPane;
 import javax.swing.JTextField;
 import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
+import javax.swing.JFileChooser;
 
 public class SocioTarjeta extends javax.swing.JPanel {
-
+    JFileChooser fileChooser = new JFileChooser(); // create the file chooser
     //Listas para utilizar en los métodos
     private List<Socio> socios;
     private List<String> columnas;
     private List<SocioTarjeta> tarjetas;
+    private Socio socio;
 
     private static SocioTarjeta socioTarjeta;
 
     private SocioData metodoDeSocio;
     //Cuadro de texto que emerge al modificar un campo de la TARJETA
-    private JTextField jTFSocioMod;
+    private final JTextField jTFSocioMod;
     //JLabel temporal que va a guardar el JLabel con el nombre del campo
     private JLabel campoAModificar;
     //JLabel temporal qeu va a guardar el JLabel con el valor del campo
     private JLabel valorAModificar;
 
-    private JComboBox<String> jCBEstado;
-    private String numeroSocioAnterior;
-    private Socio socio;
+    private final JComboBox<String> jCBEstado;
     private String placeholder;
     String[] estados = {"Socio Activo", "Desasociado"};
 
@@ -93,6 +96,19 @@ public class SocioTarjeta extends javax.swing.JPanel {
 
         //Se toma la instancia de esta TARJETA para PATRÓN DE DISEÑO Singleton
         socioTarjeta = this;
+
+        
+        fileChooser.setFileFilter(new javax.swing.filechooser.FileFilter() { // set a file filter to accept only jpg files
+            @Override
+            public boolean accept(File f) {
+                return f.isDirectory() || f.getName().toLowerCase().endsWith(".jpg");
+            }
+
+            @Override
+            public String getDescription() {
+                return "JPEG Images (*.jpg)";
+            }
+        });
     }
 
     //Getter que devuelve "Desasociado" o "Socio Activo". Parte del Singleton
@@ -590,11 +606,63 @@ public class SocioTarjeta extends javax.swing.JPanel {
     //Manejador que escucha cuándo se clickea sobre el JLabel de campos de la TARJETA
     private void jLFotoMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jLFotoMouseClicked
         //Cuando se presiona el click sobre el JLabel del cuadro que tiene la foto de perfil en la TARJETA se llama al método indicado.
-        campoAModificar = this.jLFoto;
-        //valorAModificar = this.jLFoto;
-        valorAModificar = new JLabel();
+        this.campoAModificar = this.jLFoto;
+        this.campoAModificar.setText("Imagen");
+        
         preEditarCamposSocio(this.campoAModificar); //CREO QUE AÚN NO TIENE VALOR. PASO HARDCODE POR ESO MISO ---> EN CONSTRUCCIÓN!!!!!!!!!!!!!!!!!!!!!!
     }//GEN-LAST:event_jLFotoMouseClicked
+
+    private void selectImage(String idSocio) {
+        int result = this.fileChooser.showOpenDialog(this); // show the file chooser dialog and get the result 
+        if (result == JFileChooser.APPROVE_OPTION) { // if the user selected a file 
+            File file = fileChooser.getSelectedFile(); // get the selected file 
+            try {
+                BufferedImage image = ImageIO.read(file); // leer la imagen del archivo
+                
+                Image scaledImage = image.getScaledInstance(jLFoto.getWidth(), jLFoto.getHeight(), Image.SCALE_SMOOTH); // escalar la imagen al tamaño del JLabel
+                this.jLFoto.setIcon(new ImageIcon(scaledImage)); // asignar la imagen escalada como icono del JLabel
+
+                // Crear un objeto FileInputStream para leer el contenido del archivo
+                FileInputStream fis = new FileInputStream(file);
+
+                // Llamar al método saveImage pasando el archivo, el FileInputStream y el idSocio como argumentos
+                saveImage(file, fis, idSocio); // call the method to save the image
+            }
+            catch (Exception ex) {
+                JOptionPane.showMessageDialog(this, "Error al leer o guardar la imagen", "Error", JOptionPane.ERROR_MESSAGE); // show an error message if something went wrong
+                System.out.println(ex.getMessage());
+            }
+        }
+    }
+
+    private void saveImage(File file, FileInputStream fis, String idSocio) throws Exception {
+        //idSocio EN ESTE EJEMPLO VIENE COMO ARGUMENTO CON EL VALOR "5564"
+        socio = metodoDeSocio.obtenerNombreDeImagen(idSocio);
+        //AQUÍ rutaMasNombreDeFoto tiene el valor por ejemplo "./src/vistas/imagenes/foto_5564";
+        String rutaMasNombreDeFoto = socio.getFotoPerfilNombre();
+       
+        //AQUÍ AL output se lo nombra por tanto "./src/vistas/imagenes/foto_5564" + ".jpg"
+        File output = new File(rutaMasNombreDeFoto + ".jpg");
+        BufferedImage image = ImageIO.read(file);
+        //Si existe "./src/vistas/imagenes/foto_5564.jpg"
+        if (output.exists()) {
+            //SE CREA UN NUEVO ARCHIVO CON EL NOMBRE ("foto_" + idSocio + "_anterior.jpg") LO CUAL ES "./src/vistas/imagenes/foto_5564_anterior.jpg"
+            File backup = new File("./src/vistas/imagenes/foto_" + idSocio + "_anterior.jpg");
+            //SI EL ARCHIVO DE RESPALDO YA EXISTE, BORRARLO (SÓLO SE MANTENDRÁ UNA IMAGEN ANTERIOR)
+        if (backup.exists()) {
+            backup.delete();
+        }
+            // Renombrar el archivo que encuentras en el ordenador al archivo de backup
+            File original = new File(rutaMasNombreDeFoto + ".jpg"); // crear un objeto File con la ruta de la imagen original
+            original.renameTo(backup); // renombrar la imagen original al archivo de backup
+        }
+        // Escribir la imagen en el archivo de salida
+        ImageIO.write(image, "jpg", output);
+        JOptionPane.showMessageDialog(this, "Imagen guardada como " + output.getName(), "Listo!", JOptionPane.INFORMATION_MESSAGE);
+        metodoDeSocio.eliminarSocio(output, fis, rutaMasNombreDeFoto);
+    }
+
+
     //Manejador que escucha cuándo se clickea sobre el JLabel de campos de la TARJETA
     private void jLApeMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jLApeMouseClicked
         //Cuando se presiona el click sobre el JLabel del campo Apellido en la TARJETA se llama al método indicado.
@@ -689,6 +757,9 @@ public class SocioTarjeta extends javax.swing.JPanel {
                 modificar(this.jLNumeroDeSocio, this.jLNumeroDeSocio.getText(), 100, 38, 50, 24, Font.BOLD, 14);
                 break;
             case "Imagen":
+                String numeroDeFoto = this.jLNumeroDeSocio.getText();
+                selectImage(numeroDeFoto);
+                
                 break;
             case "Apellido:":
                 modificar(this.jLApellido, this.jLApellido.getText(), 160, 61, 100, 24, Font.PLAIN, 12);
@@ -720,7 +791,7 @@ public class SocioTarjeta extends javax.swing.JPanel {
             this.jCBEstado.setBounds(x, y, width, height);
             this.jCBEstado.setVisible(true);
             this.jCBEstado.setFont(new Font("Segoe UI", grosorFuente, tamFuente));
-
+            //PARTE DE ESTADOOOOOOOOOOOOOOOOOOO
             this.add(jCBEstado);
             this.jCBEstado.requestFocus(true);
             jLabel.setForeground(Color.green);
@@ -1020,7 +1091,7 @@ public class SocioTarjeta extends javax.swing.JPanel {
                                             metodoDeSocio.eliminarSocio("M", this.jLNumeroDeSocio.getText(), this.jLEst.getText().replace(":", ""), "1");
                                         }
 
-                                    } else if(diaFebrero == 29) {
+                                    } else if (diaFebrero == 29) {
                                         JOptionPane.showMessageDialog(null, "Febrero == 29");
                                         JOptionPane.showMessageDialog(null, soloMod + this.jLNumeroDeSocio.getText() + " " + this.jLEst.getText());
                                         if ((anyoIngresado % 4 == 0 && anyoIngresado % 100 != 0) || (anyoIngresado % 400 == 0)) {
@@ -1039,7 +1110,7 @@ public class SocioTarjeta extends javax.swing.JPanel {
                                             labelInformativo.setText("Revise la Fecha de Baja pues el año ingresado no es un año bisiesto");
                                             labelInformativo.setForeground(Color.RED);
                                         }
-                                    }else{
+                                    } else {
                                         labelInformativo.setText("Febrero no tiene más de 29 días");
                                         labelInformativo.setForeground(Color.RED);
                                     }
@@ -1100,7 +1171,7 @@ public class SocioTarjeta extends javax.swing.JPanel {
                                             metodoDeSocio.eliminarSocio("M", this.jLNumeroDeSocio.getText(), this.jLEst.getText().replace(":", ""), "0");
                                         }
                                         this.jLEstado.setForeground(Color.RED);
-                                    } else if(diaFebrero == 29) {
+                                    } else if (diaFebrero == 29) {
                                         JOptionPane.showMessageDialog(null, "Febrero == 29");
                                         JOptionPane.showMessageDialog(null, soloMod + this.jLNumeroDeSocio.getText() + " " + this.jLEst.getText());
                                         if ((anyoIngresado % 4 == 0 && anyoIngresado % 100 != 0) || (anyoIngresado % 400 == 0)) {
@@ -1120,7 +1191,7 @@ public class SocioTarjeta extends javax.swing.JPanel {
                                             labelInformativo.setText("Revise la Fecha de Baja pues el año ingresado no es un año bisiesto");
                                             labelInformativo.setForeground(Color.RED);
                                         }
-                                    }else{
+                                    } else {
                                         labelInformativo.setText("Febrero no tiene más de 29 días");
                                         labelInformativo.setForeground(Color.RED);
                                     }

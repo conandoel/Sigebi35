@@ -10,6 +10,7 @@ public class Socio {
     private String mail;
     private LocalDate fechaDeAlta;
     private LocalDate fechaDeBaja;
+    private String fotoPerfilNombre;
     private boolean estado;
     
     public Socio(){}
@@ -22,6 +23,13 @@ public class Socio {
         this.mail = mail;
         this.fechaDeAlta = fechaDeAlta;
         this.estado = estado;
+    }
+    
+    public String getFotoPerfilNombre(){
+        return this.fotoPerfilNombre;
+    }
+    public void setFotoPerfilNombre(String fotoPerfilNombre){
+        this.fotoPerfilNombre = fotoPerfilNombre;
     }
 
     public int getIdSocio() {
