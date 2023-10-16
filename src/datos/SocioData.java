@@ -14,8 +14,8 @@ import java.io.IOException;
 public class SocioData {
 
     private Connection con = null;
-    private List<Socio> socios;
-    private List<String> columnas;
+    private List <Socio> socios;
+    private List <String> columnas;
     private int[] idSocios;
     private Socio socio;
 
@@ -26,13 +26,11 @@ public class SocioData {
     public void agregarLector() {
     }
 
-    public void modificarSocio() {
-    }
 
     //Método para eliminar un socio
-    public Socio eliminarSocio(String efecto, String soloMod, String criterio, String valor) {
+    public Socio eliminarSocio(String efecto, String soloMod, String criterio, String valor, String idSocio) {
         //Se toma el valor del JComboBox que contiene los criterios de búsqueda y se adapta a su valor en BASE DE DATOS
-        List<Socio> sociosLocal = new ArrayList<>();
+        List <Socio> sociosLocal = new ArrayList<>();
         Socio socioLocal = new Socio();
         String sql;
         if (efecto.equals("E")) {
@@ -49,6 +47,7 @@ public class SocioData {
                 //Se crea la consulta con la actualización de estado por ejemplo WHERE "domicilio" = "Brown 333"
                 sql = "UPDATE lector SET " + criterio + " = '" + valor + "' WHERE " + criterio + " = '" + soloMod + "';";
                 valor = soloMod;
+                JOptionPane.showMessageDialog(null, valor);
             } else if (criterio.equalsIgnoreCase("Número de Socio") | criterio.equalsIgnoreCase("Estado")) {//Ver si es Número de Socio o Socio número
                 criterio = "idSocio";
                 int valorInt = Integer.parseInt(valor);
@@ -59,14 +58,13 @@ public class SocioData {
                 criterio = criterio.toLowerCase();
                 //Se crea la consulta con la actualización de estado por ejemplo WHERE "domicilio" = "Brown 333"
                 sql = "UPDATE lector SET " + criterio + " = '" + valor + "' WHERE " + criterio + " = '" + soloMod + "';";
-
             }
-
         }
         System.out.println(sql);
-        List<String> columnas;
+        List <String> columnas;
         //Se ejecuta la consulta SQL
         try {
+            
             PreparedStatement ps = con.prepareStatement(sql);
             int filas = ps.executeUpdate();
             //Se crea un ArrayList que se llena con los nombres de las columnas con el método utilitario
@@ -81,7 +79,7 @@ public class SocioData {
                     if (criterio.equals(columna)) {
                         //En el List de socios se guarda el socio eliminado con el criterio-valor establecido en la búsqueda
                         //Podría hacerse una sobrecarga de buscarHistorialSocios para que pueda devolver un socio
-                        sociosLocal = buscarHistorialSocios(criterio, valor);
+                        sociosLocal = buscarHistorialSocios("idSocio", String.valueOf(idSocio));
                     }
                 }
             }
@@ -195,7 +193,7 @@ public class SocioData {
 
     
     //OTRA VEZ ME VOLVIÓ A TIRAR EL PUTO ERROR
-    public List<Socio> buscarHistorialSocios(String criterio, String valorStringInt) {
+    public List <Socio> buscarHistorialSocios(String criterio, String valorStringInt) {
         //ESE -1 EN ALGÚN LADO ME TIRÓ ERROR
         int valorInt = -1;
         String valorString = "";
@@ -203,12 +201,15 @@ public class SocioData {
 
         try {
             valorInt = Integer.parseInt(valorStringInt);
-            sql = "SELECT * FROM lector WHERE " + criterio + " = ?;";
+            sql = "SELECT * FROM lector WHERE " + criterio + " = " + valorInt + ";";
+            System.out.println(sql);
         } catch (NumberFormatException ex) {
             valorString = valorStringInt;
-            sql = "SELECT * FROM lector WHERE " + criterio + " = '?';";
+            sql = "SELECT * FROM lector WHERE " + criterio + " = ?;";
+
         }
-        List<Socio> sociosLocal = new ArrayList<>();
+        
+        List <Socio> sociosLocal = new ArrayList<>();
         Socio socioLocal;
         try {
 
@@ -217,9 +218,10 @@ public class SocioData {
                 ps.setInt(1, valorInt);
             } else {
                 ps.setString(1, valorString);
+                
             }
             ResultSet rs = ps.executeQuery();
-JOptionPane.showMessageDialog(null, criterio + " " + valorString);
+
             while (rs.next()) {
                 socioLocal = new Socio();
                 socioLocal.setIdSocio(rs.getInt("idSocio"));
@@ -232,7 +234,7 @@ JOptionPane.showMessageDialog(null, criterio + " " + valorString);
                 socioLocal.setFechaDeBaja(rs.getDate("fechaDeBaja").toLocalDate());
                 socioLocal.setEstado(rs.getBoolean("estado"));
                 sociosLocal.add(socioLocal);
-                JOptionPane.showMessageDialog(null, "LA CNCHA" + sociosLocal.get(0).getApellido());
+                System.out.println("Número de elementos en sociosLocal: " + sociosLocal.size());
             }
 
         } catch (SQLException ex) {
@@ -357,58 +359,73 @@ JOptionPane.showMessageDialog(null, criterio + " " + valorString);
         }
     }
 
-    /*public List<Socio> listarLector(int activo){/*Ingresa 0 para listar lectores inactivos
-                                                          1 para listar lectores activos
-                                                          cualquier otro numero para listarlos todos*/
- /*List<Socio> listaLectores = new ArrayList<> ();
-    
-    String sql = "select * from lector ";
-    switch(activo){
-        case(0): sql = sql + "where estado = " + 0;
-        case(1): sql = sql + "where estado = " + 1;
-        default:
-    }
+    public Socio eliminarSocio(String efecto, String soloMod, String criterio, String valor) {
+        //Se toma el valor del JComboBox que contiene los criterios de búsqueda y se adapta a su valor en BASE DE DATOS
+        List <Socio> sociosLocal = new ArrayList<>();
+        Socio socioLocal = new Socio();
+        String sql;
+        if (efecto.equals("E")) {
+            if (criterio.equals("Número de Socio") | criterio.equals("Estado")) {
+                criterio = "idSocio";
+            } else {
+                //Para "idSocio" el cambio es radical, pero para los demás como "Estado" sólo basta pasarlos a minúsculas
+                criterio = criterio.toLowerCase();
+            }
+            //Se crea la consulta con la actualización de estado por ejemplo WHERE "domicilio" = "Brown 333"
+            sql = "UPDATE lector SET estado = 0 WHERE " + criterio + " = '" + valor + "';";
+        } else {
+            if (criterio.equals("fechaDeAlta") || criterio.equals("fechaDeBaja")) {
+                //Se crea la consulta con la actualización de estado por ejemplo WHERE "domicilio" = "Brown 333"
+                sql = "UPDATE lector SET " + criterio + " = '" + valor + "' WHERE " + criterio + " = '" + soloMod + "';";
+                valor = soloMod;
+                JOptionPane.showMessageDialog(null, valor);
+            } else if (criterio.equalsIgnoreCase("Número de Socio") | criterio.equalsIgnoreCase("Estado")) {//Ver si es Número de Socio o Socio número
+                criterio = "idSocio";
+                int valorInt = Integer.parseInt(valor);
+                int soloModInt = Integer.parseInt(soloMod);
+                sql = "UPDATE lector SET estado = " + valorInt + " WHERE " + criterio + " = " + soloModInt + ";";
+                valor = String.valueOf(soloModInt);
+            } else {
+                criterio = criterio.toLowerCase();
+                //Se crea la consulta con la actualización de estado por ejemplo WHERE "domicilio" = "Brown 333"
+                sql = "UPDATE lector SET " + criterio + " = '" + valor + "' WHERE " + criterio + " = '" + soloMod + "';";
+            }
+        }
+        System.out.println(sql);
+        List <String> columnas;
+        //Se ejecuta la consulta SQL
         try {
-            PreparedStatement ps = con.prepareStatement(sql);
-            ResultSet rs = ps.executeQuery();
-            while(rs.next()){ //Faltaria modificacion: No se contempla la foto de perfil
-                socio.setIdSocio(rs.getInt("idSocio"));
-                socio.setApellido(rs.getString("apellido"));
-                socio.setNombre(rs.getString("nombre"));
-                socio.setDomicilio(rs.getString("domicilio"));
-                socio.setMail(rs.getString("mail"));
-                socio.setFechaDeAlta(rs.getDate("fechaDeAlta").toLocalDate());
-                //Tengo fe que esto funciona
-                socio.setFechaDeBaja(rs.getDate("fechaDeBaja").toLocalDate());
-                //No tengo mucha fe en que este ^ va a funcionar
-                socio.setEstado(rs.getBoolean("estado"));
-                
-                listaLectores.add(socio);
-            }   
             
+            PreparedStatement ps = con.prepareStatement(sql);
+            int filas = ps.executeUpdate();
+            //Se crea un ArrayList que se llena con los nombres de las columnas con el método utilitario
+            columnas = new ArrayList<>();
+            columnas = listarColumnas();
+
+            if (filas > 0) {
+                //Si se eliminó algo se crea un socio
+                
+                //Se itera por la columna buscando el match entre criterio y columna
+                for (String columna : columnas) {
+                    if (criterio.equals(columna)) {
+                        //En el List de socios se guarda el socio eliminado con el criterio-valor establecido en la búsqueda
+                        //Podría hacerse una sobrecarga de buscarHistorialSocios para que pueda devolver un socio
+                        sociosLocal = buscarHistorialSocios(criterio, valor);
+                    }
+                }
+            }
+            
+            //el primer socio (Siempre va a ser uno) se guarda en una instancia de socio
+            socioLocal = sociosLocal.get(0);
         } catch (SQLException ex) {
 
         }
-    return listaLectores;
-    }*/
- /*public int[] buscarSocios(){
-        int dimension = obtenerCantidadSocios();
-        idSocios = new int[dimension];
-        String sql = "SELECT idSocio FROM lector;";
-        
-        try{
-            Statement st = con.createStatement();
-            
-             ResultSet rs = st.executeQuery(sql);
-            
-            int i = 0;
-            while(rs.next()){
-                idSocios[i++] = rs.getInt("idSocio");
-            }
-            
-        }catch(SQLException ex){
-            
-        }
-        return idSocios;
-    }*/
+        //Se devuelve un objeto Socio (Aunque aún no sé para qué. Supongo que preveo)
+        return socioLocal;
+    }
+    
+
+    
+    
 }
+
