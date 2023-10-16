@@ -72,7 +72,7 @@ public class SocioData {
             //Se crea un ArrayList que se llena con los nombres de las columnas con el método utilitario
             columnas = new ArrayList<>();
             columnas = listarColumnas();
-            Socio socio = new Socio();
+
             if (filas > 0) {
                 //Si se eliminó algo se crea un socio
                 
@@ -85,6 +85,7 @@ public class SocioData {
                     }
                 }
             }
+            
             //el primer socio (Siempre va a ser uno) se guarda en una instancia de socio
             socioLocal = sociosLocal.get(0);
         } catch (SQLException ex) {
@@ -192,7 +193,9 @@ public class SocioData {
         return socios;
     }
 
-    public List buscarHistorialSocios(String criterio, String valorStringInt) {
+    
+    //OTRA VEZ ME VOLVIÓ A TIRAR EL PUTO ERROR
+    public List<Socio> buscarHistorialSocios(String criterio, String valorStringInt) {
         //ESE -1 EN ALGÚN LADO ME TIRÓ ERROR
         int valorInt = -1;
         String valorString = "";
@@ -216,7 +219,7 @@ public class SocioData {
                 ps.setString(1, valorString);
             }
             ResultSet rs = ps.executeQuery();
-
+JOptionPane.showMessageDialog(null, criterio + " " + valorString);
             while (rs.next()) {
                 socioLocal = new Socio();
                 socioLocal.setIdSocio(rs.getInt("idSocio"));
@@ -228,13 +231,13 @@ public class SocioData {
                 //Esta parte hay que arreglarla
                 socioLocal.setFechaDeBaja(rs.getDate("fechaDeBaja").toLocalDate());
                 socioLocal.setEstado(rs.getBoolean("estado"));
-                sociosLocal.add(socioLocal);JOptionPane.showMessageDialog(null, sociosLocal.get(0).getApellido());
+                sociosLocal.add(socioLocal);
+                JOptionPane.showMessageDialog(null, "LA CNCHA" + sociosLocal.get(0).getApellido());
             }
-            return sociosLocal;
+
         } catch (SQLException ex) {
 
         }
-        JOptionPane.showMessageDialog(null, sociosLocal.get(0).getApellido());
         return sociosLocal;
     }
 

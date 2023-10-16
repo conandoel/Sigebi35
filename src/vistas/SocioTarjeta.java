@@ -261,26 +261,28 @@ public class SocioTarjeta extends javax.swing.JPanel {
             tarjeta.jLDomicilio.setText(socio.getDomicilio());
             tarjeta.jLEmail.setText(socio.getMail());
             tarjeta.jLFechaDeAlta.setText(socio.getFechaDeAlta().format(formato));
+            //Y aquí finalmente se rellena la fecha en el JLabel correspondiente
+            tarjeta.jLFechaDeBaja.setText(socio.getFechaDeBaja().format(formato));
             //Para rellenar la fecha de baja del socio, se comprueba si está activo o desasociado. Fecha color verde para activos y rojo para los otros
             LocalDate fechaActualLD = LocalDate.now();
             DateTimeFormatter formatoResta = DateTimeFormatter.ofPattern("yyyy-MM-dd");
             String fechaActualString = fechaActualLD.format(formatoResta);
             int fechaActual = Integer.parseInt(fechaActualString.replaceAll("-", ""));
             
-            String diaBaja = this.jLFechaDeBaja.getText().replaceAll(" \\| ", "").substring(0, 2);
-            String mesBaja = this.jLFechaDeBaja.getText().replaceAll(" \\| ", "").substring(2, 4);
-            String anyoBaja = this.jLFechaDeBaja.getText().replaceAll(" \\| ", "").substring(4, 8);
+            String diaBaja = tarjeta.jLFechaDeBaja.getText().replaceAll(" \\| ", "").substring(0, 2);
+            String mesBaja = tarjeta.jLFechaDeBaja.getText().replaceAll(" \\| ", "").substring(2, 4);
+            String anyoBaja = tarjeta.jLFechaDeBaja.getText().replaceAll(" \\| ", "").substring(4, 8);
 
             String fechaBaja = anyoBaja + mesBaja + diaBaja;
             int fechaDeBAJA = Integer.parseInt(fechaBaja);
-            //JOptionPane.showMessageDialog(null, "fechaDeBaja: " + fechaDeBAJA + " ---- " + "fechaActual: " + fechaActual + " ---- " + (socio.isEstado() || fechaDeBAJA > fechaActual));
+            
+            
             if (socio.isEstado() && fechaDeBAJA > fechaActual) {
                 tarjeta.jLFechaDeBaja.setForeground(Color.GREEN);
             } else {
                 tarjeta.jLFechaDeBaja.setForeground(Color.RED);
             }
-            //Y aquí finalmente se rellena la fecha en el JLabel correspondiente
-            tarjeta.jLFechaDeBaja.setText(socio.getFechaDeBaja().format(formato));
+            
 
             //Se le asigna un tamaño al JLabel que contiene los ÍCONOS de MODIFICAR y ELIMINAR según sea el caso
             tarjeta.jLEfecto.setSize(20, 20);
@@ -833,12 +835,42 @@ public class SocioTarjeta extends javax.swing.JPanel {
     private List <Prestamo> prestamos = new ArrayList<>();
     private Socio deudor;
     public void modificarComboBox(ActionEvent e, String estadoSeleccionado){
-        
+        LocalDate fechaActualLD = LocalDate.now();
+        DateTimeFormatter formatoResta = DateTimeFormatter.ofPattern("yyyy-MM-dd");
+        String fechaActualString = fechaActualLD.format(formatoResta);
+        int fechaActual = Integer.parseInt(fechaActualString.replaceAll("-", ""));
+            
+        String diaBaja = this.jLFechaDeBaja.getText().replaceAll(" \\| ", "").substring(0, 2);
+        String mesBaja = this.jLFechaDeBaja.getText().replaceAll(" \\| ", "").substring(2, 4);
+        String anyoBaja = this.jLFechaDeBaja.getText().replaceAll(" \\| ", "").substring(4, 8);
+
+        String fechaBaja = anyoBaja + mesBaja + diaBaja;
+        int fechaDeBAJA = Integer.parseInt(fechaBaja);
         if("Socio Activo".equals(estadoSeleccionado)){
-            JOptionPane.showMessageDialog(null, this.jLEstado.getText());
-            this.jLEstado.setText("Socio Activo");
-            this.jLEstado.setVisible(true);
-            jCBEstado.setVisible(false);
+            if(fechaDeBAJA > fechaActual){
+                this.jLEstado.setText("Socio Activo");
+                this.jLEstado.setVisible(true);
+                jCBEstado.setVisible(false);
+            }else{
+                int respuesta = JOptionPane.showConfirmDialog(this, "Está seguro que desea cambiar el estado a 'Socio Activo'? Se tomará como una reinscripción. De acuerdo?");
+                if (respuesta == 0) {
+                    String fechaDB = String.valueOf(fechaActual + 50000);
+                    String fechaDesasociada = this.jLFechaDeBaja.getText().replaceAll(" \\| ", "-");
+                    fechaDB = fechaDB.substring(0, 4) + "-" + 
+                            fechaDB.substring(4, 6) + "-" +
+                            fechaDB.substring(6, 8);
+                    
+                    metodoDeSocio.eliminarSocio("M", fechaDesasociada, "fechaDeBaja", fechaDB);
+                    this.jLFechaDeBaja.setText(fechaDB.replaceAll("[-/]", " | "));
+
+                    this.jLABM.setText("La Fecha de Alta ha sido modificado correctamente");
+                    temporizar(this.jLABM);
+
+                } else {
+                    this.jLABM.setText("CLICKEE SOBRE EL CAMPO PARA EDITAR EL VALOR DESEADO");
+                }
+            }
+            
         }else{
             int idSocio = Integer.parseInt(this.jLEfecto.getText());
             prestamos = metodoDePrestamo.listarPrestamos(idSocio);
