@@ -149,4 +149,39 @@ public class PrestamoData {
         }
         return prestamos;
     }
+    
+    
+    /*
+    ESTE LO HICE YO LUIS PARA HACER ALGO EN SOCIO. DESPUÉS VEMOS SI QUEDA O NO
+    */
+    public List<Prestamo> listarPrestamos(int idSocio){
+        List<Prestamo> prestamos=new ArrayList<>();
+        try {
+            
+            String sql = "SELECT * FROM prestamo WHERE idSocio = ?";
+            PreparedStatement ps = con.prepareStatement(sql);
+            ps.setInt(1, idSocio);
+            ResultSet rs = ps.executeQuery();
+            while (rs.next()) {
+                Ejemplar ejemplar = new Ejemplar();
+                Socio socio = new Socio();
+                Prestamo prestamo=new Prestamo();
+                ejemplar.setCodigo(rs.getInt(4));
+                socio.setIdSocio(rs.getInt(5));
+                prestamo.setIdPrestamo(rs.getInt(1));
+                prestamo.setFechaInicio(rs.getDate(2).toLocalDate());
+                prestamo.setFechaFin(rs.getDate(3).toLocalDate());
+                prestamo.setEjemplar(ejemplar);
+                prestamo.setLector(socio);
+                prestamo.setEstado(rs.getBoolean(6));
+                
+                prestamos.add(prestamo);
+            }
+            ps.close();
+        } catch (SQLException ex) {
+            Logger.getLogger(PrestamoData.class.getName()).log(Level.SEVERE, null, ex);
+        }
+        return prestamos;
+    } 
+    
 }

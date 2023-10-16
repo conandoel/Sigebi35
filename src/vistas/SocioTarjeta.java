@@ -1,6 +1,8 @@
 package vistas;
 
+import entidades.Prestamo;
 import entidades.Socio;
+import datos.PrestamoData;
 import java.util.ArrayList;
 import java.util.List;
 import datos.SocioData;
@@ -107,6 +109,15 @@ public class SocioTarjeta extends javax.swing.JPanel {
                 return "JPEG Images (*.jpg)";
             }
         });
+        this.jCBEstado.addActionListener(new ActionListener(){
+            
+            
+            @Override
+            public void actionPerformed(ActionEvent e){
+                String estadoSeleccionado = (String)jCBEstado.getSelectedItem();
+                modificarComboBox(e, estadoSeleccionado);
+            }
+        });
     }
 
     //Getter que devuelve "Desasociado" o "Socio Activo". Parte del Singleton
@@ -203,7 +214,7 @@ public class SocioTarjeta extends javax.swing.JPanel {
             temporizador.start();
         }
     }
-
+    
     //Método que devuelve un LISTADO de OBJETOS tipo SocioTarjeta (TARJETAS). Pide criterio (Si es por Nombre, por Estado, etc), pide valor ("Juan", "Activo", etc), y EFECTO (NADA, MODIFICAR y ELIMINAR)
     public List<SocioTarjeta> listarSocio(String criterio, String valor, String EFECTO) {
         //Llama al método actualizarSeccion y pasa como argumento el EFECTO utilizando el PATRÓN DE DISEÑO Singleton
@@ -251,10 +262,22 @@ public class SocioTarjeta extends javax.swing.JPanel {
             tarjeta.jLEmail.setText(socio.getMail());
             tarjeta.jLFechaDeAlta.setText(socio.getFechaDeAlta().format(formato));
             //Para rellenar la fecha de baja del socio, se comprueba si está activo o desasociado. Fecha color verde para activos y rojo para los otros
-            if (socio.isEstado()) {
-                tarjeta.jLFechaDeBaja.setForeground(Color.green);
+            LocalDate fechaActualLD = LocalDate.now();
+            DateTimeFormatter formatoResta = DateTimeFormatter.ofPattern("yyyy-MM-dd");
+            String fechaActualString = fechaActualLD.format(formatoResta);
+            int fechaActual = Integer.parseInt(fechaActualString.replaceAll("-", ""));
+            
+            String diaBaja = this.jLFechaDeBaja.getText().replaceAll(" \\| ", "").substring(0, 2);
+            String mesBaja = this.jLFechaDeBaja.getText().replaceAll(" \\| ", "").substring(2, 4);
+            String anyoBaja = this.jLFechaDeBaja.getText().replaceAll(" \\| ", "").substring(4, 8);
+
+            String fechaBaja = anyoBaja + mesBaja + diaBaja;
+            int fechaDeBAJA = Integer.parseInt(fechaBaja);
+            //JOptionPane.showMessageDialog(null, "fechaDeBaja: " + fechaDeBAJA + " ---- " + "fechaActual: " + fechaActual + " ---- " + (socio.isEstado() || fechaDeBAJA > fechaActual));
+            if (socio.isEstado() && fechaDeBAJA > fechaActual) {
+                tarjeta.jLFechaDeBaja.setForeground(Color.GREEN);
             } else {
-                tarjeta.jLFechaDeBaja.setForeground(Color.red);
+                tarjeta.jLFechaDeBaja.setForeground(Color.RED);
             }
             //Y aquí finalmente se rellena la fecha en el JLabel correspondiente
             tarjeta.jLFechaDeBaja.setText(socio.getFechaDeBaja().format(formato));
@@ -782,13 +805,14 @@ public class SocioTarjeta extends javax.swing.JPanel {
     public void modificar(JLabel jLabel, String placeh, int x, int y, int width, int height, int grosorFuente, int tamFuente) {
 
         if (jLabel.getText().equals("Estado:")) {
+            this.jLEstado.setVisible(false);
             this.jCBEstado.setBounds(x, y, width, height);
             this.jCBEstado.setVisible(true);
             this.jCBEstado.setFont(new Font("Segoe UI", grosorFuente, tamFuente));
-            //PARTE DE ESTADOOOOOOOOOOOOOOOOOOO
+
             this.add(jCBEstado);
             this.jCBEstado.requestFocus(true);
-            jLabel.setForeground(Color.green);
+            jLabel.setForeground(Color.GREEN);
             placeh = jLabel.getText();
 
             this.repaint();
@@ -798,17 +822,57 @@ public class SocioTarjeta extends javax.swing.JPanel {
             this.jTFSocioMod.setFont(new Font("Segoe UI", grosorFuente, tamFuente));
             this.add(jTFSocioMod);
             this.jTFSocioMod.requestFocus(true);
-            jLabel.setForeground(Color.green);
+            jLabel.setForeground(Color.GREEN);
             placeh = jLabel.getText();
 
             this.repaint();
         }
 
     }
-
+    private PrestamoData metodoDePrestamo = new PrestamoData();
+    private List <Prestamo> prestamos = new ArrayList<>();
+    private Socio deudor;
+    public void modificarComboBox(ActionEvent e, String estadoSeleccionado){
+        
+        if("Socio Activo".equals(estadoSeleccionado)){
+            JOptionPane.showMessageDialog(null, this.jLEstado.getText());
+            this.jLEstado.setText("Socio Activo");
+            this.jLEstado.setVisible(true);
+            jCBEstado.setVisible(false);
+        }else{
+            int idSocio = Integer.parseInt(this.jLEfecto.getText());
+            prestamos = metodoDePrestamo.listarPrestamos(idSocio);
+            deudor = new Socio();
+            for(Prestamo prestamo : prestamos){
+                if(prestamo.getLector().getIdSocio() == idSocio){
+                    deudor = prestamo.getLector();
+                }
+            }
+            if(deudor != null){
+                JOptionPane.showMessageDialog(null, "No se puede desasociar porque el Socio tiene préstamos activos");
+                this.jLEstado.setText("Socio Activo");
+                this.jLEstado.setVisible(true);
+                jCBEstado.setVisible(false);
+            }else{
+                this.jLEstado.setText("Desasociado");
+                this.jLEstado.setVisible(true);
+                jCBEstado.setVisible(false);
+            }
+            /*
+            
+            
+            PONER LA LÓGICA DE SI TIENE PRÉSTAMOS NO PUEDE DARSE DE BAJA AÚN
+            AHORA QUE LO PIENSO TAMBIÉN PARA FECHA DE BAJA Y DE ALTA
+            
+            
+            
+            
+            */
+        }
+    }
+    
+    
     boolean controlarENTER = true;
-
-    //EN CONSTRUCCIÓN !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
     public void modificarTextField(KeyEvent e, JLabel campoMod, JLabel valorMod) {
         //Por comodidad y legibilidad se guarda en una variable al JTextFiel que sirve para MODIFICAR las TARJETAS
         JTextField valoresModificados = jTFSocioMod;

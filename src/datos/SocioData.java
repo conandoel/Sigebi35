@@ -32,7 +32,8 @@ public class SocioData {
     //Método para eliminar un socio
     public Socio eliminarSocio(String efecto, String soloMod, String criterio, String valor) {
         //Se toma el valor del JComboBox que contiene los criterios de búsqueda y se adapta a su valor en BASE DE DATOS
-
+        List<Socio> sociosLocal = new ArrayList<>();
+        Socio socioLocal = new Socio();
         String sql;
         if (efecto.equals("E")) {
             if (criterio.equals("Número de Socio") | criterio.equals("Estado")) {
@@ -63,6 +64,7 @@ public class SocioData {
 
         }
         System.out.println(sql);
+        List<String> columnas;
         //Se ejecuta la consulta SQL
         try {
             PreparedStatement ps = con.prepareStatement(sql);
@@ -70,26 +72,26 @@ public class SocioData {
             //Se crea un ArrayList que se llena con los nombres de las columnas con el método utilitario
             columnas = new ArrayList<>();
             columnas = listarColumnas();
-
+            Socio socio = new Socio();
             if (filas > 0) {
                 //Si se eliminó algo se crea un socio
-                Socio socio = new Socio();
+                
                 //Se itera por la columna buscando el match entre criterio y columna
                 for (String columna : columnas) {
                     if (criterio.equals(columna)) {
                         //En el List de socios se guarda el socio eliminado con el criterio-valor establecido en la búsqueda
                         //Podría hacerse una sobrecarga de buscarHistorialSocios para que pueda devolver un socio
-                        socios = buscarHistorialSocios(criterio, valor);
+                        sociosLocal = buscarHistorialSocios(criterio, valor);
                     }
                 }
             }
             //el primer socio (Siempre va a ser uno) se guarda en una instancia de socio
-            socio = socios.get(0);
+            socioLocal = sociosLocal.get(0);
         } catch (SQLException ex) {
 
         }
         //Se devuelve un objeto Socio (Aunque aún no sé para qué. Supongo que preveo)
-        return socio;
+        return socioLocal;
     }
 
     public void eliminarSocio(File file, FileInputStream fis, String rutaMasNombreDeFoto) throws FileNotFoundException {
@@ -204,7 +206,7 @@ public class SocioData {
             sql = "SELECT * FROM lector WHERE " + criterio + " = '?';";
         }
         List<Socio> sociosLocal = new ArrayList<>();
-        Socio socioLocal = null;
+        Socio socioLocal;
         try {
 
             PreparedStatement ps = con.prepareStatement(sql);
@@ -226,13 +228,13 @@ public class SocioData {
                 //Esta parte hay que arreglarla
                 socioLocal.setFechaDeBaja(rs.getDate("fechaDeBaja").toLocalDate());
                 socioLocal.setEstado(rs.getBoolean("estado"));
-
+                sociosLocal.add(socioLocal);JOptionPane.showMessageDialog(null, sociosLocal.get(0).getApellido());
             }
-            sociosLocal.add(socioLocal);
+            return sociosLocal;
         } catch (SQLException ex) {
 
         }
-
+        JOptionPane.showMessageDialog(null, sociosLocal.get(0).getApellido());
         return sociosLocal;
     }
 
