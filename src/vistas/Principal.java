@@ -211,6 +211,11 @@ public class Principal extends javax.swing.JFrame {
         jMenu2.add(jMenuItem3);
 
         jMenuItem4.setText("...Socio");
+        jMenuItem4.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jMenuItem4ActionPerformed(evt);
+            }
+        });
         jMenu2.add(jMenuItem4);
 
         jMenuItem5.setText("...Ejemplar");
@@ -325,6 +330,16 @@ public class Principal extends javax.swing.JFrame {
             this.habilitarModificaciones(true, false);
         }
     }//GEN-LAST:event_jMElimSociosActionPerformed
+
+    private void jMenuItem4ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMenuItem4ActionPerformed
+        // TODO add your handling code here:
+        jDPEscritorio.removeAll();
+        jDPEscritorio.repaint();
+        SocioAgregarView sav=new SocioAgregarView();
+        sav.setVisible(true);
+        jDPEscritorio.add(sav);
+        jDPEscritorio.moveToFront(sav);
+    }//GEN-LAST:event_jMenuItem4ActionPerformed
 
     /**
      * @param args the command line arguments

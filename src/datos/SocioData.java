@@ -24,7 +24,33 @@ public class SocioData {
         con = Conexion.getConexion();
     }
 
-    public void agregarLector() {
+    public void agregarLector(Socio socio) {
+        String sql="insert into socio (idSocio,apellido,nombre,domicilio,mail,fechaDeAlta,fechaDeBaja,fotoPerfilNombre,estado) values(?,?,?,?,?,?,?,?,?)";
+        
+        try{
+            PreparedStatement ps= con.prepareStatement(sql);
+            ps.setInt(1, socio.getIdSocio());
+            ps.setString(2, socio.getApellido());
+            ps.setString(3, socio.getNombre());
+            ps.setString(4, socio.getDomicilio());
+            ps.setString(5, socio.getMail());
+            ps.setDate(6, java.sql.Date.valueOf(socio.getFechaDeAlta()));
+            ps.setDate(7, java.sql.Date.valueOf(socio.getFechaDeBaja()));
+            ps.setBoolean(9, socio.isEstado());
+            ps.executeUpdate();
+            JOptionPane.showMessageDialog(null, "Se agrego el socio correctamente");
+            ps.close();
+        }catch(SQLException ex){
+            int codigoError = ex.getErrorCode();
+            // Comparación del código de error con el valor 1062
+            if (codigoError == 1062) {
+                // Mensaje al usuario indicando que el dni ya existe
+                JOptionPane.showMessageDialog(null, "El Id de socio que intenta insertar ya existe.");
+            } else {
+                // Mensaje genérico de error
+                JOptionPane.showMessageDialog(null, "Ha ocurrido un error al acceder a la base de datos.");
+            }
+        }
     }
 
 
