@@ -6,6 +6,7 @@ import datos.PrestamoData;
 import java.util.ArrayList;
 import java.util.List;
 import datos.SocioData;
+import entidades.Foto;
 import java.awt.Color;
 import java.awt.Font;
 import java.awt.Graphics;
@@ -647,7 +648,32 @@ public class SocioTarjeta extends javax.swing.JPanel {
 
         preEditarCamposSocio(this.campoAModificar); //CREO QUE AÚN NO TIENE VALOR. PASO HARDCODE POR ESO MISO ---> EN CONSTRUCCIÓN!!!!!!!!!!!!!!!!!!!!!!
     }//GEN-LAST:event_jLFotoMouseClicked
+    
+    public Foto selectImage(String idSocio, JLabel jLFoto){
+        Foto foto = null;
+        int result = this.fileChooser.showOpenDialog(this); // show the file chooser dialog and get the result 
+        if (result == JFileChooser.APPROVE_OPTION) { // if the user selected a file 
+            File file = fileChooser.getSelectedFile(); // get the selected file 
+            try {
+                BufferedImage image = ImageIO.read(file); // leer la imagen del archivo
 
+                Image scaledImage = image.getScaledInstance(jLFoto.getWidth(), jLFoto.getHeight(), Image.SCALE_SMOOTH); // escalar la imagen al tamaño del JLabel
+                jLFoto.setIcon(new ImageIcon(scaledImage)); // asignar la imagen escalada como icono del JLabel
+
+                // Crear un objeto FileInputStream para leer el contenido del archivo
+                FileInputStream fis = new FileInputStream(file);
+
+                // Llamar al método saveImage pasando el archivo, el FileInputStream y el idSocio como argumentos
+                //saveImage(file, fis, idSocio); // call the method to save the image
+                foto = new Foto(file, fis, idSocio);
+            } catch (Exception ex) {
+                JOptionPane.showMessageDialog(this, "Error al leer o guardar la imagen", "Error", JOptionPane.ERROR_MESSAGE); // show an error message if something went wrong
+                System.out.println(ex.getMessage());
+            }
+        }
+        return foto;
+    }
+    
     private void selectImage(String idSocio) {
         int result = this.fileChooser.showOpenDialog(this); // show the file chooser dialog and get the result 
         if (result == JFileChooser.APPROVE_OPTION) { // if the user selected a file 
@@ -669,7 +695,34 @@ public class SocioTarjeta extends javax.swing.JPanel {
             }
         }
     }
+    
+    public void saveImage(File file, FileInputStream fis, Foto foto) throws Exception {
+        //idSocio EN ESTE EJEMPLO VIENE COMO ARGUMENTO CON EL VALOR "5564"
+        String idSocio = foto.getIdSocio();
+        String fotoPerfilNombre = "./src/vistas/imagenes/foto_" + idSocio;
+        //AQUÍ rutaMasNombreDeFoto tiene el valor por ejemplo "./src/vistas/imagenes/foto_5564";
+        String rutaMasNombreDeFoto = fotoPerfilNombre;
 
+        //AQUÍ AL output se lo nombra por tanto "./src/vistas/imagenes/foto_5564" + ".jpg"
+        File output = new File(rutaMasNombreDeFoto + ".jpg");
+        BufferedImage image = ImageIO.read(file);
+        //Si existe "./src/vistas/imagenes/foto_5564.jpg"
+        if (output.exists()) {
+            //SE CREA UN NUEVO ARCHIVO CON EL NOMBRE ("foto_" + idSocio + "_anterior.jpg") LO CUAL ES "./src/vistas/imagenes/foto_5564_anterior.jpg"
+            File backup = new File("./src/vistas/imagenes/foto_" + idSocio + "_anterior.jpg");
+            //SI EL ARCHIVO DE RESPALDO YA EXISTE, BORRARLO (SÓLO SE MANTENDRÁ UNA IMAGEN ANTERIOR)
+            if (backup.exists()) {
+                backup.delete();
+            }
+            // Renombrar el archivo que encuentras en el ordenador al archivo de backup
+            File original = new File(rutaMasNombreDeFoto + ".jpg"); // crear un objeto File con la ruta de la imagen original
+            original.renameTo(backup); // renombrar la imagen original al archivo de backup
+        }
+        // Escribir la imagen en el archivo de salida
+        ImageIO.write(image, "jpg", output);
+        JOptionPane.showMessageDialog(this, "Imagen guardada como " + output.getName(), "Listo!", JOptionPane.INFORMATION_MESSAGE);
+        metodoDeSocio.eliminarSocio(output, fis, rutaMasNombreDeFoto);
+    }
     private void saveImage(File file, FileInputStream fis, String idSocio) throws Exception {
         //idSocio EN ESTE EJEMPLO VIENE COMO ARGUMENTO CON EL VALOR "5564"
         socio = metodoDeSocio.obtenerNombreDeImagen(idSocio);
@@ -769,7 +822,14 @@ public class SocioTarjeta extends javax.swing.JPanel {
             editarCamposSocio(criterio);
         }
     }
-
+    
+    public Foto editarCamposSocio(String criterio, JLabel idSocio, JLabel jLFoto){
+        String numeroDeFoto = idSocio.getText();
+        Foto foto = selectImage(numeroDeFoto, jLFoto);
+        
+        return foto;
+    }
+    
     private void editarCamposSocio(String criterio) {
 
         switch (criterio) {

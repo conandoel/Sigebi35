@@ -211,6 +211,11 @@ public class Principal extends javax.swing.JFrame {
         jMenu2.add(jMenuItem3);
 
         jMenuItem4.setText("...Socio");
+        jMenuItem4.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jMenuItem4ActionPerformed(evt);
+            }
+        });
         jMenu2.add(jMenuItem4);
 
         jMenuItem5.setText("...Ejemplar");
@@ -239,7 +244,19 @@ public class Principal extends javax.swing.JFrame {
         this.jMElimSocios.setEnabled(habilitarElim);
     }
     
-    //Método que sólo debería cargar la VISTA de BUSCAR SOCIOS, pero está tratando de borrar el muestreo de TARJETAS al recargar una nueva búsqueda de socios
+    public void cargarAgregarSocio(){
+        jDPEscritorio.removeAll();
+        jDPEscritorio.repaint();
+        
+        SocioAgregarView agregarSocio = new SocioAgregarView();
+        agregarSocio.setVisible(true);
+        //Se agrega la VISTA al CONTENEDOR y luego se pone al frente
+        jDPEscritorio.add(agregarSocio);
+        jDPEscritorio.moveToFront(agregarSocio);
+    }
+
+
+//Método que sólo debería cargar la VISTA de BUSCAR SOCIOS, pero está tratando de borrar el muestreo de TARJETAS al recargar una nueva búsqueda de socios
     public void cargarBusquedaSocio(){
         //Con el PATRON DE DISEÑO Singleton se ELIMINA la instancia de las TARJETAS (SOLO UNA TARJETA. PARA MÚLTIPLES TARJETAS AÚN NO DOY EN EL CLAVO
         SocioTarjeta.getInstance().removeAll();
@@ -325,6 +342,12 @@ public class Principal extends javax.swing.JFrame {
             this.habilitarModificaciones(true, false);
         }
     }//GEN-LAST:event_jMElimSociosActionPerformed
+
+    private void jMenuItem4ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMenuItem4ActionPerformed
+        
+        cargarAgregarSocio();
+ 
+    }//GEN-LAST:event_jMenuItem4ActionPerformed
 
     /**
      * @param args the command line arguments

@@ -1,5 +1,6 @@
 package datos;
 
+import entidades.Foto;
 import java.sql.*;
 import java.util.*;
 import entidades.Socio;
@@ -10,6 +11,9 @@ import java.sql.Statement;
 import javax.imageio.ImageIO;
 import javax.swing.JOptionPane;
 import java.io.IOException;
+import java.time.LocalDate;
+import java.time.Month;
+import java.time.format.DateTimeFormatter;
 
 public class SocioData {
 
@@ -424,7 +428,67 @@ public class SocioData {
         return socioLocal;
     }
     
-
+public void agregarSocio(Socio socio, Foto foto, String fechaAlta){//Quitar luego el último. Prueba
+    
+    int idSocio = socio.getIdSocio();
+    String apellido = socio.getApellido();
+    String nombre = socio.getNombre();
+    String domicilio = socio.getDomicilio();
+    String telefono = socio.getTelefono();
+    String mail = socio.getMail();
+    
+    DateTimeFormatter formato = DateTimeFormatter.ofPattern ("yyyy-MM-dd");
+    LocalDate fAlta = socio.getFechaDeAlta();
+    //String fechaDeAlta = formato.format(LocalDate.of(fAlta));
+    
+    String fechaDeAlta = fechaAlta; //quitar este luego
+    String fechaDeBaja = formato.format(socio.getFechaDeBaja());
+    
+    
+    boolean estado = socio.isEstado();
+    
+    String fotoPerfilNombre = socio.getFotoPerfilNombre();
+    File file = foto.getFile();
+    FileInputStream fis = foto.getFis();
+    
+    
+    String sql = "INSERT INTO lector VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?);";
+            /*idSocio + ", " +
+            apellido + ", " +
+            nombre + ", " +
+            domicilio + ", " +
+            telefono + ", " +
+            mail + ", " +
+            fechaDeAlta + ", " +
+            fechaDeBaja + ", " +
+            fotoPerfilNombre + ", " +
+            fotoPerfil + ", " +
+            estado + ";";*/
+    try{
+        PreparedStatement ps = con.prepareStatement(sql);
+        ps.setInt(1, idSocio);
+        ps.setString(2, apellido);
+        ps.setString(3, nombre);
+        ps.setString(4, domicilio);
+        ps.setString(5, telefono);
+        ps.setString(6, mail);
+        ps.setString(7, fechaDeAlta);
+        ps.setString(8, fechaDeBaja);
+        ps.setBlob(1, fis, file.length());
+        ps.setString(10, fotoPerfilNombre);
+        ps.setBoolean(11, estado);
+        
+        int filas = ps.executeUpdate();
+        
+        
+        if (filas > 0) {
+        
+        }
+    }catch(SQLException ex){
+        
+    }
+    
+}
     
     
 }
