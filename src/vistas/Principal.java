@@ -333,12 +333,7 @@ public class Principal extends javax.swing.JFrame {
 
     private void jMenuItem4ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMenuItem4ActionPerformed
         // TODO add your handling code here:
-        jDPEscritorio.removeAll();
-        jDPEscritorio.repaint();
-        SocioAgregarView sav=new SocioAgregarView();
-        sav.setVisible(true);
-        jDPEscritorio.add(sav);
-        jDPEscritorio.moveToFront(sav);
+    
     }//GEN-LAST:event_jMenuItem4ActionPerformed
 
     /**
