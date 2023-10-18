@@ -98,6 +98,7 @@ public class SocioData {
     }
 
     public void eliminarSocio(File file, FileInputStream fis, String rutaMasNombreDeFoto) throws FileNotFoundException {
+        JOptionPane.showMessageDialog(null, "LLEGA HASTA ACÁ");
         String sql = "UPDATE lector SET fotoPerfil = ? WHERE fotoPerfilNombre = '?';";
 
         PreparedStatement ps = null; // declarar el PreparedStatement fuera del bloque try
@@ -428,7 +429,7 @@ public class SocioData {
         return socioLocal;
     }
     
-public void agregarSocio(Socio socio, Foto foto, String fechaAlta){//Quitar luego el último. Prueba
+public void agregarSocio(Socio socio, Foto foto){//Quitar luego el último. Prueba
     
     int idSocio = socio.getIdSocio();
     String apellido = socio.getApellido();
@@ -438,10 +439,8 @@ public void agregarSocio(Socio socio, Foto foto, String fechaAlta){//Quitar lueg
     String mail = socio.getMail();
     
     DateTimeFormatter formato = DateTimeFormatter.ofPattern ("yyyy-MM-dd");
-    LocalDate fAlta = socio.getFechaDeAlta();
-    //String fechaDeAlta = formato.format(LocalDate.of(fAlta));
     
-    String fechaDeAlta = fechaAlta; //quitar este luego
+    String fechaDeAlta = formato.format(socio.getFechaDeAlta());
     String fechaDeBaja = formato.format(socio.getFechaDeBaja());
     
     
@@ -453,19 +452,10 @@ public void agregarSocio(Socio socio, Foto foto, String fechaAlta){//Quitar lueg
     
     
     String sql = "INSERT INTO lector VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?);";
-            /*idSocio + ", " +
-            apellido + ", " +
-            nombre + ", " +
-            domicilio + ", " +
-            telefono + ", " +
-            mail + ", " +
-            fechaDeAlta + ", " +
-            fechaDeBaja + ", " +
-            fotoPerfilNombre + ", " +
-            fotoPerfil + ", " +
-            estado + ";";*/
+
     try{
-        PreparedStatement ps = con.prepareStatement(sql);
+        JOptionPane.showMessageDialog(null, sql);
+        PreparedStatement ps = con.prepareStatement(sql, Statement.RETURN_GENERATED_KEYS);
         ps.setInt(1, idSocio);
         ps.setString(2, apellido);
         ps.setString(3, nombre);
@@ -474,15 +464,16 @@ public void agregarSocio(Socio socio, Foto foto, String fechaAlta){//Quitar lueg
         ps.setString(6, mail);
         ps.setString(7, fechaDeAlta);
         ps.setString(8, fechaDeBaja);
-        ps.setBlob(1, fis, file.length());
+        ps.setBlob(9, fis, file.length());
         ps.setString(10, fotoPerfilNombre);
         ps.setBoolean(11, estado);
         
-        int filas = ps.executeUpdate();
+        ps.executeUpdate();
+        ResultSet rs = ps.getGeneratedKeys();
         
-        
-        if (filas > 0) {
-        
+        if (rs.next()) {
+            long idGenerado = rs.getLong(1);
+            JOptionPane.showMessageDialog(null,  idGenerado);
         }
     }catch(SQLException ex){
         

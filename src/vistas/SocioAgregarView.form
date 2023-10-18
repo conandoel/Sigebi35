@@ -107,6 +107,10 @@
                                               <Component id="jTFNumeroTelefono" min="-2" pref="195" max="-2" attributes="0"/>
                                           </Group>
                                       </Group>
+                                      <Group type="103" alignment="0" groupAlignment="1" max="-2" attributes="0">
+                                          <Component id="jLFechaDeBajaDEFAULT" alignment="0" pref="83" max="32767" attributes="0"/>
+                                          <Component id="jLFechaDeAltaDEFAULT" alignment="0" max="32767" attributes="0"/>
+                                      </Group>
                                   </Group>
                               </Group>
                           </Group>
@@ -117,13 +121,6 @@
                               <Component id="jLMail" min="-2" max="-2" attributes="0"/>
                               <Component id="jLFechaDeAlta" min="-2" max="-2" attributes="0"/>
                               <Component id="jLFechaDeBaja" min="-2" max="-2" attributes="0"/>
-                              <Group type="102" alignment="0" attributes="0">
-                                  <EmptySpace min="103" pref="103" max="-2" attributes="0"/>
-                                  <Group type="103" groupAlignment="0" attributes="0">
-                                      <Component id="jTFFechaDeAlta" min="-2" pref="116" max="-2" attributes="0"/>
-                                      <Component id="jTFFechaDeBaja" min="-2" pref="116" max="-2" attributes="0"/>
-                                  </Group>
-                              </Group>
                           </Group>
                           <EmptySpace max="32767" attributes="0"/>
                       </Group>
@@ -192,20 +189,20 @@
                               <Component id="jTFNumeroTelefono" alignment="3" min="-2" max="-2" attributes="0"/>
                               <Component id="jTFCodigoArea" alignment="3" min="-2" max="-2" attributes="0"/>
                           </Group>
-                          <EmptySpace max="32767" attributes="0"/>
+                          <EmptySpace pref="21" max="32767" attributes="0"/>
                           <Group type="103" groupAlignment="3" attributes="0">
                               <Component id="jLMail" alignment="3" min="-2" max="-2" attributes="0"/>
                               <Component id="jTFMail" alignment="3" min="-2" max="-2" attributes="0"/>
                           </Group>
-                          <EmptySpace min="-2" pref="9" max="-2" attributes="0"/>
+                          <EmptySpace min="-2" pref="14" max="-2" attributes="0"/>
                           <Group type="103" groupAlignment="3" attributes="0">
-                              <Component id="jTFFechaDeAlta" alignment="3" min="-2" max="-2" attributes="0"/>
                               <Component id="jLFechaDeAlta" alignment="3" min="-2" max="-2" attributes="0"/>
+                              <Component id="jLFechaDeAltaDEFAULT" alignment="3" min="-2" max="-2" attributes="0"/>
                           </Group>
                           <EmptySpace max="-2" attributes="0"/>
                           <Group type="103" groupAlignment="3" attributes="0">
-                              <Component id="jTFFechaDeBaja" alignment="3" min="-2" max="-2" attributes="0"/>
                               <Component id="jLFechaDeBaja" alignment="3" min="-2" max="-2" attributes="0"/>
+                              <Component id="jLFechaDeBajaDEFAULT" alignment="3" min="-2" max="-2" attributes="0"/>
                           </Group>
                       </Group>
                   </Group>
@@ -270,11 +267,13 @@
             <Property name="font" type="java.awt.Font" editor="org.netbeans.beaninfo.editors.FontEditor">
               <Font name="Segoe UI" size="14" style="1"/>
             </Property>
-            <Property name="text" type="java.lang.String" value="5555"/>
           </Properties>
         </Component>
         <Component class="javax.swing.JLabel" name="jLEstado">
           <Properties>
+            <Property name="foreground" type="java.awt.Color" editor="org.netbeans.beaninfo.editors.ColorEditor">
+              <Color blue="0" green="ff" id="green" palette="1" red="0" type="palette"/>
+            </Property>
             <Property name="text" type="java.lang.String" value="Socio Activo"/>
           </Properties>
         </Component>
@@ -297,6 +296,7 @@
             <Property name="text" type="java.lang.String" value="Agregar"/>
           </Properties>
           <Events>
+            <EventHandler event="mouseClicked" listener="java.awt.event.MouseListener" parameters="java.awt.event.MouseEvent" handler="jLAgregarMouseClicked"/>
             <EventHandler event="keyReleased" listener="java.awt.event.KeyListener" parameters="java.awt.event.KeyEvent" handler="jLAgregarKeyReleased"/>
           </Events>
         </Component>
@@ -315,20 +315,10 @@
             <Property name="text" type="java.lang.String" value="Fecha de Alta:"/>
           </Properties>
         </Component>
-        <Component class="javax.swing.JTextField" name="jTFFechaDeAlta">
-          <Events>
-            <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="jTFFechaDeAltaActionPerformed"/>
-          </Events>
-        </Component>
         <Component class="javax.swing.JLabel" name="jLFechaDeBaja">
           <Properties>
             <Property name="text" type="java.lang.String" value="Fecha de Baja:"/>
           </Properties>
-        </Component>
-        <Component class="javax.swing.JTextField" name="jTFFechaDeBaja">
-          <Events>
-            <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="jTFFechaDeBajaActionPerformed"/>
-          </Events>
         </Component>
         <Component class="javax.swing.JLabel" name="jLAgregarSocios">
           <Properties>
@@ -362,6 +352,20 @@
           </Properties>
         </Component>
         <Component class="javax.swing.JTextField" name="jTFMail">
+        </Component>
+        <Component class="javax.swing.JLabel" name="jLFechaDeAltaDEFAULT">
+          <Properties>
+            <Property name="font" type="java.awt.Font" editor="org.netbeans.beaninfo.editors.FontEditor">
+              <Font name="Segoe UI" size="12" style="1"/>
+            </Property>
+          </Properties>
+        </Component>
+        <Component class="javax.swing.JLabel" name="jLFechaDeBajaDEFAULT">
+          <Properties>
+            <Property name="font" type="java.awt.Font" editor="org.netbeans.beaninfo.editors.FontEditor">
+              <Font name="Segoe UI" size="12" style="1"/>
+            </Property>
+          </Properties>
         </Component>
       </SubComponents>
     </Container>

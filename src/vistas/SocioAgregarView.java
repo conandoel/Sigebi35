@@ -12,10 +12,12 @@ import javax.swing.JOptionPane;
 
 public class SocioAgregarView extends javax.swing.JInternalFrame {
 
+    SocioData metodoDeSocio = new SocioData();
     private Foto foto;
     
     public SocioAgregarView() {
         initComponents();
+        establecerDefault();
     }
 
     /**
@@ -46,15 +48,15 @@ public class SocioAgregarView extends javax.swing.JInternalFrame {
         jLReset = new javax.swing.JLabel();
         jLCancelar = new javax.swing.JLabel();
         jLFechaDeAlta = new javax.swing.JLabel();
-        jTFFechaDeAlta = new javax.swing.JTextField();
         jLFechaDeBaja = new javax.swing.JLabel();
-        jTFFechaDeBaja = new javax.swing.JTextField();
         jLAgregarSocios = new javax.swing.JLabel();
         jLDomicilio1 = new javax.swing.JLabel();
         jTFNumeroTelefono = new javax.swing.JTextField();
         jTFCodigoArea = new javax.swing.JTextField();
         jLMail = new javax.swing.JLabel();
         jTFMail = new javax.swing.JTextField();
+        jLFechaDeAltaDEFAULT = new javax.swing.JLabel();
+        jLFechaDeBajaDEFAULT = new javax.swing.JLabel();
 
         javax.swing.GroupLayout jPSocioAgregarLayout = new javax.swing.GroupLayout(jPSocioAgregar);
         jPSocioAgregar.setLayout(jPSocioAgregarLayout);
@@ -87,8 +89,8 @@ public class SocioAgregarView extends javax.swing.JInternalFrame {
         jLEst.setText("Estado:");
 
         jLNumeroDeSocio.setFont(new java.awt.Font("Segoe UI", 1, 14)); // NOI18N
-        jLNumeroDeSocio.setText("5555");
 
+        jLEstado.setForeground(java.awt.Color.green);
         jLEstado.setText("Socio Activo");
 
         jTFDomicilio.addActionListener(new java.awt.event.ActionListener() {
@@ -104,6 +106,11 @@ public class SocioAgregarView extends javax.swing.JInternalFrame {
         });
 
         jLAgregar.setText("Agregar");
+        jLAgregar.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                jLAgregarMouseClicked(evt);
+            }
+        });
         jLAgregar.addKeyListener(new java.awt.event.KeyAdapter() {
             public void keyReleased(java.awt.event.KeyEvent evt) {
                 jLAgregarKeyReleased(evt);
@@ -116,19 +123,7 @@ public class SocioAgregarView extends javax.swing.JInternalFrame {
 
         jLFechaDeAlta.setText("Fecha de Alta:");
 
-        jTFFechaDeAlta.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jTFFechaDeAltaActionPerformed(evt);
-            }
-        });
-
         jLFechaDeBaja.setText("Fecha de Baja:");
-
-        jTFFechaDeBaja.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jTFFechaDeBajaActionPerformed(evt);
-            }
-        });
 
         jLAgregarSocios.setFont(new java.awt.Font("Segoe UI Historic", 1, 18)); // NOI18N
         jLAgregarSocios.setForeground(new java.awt.Color(0, 160, 210));
@@ -149,6 +144,10 @@ public class SocioAgregarView extends javax.swing.JInternalFrame {
         });
 
         jLMail.setText("E-Mail");
+
+        jLFechaDeAltaDEFAULT.setFont(new java.awt.Font("Segoe UI", 1, 12)); // NOI18N
+
+        jLFechaDeBajaDEFAULT.setFont(new java.awt.Font("Segoe UI", 1, 12)); // NOI18N
 
         javax.swing.GroupLayout jPanel1Layout = new javax.swing.GroupLayout(jPanel1);
         jPanel1.setLayout(jPanel1Layout);
@@ -190,18 +189,16 @@ public class SocioAgregarView extends javax.swing.JInternalFrame {
                                         .addGroup(jPanel1Layout.createSequentialGroup()
                                             .addComponent(jTFCodigoArea, javax.swing.GroupLayout.PREFERRED_SIZE, 83, javax.swing.GroupLayout.PREFERRED_SIZE)
                                             .addGap(18, 18, 18)
-                                            .addComponent(jTFNumeroTelefono, javax.swing.GroupLayout.PREFERRED_SIZE, 195, javax.swing.GroupLayout.PREFERRED_SIZE))))))
+                                            .addComponent(jTFNumeroTelefono, javax.swing.GroupLayout.PREFERRED_SIZE, 195, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                                    .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING, false)
+                                        .addComponent(jLFechaDeBajaDEFAULT, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, 83, Short.MAX_VALUE)
+                                        .addComponent(jLFechaDeAltaDEFAULT, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)))))
                         .addGap(52, 52, 52))
                     .addGroup(jPanel1Layout.createSequentialGroup()
                         .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                             .addComponent(jLMail)
                             .addComponent(jLFechaDeAlta)
-                            .addComponent(jLFechaDeBaja)
-                            .addGroup(jPanel1Layout.createSequentialGroup()
-                                .addGap(103, 103, 103)
-                                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                                    .addComponent(jTFFechaDeAlta, javax.swing.GroupLayout.PREFERRED_SIZE, 116, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                    .addComponent(jTFFechaDeBaja, javax.swing.GroupLayout.PREFERRED_SIZE, 116, javax.swing.GroupLayout.PREFERRED_SIZE))))
+                            .addComponent(jLFechaDeBaja))
                         .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))))
             .addGroup(jPanel1Layout.createSequentialGroup()
                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -254,18 +251,18 @@ public class SocioAgregarView extends javax.swing.JInternalFrame {
                             .addComponent(jLDomicilio1)
                             .addComponent(jTFNumeroTelefono, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                             .addComponent(jTFCodigoArea, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 21, Short.MAX_VALUE)
                         .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                             .addComponent(jLMail)
                             .addComponent(jTFMail, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                        .addGap(9, 9, 9)
+                        .addGap(14, 14, 14)
                         .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                            .addComponent(jTFFechaDeAlta, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addComponent(jLFechaDeAlta))
+                            .addComponent(jLFechaDeAlta)
+                            .addComponent(jLFechaDeAltaDEFAULT))
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                         .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                            .addComponent(jTFFechaDeBaja, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addComponent(jLFechaDeBaja))))
+                            .addComponent(jLFechaDeBaja)
+                            .addComponent(jLFechaDeBajaDEFAULT))))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jLEstado)
@@ -301,10 +298,6 @@ public class SocioAgregarView extends javax.swing.JInternalFrame {
         pack();
     }// </editor-fold>//GEN-END:initComponents
 
-    private void jTFFechaDeAltaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jTFFechaDeAltaActionPerformed
-        // TODO add your handling code here:
-    }//GEN-LAST:event_jTFFechaDeAltaActionPerformed
-
     private void jTFDNIActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jTFDNIActionPerformed
         // TODO add your handling code here:
     }//GEN-LAST:event_jTFDNIActionPerformed
@@ -313,59 +306,9 @@ public class SocioAgregarView extends javax.swing.JInternalFrame {
         // TODO add your handling code here:
     }//GEN-LAST:event_jTFDomicilioActionPerformed
 
-    private void jTFFechaDeBajaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jTFFechaDeBajaActionPerformed
-        // TODO add your handling code here:
-    }//GEN-LAST:event_jTFFechaDeBajaActionPerformed
-
     private void jLAgregarKeyReleased(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_jLAgregarKeyReleased
         // TODO add your handling code here:
         
-        SocioData metodoDeSocio = new SocioData();
-        Socio socio;
-        int idSocio = metodoDeSocio.obtenerCantidadSocios() + 5556; //Ese 5556 hacer método para obtener el valor más bajo de id
-        String apellido = this.jTFApellido.getText();
-        String nombre = this.jTFNombre.getText();
-        String domicilio = this.jTFApellido.getText();
-        int dni = Integer.parseInt(this.jTFDNI.getText());
-        
-        String codigoArea = this.jTFCodigoArea.getText();
-        String telefono = this.jTFNumeroTelefono.getText();
-        
-        String telefonoCompleto = codigoArea + telefono;
-        String mail = this.jTFMail.getText();
-        
-        DateTimeFormatter formatoDate = DateTimeFormatter.ofPattern("yyyy-MM-dd");
-        DateTimeFormatter formatoIngresado = DateTimeFormatter.ofPattern("dd-MM-yyyy");
-        
-        String fechaIngresada = this.jTFFechaDeAlta.getText();
-        
-        String anyo = fechaIngresada.substring (6, 10);
-        String mes = fechaIngresada.substring (3, 5); 
-        String dia = fechaIngresada.substring (0, 2);
-        
-        String fechaDeAltaFormatoLD = anyo + "-" + mes + "-" + dia;
-        LocalDate fechaDeAlta = LocalDate.parse(fechaDeAltaFormatoLD, formatoDate); //Va a la base de datos
-
-        String fechaDeAltaParaMostrar = fechaIngresada.replaceAll("-/", " \\| ");
-
-        LocalDate fechaDeBaja = LocalDate.now().plusYears(5);
-        
-        String ruta = "./src/vistas/imagenes/foto_" + String.valueOf(idSocio);
-        String fotoNombrePerfil = ruta;
-        
-        boolean estado = jLEstado.getText().equals("Socio Activo");
-
-        socio = new Socio(idSocio, apellido, nombre, domicilio, dni, telefonoCompleto, mail, fechaDeAlta, fechaDeBaja, fotoNombrePerfil, estado);
-        
-        File file = foto.getFile();
-        FileInputStream fis = foto.getFis();
-        try{
-            SocioTarjeta.getInstance().saveImage(file, fis, foto);
-        }catch(Exception ex){
-            JOptionPane.showMessageDialog(this, "Adiviná qué... Algo pasó con la imagen");
-        }
-        
-        metodoDeSocio.agregarSocio(socio, foto, fechaDeAltaFormatoLD);
         
     }//GEN-LAST:event_jLAgregarKeyReleased
 
@@ -379,8 +322,73 @@ public class SocioAgregarView extends javax.swing.JInternalFrame {
 
     private void jLImagenMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jLImagenMouseClicked
         // TODO add your handling code here:
-        foto = SocioTarjeta.getInstance().editarCamposSocio("Imagen", this.jLNumeroDeSocio, this.jLImagen);
+        SocioData metodoDeSocio = new SocioData();
+        int idSocio = metodoDeSocio.obtenerCantidadSocios() + 5556;
+        this.foto = SocioTarjeta.getInstance().editarCamposSocio("Imagen", this.jLNumeroDeSocio, this.jLImagen);
     }//GEN-LAST:event_jLImagenMouseClicked
+    
+    private void establecerDefault(){
+        Principal.getInstance().cargarAgregarSocio();
+        Principal.getInstance().habilitarModificaciones(false, false, false);
+        
+        int idSocio = metodoDeSocio.obtenerCantidadSocios() + 5556;
+        this.jLNumeroDeSocio.setText(String.valueOf(idSocio));
+        
+        DateTimeFormatter formatoDate = DateTimeFormatter.ofPattern("yyyy-MM-dd");
+        DateTimeFormatter formatoDEFAULT = DateTimeFormatter.ofPattern("dd-MM-yyyy");
+        
+        LocalDate fechaDeAlta = LocalDate.now();
+        LocalDate fechaDeBaja = LocalDate.now().plusYears(5);
+        
+        String fechaDeAltaDEFAULT = formatoDEFAULT.format(fechaDeAlta);
+        String fechaDeBajaDEFAULT = formatoDEFAULT.format(fechaDeBaja);
+        this.jLFechaDeAltaDEFAULT.setText(fechaDeAltaDEFAULT.replaceAll("-/", " \\| "));
+        this.jLFechaDeBajaDEFAULT.setText(fechaDeBajaDEFAULT.replaceAll("-/", " \\| "));
+    }
+    
+    private void jLAgregarMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jLAgregarMouseClicked
+        // TODO add your handling code here:
+        
+        Socio socio;
+        int idSocio = metodoDeSocio.obtenerCantidadSocios() + 5556; //Ese 5556 hacer método para obtener el valor más bajo de id
+        String apellido = this.jTFApellido.getText();
+        String nombre = this.jTFNombre.getText();
+        String domicilio = this.jTFDomicilio.getText();
+        int dni = Integer.parseInt(this.jTFDNI.getText());
+        
+        String codigoArea = this.jTFCodigoArea.getText();
+        String telefono = this.jTFNumeroTelefono.getText();
+        
+        String telefonoCompleto = codigoArea + telefono;
+        String mail = this.jTFMail.getText();
+        
+        DateTimeFormatter formatoDate = DateTimeFormatter.ofPattern("yyyy-MM-dd");
+        DateTimeFormatter formatoDEFAULT = DateTimeFormatter.ofPattern("dd-MM-yyyy");
+        
+        LocalDate fechaDeAlta = LocalDate.now();
+        LocalDate fechaDeBaja = LocalDate.now().plusYears(5);
+        
+        String fechaDeAltaDEFAULT = formatoDEFAULT.format(fechaDeAlta);
+        String fechaDeBajaDEFAULT = formatoDEFAULT.format(fechaDeBaja);
+
+        
+        String ruta = "./src/vistas/imagenes/foto_" + String.valueOf(idSocio);
+        String fotoNombrePerfil = ruta;
+        
+        boolean estado = jLEstado.getText().equals("Socio Activo");
+
+        socio = new Socio(idSocio, apellido, nombre, domicilio, dni, telefonoCompleto, mail, fechaDeAlta, fechaDeBaja, fotoNombrePerfil, estado);
+        metodoDeSocio.agregarSocio(socio, this.foto);
+        File file = this.foto.getFile();
+        FileInputStream fis = this.foto.getFis();
+        JOptionPane.showMessageDialog(null, this.foto.getIdSocio());
+        try{
+            SocioTarjeta.getInstance().saveImage(file, fis, this.foto);
+        }catch(Exception ex){
+            JOptionPane.showMessageDialog(this, "Adiviná qué... Algo pasó con la imagen");
+            System.out.println(ex.getMessage());
+        }
+    }//GEN-LAST:event_jLAgregarMouseClicked
 
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
@@ -394,7 +402,9 @@ public class SocioAgregarView extends javax.swing.JInternalFrame {
     private javax.swing.JLabel jLEst;
     private javax.swing.JLabel jLEstado;
     private javax.swing.JLabel jLFechaDeAlta;
+    private javax.swing.JLabel jLFechaDeAltaDEFAULT;
     private javax.swing.JLabel jLFechaDeBaja;
+    private javax.swing.JLabel jLFechaDeBajaDEFAULT;
     private javax.swing.JLabel jLImagen;
     private javax.swing.JLabel jLMail;
     private javax.swing.JLabel jLNombre;
@@ -407,8 +417,6 @@ public class SocioAgregarView extends javax.swing.JInternalFrame {
     private javax.swing.JTextField jTFCodigoArea;
     private javax.swing.JTextField jTFDNI;
     private javax.swing.JTextField jTFDomicilio;
-    private javax.swing.JTextField jTFFechaDeAlta;
-    private javax.swing.JTextField jTFFechaDeBaja;
     private javax.swing.JTextField jTFMail;
     private javax.swing.JTextField jTFNombre;
     private javax.swing.JTextField jTFNumeroTelefono;

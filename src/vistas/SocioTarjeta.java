@@ -697,12 +697,14 @@ public class SocioTarjeta extends javax.swing.JPanel {
     }
     
     public void saveImage(File file, FileInputStream fis, Foto foto) throws Exception {
+        SocioData metodoDeSocio = new SocioData();
         //idSocio EN ESTE EJEMPLO VIENE COMO ARGUMENTO CON EL VALOR "5564"
         String idSocio = foto.getIdSocio();
         String fotoPerfilNombre = "./src/vistas/imagenes/foto_" + idSocio;
         //AQUÍ rutaMasNombreDeFoto tiene el valor por ejemplo "./src/vistas/imagenes/foto_5564";
         String rutaMasNombreDeFoto = fotoPerfilNombre;
-
+        JOptionPane.showMessageDialog(null, "Dentro de saveImage: " + rutaMasNombreDeFoto);
+        JOptionPane.showMessageDialog(null, "Dentro de saveImage: " + file);
         //AQUÍ AL output se lo nombra por tanto "./src/vistas/imagenes/foto_5564" + ".jpg"
         File output = new File(rutaMasNombreDeFoto + ".jpg");
         BufferedImage image = ImageIO.read(file);
@@ -721,7 +723,8 @@ public class SocioTarjeta extends javax.swing.JPanel {
         // Escribir la imagen en el archivo de salida
         ImageIO.write(image, "jpg", output);
         JOptionPane.showMessageDialog(this, "Imagen guardada como " + output.getName(), "Listo!", JOptionPane.INFORMATION_MESSAGE);
-        metodoDeSocio.eliminarSocio(output, fis, rutaMasNombreDeFoto);
+        
+        //metodoDeSocio.eliminarSocio(output, fis, rutaMasNombreDeFoto);
     }
     private void saveImage(File file, FileInputStream fis, String idSocio) throws Exception {
         //idSocio EN ESTE EJEMPLO VIENE COMO ARGUMENTO CON EL VALOR "5564"

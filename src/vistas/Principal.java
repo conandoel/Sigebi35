@@ -10,7 +10,7 @@ public class Principal extends javax.swing.JFrame {
     private static final String ELIMINAR = "ELIMINAR";
     private static final String NADA = "NADA";
     private static Principal pr;
-    private boolean primeraVez = true;
+    public boolean primeraVez = true;
     /**
      * Creates new form Principal
      */
@@ -22,7 +22,7 @@ public class Principal extends javax.swing.JFrame {
         SocioData sd = new SocioData();
         //sd.insertarImagenesSocio();   NO UTILIZAR ! ! ! ! ! ! ! ! ! (ESTO SE USA UNA SOLA VEZ PARA CARGAR LAS IMÁGENES EN LA BASE DE DATOS. DESPUÉS ES REDUNDANTE. POSIBLEMENTE USARÉ PARA CREAR NUEVO SOCIO
         //Se DESHABILITA tanto la posibilidad de MODIFICAR como ELIMINAR socios ya que aún no hay búsqueda. Podría ser algo más elegante que esto
-        habilitarModificaciones(false, false);
+        habilitarModificaciones(false, false, true);
         //Se llama al método encargado de chequear si las imágenes ya están en la PC o si hay que crearlas
         chequearSiYaHayImagenes(sd);
     }
@@ -80,7 +80,7 @@ public class Principal extends javax.swing.JFrame {
         jMElimPrestamos = new javax.swing.JMenuItem();
         jMenu2 = new javax.swing.JMenu();
         jMenuItem3 = new javax.swing.JMenuItem();
-        jMenuItem4 = new javax.swing.JMenuItem();
+        jMAgregarSocio = new javax.swing.JMenuItem();
         jMenuItem5 = new javax.swing.JMenuItem();
 
         jMenu1.setText("jMenu1");
@@ -210,13 +210,13 @@ public class Principal extends javax.swing.JFrame {
         jMenuItem3.setText("...Libro");
         jMenu2.add(jMenuItem3);
 
-        jMenuItem4.setText("...Socio");
-        jMenuItem4.addActionListener(new java.awt.event.ActionListener() {
+        jMAgregarSocio.setText("...Socio");
+        jMAgregarSocio.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jMenuItem4ActionPerformed(evt);
+                jMAgregarSocioActionPerformed(evt);
             }
         });
-        jMenu2.add(jMenuItem4);
+        jMenu2.add(jMAgregarSocio);
 
         jMenuItem5.setText("...Ejemplar");
         jMenu2.add(jMenuItem5);
@@ -239,7 +239,8 @@ public class Principal extends javax.swing.JFrame {
         pack();
     }// </editor-fold>//GEN-END:initComponents
     //Método encargado de deshabilitar y habilitar la MODIFICACIÓN y ELIMINACIÓN desde el menú
-    public void habilitarModificaciones(boolean habilitarMod, boolean habilitarElim){
+    public void habilitarModificaciones(boolean habilitarMod, boolean habilitarElim, boolean habilitarAgr){
+        this.jMAgregarSocio.setEnabled(habilitarAgr);
         this.jMModificarSocios.setEnabled(habilitarMod);
         this.jMElimSocios.setEnabled(habilitarElim);
     }
@@ -276,10 +277,10 @@ public class Principal extends javax.swing.JFrame {
     private void jMBuscarSociosActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMBuscarSociosActionPerformed
         //Si es la primera vez "primeraVez" tiene valor "true"
         if(primeraVez){
+            Principal.getInstance().habilitarModificaciones(false, false, true);
             //Se guarda el CUADRO DE BÚSQUEDA utilizando el PATRÓN DE DISEÑO Singleton
             JTextField cuadroDeBusqueda = SocioBuscarView.getInstance().getCuadroDeBusqueda();
-            //Aquí "primeraVez" pasa a tener valor "false" para que a la segunda vez en adelante se limpie el contenedor de TARJETAS
-            primeraVez = false;
+            
             //Aquí se llama al método que carga la VISTA de BUSCAR SOCIOS (PARECE SER QUE ESTOY INTENTANDO LIMPIAR EN ESE MÉTODO LAS TARJETAS)
             cargarBusquedaSocio();
             //Se le da el FOCO al CUADRO DE TEXTO en donde se ingresa el valor de la búsqueda
@@ -292,7 +293,7 @@ public class Principal extends javax.swing.JFrame {
             //Se llama al método que carga la VISTA de BUSCAR SOCIOS
             cargarBusquedaSocio();
             //Se deshabilita la posibilidad de acceder desde el menú a las MODIFICACIONES y ELIMINACIONES
-            Principal.getInstance().habilitarModificaciones(false, false);
+            Principal.getInstance().habilitarModificaciones(false, false, true);
         }
     }//GEN-LAST:event_jMBuscarSociosActionPerformed
 
@@ -321,14 +322,14 @@ public class Principal extends javax.swing.JFrame {
         if(!(SocioBuscarView.getInstance().getCriterio().equalsIgnoreCase("estado") &&
                 SocioBuscarView.getInstance().getValor().equalsIgnoreCase("0")) && !SocioTarjeta.getInstance().getEstado().equals("Desasociado")){
                 //...entonces se DESHABILITA el menú item para MODIFICAR (Pues ya está en "MODIFICAR" y se habilita la posibilidad de "ELIMINAR" pues son SOCIOS ACTIVOS
-                this.habilitarModificaciones(false, true);
+                this.habilitarModificaciones(false, true, true);
         }else{
             //Si son DESASOCIADOS entonces se DESHABILITA tanto MODIFICAR (pues ya está en "MODIFICAR" y "ELIMINAR" pues ya están DESASOCIADOS
             if(SocioTarjeta.getInstance().getEstado().equals("Desasociado")){
-                this.habilitarModificaciones(false, false);
+                this.habilitarModificaciones(false, false, true);
             //Si ninguna de estas dos cosas se da, es porque aún no hubo búsqueda alguna, por tanto se DESHABILITAN AMBAS
             }else{
-                this.habilitarModificaciones(false, false);
+                this.habilitarModificaciones(false, false, true);
             }
         }
     }//GEN-LAST:event_jMModificarSociosActionPerformed
@@ -339,15 +340,15 @@ public class Principal extends javax.swing.JFrame {
         //Si el criterio NO es estado Y al mismo tiempo el valor NO es 0 se habilita la MODIFICACIÓN y se deshabilita la ELIMINACIÓN pues ya está en modo ELIMINAR
         if(!(SocioBuscarView.getInstance().getCriterio().equalsIgnoreCase("estado") &&
                 SocioBuscarView.getInstance().getValor().equalsIgnoreCase("0"))){
-            this.habilitarModificaciones(true, false);
+            this.habilitarModificaciones(true, false, true);
         }
     }//GEN-LAST:event_jMElimSociosActionPerformed
 
-    private void jMenuItem4ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMenuItem4ActionPerformed
-        
+    private void jMAgregarSocioActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMAgregarSocioActionPerformed
+        this.jMAgregarSocio.setEnabled(false);
         cargarAgregarSocio();
  
-    }//GEN-LAST:event_jMenuItem4ActionPerformed
+    }//GEN-LAST:event_jMAgregarSocioActionPerformed
 
     /**
      * @param args the command line arguments
@@ -386,6 +387,7 @@ public class Principal extends javax.swing.JFrame {
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JDesktopPane jDPEscritorio;
+    private javax.swing.JMenuItem jMAgregarSocio;
     private javax.swing.JMenu jMArchivo;
     private javax.swing.JMenu jMBuscar;
     private javax.swing.JMenuItem jMBuscarLibros;
@@ -406,7 +408,6 @@ public class Principal extends javax.swing.JFrame {
     private javax.swing.JMenuItem jMenuItem1;
     private javax.swing.JMenuItem jMenuItem2;
     private javax.swing.JMenuItem jMenuItem3;
-    private javax.swing.JMenuItem jMenuItem4;
     private javax.swing.JMenuItem jMenuItem5;
     private javax.swing.JMenuItem jMenuItem6;
     private javax.swing.JMenuItem jMenuItem7;
