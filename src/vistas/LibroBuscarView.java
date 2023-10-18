@@ -8,12 +8,14 @@ import javax.swing.table.DefaultTableModel;
 
 public class LibroBuscarView extends javax.swing.JInternalFrame {
     private DefaultTableModel modelo = new DefaultTableModel();
-    LibroData lData;
-    Libro libro;
+    LibroData lData = new LibroData();
+    Libro libro = new Libro();
+    Principal p;
     List<Libro> libros = new ArrayList<>();
-
-    public LibroBuscarView() {
-
+    String Condicion = "ISBN";
+    public LibroBuscarView(Principal principal) {
+        this.p = principal;
+        setTitle("Buscar Libros");
         initComponents();
         cargarTabla();
         cargarCombo();
@@ -36,7 +38,6 @@ public class LibroBuscarView extends javax.swing.JInternalFrame {
         jbtnCancelar = new javax.swing.JButton();
         jbtnNuevo = new javax.swing.JButton();
 
-        jcbDato.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Item 1", "Item 2", "Item 3", "Item 4" }));
         jcbDato.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 jcbDatoActionPerformed(evt);
@@ -177,35 +178,32 @@ public class LibroBuscarView extends javax.swing.JInternalFrame {
 
     private void jcbDatoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jcbDatoActionPerformed
         jtfBusqueda.setText("");//Limpia el text field cuando se cambia el filtro del combobox
+        Condicion = (String)jcbDato.getSelectedItem();
     }//GEN-LAST:event_jcbDatoActionPerformed
 
     private void jbtnBuscarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jbtnBuscarActionPerformed
         
-        String condicion = (String)(jcbDato.getSelectedItem());
-            //Lee el filtro en el combo box por el que se quiere listar los libros
+        limpiarTabla();
         
-        switch(condicion){//Usa un metodo de busqueda de LibroData dependiendo del filtro
+        switch(Condicion){//Usa un metodo de busqueda de LibroData dependiendo del filtro
             case("ISBN"):
                 libros = lData.buscarLibroPorISBN(Integer.parseInt(jtfBusqueda.getText()));
             case("Autor"):
                 libros = lData.buscarLibroPorAutor(jtfBusqueda.getText());
-            case("")://Si filtro esta vacio(si por alguna razon queda vacio), avisara que no puede estarlo
-                JOptionPane.showMessageDialog(null, "Filtro de busqueda vacio");
             default://El filtro puede ser Isbn, Autor, TITULO y GENERO. Si no se usa los primeros dos, usa este metodo
-                libros = lData.buscarLibroPorTituloGenero(condicion, jtfBusqueda.getText());
+                libros = lData.buscarLibroPorTituloGenero(Condicion, jtfBusqueda.getText());
         }
         
         Iterator<Libro> iterador = libros.iterator();//Crea un iterador con los libros encontrados
-        
         if(iterador.hasNext()){
             
-            limpiarTabla();
+
             
             while(iterador.hasNext()){//Llena la tabla con la lista de libros encontrados en la base de datos
                 
                 libro = iterador.next();
                 
-                modelo.addRow(new Object[] {libro.getIsbn(), libro.getTitulo(), libro.getAutor().getNombre(), libro.getAnio(),
+                modelo.addRow(new Object[] {libro.getIsbn(), libro.getTitulo(), libro.getAutor(), libro.getAnio(),
                                             libro.getGenero(), libro.getCantEjemplares()});
                 
             }
@@ -244,7 +242,7 @@ public class LibroBuscarView extends javax.swing.JInternalFrame {
     }//GEN-LAST:event_jbtnEliminarActionPerformed
 
     private void jbtnNuevoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jbtnNuevoActionPerformed
-        //Debe enviarte a una vista nueva para llenar los datos del libro nuevo 
+        p.cargarNuevoLibro();
     }//GEN-LAST:event_jbtnNuevoActionPerformed
 
     private void jbtnConfirmarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jbtnConfirmarActionPerformed
@@ -281,6 +279,7 @@ public class LibroBuscarView extends javax.swing.JInternalFrame {
     modelo.addColumn("Año de publicación");
     modelo.addColumn("Genero");
     modelo.addColumn("Cantidad de ejemplares");
+    jtListaLibro.setModel(modelo);
     }
     private void cargarCombo(){
         jcbDato.addItem("ISBN");
@@ -289,7 +288,7 @@ public class LibroBuscarView extends javax.swing.JInternalFrame {
         jcbDato.addItem("Genero");
     }
     private void limpiarTabla(){
-        for(int i = 0; i < jtListaLibro.getRowCount(); i++){
+        for(int i = 0; i < jtListaLibro.getRowCount(); i++) {
             modelo.removeRow(i);
             i-= 1;
         }
