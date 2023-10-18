@@ -119,6 +119,11 @@ public class Principal extends javax.swing.JFrame {
         jMArchivo.setText("Archivo");
 
         jMenuItem1.setText("Prestar Libro");
+        jMenuItem1.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jMenuItem1ActionPerformed(evt);
+            }
+        });
         jMArchivo.add(jMenuItem1);
 
         jMenuItem2.setText("Devolver Libro");
@@ -362,13 +367,19 @@ public class Principal extends javax.swing.JFrame {
 
     private void jMenuItem4ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMenuItem4ActionPerformed
         // TODO add your handling code here:
+    
+    }//GEN-LAST:event_jMenuItem4ActionPerformed
+
+    private void jMenuItem1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMenuItem1ActionPerformed
+        // TODO add your handling code here:
         jDPEscritorio.removeAll();
         jDPEscritorio.repaint();
-        SocioAgregarView sav=new SocioAgregarView();
-        sav.setVisible(true);
-        jDPEscritorio.add(sav);
-        jDPEscritorio.moveToFront(sav);
-    }//GEN-LAST:event_jMenuItem4ActionPerformed
+        PrestamosView pv=new PrestamosView();
+        pv.setVisible(true);
+        jDPEscritorio.add(pv);
+        jDPEscritorio.moveToFront(pv);
+        
+    }//GEN-LAST:event_jMenuItem1ActionPerformed
 
     private void jMModLibrosActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMModLibrosActionPerformed
         jDPEscritorio.removeAll();
