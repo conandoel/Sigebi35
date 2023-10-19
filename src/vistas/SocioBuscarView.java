@@ -258,8 +258,10 @@ public class SocioBuscarView extends javax.swing.JInternalFrame {
             cargarLasTarjetas();
             //Se maneja chequeando si el JLabel que tiene el valor del estado dice "Desasociado" para condicionar el acceso a la eliminación desde el MENÚ
             if(SocioTarjeta.getInstance().getEstado().equals("Desasociado")){
-                Principal.getInstance().habilitarModificaciones(true, false);
+                Principal.getInstance().habilitarModificaciones(true, false, true);
             }
+            //Aquí "primeraVez" pasa a tener valor "false" para que a la segunda vez en adelante se limpie el contenedor de TARJETAS
+            Principal.getInstance().primeraVez = false;
         }
         
  
@@ -304,10 +306,10 @@ public class SocioBuscarView extends javax.swing.JInternalFrame {
             //Chequea si las TARJETAS están buscadas por estado con valor 0 (DEBERÍA MANEJARSE CON LOS ATRIBUTOS "criterio" y "valor". ADAPTAR)
             if(criterio.equalsIgnoreCase("estado") && valor.equals("0")){
                 //Utilizando el PATRÓN DE DISEÑO Singleton se permite MODIFICAR desde el menú PRINCIPAL pero no ELIMINAR
-                Principal.getInstance().habilitarModificaciones(true, false);
+                Principal.getInstance().habilitarModificaciones(true, false, true);
             }else{
                 //Se permiten tanto MODIFICAR como ELIMINAR ya que es un socio activo
-                Principal.getInstance().habilitarModificaciones(true, true);
+                Principal.getInstance().habilitarModificaciones(true, true, true);
             }
             //El JLabel que está debajo del cuadro de búsqueda que sirve para informar si las búsquedas están bien ejecutadas se vacía
             jLInfo.setText("");

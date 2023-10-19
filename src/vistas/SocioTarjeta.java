@@ -6,6 +6,7 @@ import datos.PrestamoData;
 import java.util.ArrayList;
 import java.util.List;
 import datos.SocioData;
+import entidades.Foto;
 import java.awt.Color;
 import java.awt.Font;
 import java.awt.Graphics;
@@ -109,12 +110,11 @@ public class SocioTarjeta extends javax.swing.JPanel {
                 return "JPEG Images (*.jpg)";
             }
         });
-        this.jCBEstado.addActionListener(new ActionListener(){
-            
-            
+        this.jCBEstado.addActionListener(new ActionListener() {
+
             @Override
-            public void actionPerformed(ActionEvent e){
-                String estadoSeleccionado = (String)jCBEstado.getSelectedItem();
+            public void actionPerformed(ActionEvent e) {
+                String estadoSeleccionado = (String) jCBEstado.getSelectedItem();
                 modificarComboBox(e, estadoSeleccionado);
             }
         });
@@ -176,7 +176,7 @@ public class SocioTarjeta extends javax.swing.JPanel {
         JTextField textoModificado = this.jTFSocioMod;
         Timer temporizador = new Timer(100, new ActionListener() {
             private int parpadeos = 0;
-            
+
             @Override
             public void actionPerformed(ActionEvent e) {
 
@@ -197,7 +197,7 @@ public class SocioTarjeta extends javax.swing.JPanel {
                         // cambiar el texto del labelInformativo después de que se detenga el temporizador
                         textoModificado.setText("");
                         labelInformativo.setText("CLICKEE SOBRE EL CAMPO PARA EDITAR EL VALOR DESEADO");
-                        
+
                         ((Timer) e.getSource()).stop();
                     }
                     parpadeos++;
@@ -214,7 +214,7 @@ public class SocioTarjeta extends javax.swing.JPanel {
             temporizador.start();
         }
     }
-    
+
     //Método que devuelve un LISTADO de OBJETOS tipo SocioTarjeta (TARJETAS). Pide criterio (Si es por Nombre, por Estado, etc), pide valor ("Juan", "Activo", etc), y EFECTO (NADA, MODIFICAR y ELIMINAR)
     public List<SocioTarjeta> listarSocio(String criterio, String valor, String EFECTO) {
         //Llama al método actualizarSeccion y pasa como argumento el EFECTO utilizando el PATRÓN DE DISEÑO Singleton
@@ -268,21 +268,19 @@ public class SocioTarjeta extends javax.swing.JPanel {
             DateTimeFormatter formatoResta = DateTimeFormatter.ofPattern("yyyy-MM-dd");
             String fechaActualString = fechaActualLD.format(formatoResta);
             int fechaActual = Integer.parseInt(fechaActualString.replaceAll("-", ""));
-            
+
             String diaBaja = tarjeta.jLFechaDeBaja.getText().replaceAll(" \\| ", "").substring(0, 2);
             String mesBaja = tarjeta.jLFechaDeBaja.getText().replaceAll(" \\| ", "").substring(2, 4);
             String anyoBaja = tarjeta.jLFechaDeBaja.getText().replaceAll(" \\| ", "").substring(4, 8);
 
             String fechaBaja = anyoBaja + mesBaja + diaBaja;
             int fechaDeBAJA = Integer.parseInt(fechaBaja);
-            
-            
+
             if (socio.isEstado() && fechaDeBAJA > fechaActual) {
                 tarjeta.jLFechaDeBaja.setForeground(Color.GREEN);
             } else {
                 tarjeta.jLFechaDeBaja.setForeground(Color.RED);
             }
-            
 
             //Se le asigna un tamaño al JLabel que contiene los ÍCONOS de MODIFICAR y ELIMINAR según sea el caso
             tarjeta.jLEfecto.setSize(20, 20);
@@ -648,6 +646,31 @@ public class SocioTarjeta extends javax.swing.JPanel {
         preEditarCamposSocio(this.campoAModificar); //CREO QUE AÚN NO TIENE VALOR. PASO HARDCODE POR ESO MISO ---> EN CONSTRUCCIÓN!!!!!!!!!!!!!!!!!!!!!!
     }//GEN-LAST:event_jLFotoMouseClicked
 
+    public Foto selectImage(String idSocio, JLabel jLFoto) {
+        Foto foto = null;
+        int result = this.fileChooser.showOpenDialog(this); // show the file chooser dialog and get the result 
+        if (result == JFileChooser.APPROVE_OPTION) { // if the user selected a file 
+            File file = fileChooser.getSelectedFile(); // get the selected file 
+            try {
+                BufferedImage image = ImageIO.read(file); // leer la imagen del archivo
+
+                Image scaledImage = image.getScaledInstance(jLFoto.getWidth(), jLFoto.getHeight(), Image.SCALE_SMOOTH); // escalar la imagen al tamaño del JLabel
+                jLFoto.setIcon(new ImageIcon(scaledImage)); // asignar la imagen escalada como icono del JLabel
+
+                // Crear un objeto FileInputStream para leer el contenido del archivo
+                FileInputStream fis = new FileInputStream(file);
+
+                // Llamar al método saveImage pasando el archivo, el FileInputStream y el idSocio como argumentos
+                //saveImage(file, fis, idSocio); // call the method to save the image
+                foto = new Foto(file, fis, idSocio);
+            } catch (Exception ex) {
+                JOptionPane.showMessageDialog(this, "Error al leer o guardar la imagen", "Error", JOptionPane.ERROR_MESSAGE); // show an error message if something went wrong
+                System.out.println(ex.getMessage());
+            }
+        }
+        return foto;
+    }
+
     private void selectImage(String idSocio) {
         int result = this.fileChooser.showOpenDialog(this); // show the file chooser dialog and get the result 
         if (result == JFileChooser.APPROVE_OPTION) { // if the user selected a file 
@@ -668,6 +691,37 @@ public class SocioTarjeta extends javax.swing.JPanel {
                 System.out.println(ex.getMessage());
             }
         }
+    }
+
+    public void saveImage(File file, FileInputStream fis, Foto foto) throws Exception {
+        SocioData metodoDeSocio = new SocioData();
+        //idSocio EN ESTE EJEMPLO VIENE COMO ARGUMENTO CON EL VALOR "5564"
+        String idSocio = foto.getIdSocio();
+        String fotoPerfilNombre = "./src/vistas/imagenes/foto_" + idSocio;
+        //AQUÍ rutaMasNombreDeFoto tiene el valor por ejemplo "./src/vistas/imagenes/foto_5564";
+        String rutaMasNombreDeFoto = fotoPerfilNombre;
+        JOptionPane.showMessageDialog(null, "Dentro de saveImage: " + rutaMasNombreDeFoto);
+        JOptionPane.showMessageDialog(null, "Dentro de saveImage: " + file);
+        //AQUÍ AL output se lo nombra por tanto "./src/vistas/imagenes/foto_5564" + ".jpg"
+        File output = new File(rutaMasNombreDeFoto + ".jpg");
+        BufferedImage image = ImageIO.read(file);
+        //Si existe "./src/vistas/imagenes/foto_5564.jpg"
+        if (output.exists()) {
+            //SE CREA UN NUEVO ARCHIVO CON EL NOMBRE ("foto_" + idSocio + "_anterior.jpg") LO CUAL ES "./src/vistas/imagenes/foto_5564_anterior.jpg"
+            File backup = new File("./src/vistas/imagenes/foto_" + idSocio + "_anterior.jpg");
+            //SI EL ARCHIVO DE RESPALDO YA EXISTE, BORRARLO (SÓLO SE MANTENDRÁ UNA IMAGEN ANTERIOR)
+            if (backup.exists()) {
+                backup.delete();
+            }
+            // Renombrar el archivo que encuentras en el ordenador al archivo de backup
+            File original = new File(rutaMasNombreDeFoto + ".jpg"); // crear un objeto File con la ruta de la imagen original
+            original.renameTo(backup); // renombrar la imagen original al archivo de backup
+        }
+        // Escribir la imagen en el archivo de salida
+        ImageIO.write(image, "jpg", output);
+        JOptionPane.showMessageDialog(this, "Imagen guardada como " + output.getName(), "Listo!", JOptionPane.INFORMATION_MESSAGE);
+
+        //metodoDeSocio.eliminarSocio(output, fis, rutaMasNombreDeFoto);
     }
 
     private void saveImage(File file, FileInputStream fis, String idSocio) throws Exception {
@@ -755,8 +809,7 @@ public class SocioTarjeta extends javax.swing.JPanel {
 
     //Manejador del evento ENTER sobre el JTextField que surje en el modo MODIFICAR --- EN CONSTRUCCIÓN!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!! NO SE VA A UTILIZAR CREOOOO
     public void jTFSocioModActionPerformed(java.awt.event.ActionEvent evt) {
-        
-        
+
     }
 
     public void jTFSocioModMouseClicked(java.awt.event.MouseEvent evt) {
@@ -768,6 +821,13 @@ public class SocioTarjeta extends javax.swing.JPanel {
             String criterio = jLabel.getText();
             editarCamposSocio(criterio);
         }
+    }
+
+    public Foto editarCamposSocio(String criterio, JLabel idSocio, JLabel jLFoto) {
+        String numeroDeFoto = idSocio.getText();
+        Foto foto = selectImage(numeroDeFoto, jLFoto);
+
+        return foto;
     }
 
     private void editarCamposSocio(String criterio) {
@@ -832,34 +892,35 @@ public class SocioTarjeta extends javax.swing.JPanel {
 
     }
     private PrestamoData metodoDePrestamo = new PrestamoData();
-    private List <Prestamo> prestamos = new ArrayList<>();
+    private List<Prestamo> prestamos = new ArrayList<>();
     private Socio deudor;
-    public void modificarComboBox(ActionEvent e, String estadoSeleccionado){
+
+    public void modificarComboBox(ActionEvent e, String estadoSeleccionado) {
         LocalDate fechaActualLD = LocalDate.now();
         DateTimeFormatter formatoResta = DateTimeFormatter.ofPattern("yyyy-MM-dd");
         String fechaActualString = fechaActualLD.format(formatoResta);
         int fechaActual = Integer.parseInt(fechaActualString.replaceAll("-", ""));
-            
+
         String diaBaja = this.jLFechaDeBaja.getText().replaceAll(" \\| ", "").substring(0, 2);
         String mesBaja = this.jLFechaDeBaja.getText().replaceAll(" \\| ", "").substring(2, 4);
         String anyoBaja = this.jLFechaDeBaja.getText().replaceAll(" \\| ", "").substring(4, 8);
 
         String fechaBaja = anyoBaja + mesBaja + diaBaja;
         int fechaDeBAJA = Integer.parseInt(fechaBaja);
-        if("Socio Activo".equals(estadoSeleccionado)){
-            if(fechaDeBAJA > fechaActual){
+        if ("Socio Activo".equals(estadoSeleccionado)) {
+            if (fechaDeBAJA > fechaActual) {
                 this.jLEstado.setText("Socio Activo");
                 this.jLEstado.setVisible(true);
                 jCBEstado.setVisible(false);
-            }else{
+            } else {
                 int respuesta = JOptionPane.showConfirmDialog(this, "Está seguro que desea cambiar el estado a 'Socio Activo'? Se tomará como una reinscripción. De acuerdo?");
                 if (respuesta == 0) {
                     String fechaDB = String.valueOf(fechaActual + 50000);
                     String fechaDesasociada = this.jLFechaDeBaja.getText().replaceAll(" \\| ", "-");
-                    fechaDB = fechaDB.substring(0, 4) + "-" + 
-                            fechaDB.substring(4, 6) + "-" +
-                            fechaDB.substring(6, 8);
-                    
+                    fechaDB = fechaDB.substring(0, 4) + "-"
+                            + fechaDB.substring(4, 6) + "-"
+                            + fechaDB.substring(6, 8);
+
                     metodoDeSocio.eliminarSocio("M", fechaDesasociada, "fechaDeBaja", fechaDB, this.jLNumeroDeSocio.getText());
                     this.jLFechaDeBaja.setText(fechaDB.replaceAll("[-/]", " | "));
 
@@ -870,22 +931,22 @@ public class SocioTarjeta extends javax.swing.JPanel {
                     this.jLABM.setText("CLICKEE SOBRE EL CAMPO PARA EDITAR EL VALOR DESEADO");
                 }
             }
-            
-        }else{
+
+        } else {
             int idSocio = Integer.parseInt(this.jLEfecto.getText());
             prestamos = metodoDePrestamo.listarPrestamos(idSocio);
             deudor = new Socio();
-            for(Prestamo prestamo : prestamos){
-                if(prestamo.getLector().getIdSocio() == idSocio){
+            for (Prestamo prestamo : prestamos) {
+                if (prestamo.getLector().getIdSocio() == idSocio) {
                     deudor = prestamo.getLector();
                 }
             }
-            if(deudor != null){
+            if (deudor != null) {
                 JOptionPane.showMessageDialog(null, "No se puede desasociar porque el Socio tiene préstamos activos");
                 this.jLEstado.setText("Socio Activo");
                 this.jLEstado.setVisible(true);
                 jCBEstado.setVisible(false);
-            }else{
+            } else {
                 this.jLEstado.setText("Desasociado");
                 this.jLEstado.setVisible(true);
                 jCBEstado.setVisible(false);
@@ -899,12 +960,12 @@ public class SocioTarjeta extends javax.swing.JPanel {
             
             
             
-            */
+             */
         }
     }
-    
-    
+
     boolean controlarENTER = true;
+
     public void modificarTextField(KeyEvent e, JLabel campoMod, JLabel valorMod) {
         //Por comodidad y legibilidad se guarda en una variable al JTextFiel que sirve para MODIFICAR las TARJETAS
         JTextField valoresModificados = jTFSocioMod;
@@ -957,52 +1018,28 @@ public class SocioTarjeta extends javax.swing.JPanel {
                     break;
                 //Si la tecla presionada NO es ENTER
                 case "Apellido:":
-                    if (caracteresIngresados.matches(".*\\d.*")) {
-                        labelInformativo.setText("El Apellido no puede incluír números");
-                    } else {
-                        valorMod.setText(caracteresIngresados);
-                        valoresModificados.setVisible(false);
-                        valorMod.setVisible(true);
-                        labelInformativo.setText("El Apellido ha sido modificado correctamente");
-                        metodoDeSocio.eliminarSocio("M", valorDelCampo, campo.replaceAll(":", ""), valorMod.getText(), this.jLNumeroDeSocio.getText());
-                        temporizar(labelInformativo);
-                    }
+                    cotejarApellido(caracteresIngresados, labelInformativo, valorMod, valoresModificados,
+                            valorDelCampo, campo);
                     break;
                 case "Nombre:":
-                    if (caracteresIngresados.matches(".*\\d.*")) {
-                        labelInformativo.setText("El Nombre no puede incluír números");
-                    } else {
-                        valorMod.setText(caracteresIngresados);
-                        valoresModificados.setVisible(false);
-                        valorMod.setVisible(true);
-                        labelInformativo.setText("El Nombre ha sido modificado correctamente");
-                        metodoDeSocio.eliminarSocio("M", valorDelCampo, campo.replaceAll(":", ""), valorMod.getText(), this.jLNumeroDeSocio.getText());
-                        temporizar(labelInformativo);
-                    }
+                    cotejarNombre(caracteresIngresados, labelInformativo, valorMod, valoresModificados,
+                            valorDelCampo, campo);
                     break;
                 case "Domicilio:":
-                    if (!caracteresIngresados.matches(".*\\s\\D*\\d+\\s*$")) {
-                        labelInformativo.setText("El Domicilio debe incluír un número");
-                    } else {
-                        valorMod.setText(caracteresIngresados);
-                        valoresModificados.setVisible(false);
-                        valorMod.setVisible(true);
-                        labelInformativo.setText("El Domicilio ha sido modificado correctamente");
-                        metodoDeSocio.eliminarSocio("M", valorDelCampo, campo.replaceAll(":", ""), valorMod.getText(), this.jLNumeroDeSocio.getText());
-                        temporizar(labelInformativo);
-                    }
+                    cotejarDomicilio(caracteresIngresados, labelInformativo, valorMod, valoresModificados,
+                            valorDelCampo, campo);
+                    break;
+                case "DNI:":
+                    cotejarDNI(caracteresIngresados, labelInformativo, valorMod, valoresModificados,
+                            valorDelCampo, campo);
+                    break;
+                case "Teléfono:":
+                    cotejarTelefono(caracteresIngresados, labelInformativo, valorMod, valoresModificados,
+                            valorDelCampo, campo);
                     break;
                 case "E-Mail:":
-                    if (!caracteresIngresados.matches("^[\\w\\.-]+@[\\w\\.-]+\\.\\w+$")) {
-                        labelInformativo.setText("El E-Mail está mal especificada");
-                    } else {
-                        valorMod.setText(caracteresIngresados);
-                        valoresModificados.setVisible(false);
-                        valorMod.setVisible(true);
-                        labelInformativo.setText("El E-Mail ha sido modificado correctamente");
-                        metodoDeSocio.eliminarSocio("M", valorDelCampo, campo.replaceAll("[:-]", "").substring(1), valorMod.getText(), this.jLNumeroDeSocio.getText());
-                        temporizar(labelInformativo);
-                    }
+                    cotejarEmail(caracteresIngresados, labelInformativo, valorMod, valoresModificados,
+                            valorDelCampo, campo);
                     break;
                 case "Fecha de Alta:": {
                     placeholder = valorMod.getText();
@@ -1269,7 +1306,7 @@ public class SocioTarjeta extends javax.swing.JPanel {
                                         this.jLEstado.setForeground(Color.RED);
                                         temporizar(labelInformativo);
                                     } else if (diaFebrero == 29) {
-                                        
+
                                         if ((anyoIngresado % 4 == 0 && anyoIngresado % 100 != 0) || (anyoIngresado % 400 == 0)) {
                                             caracteresIngresados = caracteresIngresados.replaceAll("[-/]", " | ");
                                             valoresModificados.setVisible(false);
@@ -1380,20 +1417,19 @@ public class SocioTarjeta extends javax.swing.JPanel {
                     }
                     break;
                 case "Apellido:":
-                    labelInformativo.setText("Modificando el Apellido");
-                    valorMod.setVisible(false);
+                    noEnterApellido(labelInformativo, valorMod, e);
                     break;
                 case "Nombre:":
-                    labelInformativo.setText("Modificando el Nombre");
-                    valorMod.setVisible(false);
+                    noEnterNombre(labelInformativo, valorMod, e);
                     break;
                 case "Domicilio:":
-                    labelInformativo.setText("Modificando el Domicilio");
-                    valorMod.setVisible(false);
+                    noEnterDomicilio(labelInformativo, valorMod, e);
+                    break;
+                case "Teléfono:":
+                    noEnterTelefono(labelInformativo, valorMod, e);
                     break;
                 case "E-Mail:":
-                    labelInformativo.setText("El E-Mail debe tener el formato ejemploDirección@dominio.extensión");
-                    valorMod.setVisible(false);
+                    noEnterMail(labelInformativo, valorMod, e);
                     break;
                 case "Fecha de Alta:":
                     labelInformativo.setText("La Fecha debe tener el formato 01-01-1995");
@@ -1409,6 +1445,175 @@ public class SocioTarjeta extends javax.swing.JPanel {
                 default:
                     break;
             }
+        }
+    }
+    
+    public void noEnterApellido(JLabel labelInformativo, JLabel valorMod, KeyEvent e){
+        if(e.getKeyCode() == 10){
+            
+        }else{
+            labelInformativo.setText("Ingresando el Apellido");
+            valorMod.setVisible(false);
+        }
+    }
+    public void noEnterNombre(JLabel labelInformativo, JLabel valorMod, KeyEvent e){
+        if(e.getKeyCode() == 10){
+            
+        }else{
+            labelInformativo.setText("Ingresando el Nombre");
+            valorMod.setVisible(false);
+        }
+    }
+    public void noEnterDomicilio(JLabel labelInformativo, JLabel valorMod, KeyEvent e){
+        if(e.getKeyCode() == 10){
+            
+        }else{
+            labelInformativo.setText("Ingresando el Domicilio");
+            valorMod.setVisible(false);
+        }
+    }
+    public void noEnterDNI(JLabel labelInformativo, JLabel valorMod, KeyEvent e){
+        if(e.getKeyCode() == 10){
+            
+        }else{
+            labelInformativo.setText("Ingresando el DNI");
+            valorMod.setVisible(false);
+        }
+    }
+    public void noEnterTelefono(JLabel labelInformativo, JLabel valorMod, KeyEvent e){
+        if(e.getKeyCode() == 10){
+            
+        }else{
+            labelInformativo.setText("Ingresando el teléfono");
+            valorMod.setVisible(false);
+        }
+    }
+    public void noEnterMail(JLabel labelInformativo, JLabel valorMod, KeyEvent e){
+        if(e.getKeyCode() == 10){
+            
+        }else{
+            labelInformativo.setText("El E-Mail debe tener el formato ejemplo@dominio.extensión");
+            valorMod.setVisible(false);
+        }
+    }
+
+    public void cotejarApellido(String caracteresIngresados, JLabel labelInformativo, JLabel valorMod, JTextField valoresModificados,
+            String valorDelCampo, String campo) {
+        if (caracteresIngresados.matches(".*\\d.*")) {
+            valoresModificados.setForeground(Color.BLACK);
+            labelInformativo.setText("El Apellido no puede incluír números");
+        } else {
+            if (labelInformativo.getClass().getEnclosingClass() == SocioTarjeta.class) {
+                valorMod.setText(caracteresIngresados);
+                valoresModificados.setVisible(false);
+                valorMod.setVisible(true);
+                
+                metodoDeSocio.eliminarSocio("M", valorDelCampo, campo.replaceAll(":", ""), valorMod.getText(), this.jLNumeroDeSocio.getText());
+            }else{
+                valoresModificados.setForeground(Color.CYAN);
+            }
+            labelInformativo.setText("El Apellido ha sido ingresado correctamente");
+            temporizar(labelInformativo);
+        }
+    }
+
+    public void cotejarNombre(String caracteresIngresados, JLabel labelInformativo, JLabel valorMod, JTextField valoresModificados,
+            String valorDelCampo, String campo) {
+        if (caracteresIngresados.matches(".*\\d.*")) {
+            valoresModificados.setForeground(Color.BLACK);
+            labelInformativo.setText("El Nombre no puede incluír números");
+        } else {
+            if (labelInformativo.getClass().getEnclosingClass() == SocioTarjeta.class) {
+                valorMod.setText(caracteresIngresados);
+                valoresModificados.setVisible(false);
+                valorMod.setVisible(true);
+                
+                metodoDeSocio.eliminarSocio("M", valorDelCampo, campo.replaceAll(":", ""), valorMod.getText(), this.jLNumeroDeSocio.getText());
+            }else{
+                valoresModificados.setForeground(Color.CYAN);
+            }
+            labelInformativo.setText("El Nombre ha sido ingresado correctamente");
+            temporizar(labelInformativo);
+        }
+    }
+
+    public void cotejarDomicilio(String caracteresIngresados, JLabel labelInformativo, JLabel valorMod, JTextField valoresModificados,
+            String valorDelCampo, String campo) {
+        if (!caracteresIngresados.matches(".*\\s\\D*\\d+\\s*$")) {
+           valoresModificados.setForeground(Color.BLACK);
+            labelInformativo.setText("El Domicilio debe incluír un número");
+        } else {
+            if (labelInformativo.getClass().getEnclosingClass() == SocioTarjeta.class) {
+                valorMod.setText(caracteresIngresados);
+                valoresModificados.setVisible(false);
+                valorMod.setVisible(true);
+                
+                metodoDeSocio.eliminarSocio("M", valorDelCampo, campo.replaceAll(":", ""), valorMod.getText(), this.jLNumeroDeSocio.getText());
+            }else{
+                valoresModificados.setForeground(Color.CYAN);
+            }
+            labelInformativo.setText("El Domicilio ha sido ingresado correctamente");
+            temporizar(labelInformativo);
+        }
+    }
+
+    public void cotejarDNI(String caracteresIngresados, JLabel labelInformativo, JLabel valorMod, JTextField valoresModificados,
+            String valorDelCampo, String campo) {
+        if (!caracteresIngresados.matches("^[0-9]{8}$")) {
+            valoresModificados.setForeground(Color.BLACK);
+            labelInformativo.setText("El DNI está mal especificado");
+        } else {
+            if (labelInformativo.getClass().getEnclosingClass() == SocioTarjeta.class) {
+                valorMod.setText(caracteresIngresados);
+                valoresModificados.setVisible(false);
+                valorMod.setVisible(true);
+                
+                metodoDeSocio.eliminarSocio("M", valorDelCampo, campo.replaceAll(":", ""), valorMod.getText(), this.jLNumeroDeSocio.getText());
+            }else{
+                valoresModificados.setForeground(Color.CYAN);
+            }
+            labelInformativo.setText("El DNI ha sido ingresado correctamente");
+            temporizar(labelInformativo);
+        }
+    }
+
+    public void cotejarTelefono(String caracteresIngresados, JLabel labelInformativo, JLabel valorMod, JTextField valoresModificados,
+            String valorDelCampo, String campo) {
+        if (!caracteresIngresados.matches("^[0-9]{9,11}$")) {
+            valoresModificados.setForeground(Color.BLACK);
+            labelInformativo.setText("El Teléfono está mal especificado");
+        } else {
+            if (labelInformativo.getClass().getEnclosingClass() == SocioTarjeta.class) {
+                valorMod.setText(caracteresIngresados);
+                valoresModificados.setVisible(false);
+                valorMod.setVisible(true);
+                
+                metodoDeSocio.eliminarSocio("M", valorDelCampo, campo.replaceAll(":", ""), valorMod.getText(), this.jLNumeroDeSocio.getText());
+            }else{
+                valoresModificados.setForeground(Color.CYAN);
+            }
+            labelInformativo.setText("El Teléfono ha sido ingresado correctamente");
+            temporizar(labelInformativo);
+        }
+    }
+
+    public void cotejarEmail(String caracteresIngresados, JLabel labelInformativo, JLabel valorMod, JTextField valoresModificados,
+            String valorDelCampo, String campo) {
+        if (!caracteresIngresados.matches("^[\\w\\.-]+@[\\w\\.-]+\\.\\w+$")) {
+            valoresModificados.setForeground(Color.BLACK);
+            labelInformativo.setText("El E-Mail está mal especificado");
+        } else {
+            if (labelInformativo.getClass().getEnclosingClass() == SocioTarjeta.class) {
+                valorMod.setText(caracteresIngresados);
+                valoresModificados.setVisible(false);
+                valorMod.setVisible(true);
+                
+                metodoDeSocio.eliminarSocio("M", valorDelCampo, campo.replaceAll(":", ""), valorMod.getText(), this.jLNumeroDeSocio.getText());
+            }else{
+                valoresModificados.setForeground(Color.CYAN);
+            }
+            labelInformativo.setText("El E-Mail ha sido ingresado correctamente");
+            temporizar(labelInformativo);
         }
     }
 
