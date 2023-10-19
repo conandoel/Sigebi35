@@ -472,6 +472,9 @@ public class SocioAgregarView extends javax.swing.JInternalFrame {
                /* switch(atributo.getName() == "idSocio"){
                     JOptionPane.showMessageDialog(this, "HOLA");*/
                 }
+               /*switch(atributo.getName() == "idSocio"){
+                    JOptionPane.showMessageDialog(this, "HOLA");
+                }*/
                 JOptionPane.showMessageDialog(this, valor);
             }
         }catch(IllegalAccessException e){

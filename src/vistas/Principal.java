@@ -344,11 +344,54 @@ public class Principal extends javax.swing.JFrame {
         }
     }//GEN-LAST:event_jMElimSociosActionPerformed
 
+
     private void jMAgregarSocioActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMAgregarSocioActionPerformed
         this.jMAgregarSocio.setEnabled(false);
         cargarAgregarSocio();
  
     }//GEN-LAST:event_jMAgregarSocioActionPerformed
+
+    private void jMenuItem4ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMenuItem4ActionPerformed
+        // TODO add your handling code here:
+    
+    }//GEN-LAST:event_jMenuItem4ActionPerformed
+
+    private void jMenuItem1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMenuItem1ActionPerformed
+        // TODO add your handling code here:
+        /*jDPEscritorio.removeAll();
+        jDPEscritorio.repaint();
+        PrestamosView pv=new PrestamosView();
+        pv.setVisible(true);
+        jDPEscritorio.add(pv);
+        jDPEscritorio.moveToFront(pv);*/
+        
+    }//GEN-LAST:event_jMenuItem1ActionPerformed
+
+    private void jMModLibrosActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMModLibrosActionPerformed
+        /*jDPEscritorio.removeAll();
+        jDPEscritorio.repaint();
+        Libro libro = new Libro();
+        cargarModLibro(libro);*/
+    }//GEN-LAST:event_jMModLibrosActionPerformed
+
+                                    
+
+    private void jMenuAgregarLibroActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMenuAgregarLibroActionPerformed
+        /*jDPEscritorio.removeAll();
+        jDPEscritorio.repaint();
+        cargarNuevoLibro();*/
+    }//GEN-LAST:event_jMenuAgregarLibroActionPerformed
+
+
+    private void jMBuscarLibrosActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMBuscarLibrosActionPerformed
+        /*jDPEscritorio.removeAll();
+        jDPEscritorio.repaint();
+        LibroBuscarView lBuscar = new LibroBuscarView(this);
+        lBuscar.setVisible(true);
+        jDPEscritorio.add(lBuscar);
+        jDPEscritorio.moveToFront(lBuscar);*/
+    }//GEN-LAST:event_jMBuscarLibrosActionPerformed
+
 
     /**
      * @param args the command line arguments
