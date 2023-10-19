@@ -107,7 +107,7 @@ public class EjemplarData {
     public List<Ejemplar> listarEjemplares(Libro libro){
         List<Ejemplar> ejemplares=new ArrayList<>();
         Ejemplar ej;
-        String sql="Select * from ejemplar where libro="+libro.getIsbn();
+        String sql="Select * from ejemplar where isbn="+libro.getIsbn();
         try{
             PreparedStatement ps=con.prepareStatement(sql);
             ResultSet rs=ps.executeQuery();
@@ -115,6 +115,7 @@ public class EjemplarData {
                 ej=new Ejemplar();
                 ej.setCodigo(rs.getInt(1));
                 ej.setEstado(rs.getString(3));
+                System.out.println(ej.getCodigo());
                 ejemplares.add(ej);
             
             }

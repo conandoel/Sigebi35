@@ -217,14 +217,18 @@ public class PrestamosView extends javax.swing.JInternalFrame {
     private void jtfLibroNombreKeyReleased(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_jtfLibroNombreKeyReleased
         // TODO add your handling code here:
         limpiarlabelslibros();
+        limpiarTabla();
         if(jtfLibroNombre.getText().equals("")){
             limpiarlabelslibros();
+            limpiarTabla();
         }else{
             for(Libro libro:libros){
-                if(libro.getTitulo().equals(jtfLibroNombre.getText())){
-                    jlAutor.setText("Autor: "+libro.getAutor().getNombre()+" "+libro.getAutor().getApellido());
+                if(libro.getTitulo().equalsIgnoreCase(jtfLibroNombre.getText())){
+                    //jlAutor.setText("Autor: "+libro.getAutor().getNombre()+" "+libro.getAutor().getApellido()); DAMIAN
+                    jlAutor.setText("Autor: "+libro.getAutor());
                     jlIsbn.setText("ISBN: "+libro.getIsbn());
                     cargarEjemplares(libro);
+                    
                 }
             }
         }
@@ -240,13 +244,24 @@ public class PrestamosView extends javax.swing.JInternalFrame {
     }
     private void cargarLibros(){
         LibroData ld=new LibroData();
-        libros=ld.listarLibro();
+        libros=ld.listarLibroSinAutor();
     }
     private void cargarEjemplares(Libro libro){
         EjemplarData ed=new EjemplarData();
         ejemplares=null;
+        System.out.println("pasa por carga de ejemplares");
         ejemplares=ed.listarEjemplares(libro);
+        cargarTablaEjemplares();
     }
+    
+    private void cargarTablaEjemplares(){
+        for(Ejemplar ejemplar:ejemplares){
+        modelo.addRow(new Object[]{ejemplar.getCodigo(), ejemplar.getEstado()});
+            System.out.println("Ejemplares"+ejemplar.getCodigo());
+        
+        }
+    }
+    
     private void limpiarLabels(){
         jlApellido.setText("Apellido: ");
                 jlNombre.setText("Nombre: ");
@@ -256,6 +271,13 @@ public class PrestamosView extends javax.swing.JInternalFrame {
     private void limpiarlabelslibros(){
         jlAutor.setText("Autor: ");
         jlIsbn.setText("ISBN: ");
+    }
+    
+    private void limpiarTabla(){
+        int f=modelo.getRowCount()-1;
+        for(;f>=0;f--){
+            modelo.removeRow(f);
+        }
     }
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JLabel jLabel1;

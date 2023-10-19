@@ -7,6 +7,8 @@ public class Socio {
     private String apellido;
     private String nombre;
     private String domicilio;
+    private int dni;
+    private String telefono;
     private String mail;
     private LocalDate fechaDeAlta;
     private LocalDate fechaDeBaja;
@@ -14,15 +16,32 @@ public class Socio {
     private boolean estado;
     
     public Socio(){}
-
-    public Socio(int idSocio, String apellido, String nombre, LocalDate fechaDeAlta, String domicilio, String mail, boolean estado) {
+        
+    public Socio(int idSocio, String apellido, String nombre, String domicilio, int dni, String telefono, String mail, LocalDate fechaDeAlta, LocalDate fechaDeBaja, String fotoPerfilNombre, boolean estado) {
         this.idSocio = idSocio;
         this.apellido = apellido;
         this.nombre = nombre;
         this.domicilio = domicilio;
+        this.dni = dni;
+        this.telefono = telefono;
         this.mail = mail;
         this.fechaDeAlta = fechaDeAlta;
+        this.fechaDeBaja = fechaDeBaja;
+        this.fotoPerfilNombre = fotoPerfilNombre;
         this.estado = estado;
+    }
+    public String getTelefono(){
+        return this.telefono;
+    }
+    public void setTelefono(String telefono){
+        this.telefono = telefono;
+    }
+    
+    public int getDni(){
+        return this.dni;
+    }
+    public void setDni(int dni){
+        this.dni = dni;
     }
     
     public String getFotoPerfilNombre(){
