@@ -87,30 +87,28 @@
                                   <Group type="103" groupAlignment="0" attributes="0">
                                       <Component id="jTFNombre" max="32767" attributes="0"/>
                                       <Component id="jTFApellido" max="32767" attributes="0"/>
+                                      <Component id="labelInformativo" alignment="0" max="32767" attributes="0"/>
                                   </Group>
                               </Group>
                               <Group type="102" alignment="0" attributes="0">
                                   <Group type="103" groupAlignment="0" attributes="0">
                                       <Component id="jLDni" min="-2" max="-2" attributes="0"/>
                                       <Component id="jLDomicilio" alignment="0" min="-2" max="-2" attributes="0"/>
-                                      <Component id="jLDomicilio1" alignment="0" min="-2" max="-2" attributes="0"/>
+                                      <Component id="jLTelefono" alignment="0" min="-2" max="-2" attributes="0"/>
                                   </Group>
                                   <EmptySpace min="49" pref="49" max="-2" attributes="0"/>
-                                  <Group type="103" groupAlignment="0" attributes="0">
-                                      <Component id="jTFDNI" alignment="0" min="-2" pref="212" max="-2" attributes="0"/>
-                                      <Component id="jTFDomicilio" min="-2" pref="332" max="-2" attributes="0"/>
-                                      <Group type="103" alignment="0" groupAlignment="1" max="-2" attributes="0">
-                                          <Component id="jTFMail" alignment="0" max="32767" attributes="0"/>
-                                          <Group type="102" attributes="0">
-                                              <Component id="jTFCodigoArea" min="-2" pref="83" max="-2" attributes="0"/>
-                                              <EmptySpace type="separate" max="-2" attributes="0"/>
-                                              <Component id="jTFNumeroTelefono" min="-2" pref="195" max="-2" attributes="0"/>
+                                  <Group type="103" groupAlignment="0" max="-2" attributes="0">
+                                      <Component id="jTFDomicilio" pref="332" max="32767" attributes="0"/>
+                                      <Component id="jTFMail" alignment="1" max="32767" attributes="0"/>
+                                      <Group type="102" alignment="0" attributes="0">
+                                          <Group type="103" groupAlignment="1" max="-2" attributes="0">
+                                              <Component id="jLFechaDeBajaDEFAULT" alignment="0" pref="83" max="32767" attributes="0"/>
+                                              <Component id="jLFechaDeAltaDEFAULT" alignment="0" max="32767" attributes="0"/>
                                           </Group>
+                                          <EmptySpace min="-2" pref="47" max="-2" attributes="0"/>
                                       </Group>
-                                      <Group type="103" alignment="0" groupAlignment="1" max="-2" attributes="0">
-                                          <Component id="jLFechaDeBajaDEFAULT" alignment="0" pref="83" max="32767" attributes="0"/>
-                                          <Component id="jLFechaDeAltaDEFAULT" alignment="0" max="32767" attributes="0"/>
-                                      </Group>
+                                      <Component id="jTFDNI" alignment="0" min="-2" pref="212" max="-2" attributes="0"/>
+                                      <Component id="jTFTelefono" alignment="0" max="32767" attributes="0"/>
                                   </Group>
                               </Group>
                           </Group>
@@ -145,7 +143,7 @@
                           <Component id="jLAgregar" min="-2" pref="57" max="-2" attributes="0"/>
                       </Group>
                   </Group>
-                  <EmptySpace min="0" pref="0" max="32767" attributes="0"/>
+                  <EmptySpace min="0" pref="52" max="32767" attributes="0"/>
               </Group>
           </Group>
         </DimensionLayout>
@@ -158,6 +156,7 @@
                           <Group type="103" groupAlignment="3" attributes="0">
                               <Component id="jLNumSocio" alignment="3" min="-2" max="-2" attributes="0"/>
                               <Component id="jLNumeroDeSocio" alignment="3" min="-2" max="-2" attributes="0"/>
+                              <Component id="labelInformativo" alignment="3" min="-2" max="-2" attributes="0"/>
                           </Group>
                           <EmptySpace max="-2" attributes="0"/>
                           <Component id="jLImagen" max="32767" attributes="0"/>
@@ -185,9 +184,8 @@
                           </Group>
                           <EmptySpace max="-2" attributes="0"/>
                           <Group type="103" groupAlignment="3" attributes="0">
-                              <Component id="jLDomicilio1" alignment="3" min="-2" max="-2" attributes="0"/>
-                              <Component id="jTFNumeroTelefono" alignment="3" min="-2" max="-2" attributes="0"/>
-                              <Component id="jTFCodigoArea" alignment="3" min="-2" max="-2" attributes="0"/>
+                              <Component id="jLTelefono" alignment="3" min="-2" max="-2" attributes="0"/>
+                              <Component id="jTFTelefono" alignment="3" min="-2" max="-2" attributes="0"/>
                           </Group>
                           <EmptySpace pref="21" max="32767" attributes="0"/>
                           <Group type="103" groupAlignment="3" attributes="0">
@@ -278,17 +276,27 @@
           </Properties>
         </Component>
         <Component class="javax.swing.JTextField" name="jTFApellido">
+          <Events>
+            <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="jTFApellidoActionPerformed"/>
+            <EventHandler event="keyReleased" listener="java.awt.event.KeyListener" parameters="java.awt.event.KeyEvent" handler="jTFApellidoKeyReleased"/>
+          </Events>
         </Component>
         <Component class="javax.swing.JTextField" name="jTFNombre">
+          <Events>
+            <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="jTFNombreActionPerformed"/>
+            <EventHandler event="keyReleased" listener="java.awt.event.KeyListener" parameters="java.awt.event.KeyEvent" handler="jTFNombreKeyReleased"/>
+          </Events>
         </Component>
         <Component class="javax.swing.JTextField" name="jTFDomicilio">
           <Events>
             <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="jTFDomicilioActionPerformed"/>
+            <EventHandler event="keyReleased" listener="java.awt.event.KeyListener" parameters="java.awt.event.KeyEvent" handler="jTFDomicilioKeyReleased"/>
           </Events>
         </Component>
         <Component class="javax.swing.JTextField" name="jTFDNI">
           <Events>
             <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="jTFDNIActionPerformed"/>
+            <EventHandler event="keyReleased" listener="java.awt.event.KeyListener" parameters="java.awt.event.KeyEvent" handler="jTFDNIKeyReleased"/>
           </Events>
         </Component>
         <Component class="javax.swing.JLabel" name="jLAgregar">
@@ -331,27 +339,27 @@
             <Property name="text" type="java.lang.String" value="Agregar socios"/>
           </Properties>
         </Component>
-        <Component class="javax.swing.JLabel" name="jLDomicilio1">
+        <Component class="javax.swing.JLabel" name="jLTelefono">
           <Properties>
-            <Property name="text" type="java.lang.String" value="Tel&#xe9;fono"/>
+            <Property name="text" type="java.lang.String" value="Tel&#xe9;fono:"/>
           </Properties>
         </Component>
-        <Component class="javax.swing.JTextField" name="jTFNumeroTelefono">
+        <Component class="javax.swing.JTextField" name="jTFTelefono">
           <Events>
-            <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="jTFNumeroTelefonoActionPerformed"/>
-          </Events>
-        </Component>
-        <Component class="javax.swing.JTextField" name="jTFCodigoArea">
-          <Events>
-            <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="jTFCodigoAreaActionPerformed"/>
+            <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="jTFTelefonoActionPerformed"/>
+            <EventHandler event="keyReleased" listener="java.awt.event.KeyListener" parameters="java.awt.event.KeyEvent" handler="jTFTelefonoKeyReleased"/>
           </Events>
         </Component>
         <Component class="javax.swing.JLabel" name="jLMail">
           <Properties>
-            <Property name="text" type="java.lang.String" value="E-Mail"/>
+            <Property name="text" type="java.lang.String" value="E-Mail:"/>
           </Properties>
         </Component>
         <Component class="javax.swing.JTextField" name="jTFMail">
+          <Events>
+            <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="jTFMailActionPerformed"/>
+            <EventHandler event="keyReleased" listener="java.awt.event.KeyListener" parameters="java.awt.event.KeyEvent" handler="jTFMailKeyReleased"/>
+          </Events>
         </Component>
         <Component class="javax.swing.JLabel" name="jLFechaDeAltaDEFAULT">
           <Properties>
@@ -366,6 +374,8 @@
               <Font name="Segoe UI" size="12" style="1"/>
             </Property>
           </Properties>
+        </Component>
+        <Component class="javax.swing.JLabel" name="labelInformativo">
         </Component>
       </SubComponents>
     </Container>

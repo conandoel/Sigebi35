@@ -3,23 +3,44 @@ package vistas;
 import datos.SocioData;
 import entidades.Foto;
 import entidades.Socio;
+import java.awt.event.KeyEvent;
 import java.io.File;
 import java.io.FileInputStream;
 import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
 import java.util.Locale;
+import javax.swing.JLabel;
 import javax.swing.JOptionPane;
+import javax.swing.JTextField;
+import java.lang.reflect.Field;
+import java.awt.Color;
 
 public class SocioAgregarView extends javax.swing.JInternalFrame {
 
+    private static SocioAgregarView sar;
     SocioData metodoDeSocio = new SocioData();
     private Foto foto;
     
     public SocioAgregarView() {
         initComponents();
         establecerDefault();
+        
+        sar = this;
     }
-
+    
+    public JLabel getLabelInformativo(){
+        return this.labelInformativo;
+    }
+  
+    
+     public static SocioAgregarView getInstance() {
+        //Si el atributo sbr es nulo, lo creamos con el constructor
+        if (sar == null) {
+            sar = new SocioAgregarView();
+        }
+        //Se devuelve el atributo sbr
+        return sar;
+    }
     /**
      * This method is called from within the constructor to initialize the form.
      * WARNING: Do NOT modify this code. The content of this method is always
@@ -50,13 +71,13 @@ public class SocioAgregarView extends javax.swing.JInternalFrame {
         jLFechaDeAlta = new javax.swing.JLabel();
         jLFechaDeBaja = new javax.swing.JLabel();
         jLAgregarSocios = new javax.swing.JLabel();
-        jLDomicilio1 = new javax.swing.JLabel();
-        jTFNumeroTelefono = new javax.swing.JTextField();
-        jTFCodigoArea = new javax.swing.JTextField();
+        jLTelefono = new javax.swing.JLabel();
+        jTFTelefono = new javax.swing.JTextField();
         jLMail = new javax.swing.JLabel();
         jTFMail = new javax.swing.JTextField();
         jLFechaDeAltaDEFAULT = new javax.swing.JLabel();
         jLFechaDeBajaDEFAULT = new javax.swing.JLabel();
+        labelInformativo = new javax.swing.JLabel();
 
         javax.swing.GroupLayout jPSocioAgregarLayout = new javax.swing.GroupLayout(jPSocioAgregar);
         jPSocioAgregar.setLayout(jPSocioAgregarLayout);
@@ -93,15 +114,47 @@ public class SocioAgregarView extends javax.swing.JInternalFrame {
         jLEstado.setForeground(java.awt.Color.green);
         jLEstado.setText("Socio Activo");
 
+        jTFApellido.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jTFApellidoActionPerformed(evt);
+            }
+        });
+        jTFApellido.addKeyListener(new java.awt.event.KeyAdapter() {
+            public void keyReleased(java.awt.event.KeyEvent evt) {
+                jTFApellidoKeyReleased(evt);
+            }
+        });
+
+        jTFNombre.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jTFNombreActionPerformed(evt);
+            }
+        });
+        jTFNombre.addKeyListener(new java.awt.event.KeyAdapter() {
+            public void keyReleased(java.awt.event.KeyEvent evt) {
+                jTFNombreKeyReleased(evt);
+            }
+        });
+
         jTFDomicilio.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 jTFDomicilioActionPerformed(evt);
+            }
+        });
+        jTFDomicilio.addKeyListener(new java.awt.event.KeyAdapter() {
+            public void keyReleased(java.awt.event.KeyEvent evt) {
+                jTFDomicilioKeyReleased(evt);
             }
         });
 
         jTFDNI.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 jTFDNIActionPerformed(evt);
+            }
+        });
+        jTFDNI.addKeyListener(new java.awt.event.KeyAdapter() {
+            public void keyReleased(java.awt.event.KeyEvent evt) {
+                jTFDNIKeyReleased(evt);
             }
         });
 
@@ -129,21 +182,31 @@ public class SocioAgregarView extends javax.swing.JInternalFrame {
         jLAgregarSocios.setForeground(new java.awt.Color(0, 160, 210));
         jLAgregarSocios.setText("Agregar socios");
 
-        jLDomicilio1.setText("Teléfono");
+        jLTelefono.setText("Teléfono:");
 
-        jTFNumeroTelefono.addActionListener(new java.awt.event.ActionListener() {
+        jTFTelefono.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jTFNumeroTelefonoActionPerformed(evt);
+                jTFTelefonoActionPerformed(evt);
+            }
+        });
+        jTFTelefono.addKeyListener(new java.awt.event.KeyAdapter() {
+            public void keyReleased(java.awt.event.KeyEvent evt) {
+                jTFTelefonoKeyReleased(evt);
             }
         });
 
-        jTFCodigoArea.addActionListener(new java.awt.event.ActionListener() {
+        jLMail.setText("E-Mail:");
+
+        jTFMail.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jTFCodigoAreaActionPerformed(evt);
+                jTFMailActionPerformed(evt);
             }
         });
-
-        jLMail.setText("E-Mail");
+        jTFMail.addKeyListener(new java.awt.event.KeyAdapter() {
+            public void keyReleased(java.awt.event.KeyEvent evt) {
+                jTFMailKeyReleased(evt);
+            }
+        });
 
         jLFechaDeAltaDEFAULT.setFont(new java.awt.Font("Segoe UI", 1, 12)); // NOI18N
 
@@ -174,25 +237,24 @@ public class SocioAgregarView extends javax.swing.JInternalFrame {
                                 .addGap(55, 55, 55)
                                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                                     .addComponent(jTFNombre)
-                                    .addComponent(jTFApellido)))
+                                    .addComponent(jTFApellido)
+                                    .addComponent(labelInformativo, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)))
                             .addGroup(javax.swing.GroupLayout.Alignment.LEADING, jPanel1Layout.createSequentialGroup()
                                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                                     .addComponent(jLDni)
                                     .addComponent(jLDomicilio)
-                                    .addComponent(jLDomicilio1))
+                                    .addComponent(jLTelefono))
                                 .addGap(49, 49, 49)
-                                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                                    .addComponent(jTFDomicilio, javax.swing.GroupLayout.DEFAULT_SIZE, 332, Short.MAX_VALUE)
+                                    .addComponent(jTFMail, javax.swing.GroupLayout.Alignment.TRAILING)
+                                    .addGroup(jPanel1Layout.createSequentialGroup()
+                                        .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING, false)
+                                            .addComponent(jLFechaDeBajaDEFAULT, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, 83, Short.MAX_VALUE)
+                                            .addComponent(jLFechaDeAltaDEFAULT, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                                        .addGap(47, 47, 47))
                                     .addComponent(jTFDNI, javax.swing.GroupLayout.PREFERRED_SIZE, 212, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                    .addComponent(jTFDomicilio, javax.swing.GroupLayout.PREFERRED_SIZE, 332, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                    .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING, false)
-                                        .addComponent(jTFMail, javax.swing.GroupLayout.Alignment.LEADING)
-                                        .addGroup(jPanel1Layout.createSequentialGroup()
-                                            .addComponent(jTFCodigoArea, javax.swing.GroupLayout.PREFERRED_SIZE, 83, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                            .addGap(18, 18, 18)
-                                            .addComponent(jTFNumeroTelefono, javax.swing.GroupLayout.PREFERRED_SIZE, 195, javax.swing.GroupLayout.PREFERRED_SIZE)))
-                                    .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING, false)
-                                        .addComponent(jLFechaDeBajaDEFAULT, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, 83, Short.MAX_VALUE)
-                                        .addComponent(jLFechaDeAltaDEFAULT, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)))))
+                                    .addComponent(jTFTelefono))))
                         .addGap(52, 52, 52))
                     .addGroup(jPanel1Layout.createSequentialGroup()
                         .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -216,7 +278,7 @@ public class SocioAgregarView extends javax.swing.JInternalFrame {
                         .addComponent(jLCancelar, javax.swing.GroupLayout.PREFERRED_SIZE, 57, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addGap(18, 18, 18)
                         .addComponent(jLAgregar, javax.swing.GroupLayout.PREFERRED_SIZE, 57, javax.swing.GroupLayout.PREFERRED_SIZE)))
-                .addGap(0, 0, Short.MAX_VALUE))
+                .addGap(0, 52, Short.MAX_VALUE))
         );
         jPanel1Layout.setVerticalGroup(
             jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -226,7 +288,8 @@ public class SocioAgregarView extends javax.swing.JInternalFrame {
                         .addGap(7, 7, 7)
                         .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                             .addComponent(jLNumSocio)
-                            .addComponent(jLNumeroDeSocio))
+                            .addComponent(jLNumeroDeSocio)
+                            .addComponent(labelInformativo))
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                         .addComponent(jLImagen, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
                     .addGroup(jPanel1Layout.createSequentialGroup()
@@ -248,9 +311,8 @@ public class SocioAgregarView extends javax.swing.JInternalFrame {
                             .addComponent(jLDni))
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                         .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                            .addComponent(jLDomicilio1)
-                            .addComponent(jTFNumeroTelefono, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addComponent(jTFCodigoArea, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                            .addComponent(jLTelefono)
+                            .addComponent(jTFTelefono, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 21, Short.MAX_VALUE)
                         .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                             .addComponent(jLMail)
@@ -300,10 +362,26 @@ public class SocioAgregarView extends javax.swing.JInternalFrame {
 
     private void jTFDNIActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jTFDNIActionPerformed
         // TODO add your handling code here:
+        String caracteresIngresados = this.jTFDNI.getText();
+        JTextField valoresModificados = this.jTFDNI;
+        JLabel valorMod = new JLabel();
+        String valorDelCampo = caracteresIngresados;
+        String campo = this.jTFDNI.getText();
+        
+        SocioTarjeta.getInstance().cotejarDNI(caracteresIngresados, labelInformativo, valorMod, valoresModificados, 
+            valorDelCampo, campo);
     }//GEN-LAST:event_jTFDNIActionPerformed
 
     private void jTFDomicilioActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jTFDomicilioActionPerformed
         // TODO add your handling code here:
+        String caracteresIngresados = this.jTFDomicilio.getText();
+        JTextField valoresModificados = this.jTFDomicilio;
+        JLabel valorMod = new JLabel();
+        String valorDelCampo = caracteresIngresados;
+        String campo = this.jTFDomicilio.getText();
+        
+        SocioTarjeta.getInstance().cotejarDomicilio(caracteresIngresados, labelInformativo, valorMod, valoresModificados, 
+            valorDelCampo, campo);
     }//GEN-LAST:event_jTFDomicilioActionPerformed
 
     private void jLAgregarKeyReleased(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_jLAgregarKeyReleased
@@ -312,13 +390,17 @@ public class SocioAgregarView extends javax.swing.JInternalFrame {
         
     }//GEN-LAST:event_jLAgregarKeyReleased
 
-    private void jTFNumeroTelefonoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jTFNumeroTelefonoActionPerformed
+    private void jTFTelefonoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jTFTelefonoActionPerformed
         // TODO add your handling code here:
-    }//GEN-LAST:event_jTFNumeroTelefonoActionPerformed
-
-    private void jTFCodigoAreaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jTFCodigoAreaActionPerformed
-        // TODO add your handling code here:
-    }//GEN-LAST:event_jTFCodigoAreaActionPerformed
+        String caracteresIngresados = this.jTFTelefono.getText();
+        JTextField valoresModificados = this.jTFTelefono;
+        JLabel valorMod = new JLabel();
+        String valorDelCampo = caracteresIngresados;
+        String campo = this.jTFTelefono.getText();
+        
+        SocioTarjeta.getInstance().cotejarTelefono(caracteresIngresados, labelInformativo, valorMod, valoresModificados, 
+            valorDelCampo, campo);
+    }//GEN-LAST:event_jTFTelefonoActionPerformed
 
     private void jLImagenMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jLImagenMouseClicked
         // TODO add your handling code here:
@@ -328,7 +410,6 @@ public class SocioAgregarView extends javax.swing.JInternalFrame {
     }//GEN-LAST:event_jLImagenMouseClicked
     
     private void establecerDefault(){
-        Principal.getInstance().cargarAgregarSocio();
         Principal.getInstance().habilitarModificaciones(false, false, false);
         
         int idSocio = metodoDeSocio.obtenerCantidadSocios() + 5556;
@@ -342,13 +423,15 @@ public class SocioAgregarView extends javax.swing.JInternalFrame {
         
         String fechaDeAltaDEFAULT = formatoDEFAULT.format(fechaDeAlta);
         String fechaDeBajaDEFAULT = formatoDEFAULT.format(fechaDeBaja);
-        this.jLFechaDeAltaDEFAULT.setText(fechaDeAltaDEFAULT.replaceAll("-/", " \\| "));
-        this.jLFechaDeBajaDEFAULT.setText(fechaDeBajaDEFAULT.replaceAll("-/", " \\| "));
+        this.jLFechaDeAltaDEFAULT.setText(fechaDeAltaDEFAULT.replaceAll("-", " \\| "));
+        this.jLFechaDeBajaDEFAULT.setText(fechaDeBajaDEFAULT.replaceAll("-", " \\| "));
     }
     
     private void jLAgregarMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jLAgregarMouseClicked
         // TODO add your handling code here:
         
+        
+        try{
         Socio socio;
         int idSocio = metodoDeSocio.obtenerCantidadSocios() + 5556; //Ese 5556 hacer método para obtener el valor más bajo de id
         String apellido = this.jTFApellido.getText();
@@ -356,10 +439,8 @@ public class SocioAgregarView extends javax.swing.JInternalFrame {
         String domicilio = this.jTFDomicilio.getText();
         int dni = Integer.parseInt(this.jTFDNI.getText());
         
-        String codigoArea = this.jTFCodigoArea.getText();
-        String telefono = this.jTFNumeroTelefono.getText();
+        String telefono = this.jTFTelefono.getText();
         
-        String telefonoCompleto = codigoArea + telefono;
         String mail = this.jTFMail.getText();
         
         DateTimeFormatter formatoDate = DateTimeFormatter.ofPattern("yyyy-MM-dd");
@@ -377,8 +458,34 @@ public class SocioAgregarView extends javax.swing.JInternalFrame {
         
         boolean estado = jLEstado.getText().equals("Socio Activo");
 
-        socio = new Socio(idSocio, apellido, nombre, domicilio, dni, telefonoCompleto, mail, fechaDeAlta, fechaDeBaja, fotoNombrePerfil, estado);
-        metodoDeSocio.agregarSocio(socio, this.foto);
+        socio = new Socio(idSocio, apellido, nombre, domicilio, dni, telefono, mail, fechaDeAlta, fechaDeBaja, fotoNombrePerfil, estado);
+        
+        Class<?> clase = socio.getClass();
+        
+        Field[] atributos = clase.getDeclaredFields();
+        
+        try{
+            for(Field atributo : atributos){
+                atributo.setAccessible(true);
+            
+                Object valor = atributo.get(socio);
+               /* switch(atributo.getName() == "idSocio"){
+                    JOptionPane.showMessageDialog(this, "HOLA");*/
+                }
+                JOptionPane.showMessageDialog(this, valor);
+            }
+        }catch(IllegalAccessException e){
+            JOptionPane.showMessageDialog(this, "Se pudrió todo iterando en el objeto socio para ver si están todos los campos llenos");
+        }
+        
+        
+        }catch(NumberFormatException ex){
+            labelInformativo.setText("Debes ingresar el DNI");
+            labelInformativo.setForeground(Color.red);
+            SocioTarjeta.getInstance().temporizar(labelInformativo);
+        }
+        
+        //metodoDeSocio.agregarSocio(socio, this.foto);
         File file = this.foto.getFile();
         FileInputStream fis = this.foto.getFis();
         JOptionPane.showMessageDialog(null, this.foto.getIdSocio());
@@ -390,6 +497,85 @@ public class SocioAgregarView extends javax.swing.JInternalFrame {
         }
     }//GEN-LAST:event_jLAgregarMouseClicked
 
+    private void jTFApellidoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jTFApellidoActionPerformed
+        // TODO add your handling code here:
+        String caracteresIngresados = this.jTFApellido.getText();
+        JTextField valoresModificados = this.jTFApellido;
+        JLabel valorMod = new JLabel();
+        String valorDelCampo = caracteresIngresados;
+        String campo = this.jLApellido.getText();
+        
+        SocioTarjeta.getInstance().cotejarApellido(caracteresIngresados, labelInformativo, valorMod, valoresModificados, 
+            valorDelCampo, campo);
+    }//GEN-LAST:event_jTFApellidoActionPerformed
+
+    private void jTFNombreActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jTFNombreActionPerformed
+        // TODO add your handling code here:
+        String caracteresIngresados = this.jTFNombre.getText();
+        JTextField valoresModificados = this.jTFNombre;
+        JLabel valorMod = new JLabel();
+        String valorDelCampo = caracteresIngresados;
+        String campo = this.jLNombre.getText();
+        labelInformativo.setText("");
+        
+        SocioTarjeta.getInstance().cotejarNombre(caracteresIngresados, labelInformativo, valorMod, valoresModificados, 
+            valorDelCampo, campo);
+    }//GEN-LAST:event_jTFNombreActionPerformed
+
+    private void jTFMailActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jTFMailActionPerformed
+        // TODO add your handling code here:
+        String caracteresIngresados = this.jTFMail.getText();
+        JTextField valoresModificados = this.jTFMail;
+        JLabel valorMod = new JLabel();
+        String valorDelCampo = caracteresIngresados;
+        String campo = this.jTFMail.getText();
+        
+        SocioTarjeta.getInstance().cotejarEmail(caracteresIngresados, labelInformativo, valorMod, valoresModificados, 
+            valorDelCampo, campo);
+    }//GEN-LAST:event_jTFMailActionPerformed
+
+    private void jTFApellidoKeyReleased(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_jTFApellidoKeyReleased
+        // TODO add your handling code here:
+        JLabel valorMod = new JLabel();
+        
+        SocioTarjeta.getInstance().noEnterApellido(labelInformativo, valorMod, evt);
+    }//GEN-LAST:event_jTFApellidoKeyReleased
+
+    private void jTFNombreKeyReleased(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_jTFNombreKeyReleased
+        // TODO add your handling code here:
+        JLabel valorMod = new JLabel();
+        
+        SocioTarjeta.getInstance().noEnterNombre(labelInformativo, valorMod, evt);
+    }//GEN-LAST:event_jTFNombreKeyReleased
+
+    private void jTFDomicilioKeyReleased(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_jTFDomicilioKeyReleased
+        // TODO add your handling code here:
+        JLabel valorMod = new JLabel();
+        
+        SocioTarjeta.getInstance().noEnterDomicilio(labelInformativo, valorMod, evt);
+    }//GEN-LAST:event_jTFDomicilioKeyReleased
+
+    private void jTFDNIKeyReleased(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_jTFDNIKeyReleased
+        // TODO add your handling code here:
+        JLabel valorMod = new JLabel();
+        
+        SocioTarjeta.getInstance().noEnterDNI(labelInformativo, valorMod, evt);
+    }//GEN-LAST:event_jTFDNIKeyReleased
+
+    private void jTFTelefonoKeyReleased(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_jTFTelefonoKeyReleased
+        // TODO add your handling code here:
+        JLabel valorMod = new JLabel();
+        
+        SocioTarjeta.getInstance().noEnterTelefono(labelInformativo, valorMod, evt);
+    }//GEN-LAST:event_jTFTelefonoKeyReleased
+
+    private void jTFMailKeyReleased(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_jTFMailKeyReleased
+        // TODO add your handling code here:
+        JLabel valorMod = new JLabel();
+        
+        SocioTarjeta.getInstance().noEnterMail(labelInformativo, valorMod, evt);
+    }//GEN-LAST:event_jTFMailKeyReleased
+
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JLabel jLAgregar;
@@ -398,7 +584,6 @@ public class SocioAgregarView extends javax.swing.JInternalFrame {
     private javax.swing.JLabel jLCancelar;
     private javax.swing.JLabel jLDni;
     private javax.swing.JLabel jLDomicilio;
-    private javax.swing.JLabel jLDomicilio1;
     private javax.swing.JLabel jLEst;
     private javax.swing.JLabel jLEstado;
     private javax.swing.JLabel jLFechaDeAlta;
@@ -411,14 +596,15 @@ public class SocioAgregarView extends javax.swing.JInternalFrame {
     private javax.swing.JLabel jLNumSocio;
     private javax.swing.JLabel jLNumeroDeSocio;
     private javax.swing.JLabel jLReset;
+    private javax.swing.JLabel jLTelefono;
     private javax.swing.JPanel jPSocioAgregar;
     private javax.swing.JPanel jPanel1;
     private javax.swing.JTextField jTFApellido;
-    private javax.swing.JTextField jTFCodigoArea;
     private javax.swing.JTextField jTFDNI;
     private javax.swing.JTextField jTFDomicilio;
     private javax.swing.JTextField jTFMail;
     private javax.swing.JTextField jTFNombre;
-    private javax.swing.JTextField jTFNumeroTelefono;
+    private javax.swing.JTextField jTFTelefono;
+    private javax.swing.JLabel labelInformativo;
     // End of variables declaration//GEN-END:variables
 }
