@@ -10,8 +10,6 @@ import javax.swing.JOptionPane;
 
 public class LibroData {
     private Connection con = null;
-    public Libro libro = new Libro();
-    List<Libro> listaLibros = new ArrayList<> ();
     private Autor autor = null;
     
     public LibroData() {
@@ -111,12 +109,14 @@ public class LibroData {
     }
     
     public List<Libro>buscarLibroPorISBN(long isbn){
-        String sql = "select * from libro where titulo = '" + isbn +"%'";
+        List<Libro> listaLibros = new ArrayList<> ();
+        String sql = "select * from libro where isbn like '" + isbn +"%'";
         try {
             PreparedStatement ps = con.prepareStatement(sql);
             ResultSet rs = ps.executeQuery();
             
             while(rs.next()){
+                Libro libro = new Libro();
             
                 libro.setIsbn(rs.getLong("isbn"));
                 libro.setTitulo(rs.getString("titulo"));
@@ -138,6 +138,7 @@ public class LibroData {
     
     public List<Libro> buscarLibroPorAutor(String nombre){
         
+        List<Libro> listaLibros = new ArrayList<> ();
         String sql = "select * from libro where autor like '%" + nombre + "%'";
         //Busca los libros usando el nombre del autor como filtro, comparando el idAutor del autor y 'autor' del libro 
         
@@ -146,6 +147,7 @@ public class LibroData {
             ResultSet rs = ps.executeQuery();
             
             while(rs.next()){
+                Libro libro = new Libro();
                 
                 libro.setIsbn(rs.getLong("isbn"));
                 libro.setTitulo(rs.getString("titulo"));
@@ -163,33 +165,33 @@ public class LibroData {
         return listaLibros;
     }
     
-    public List<Libro> buscarLibroPorTituloGenero(String filtro, String busqueda ){
-        String sql = "select * from libro where " + filtro + " like '%" + busqueda + "%'";
+    public List<Libro> buscarLibroPorTituloGenero(String Condicion, String busqueda ){
+        List<Libro> listaLibros = new ArrayList<>();
+        String sql = "select * from libro where "+Condicion+" like '%" +busqueda+"%'";
         try {
             PreparedStatement ps = con.prepareStatement(sql);
             ResultSet rs = ps.executeQuery();
+            
             while(rs.next()){
-                
+                Libro libro = new Libro();
                 libro.setIsbn(rs.getLong("isbn"));
                 libro.setTitulo(rs.getString("titulo"));
                 libro.setAutor(rs.getString("autor"));
                 libro.setAnio(rs.getInt("anio"));
                 libro.setGenero(rs.getString("genero"));
-                libro.setEditorial(rs.getString("Editorial"));
+                libro.setEditorial(rs.getString("editorial"));
                 libro.setEstado(rs.getBoolean("estado"));
-
+                
+                listaLibros.add(libro);
             }
-            
-            
         } catch (SQLException ex) {
             Logger.getLogger(LibroData.class.getName()).log(Level.SEVERE, null, ex);
         }
-        
     return listaLibros;
     }
     
     public List<Libro> listarLibro(/*para algo debera servir, qsy*/){
-        
+        List<Libro> listaLibros = new ArrayList<> ();
         String sql = "select * from libro";
         try {
             
@@ -208,6 +210,7 @@ public class LibroData {
                 autor.setGeneroFav(rs2.getString("generofav"));
                 
                 //autor.setIdAutor(rs.getInt("autor"));
+                Libro libro = new Libro();
                 
                 libro.setIsbn(rs.getLong("isbn"));
                 libro.setTitulo(rs.getString("titulo"));

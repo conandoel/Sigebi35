@@ -149,7 +149,7 @@ public class LibroBuscarView extends javax.swing.JInternalFrame {
                                 .addComponent(jbtnConfirmar)
                                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                                 .addComponent(jbtnCancelar)))
-                        .addGap(0, 0, Short.MAX_VALUE)))
+                        .addGap(0, 36, Short.MAX_VALUE)))
                 .addContainerGap())
         );
         layout.setVerticalGroup(
@@ -170,7 +170,7 @@ public class LibroBuscarView extends javax.swing.JInternalFrame {
                     .addComponent(jbtnCancelar)
                     .addComponent(jbtnModificar, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                     .addComponent(jbtnNuevo))
-                .addContainerGap(20, Short.MAX_VALUE))
+                .addContainerGap(44, Short.MAX_VALUE))
         );
 
         pack();
@@ -179,29 +179,28 @@ public class LibroBuscarView extends javax.swing.JInternalFrame {
     private void jcbDatoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jcbDatoActionPerformed
         jtfBusqueda.setText("");//Limpia el text field cuando se cambia el filtro del combobox
         Condicion = (String)jcbDato.getSelectedItem();
+        System.out.println(Condicion);
     }//GEN-LAST:event_jcbDatoActionPerformed
 
     private void jbtnBuscarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jbtnBuscarActionPerformed
         
-        limpiarTabla();
+        limpiarTabla(jtListaLibro);
         
         switch(Condicion){//Usa un metodo de busqueda de LibroData dependiendo del filtro
             case("ISBN"):
-                libros = lData.buscarLibroPorISBN(Integer.parseInt(jtfBusqueda.getText()));
+                libros = lData.buscarLibroPorISBN(Long.parseLong(jtfBusqueda.getText()));
             case("Autor"):
                 libros = lData.buscarLibroPorAutor(jtfBusqueda.getText());
             default://El filtro puede ser Isbn, Autor, TITULO y GENERO. Si no se usa los primeros dos, usa este metodo
                 libros = lData.buscarLibroPorTituloGenero(Condicion, jtfBusqueda.getText());
+
         }
         
         Iterator<Libro> iterador = libros.iterator();//Crea un iterador con los libros encontrados
         if(iterador.hasNext()){
-            
-
-            
             while(iterador.hasNext()){//Llena la tabla con la lista de libros encontrados en la base de datos
                 
-                libro = iterador.next();
+                Libro libro = new Libro(); libro = iterador.next();
                 
                 modelo.addRow(new Object[] {libro.getIsbn(), libro.getTitulo(), libro.getAutor(), libro.getAnio(),
                                             libro.getGenero(), libro.getCantEjemplares()});
@@ -237,7 +236,7 @@ public class LibroBuscarView extends javax.swing.JInternalFrame {
         //Habilitar y hacer visibles los botones Confirmar y Cancelar
         
         jbtnConfirmar.setEnabled(true); jbtnConfirmar.setVisible(true);
-        jbtnCancelar.setEnabled(true); jbtnConfirmar.setVisible(true);
+        jbtnCancelar.setEnabled(true); jbtnCancelar.setVisible(true);
         
     }//GEN-LAST:event_jbtnEliminarActionPerformed
 
@@ -278,7 +277,6 @@ public class LibroBuscarView extends javax.swing.JInternalFrame {
     modelo.addColumn("Autor");
     modelo.addColumn("Año de publicación");
     modelo.addColumn("Genero");
-    modelo.addColumn("Cantidad de ejemplares");
     jtListaLibro.setModel(modelo);
     }
     private void cargarCombo(){
@@ -287,10 +285,11 @@ public class LibroBuscarView extends javax.swing.JInternalFrame {
         jcbDato.addItem("Autor");
         jcbDato.addItem("Genero");
     }
-    private void limpiarTabla(){
-        for(int i = 0; i < jtListaLibro.getRowCount(); i++) {
-            modelo.removeRow(i);
-            i-= 1;
+    private void limpiarTabla(JTable t){
+        DefaultTableModel m = (DefaultTableModel)t.getModel();
+        int filas = m.getRowCount();
+        for (int i = filas - 1; i >= 0; i--){
+            m.removeRow(i);
         }
     }
 

@@ -1,14 +1,10 @@
 package vistas;
 
-import entidades.Libro;
 import datos.SocioData;
 import java.io.File;
 import javax.swing.JTextField;
 
 public class Principal extends javax.swing.JFrame {
-    //Clases de otras vistas, para manejar los metodos de los libros
-    LibroNuevoView lNuevo; LibroModificarView lMod;
-    
     //Constantes para manejar la creación de TARJETAS
     private static final String MODIFICAR = "MODIFICAR";
     private static final String ELIMINAR = "ELIMINAR";
@@ -83,7 +79,7 @@ public class Principal extends javax.swing.JFrame {
         jMElimSocios = new javax.swing.JMenuItem();
         jMElimPrestamos = new javax.swing.JMenuItem();
         jMenu2 = new javax.swing.JMenu();
-        jMenuAgregarLibro = new javax.swing.JMenuItem();
+        jMAgregarLibro = new javax.swing.JMenuItem();
         jMenuItem4 = new javax.swing.JMenuItem();
         jMenuItem5 = new javax.swing.JMenuItem();
 
@@ -140,11 +136,6 @@ public class Principal extends javax.swing.JFrame {
         jMenuBar1.add(jMArchivo);
 
         jMBuscar.setText("Buscar");
-        jMBuscar.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jMBuscarActionPerformed(evt);
-            }
-        });
 
         jMBuscarLibros.setText("...libros");
         jMBuscarLibros.addActionListener(new java.awt.event.ActionListener() {
@@ -230,19 +221,14 @@ public class Principal extends javax.swing.JFrame {
         jMenuBar1.add(jMEliminar);
 
         jMenu2.setText("Agregar");
-        jMenu2.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jMenu2ActionPerformed(evt);
-            }
-        });
 
-        jMenuAgregarLibro.setText("...Libro");
-        jMenuAgregarLibro.addActionListener(new java.awt.event.ActionListener() {
+        jMAgregarLibro.setText("...Libro");
+        jMAgregarLibro.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jMenuAgregarLibroActionPerformed(evt);
+                jMAgregarLibroActionPerformed(evt);
             }
         });
-        jMenu2.add(jMenuAgregarLibro);
+        jMenu2.add(jMAgregarLibro);
 
         jMenuItem4.setText("...Socio");
         jMenuItem4.addActionListener(new java.awt.event.ActionListener() {
@@ -381,21 +367,17 @@ public class Principal extends javax.swing.JFrame {
         
     }//GEN-LAST:event_jMenuItem1ActionPerformed
 
-    private void jMModLibrosActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMModLibrosActionPerformed
-        jDPEscritorio.removeAll();
-        jDPEscritorio.repaint();
-        Libro libro = new Libro();
-        cargarModLibro(libro);
-    }//GEN-LAST:event_jMModLibrosActionPerformed
-
-    }//GEN-LAST:event_jMenu2ActionPerformed
-
-    private void jMenuAgregarLibroActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMenuAgregarLibroActionPerformed
+    private void jMAgregarLibroActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMAgregarLibroActionPerformed
         jDPEscritorio.removeAll();
         jDPEscritorio.repaint();
         cargarNuevoLibro();
-    }//GEN-LAST:event_jMenuAgregarLibroActionPerformed
+    }//GEN-LAST:event_jMAgregarLibroActionPerformed
 
+    private void jMModLibrosActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMModLibrosActionPerformed
+        jDPEscritorio.removeAll();
+        jDPEscritorio.repaint();
+        cargarModLibro();
+    }//GEN-LAST:event_jMModLibrosActionPerformed
 
     private void jMBuscarLibrosActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMBuscarLibrosActionPerformed
         jDPEscritorio.removeAll();
@@ -443,6 +425,7 @@ public class Principal extends javax.swing.JFrame {
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JDesktopPane jDPEscritorio;
+    private javax.swing.JMenuItem jMAgregarLibro;
     private javax.swing.JMenu jMArchivo;
     private javax.swing.JMenu jMBuscar;
     private javax.swing.JMenuItem jMBuscarLibros;
@@ -459,7 +442,6 @@ public class Principal extends javax.swing.JFrame {
     private javax.swing.JMenuItem jMSalir;
     private javax.swing.JMenu jMenu1;
     private javax.swing.JMenu jMenu2;
-    private javax.swing.JMenuItem jMenuAgregarLibro;
     private javax.swing.JMenuBar jMenuBar1;
     private javax.swing.JMenuItem jMenuItem1;
     private javax.swing.JMenuItem jMenuItem2;
@@ -471,17 +453,21 @@ public class Principal extends javax.swing.JFrame {
     // End of variables declaration//GEN-END:variables
 
     public void cargarNuevoLibro(){
-        
         LibroNuevoView lNuevo = new LibroNuevoView();
         lNuevo.setVisible(true);
         jDPEscritorio.add(lNuevo);
         jDPEscritorio.moveToFront(lNuevo);
     }
     
-    public void cargarModLibro(Libro libro){
+    public void cargarModLibro(){
         LibroModificarView lMod = new LibroModificarView(this);
         lMod.setVisible(true);
         jDPEscritorio.add(lMod);
         jDPEscritorio.moveToFront(lMod);
+        
     }
+
+
+
+
 }
