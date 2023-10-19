@@ -222,7 +222,7 @@ public class PrestamosView extends javax.swing.JInternalFrame {
         }else{
             for(Libro libro:libros){
                 if(libro.getTitulo().equals(jtfLibroNombre.getText())){
-                    jlAutor.setText("Autor: "+libro.getAutor().getNombre()+" "+libro.getAutor().getApellido());
+                    //jlAutor.setText("Autor: "+libro.getAutor().getNombre()+" "+libro.getAutor().getApellido()); DAMIAN
                     jlIsbn.setText("ISBN: "+libro.getIsbn());
                     cargarEjemplares(libro);
                 }

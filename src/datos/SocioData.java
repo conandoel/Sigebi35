@@ -12,6 +12,7 @@ import javax.imageio.ImageIO;
 import javax.swing.JOptionPane;
 import java.io.IOException;
 import java.time.LocalDate;
+import java.time.format.DateTimeFormatter;
 
 public class SocioData {
 

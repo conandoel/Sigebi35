@@ -82,9 +82,9 @@ public class Principal extends javax.swing.JFrame {
         jMenuItem7 = new javax.swing.JMenuItem();
         jMElimSocios = new javax.swing.JMenuItem();
         jMElimPrestamos = new javax.swing.JMenuItem();
-        jMenu2 = new javax.swing.JMenu();
-        jMAgregarSocio = new javax.swing.JMenuItem();
+        JMAgregarSocio = new javax.swing.JMenu();
         jMenuAgregarLibro = new javax.swing.JMenuItem();
+        jMAgregarSocio = new javax.swing.JMenuItem();
         jMenuItem5 = new javax.swing.JMenuItem();
 
         jMenu1.setText("jMenu1");
@@ -140,11 +140,6 @@ public class Principal extends javax.swing.JFrame {
         jMenuBar1.add(jMArchivo);
 
         jMBuscar.setText("Buscar");
-        jMBuscar.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jMBuscarActionPerformed(evt);
-            }
-        });
 
         jMBuscarLibros.setText("...libros");
         jMBuscarLibros.addActionListener(new java.awt.event.ActionListener() {
@@ -175,11 +170,6 @@ public class Principal extends javax.swing.JFrame {
         jMModificar.setText("Modificar");
 
         jMModLibros.setText("...libros");
-        jMModLibros.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jMModLibrosActionPerformed(evt);
-            }
-        });
         jMModificar.add(jMModLibros);
 
         jMenuItem6.setText("...ejemplar");
@@ -229,10 +219,10 @@ public class Principal extends javax.swing.JFrame {
 
         jMenuBar1.add(jMEliminar);
 
-        jMenu2.setText("Agregar");
-        jMenu2.addActionListener(new java.awt.event.ActionListener() {
+        JMAgregarSocio.setText("Agregar");
+        JMAgregarSocio.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jMenu2ActionPerformed(evt);
+                JMAgregarSocioActionPerformed(evt);
             }
         });
 
@@ -242,7 +232,7 @@ public class Principal extends javax.swing.JFrame {
                 jMenuAgregarLibroActionPerformed(evt);
             }
         });
-        jMenu2.add(jMenuAgregarLibro);
+        JMAgregarSocio.add(jMenuAgregarLibro);
 
         jMAgregarSocio.setText("...Socio");
         jMAgregarSocio.addActionListener(new java.awt.event.ActionListener() {
@@ -250,13 +240,12 @@ public class Principal extends javax.swing.JFrame {
                 jMAgregarSocioActionPerformed(evt);
             }
         });
-        jMenu2.add(jMAgregarSocio);
-
+        JMAgregarSocio.add(jMAgregarSocio);
 
         jMenuItem5.setText("...Ejemplar");
-        jMenu2.add(jMenuItem5);
+        JMAgregarSocio.add(jMenuItem5);
 
-        jMenuBar1.add(jMenu2);
+        jMenuBar1.add(JMAgregarSocio);
 
         setJMenuBar(jMenuBar1);
 
@@ -385,7 +374,7 @@ public class Principal extends javax.swing.JFrame {
  
     }//GEN-LAST:event_jMAgregarSocioActionPerformed
 
-    private void jMenuItem1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMenuItem1ActionPerformed
+    private void jMenuItem1ActionPerformed(java.awt.event.ActionEvent evt) {                                           
         // TODO add your handling code here:
         /*jDPEscritorio.removeAll();
         jDPEscritorio.removeAll();
@@ -395,7 +384,7 @@ public class Principal extends javax.swing.JFrame {
         jDPEscritorio.add(pv);
         jDPEscritorio.moveToFront(pv);*/
         
-    }//GEN-LAST:event_jMenuItem1ActionPerformed                                   
+    }                                                                             
 
     private void jMenuAgregarLibroActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMenuAgregarLibroActionPerformed
         jDPEscritorio.removeAll();
@@ -413,6 +402,11 @@ public class Principal extends javax.swing.JFrame {
         jDPEscritorio.add(lBuscar);
         jDPEscritorio.moveToFront(lBuscar);*/
     }//GEN-LAST:event_jMBuscarLibrosActionPerformed
+
+    private void JMAgregarSocioActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_JMAgregarSocioActionPerformed
+        // TODO add your handling code here:
+        
+    }//GEN-LAST:event_JMAgregarSocioActionPerformed
   
     /**
      * @param args the command line arguments
@@ -450,6 +444,7 @@ public class Principal extends javax.swing.JFrame {
     }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
+    private javax.swing.JMenu JMAgregarSocio;
     private javax.swing.JDesktopPane jDPEscritorio;
     private javax.swing.JMenuItem jMAgregarSocio;
     private javax.swing.JMenu jMArchivo;
@@ -467,13 +462,10 @@ public class Principal extends javax.swing.JFrame {
     private javax.swing.JMenuItem jMModificarSocios;
     private javax.swing.JMenuItem jMSalir;
     private javax.swing.JMenu jMenu1;
-    private javax.swing.JMenu jMenu2;
     private javax.swing.JMenuItem jMenuAgregarLibro;
     private javax.swing.JMenuBar jMenuBar1;
     private javax.swing.JMenuItem jMenuItem1;
     private javax.swing.JMenuItem jMenuItem2;
-    private javax.swing.JMenuItem jMenuItem3;
-
     private javax.swing.JMenuItem jMenuItem5;
     private javax.swing.JMenuItem jMenuItem6;
     private javax.swing.JMenuItem jMenuItem7;
