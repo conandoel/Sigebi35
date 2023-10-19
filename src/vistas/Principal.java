@@ -376,13 +376,13 @@ public class Principal extends javax.swing.JFrame {
 
     private void jMenuItem1ActionPerformed(java.awt.event.ActionEvent evt) {                                           
         // TODO add your handling code here:
-        /*jDPEscritorio.removeAll();
+        jDPEscritorio.removeAll();
         jDPEscritorio.removeAll();
         jDPEscritorio.repaint();
         PrestamosView pv=new PrestamosView();
         pv.setVisible(true);
         jDPEscritorio.add(pv);
-        jDPEscritorio.moveToFront(pv);*/
+        jDPEscritorio.moveToFront(pv);
         
     }                                                                             
 

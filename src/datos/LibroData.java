@@ -209,6 +209,8 @@ public class LibroData {
                 
                 //autor.setIdAutor(rs.getInt("autor"));
                 
+                libro=new Libro();
+                
                 libro.setIsbn(rs.getLong("isbn"));
                 libro.setTitulo(rs.getString("titulo"));
                 libro.setAutor(rs.getString("autor"));
@@ -283,5 +285,33 @@ public class LibroData {
         }
         
         return autito;
+    }
+    
+    public List<Libro> listarLibroSinAutor(/*para algo debera servir, qsy*/){
+        
+        String sql = "select * from libro";
+        try {
+            
+            PreparedStatement ps = con.prepareStatement(sql);
+            ResultSet rs = ps.executeQuery();
+
+            while(rs.next()){
+                //autor.setIdAutor(rs.getInt("autor"));
+                libro=new Libro();
+                libro.setIsbn(rs.getLong("isbn"));
+                libro.setTitulo(rs.getString("titulo"));
+                libro.setAutor(rs.getString("autor"));
+                libro.setAnio(rs.getInt("anio"));
+                libro.setGenero(rs.getString("genero"));
+                libro.setEditorial(rs.getString("Editorial"));
+                libro.setEstado(rs.getBoolean("estado"));
+
+            
+                listaLibros.add(libro);
+            }    
+        } catch (SQLException ex) {
+            Logger.getLogger(LibroData.class.getName()).log(Level.SEVERE, null, ex);
+        }
+        return listaLibros;
     }
 }
