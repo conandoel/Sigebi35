@@ -3,7 +3,7 @@ package entidades;
 public class Libro {
     private long isbn;
     private String titulo;
-    private Autor autor;
+    private String autor;
     private int anio;
     private String genero;
     private String editorial;
@@ -13,7 +13,7 @@ public class Libro {
     public Libro(){}
 
 
-    public Libro(long isbn, String titulo, Autor autor, int anio, String genero, String editorial, boolean estado, int cantEjemplares) {
+    public Libro(long isbn, String titulo, String autor, int anio, String genero, String editorial, boolean estado, int cantEjemplares) {
         this.isbn = isbn;
         this.titulo = titulo;
         this.autor = autor;
@@ -40,10 +40,10 @@ public class Libro {
         this.titulo = titulo;
     }
 
-    public Autor getAutor() {
+    public String getAutor() {
         return autor;
     }
-    public void setAutor(Autor autor) {
+    public void setAutor(String autor) {
         this.autor = autor;
     }
 

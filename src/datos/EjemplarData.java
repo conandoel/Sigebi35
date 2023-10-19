@@ -7,6 +7,8 @@ import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
+import java.util.ArrayList;
+import java.util.List;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.swing.JOptionPane;
@@ -100,6 +102,26 @@ public class EjemplarData {
         }else{
             JOptionPane.showMessageDialog(null, "Aun hay prestamos activos de este ejemplar");
         }
+    }
+    
+    public List<Ejemplar> listarEjemplares(Libro libro){
+        List<Ejemplar> ejemplares=new ArrayList<>();
+        Ejemplar ej;
+        String sql="Select * from ejemplar where libro="+libro.getIsbn();
+        try{
+            PreparedStatement ps=con.prepareStatement(sql);
+            ResultSet rs=ps.executeQuery();
+            while(rs.next()){
+                ej=new Ejemplar();
+                ej.setCodigo(rs.getInt(1));
+                ej.setEstado(rs.getString(3));
+                ejemplares.add(ej);
+            
+            }
+        }catch(SQLException ex){
+        
+        }
+        return ejemplares;
     }
     
 }

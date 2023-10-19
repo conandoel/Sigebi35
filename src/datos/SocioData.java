@@ -12,8 +12,6 @@ import javax.imageio.ImageIO;
 import javax.swing.JOptionPane;
 import java.io.IOException;
 import java.time.LocalDate;
-import java.time.Month;
-import java.time.format.DateTimeFormatter;
 
 public class SocioData {
 
@@ -236,7 +234,11 @@ public class SocioData {
                 socioLocal.setMail(rs.getString("mail"));
                 socioLocal.setFechaDeAlta(rs.getDate("fechaDeAlta").toLocalDate());
                 //Esta parte hay que arreglarla
-                socioLocal.setFechaDeBaja(rs.getDate("fechaDeBaja").toLocalDate());
+                //si el campo es null en la base de datos se muere
+                if(rs.getDate("fechaDeBaja") == null){
+                    LocalDate dia= LocalDate.now();
+                socioLocal.setFechaDeBaja(dia);
+                }else{socioLocal.setFechaDeBaja(rs.getDate("fechaDeBaja").toLocalDate());}
                 socioLocal.setEstado(rs.getBoolean("estado"));
                 sociosLocal.add(socioLocal);
                 System.out.println("Número de elementos en sociosLocal: " + sociosLocal.size());

@@ -10,7 +10,7 @@ import javax.swing.JOptionPane;
 
 public class LibroData {
     private Connection con = null;
-    private Libro libro = null;
+    public Libro libro = new Libro();
     List<Libro> listaLibros = new ArrayList<> ();
     private Autor autor = null;
     
@@ -20,16 +20,16 @@ public class LibroData {
     
     public void guardarLibro(Libro libro){
         try {
-            String sql="insert into libro (isbn, titulo, autor, anio, genero, editorial, estado, cantEjemplares) values(?,?,?,?,?,?,?,?)";
+            String sql="insert into libro (isbn, titulo, autor, anio, genero, editorial, estado) values(?,?,?,?,?,?,?)";
             PreparedStatement ps = con.prepareStatement(sql,Statement.RETURN_GENERATED_KEYS);
             ps.setLong(1, libro.getIsbn());
             ps.setString(2, libro.getTitulo());
-            ps.setInt(3, libro.getAutor().getIdAutor());
+            ps.setString(3, libro.getAutor());
             ps.setInt(4, libro.getAnio());
             ps.setString(5, libro.getGenero());
             ps.setString(6, libro.getEditorial());
             ps.setBoolean(7, true);
-            ps.setInt(8, libro.getCantEjemplares());
+
             ps.executeUpdate();
             ps.close();
             JOptionPane.showMessageDialog(null, "Se agrego el Libro correctamente");
@@ -59,7 +59,7 @@ public class LibroData {
         */
         
         String sql = "update libro set isbn = ?, titulo = '?', autor = ?, anio = ?, genero = '?'"
-                    + ", editorial = '?', estado = ?, cantEjemplares = ?"
+                    + ", editorial = '?', estado = ?"
                 
                     + "where isbn = " + isbn;
         
@@ -69,12 +69,11 @@ public class LibroData {
             
             ps.setLong(1, libro2.getIsbn());
             ps.setString(2, libro2.getTitulo());
-            ps.setInt(3, libro2.getAutor().getIdAutor());
+            ps.setString(3, libro2.getAutor());
             ps.setInt(4, libro2.getAnio());
             ps.setString(5, libro2.getGenero());
             ps.setString(6, libro2.getEditorial());
             ps.setBoolean(7,libro2.isEstado());
-            ps.setInt(8, libro2.getCantEjemplares());//Los datos por lo que se va a cambiar
             
             int cambios = ps.executeUpdate();
             
@@ -93,7 +92,7 @@ public class LibroData {
     
     public void eliminarLibro(long isbn){
         try {
-            String sql = "UPDATE libro SET estado = 0 WHERE isbn = ? and cantEjemplares = 0";
+            String sql = "UPDATE libro SET estado = 0 WHERE isbn = ?";
             PreparedStatement ps = con.prepareStatement(sql);
             ps.setLong(1, isbn);
             int fila = ps.executeUpdate();
@@ -112,39 +111,23 @@ public class LibroData {
     }
     
     public List<Libro>buscarLibroPorISBN(long isbn){
-        String sql = "select * from libro where isbn like '" + isbn +"%'";
+        String sql = "select * from libro where titulo = '" + isbn +"%'";
         try {
             PreparedStatement ps = con.prepareStatement(sql);
             ResultSet rs = ps.executeQuery();
             
             while(rs.next()){
-                String sql2 = "select * from autor where idAutor = '" + rs.getInt("autor") + "'";
-                PreparedStatement ps2 = con.prepareStatement(sql2);
-                ResultSet rs2 = ps2.executeQuery();
-            
-                autor.setIdAutor(rs2.getInt("idAutor"));
-                autor.setNombre(rs2.getString("nombre"));
-                autor.setApellido(rs2.getString("apellido"));
-                autor.setGeneroFav(rs2.getString("generofav"));
-            
-                //autor.setIdAutor(rs.getInt("autor"));
             
                 libro.setIsbn(rs.getLong("isbn"));
                 libro.setTitulo(rs.getString("titulo"));
-                libro.setAutor(autor);
+                libro.setAutor(rs.getString("autor"));
                 libro.setAnio(rs.getInt("anio"));
                 libro.setGenero(rs.getString("genero"));
                 libro.setEditorial(rs.getString("editorial"));
                 libro.setEstado(rs.getBoolean("estado"));
-                libro.setCantEjemplares(rs.getInt("cantEjemplares"));
                 
                 listaLibros.add(libro);
             }
-            
-            
-        
-        
-        
         } catch (SQLException ex) {
             Logger.getLogger(LibroData.class.getName()).log(Level.SEVERE, null, ex);
         }
@@ -155,7 +138,7 @@ public class LibroData {
     
     public List<Libro> buscarLibroPorAutor(String nombre){
         
-        String sql = "select * from libro inner join autor where autor.nombre like '%" + nombre + "%' AND libro.autor = autor.idAutor";
+        String sql = "select * from libro where autor like '%" + nombre + "%'";
         //Busca los libros usando el nombre del autor como filtro, comparando el idAutor del autor y 'autor' del libro 
         
         try {
@@ -163,39 +146,20 @@ public class LibroData {
             ResultSet rs = ps.executeQuery();
             
             while(rs.next()){
-                String sql2 = "select * from autor where nombre = '" + nombre + "' and idAutor = " + rs.getInt("autor");
-                //Como puede haber distintos autores con el mismo nombre, se filtran los autores dependiendo de 'autor' del libro
-                //que actualmente esta exponiendo 'rs'
-                PreparedStatement ps2 = con.prepareStatement(sql2);
-                ResultSet rs2 = ps2.executeQuery();
-                
-                autor.setIdAutor(rs2.getInt("idAutor"));
-                autor.setNombre(nombre);
-                autor.setApellido(rs2.getString("apellido"));
-                autor.setGeneroFav(rs2.getString("generofav"));
-                //Se crea un objeto Autor para asignarle a Libro ->
                 
                 libro.setIsbn(rs.getLong("isbn"));
                 libro.setTitulo(rs.getString("titulo"));
-                libro.setAutor(autor);//<-
+                libro.setAutor(rs.getString("autor"));
                 libro.setAnio(rs.getInt("anio"));
                 libro.setGenero(rs.getString("genero"));
                 libro.setEditorial(rs.getString("Editorial"));
                 libro.setEstado(rs.getBoolean("estado"));
-                libro.setCantEjemplares(rs.getInt("cantEjemplares"));
             
                 listaLibros.add(libro);
             }
-            
-            
-            
         } catch (SQLException ex) {
             Logger.getLogger(LibroData.class.getName()).log(Level.SEVERE, null, ex);
         }
-        
-        
-        
-        
         return listaLibros;
     }
     
@@ -205,23 +169,15 @@ public class LibroData {
             PreparedStatement ps = con.prepareStatement(sql);
             ResultSet rs = ps.executeQuery();
             while(rs.next()){
-                String sql2 = "select * from autor where idAutor = " + rs.getInt("autor");
-                PreparedStatement ps2 = con.prepareStatement(sql2);
-                ResultSet rs2 = ps2.executeQuery();
-                
-                autor.setIdAutor(rs2.getInt("idAutor"));
-                autor.setNombre(rs2.getString("nombre"));
-                autor.setApellido(rs2.getString("apellido"));
-                autor.setGeneroFav(rs2.getString("generofav"));
                 
                 libro.setIsbn(rs.getLong("isbn"));
                 libro.setTitulo(rs.getString("titulo"));
-                libro.setAutor(autor);
+                libro.setAutor(rs.getString("autor"));
                 libro.setAnio(rs.getInt("anio"));
                 libro.setGenero(rs.getString("genero"));
                 libro.setEditorial(rs.getString("Editorial"));
                 libro.setEstado(rs.getBoolean("estado"));
-                libro.setCantEjemplares(rs.getInt("cantEjemplares"));
+
             }
             
             
@@ -255,12 +211,12 @@ public class LibroData {
                 
                 libro.setIsbn(rs.getLong("isbn"));
                 libro.setTitulo(rs.getString("titulo"));
-                libro.setAutor(autor);
+                libro.setAutor(rs.getString("autor"));
                 libro.setAnio(rs.getInt("anio"));
                 libro.setGenero(rs.getString("genero"));
                 libro.setEditorial(rs.getString("Editorial"));
                 libro.setEstado(rs.getBoolean("estado"));
-                libro.setCantEjemplares(rs.getInt("cantEjemplares"));
+
             
                 listaLibros.add(libro);
             }    
@@ -307,4 +263,25 @@ public class LibroData {
     estoy seguro que hay forma mas facil de hacer esto mismo, pero se escapa de mis habilidades
     */
     
+    public Autor getEscritor(String nombre){
+        Autor autito = new Autor();
+        String sql = "select * from autor where nombre = '" + nombre + "'";
+        try {
+            PreparedStatement ps = con.prepareStatement(sql);
+            ResultSet rs = ps.executeQuery();
+            rs.last(); int i = rs.getRow(); rs.first();
+            if (i < 0){
+                autor.setNombre(rs.getString("nombre"));
+                autor.setNombre(rs.getString("apellido"));
+                autor.setIdAutor(rs.getInt("idAutor"));
+                autor.setGeneroFav(rs.getString("generoFav"));
+            }else{
+                JOptionPane.showMessageDialog(null, "Hay mas de 1 autor con ese nombre");
+            }
+        } catch (SQLException ex) {
+            Logger.getLogger(LibroData.class.getName()).log(Level.SEVERE, null, ex);
+        }
+        
+        return autito;
+    }
 }
