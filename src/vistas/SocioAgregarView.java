@@ -14,6 +14,8 @@ import javax.swing.JOptionPane;
 import javax.swing.JTextField;
 import java.lang.reflect.Field;
 import java.awt.Color;
+import java.awt.Image;
+import javax.swing.ImageIcon;
 
 public class SocioAgregarView extends javax.swing.JInternalFrame {
 
@@ -98,7 +100,6 @@ public class SocioAgregarView extends javax.swing.JInternalFrame {
 
         jLDni.setText("DNI:");
 
-        jLImagen.setText("Imagen");
         jLImagen.addMouseListener(new java.awt.event.MouseAdapter() {
             public void mouseClicked(java.awt.event.MouseEvent evt) {
                 jLImagenMouseClicked(evt);
@@ -171,6 +172,11 @@ public class SocioAgregarView extends javax.swing.JInternalFrame {
         });
 
         jLReset.setText("Reset");
+        jLReset.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                jLResetMouseClicked(evt);
+            }
+        });
 
         jLCancelar.setText("Cancelar");
 
@@ -223,7 +229,12 @@ public class SocioAgregarView extends javax.swing.JInternalFrame {
                         .addComponent(jLNumSocio))
                     .addGroup(jPanel1Layout.createSequentialGroup()
                         .addGap(19, 19, 19)
-                        .addComponent(jLImagen, javax.swing.GroupLayout.PREFERRED_SIZE, 145, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                        .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addGroup(jPanel1Layout.createSequentialGroup()
+                                .addComponent(jLEst)
+                                .addGap(18, 18, 18)
+                                .addComponent(jLEstado))
+                            .addComponent(jLImagen, javax.swing.GroupLayout.PREFERRED_SIZE, 145, javax.swing.GroupLayout.PREFERRED_SIZE))))
                 .addGap(27, 27, 27)
                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(jPanel1Layout.createSequentialGroup()
@@ -248,13 +259,10 @@ public class SocioAgregarView extends javax.swing.JInternalFrame {
                                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
                                     .addComponent(jTFDomicilio, javax.swing.GroupLayout.DEFAULT_SIZE, 332, Short.MAX_VALUE)
                                     .addComponent(jTFMail, javax.swing.GroupLayout.Alignment.TRAILING)
-                                    .addGroup(jPanel1Layout.createSequentialGroup()
-                                        .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING, false)
-                                            .addComponent(jLFechaDeBajaDEFAULT, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, 83, Short.MAX_VALUE)
-                                            .addComponent(jLFechaDeAltaDEFAULT, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
-                                        .addGap(47, 47, 47))
-                                    .addComponent(jTFDNI, javax.swing.GroupLayout.PREFERRED_SIZE, 212, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                    .addComponent(jTFTelefono))))
+                                    .addComponent(jTFTelefono)
+                                    .addComponent(jLFechaDeBajaDEFAULT, javax.swing.GroupLayout.DEFAULT_SIZE, 332, Short.MAX_VALUE)
+                                    .addComponent(jLFechaDeAltaDEFAULT, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                                    .addComponent(jTFDNI, javax.swing.GroupLayout.PREFERRED_SIZE, 212, javax.swing.GroupLayout.PREFERRED_SIZE))))
                         .addGap(52, 52, 52))
                     .addGroup(jPanel1Layout.createSequentialGroup()
                         .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -263,21 +271,14 @@ public class SocioAgregarView extends javax.swing.JInternalFrame {
                             .addComponent(jLFechaDeBaja))
                         .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))))
             .addGroup(jPanel1Layout.createSequentialGroup()
-                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addGroup(jPanel1Layout.createSequentialGroup()
-                        .addGap(42, 42, 42)
-                        .addComponent(jLEst)
-                        .addGap(111, 111, 111)
-                        .addComponent(jLEstado))
-                    .addGroup(jPanel1Layout.createSequentialGroup()
-                        .addGap(19, 19, 19)
-                        .addComponent(jLAgregarSocios, javax.swing.GroupLayout.PREFERRED_SIZE, 145, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addGap(267, 267, 267)
-                        .addComponent(jLReset, javax.swing.GroupLayout.PREFERRED_SIZE, 57, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addComponent(jLCancelar, javax.swing.GroupLayout.PREFERRED_SIZE, 57, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addGap(18, 18, 18)
-                        .addComponent(jLAgregar, javax.swing.GroupLayout.PREFERRED_SIZE, 57, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                .addGap(19, 19, 19)
+                .addComponent(jLAgregarSocios, javax.swing.GroupLayout.PREFERRED_SIZE, 145, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(267, 267, 267)
+                .addComponent(jLReset, javax.swing.GroupLayout.PREFERRED_SIZE, 57, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(jLCancelar, javax.swing.GroupLayout.PREFERRED_SIZE, 57, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(18, 18, 18)
+                .addComponent(jLAgregar, javax.swing.GroupLayout.PREFERRED_SIZE, 57, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGap(0, 52, Short.MAX_VALUE))
         );
         jPanel1Layout.setVerticalGroup(
@@ -291,7 +292,12 @@ public class SocioAgregarView extends javax.swing.JInternalFrame {
                             .addComponent(jLNumeroDeSocio)
                             .addComponent(labelInformativo))
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addComponent(jLImagen, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                        .addComponent(jLImagen, javax.swing.GroupLayout.PREFERRED_SIZE, 160, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addGap(18, 18, 18)
+                        .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                            .addComponent(jLEst)
+                            .addComponent(jLEstado))
+                        .addGap(0, 0, Short.MAX_VALUE))
                     .addGroup(jPanel1Layout.createSequentialGroup()
                         .addGap(35, 35, 35)
                         .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
@@ -325,11 +331,7 @@ public class SocioAgregarView extends javax.swing.JInternalFrame {
                         .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                             .addComponent(jLFechaDeBaja)
                             .addComponent(jLFechaDeBajaDEFAULT))))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(jLEstado)
-                    .addComponent(jLEst))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addGap(28, 28, 28)
                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jLReset, javax.swing.GroupLayout.PREFERRED_SIZE, 29, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(jLCancelar, javax.swing.GroupLayout.PREFERRED_SIZE, 29, javax.swing.GroupLayout.PREFERRED_SIZE)
@@ -425,6 +427,15 @@ public class SocioAgregarView extends javax.swing.JInternalFrame {
         String fechaDeBajaDEFAULT = formatoDEFAULT.format(fechaDeBaja);
         this.jLFechaDeAltaDEFAULT.setText(fechaDeAltaDEFAULT.replaceAll("-", " \\| "));
         this.jLFechaDeBajaDEFAULT.setText(fechaDeBajaDEFAULT.replaceAll("-", " \\| "));
+        
+        cargarFotoPerfilVacio(this.jLImagen);       
+        
+    }
+    
+    private void cargarFotoPerfilVacio(JLabel fotoPerfilAgregar){
+        Image img = new ImageIcon("./src/vistas/imagenes/agregar.png").getImage(); // carga la imagen desde la ruta
+        Image img2 = img.getScaledInstance(100, 100, Image.SCALE_SMOOTH); // crea una nueva imagen con el tamaño y el tipo de escalado deseados
+        fotoPerfilAgregar.setIcon(new ImageIcon(img2));
     }
     
     private void jLAgregarMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jLAgregarMouseClicked
@@ -497,7 +508,21 @@ public class SocioAgregarView extends javax.swing.JInternalFrame {
             System.out.println(ex.getMessage());
         }
     }//GEN-LAST:event_jLAgregarMouseClicked
-
+    
+    public void resetearCampos(){
+        this.jTFApellido.setText("");
+        this.jTFNombre.setText("");
+        this.jTFDomicilio.setText("");
+        this.jTFDNI.setText("");
+        this.jTFTelefono.setText("");
+        this.jTFMail.setText("");
+        
+        cargarFotoPerfilVacio(this.jLImagen);
+        
+        this.labelInformativo.setText("Se han reseteado todos los campos");
+        SocioTarjeta.getInstance().temporizar(labelInformativo);
+    }
+    
     private void jTFApellidoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jTFApellidoActionPerformed
         // TODO add your handling code here:
         String caracteresIngresados = this.jTFApellido.getText();
@@ -576,6 +601,11 @@ public class SocioAgregarView extends javax.swing.JInternalFrame {
         
         SocioTarjeta.getInstance().noEnterMail(labelInformativo, valorMod, evt);
     }//GEN-LAST:event_jTFMailKeyReleased
+
+    private void jLResetMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jLResetMouseClicked
+        // TODO add your handling code here:
+        resetearCampos();
+    }//GEN-LAST:event_jLResetMouseClicked
 
 
     // Variables declaration - do not modify//GEN-BEGIN:variables

@@ -145,9 +145,9 @@ public class SocioTarjeta extends javax.swing.JPanel {
     }
 
     //Esto son los COLORES que utilizan las TARJETAS. Luego adecuaré los nombres
-    private static final Color CELESTITO = new Color(226, 135, 67);
-    private static final Color VERDECITO = new Color(234, 182, 118);
-    private static final Color AZULCITO = new Color(135, 62, 35);
+    private static final Color CELESTITO = new Color(143, 147, 149);
+    private static final Color VERDECITO = new Color(183, 187, 189);
+    private static final Color AZULCITO = new Color(80, 87, 89);
     //Estas son los dos Íconos que aparecen en las TARJETAS para MODIFICAR y ELIMINAR
     private final Image modificar = new ImageIcon(getClass().getResource("/vistas/imagenes/modificar.png")).getImage();
     private final Image eliminar = new ImageIcon(getClass().getResource("/vistas/imagenes/eliminar.png")).getImage();
