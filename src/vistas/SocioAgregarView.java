@@ -3,18 +3,21 @@ package vistas;
 import datos.SocioData;
 import entidades.Foto;
 import entidades.Socio;
-import java.awt.event.KeyEvent;
 import java.io.File;
 import java.io.FileInputStream;
 import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
-import java.util.Locale;
 import javax.swing.JLabel;
 import javax.swing.JOptionPane;
 import javax.swing.JTextField;
 import java.lang.reflect.Field;
 import java.awt.Color;
 import java.awt.Image;
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.List;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 import javax.swing.ImageIcon;
 
 public class SocioAgregarView extends javax.swing.JInternalFrame {
@@ -22,20 +25,19 @@ public class SocioAgregarView extends javax.swing.JInternalFrame {
     private static SocioAgregarView sar;
     SocioData metodoDeSocio = new SocioData();
     private Foto foto;
-    
+
     public SocioAgregarView() {
         initComponents();
         establecerDefault();
-        
+
         sar = this;
     }
-    
-    public JLabel getLabelInformativo(){
+
+    public JLabel getLabelInformativo() {
         return this.labelInformativo;
     }
-  
-    
-     public static SocioAgregarView getInstance() {
+
+    public static SocioAgregarView getInstance() {
         //Si el atributo sbr es nulo, lo creamos con el constructor
         if (sar == null) {
             sar = new SocioAgregarView();
@@ -43,6 +45,10 @@ public class SocioAgregarView extends javax.swing.JInternalFrame {
         //Se devuelve el atributo sbr
         return sar;
     }
+    public JTextField getJTFDNI(){
+        return this.jTFDNI;
+    }
+
     /**
      * This method is called from within the constructor to initialize the form.
      * WARNING: Do NOT modify this code. The content of this method is always
@@ -165,11 +171,6 @@ public class SocioAgregarView extends javax.swing.JInternalFrame {
                 jLAgregarMouseClicked(evt);
             }
         });
-        jLAgregar.addKeyListener(new java.awt.event.KeyAdapter() {
-            public void keyReleased(java.awt.event.KeyEvent evt) {
-                jLAgregarKeyReleased(evt);
-            }
-        });
 
         jLReset.setText("Reset");
         jLReset.addMouseListener(new java.awt.event.MouseAdapter() {
@@ -179,6 +180,11 @@ public class SocioAgregarView extends javax.swing.JInternalFrame {
         });
 
         jLCancelar.setText("Cancelar");
+        jLCancelar.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                jLCancelarMouseClicked(evt);
+            }
+        });
 
         jLFechaDeAlta.setText("Fecha de Alta:");
 
@@ -254,7 +260,8 @@ public class SocioAgregarView extends javax.swing.JInternalFrame {
                                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                                     .addComponent(jLDni)
                                     .addComponent(jLDomicilio)
-                                    .addComponent(jLTelefono))
+                                    .addComponent(jLTelefono)
+                                    .addComponent(jLMail))
                                 .addGap(49, 49, 49)
                                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
                                     .addComponent(jTFDomicilio, javax.swing.GroupLayout.DEFAULT_SIZE, 332, Short.MAX_VALUE)
@@ -266,7 +273,6 @@ public class SocioAgregarView extends javax.swing.JInternalFrame {
                         .addGap(52, 52, 52))
                     .addGroup(jPanel1Layout.createSequentialGroup()
                         .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addComponent(jLMail)
                             .addComponent(jLFechaDeAlta)
                             .addComponent(jLFechaDeBaja))
                         .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))))
@@ -319,11 +325,11 @@ public class SocioAgregarView extends javax.swing.JInternalFrame {
                         .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                             .addComponent(jLTelefono)
                             .addComponent(jTFTelefono, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 21, Short.MAX_VALUE)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                         .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                            .addComponent(jLMail)
-                            .addComponent(jTFMail, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                        .addGap(14, 14, 14)
+                            .addComponent(jTFMail, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(jLMail))
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 23, Short.MAX_VALUE)
                         .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                             .addComponent(jLFechaDeAlta)
                             .addComponent(jLFechaDeAltaDEFAULT))
@@ -369,28 +375,24 @@ public class SocioAgregarView extends javax.swing.JInternalFrame {
         JLabel valorMod = new JLabel();
         String valorDelCampo = caracteresIngresados;
         String campo = this.jTFDNI.getText();
-        
-        SocioTarjeta.getInstance().cotejarDNI(caracteresIngresados, labelInformativo, valorMod, valoresModificados, 
-            valorDelCampo, campo);
+
+        SocioTarjeta.getInstance().cotejarDNI(caracteresIngresados, labelInformativo, valorMod, valoresModificados,
+                valorDelCampo, campo);
     }//GEN-LAST:event_jTFDNIActionPerformed
 
     private void jTFDomicilioActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jTFDomicilioActionPerformed
         // TODO add your handling code here:
-        String caracteresIngresados = this.jTFDomicilio.getText();
+        String caracteresIngresados = darFormatoPalabras(this.jTFDomicilio.getText().toLowerCase(), this.jLDomicilio.getText());
+        this.jTFDomicilio.setText(caracteresIngresados);
+        
         JTextField valoresModificados = this.jTFDomicilio;
         JLabel valorMod = new JLabel();
         String valorDelCampo = caracteresIngresados;
         String campo = this.jTFDomicilio.getText();
-        
-        SocioTarjeta.getInstance().cotejarDomicilio(caracteresIngresados, labelInformativo, valorMod, valoresModificados, 
-            valorDelCampo, campo);
-    }//GEN-LAST:event_jTFDomicilioActionPerformed
 
-    private void jLAgregarKeyReleased(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_jLAgregarKeyReleased
-        // TODO add your handling code here:
-        
-        
-    }//GEN-LAST:event_jLAgregarKeyReleased
+        SocioTarjeta.getInstance().cotejarDomicilio(caracteresIngresados, labelInformativo, valorMod, valoresModificados,
+                valorDelCampo, campo);
+    }//GEN-LAST:event_jTFDomicilioActionPerformed
 
     private void jTFTelefonoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jTFTelefonoActionPerformed
         // TODO add your handling code here:
@@ -399,9 +401,9 @@ public class SocioAgregarView extends javax.swing.JInternalFrame {
         JLabel valorMod = new JLabel();
         String valorDelCampo = caracteresIngresados;
         String campo = this.jTFTelefono.getText();
-        
-        SocioTarjeta.getInstance().cotejarTelefono(caracteresIngresados, labelInformativo, valorMod, valoresModificados, 
-            valorDelCampo, campo);
+
+        SocioTarjeta.getInstance().cotejarTelefono(caracteresIngresados, labelInformativo, valorMod, valoresModificados,
+                valorDelCampo, campo);
     }//GEN-LAST:event_jTFTelefonoActionPerformed
 
     private void jLImagenMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jLImagenMouseClicked
@@ -410,142 +412,213 @@ public class SocioAgregarView extends javax.swing.JInternalFrame {
         int idSocio = metodoDeSocio.obtenerCantidadSocios() + 5556;
         this.foto = SocioTarjeta.getInstance().editarCamposSocio("Imagen", this.jLNumeroDeSocio, this.jLImagen);
     }//GEN-LAST:event_jLImagenMouseClicked
-    
-    private void establecerDefault(){
+
+    private void establecerDefault() {
         Principal.getInstance().habilitarModificaciones(false, false, false);
-        
+
         int idSocio = metodoDeSocio.obtenerCantidadSocios() + 5556;
         this.jLNumeroDeSocio.setText(String.valueOf(idSocio));
-        
+
         DateTimeFormatter formatoDate = DateTimeFormatter.ofPattern("yyyy-MM-dd");
         DateTimeFormatter formatoDEFAULT = DateTimeFormatter.ofPattern("dd-MM-yyyy");
-        
+
         LocalDate fechaDeAlta = LocalDate.now();
         LocalDate fechaDeBaja = LocalDate.now().plusYears(5);
-        
+
         String fechaDeAltaDEFAULT = formatoDEFAULT.format(fechaDeAlta);
         String fechaDeBajaDEFAULT = formatoDEFAULT.format(fechaDeBaja);
         this.jLFechaDeAltaDEFAULT.setText(fechaDeAltaDEFAULT.replaceAll("-", " \\| "));
         this.jLFechaDeBajaDEFAULT.setText(fechaDeBajaDEFAULT.replaceAll("-", " \\| "));
-        
-        cargarFotoPerfilVacio(this.jLImagen);       
-        
+
+        cargarFotoPerfilVacio(this.jLImagen);
+
     }
-    
-    private void cargarFotoPerfilVacio(JLabel fotoPerfilAgregar){
+
+    private void cargarFotoPerfilVacio(JLabel fotoPerfilAgregar) {
         Image img = new ImageIcon("./src/vistas/imagenes/agregar.png").getImage(); // carga la imagen desde la ruta
         Image img2 = img.getScaledInstance(100, 100, Image.SCALE_SMOOTH); // crea una nueva imagen con el tamaño y el tipo de escalado deseados
         fotoPerfilAgregar.setIcon(new ImageIcon(img2));
     }
-    
+
     private void jLAgregarMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jLAgregarMouseClicked
-        // TODO add your handling code here:
         
-        
-        try{
-        Socio socio;
-        int idSocio = metodoDeSocio.obtenerCantidadSocios() + 5556; //Ese 5556 hacer método para obtener el valor más bajo de id
-        String apellido = this.jTFApellido.getText();
-        String nombre = this.jTFNombre.getText();
-        String domicilio = this.jTFDomicilio.getText();
-        int dni = Integer.parseInt(this.jTFDNI.getText());
-        
-        String telefono = this.jTFTelefono.getText();
-        
-        String mail = this.jTFMail.getText();
-        
-        DateTimeFormatter formatoDate = DateTimeFormatter.ofPattern("yyyy-MM-dd");
-        DateTimeFormatter formatoDEFAULT = DateTimeFormatter.ofPattern("dd-MM-yyyy");
-        
-        LocalDate fechaDeAlta = LocalDate.now();
-        LocalDate fechaDeBaja = LocalDate.now().plusYears(5);
-        
-        String fechaDeAltaDEFAULT = formatoDEFAULT.format(fechaDeAlta);
-        String fechaDeBajaDEFAULT = formatoDEFAULT.format(fechaDeBaja);
-
-        
-        String ruta = "./src/vistas/imagenes/foto_" + String.valueOf(idSocio);
-        String fotoNombrePerfil = ruta;
-        
-        boolean estado = jLEstado.getText().equals("Socio Activo");
-
-        socio = new Socio(idSocio, apellido, nombre, domicilio, dni, telefono, mail, fechaDeAlta, fechaDeBaja, fotoNombrePerfil, estado);
-        
-        Class<?> clase = socio.getClass();
-        
-        Field[] atributos = clase.getDeclaredFields();
-        
-        try{
-            for(Field atributo : atributos){
-                atributo.setAccessible(true);
+        try {
+            Socio socio;
+            int idSocio = metodoDeSocio.obtenerCantidadSocios() + 5556; //Ese 5556 hacer método para obtener el valor más bajo de id
             
-                Object valor = atributo.get(socio);
+            String apellido = controlarConfirmados(this.jTFApellido);
+            String nombre = controlarConfirmados(this.jTFNombre);
+            String domicilio = controlarConfirmados(this.jTFDomicilio);
+            int dni = Integer.parseInt(controlarConfirmados(this.jTFDNI));
 
-               /*switch(atributo.getName() == "idSocio"){
-                    JOptionPane.showMessageDialog(this, "HOLA");
-                }*/
-                JOptionPane.showMessageDialog(this, valor);
+            String telefono = controlarConfirmados(this.jTFTelefono);
+
+            String mail = controlarConfirmados(this.jTFMail);
+
+            DateTimeFormatter formatoDate = DateTimeFormatter.ofPattern("yyyy-MM-dd");
+            DateTimeFormatter formatoDEFAULT = DateTimeFormatter.ofPattern("dd-MM-yyyy");
+
+            LocalDate fechaDeAlta = LocalDate.now();
+            LocalDate fechaDeBaja = LocalDate.now().plusYears(5);
+
+            String fechaDeAltaDEFAULT = formatoDEFAULT.format(fechaDeAlta);
+            String fechaDeBajaDEFAULT = formatoDEFAULT.format(fechaDeBaja);
+
+            String ruta = "./src/vistas/imagenes/foto_" + String.valueOf(idSocio);
+            String fotoPerfilNombre = ruta;
+
+            boolean estado = jLEstado.getText().equals("Socio Activo");
+
+            socio = new Socio(idSocio, apellido, nombre, domicilio, dni, telefono, mail, fechaDeAlta, fechaDeBaja, fotoPerfilNombre, estado);
+
+            Class<?> clase = socio.getClass();
+
+            Field[] atributos = clase.getDeclaredFields();
+
+            try {
+                for (Field atributo : atributos) {
+                    atributo.setAccessible(true);
+
+                    Object valor = atributo.get(socio);
+
+                    controlarCampos(this.labelInformativo, atributo.getName(), valor);
+                }
+            } catch (IllegalAccessException e) {
+                JOptionPane.showMessageDialog(this, "Se pudrió todo iterando en el objeto socio para ver si están todos los campos llenos");
             }
-        }catch(IllegalAccessException e){
-            JOptionPane.showMessageDialog(this, "Se pudrió todo iterando en el objeto socio para ver si están todos los campos llenos");
-        }
-        
-        
-        }catch(NumberFormatException ex){
+
+        } catch (NumberFormatException ex) {
             labelInformativo.setText("Debes ingresar el DNI");
             labelInformativo.setForeground(Color.red);
             SocioTarjeta.getInstance().temporizar(labelInformativo);
         }
-        
+
         //metodoDeSocio.agregarSocio(socio, this.foto);
         File file = this.foto.getFile();
         FileInputStream fis = this.foto.getFis();
         JOptionPane.showMessageDialog(null, this.foto.getIdSocio());
-        try{
+        try {
             SocioTarjeta.getInstance().saveImage(file, fis, this.foto);
-        }catch(Exception ex){
+        } catch (Exception ex) {
             JOptionPane.showMessageDialog(this, "Adiviná qué... Algo pasó con la imagen");
             System.out.println(ex.getMessage());
         }
     }//GEN-LAST:event_jLAgregarMouseClicked
     
-    public void resetearCampos(){
-        this.jTFApellido.setText("");
-        this.jTFNombre.setText("");
-        this.jTFDomicilio.setText("");
-        this.jTFDNI.setText("");
-        this.jTFTelefono.setText("");
-        this.jTFMail.setText("");
-        
-        cargarFotoPerfilVacio(this.jLImagen);
-        
-        this.labelInformativo.setText("Se han reseteado todos los campos");
-        SocioTarjeta.getInstance().temporizar(labelInformativo);
+    private String controlarConfirmados(JTextField textField){
+        Color colorConfirmacion = Color.CYAN;
+        if(colorConfirmacion.equals(textField.getForeground())){
+            return textField.getText();
+        }else{
+            return "";
+        }
+    }
+    //VER POR QUÉ NO REACCIONAN AL TEMPORIZADOR LOS LABELS
+    private void controlarCampos(JLabel labelInformativo, String campo, Object valor) {
+        if (valor instanceof Integer) {
+            if (((Integer) valor).intValue() <= 0) {
+                if (campo.equals("dni")) {
+                    labelInformativo.setText("Confirme el campo de DNI");
+                }
+                SocioTarjeta.getInstance().temporizar(getJTFDNI());
+            }
+        } else if (valor instanceof String) {
+            if (valor.equals("")) {
+                switch (campo) {
+                    case "apellido":
+                        labelInformativo.setText("Confirme el campo de Apellido");
+                        SocioTarjeta.getInstance().temporizar(this.jLApellido);
+                        break;
+                    case "nombre":
+                        labelInformativo.setText("Confirme el campo de Nombre");
+                        SocioTarjeta.getInstance().temporizar(jLNombre);
+                        break;
+                    case "domicilio":
+                        labelInformativo.setText("Confirme el campo de Domicilio");
+                        SocioTarjeta.getInstance().temporizar(this.jLDomicilio);
+                        break;
+                    case "telefono":
+                        labelInformativo.setText("Confirme el campo de Teléfono");
+                        SocioTarjeta.getInstance().temporizar(this.jLTelefono);
+                        break;
+                    case "mail":
+                        labelInformativo.setText("Confirme el campo de E-Mail");
+                        SocioTarjeta.getInstance().temporizar(this.jLMail);
+                        break;
+                    default:
+                        labelInformativo.setText("Falta agregar una Fodo de Perfil");
+                        SocioTarjeta.getInstance().temporizar(this.jLImagen);
+                        break;
+                }
+            }
+        } else {
+
+        }
     }
     
+    private List devolverListadoTF(){
+        List <JTextField> lista = Arrays.asList(this.jTFApellido, this.jTFNombre, this.jTFDNI, this.jTFDomicilio,
+            this.jTFMail, this.jTFTelefono);
+        
+        return lista;
+    }
+
+    public void resetearCampos() {
+        int campoChecker = 0;
+        ArrayList <JTextField> listaTextFields = new ArrayList<>();
+        List lista = devolverListadoTF();
+        listaTextFields.addAll(lista);
+        
+        for(JTextField textField : listaTextFields){
+            if(textField.getText().equals("")){
+                campoChecker++;
+            }
+            textField.setText("");
+            textField.setForeground(Color.BLACK);
+        }
+        
+        final int CANTIDAD_CAMPOS_VACIOS = 6;
+        String campoFotoPerfil;
+         try{
+            campoFotoPerfil = this.foto.getFotoPerfilNombre();
+        }catch(NullPointerException ex){
+            campoFotoPerfil = "";
+        }
+        if(campoChecker == CANTIDAD_CAMPOS_VACIOS && campoFotoPerfil.equals("")){
+            this.labelInformativo.setText("Los campos están vacíos");
+        }else{
+            this.labelInformativo.setText("Se han reseteado todos los campos");
+        }
+        cargarFotoPerfilVacio(this.jLImagen);
+        SocioTarjeta.getInstance().temporizar(labelInformativo);
+    }
+
     private void jTFApellidoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jTFApellidoActionPerformed
         // TODO add your handling code here:
-        String caracteresIngresados = this.jTFApellido.getText();
+        String caracteresIngresados = darFormatoPalabras(this.jTFApellido.getText().toLowerCase(), this.jLApellido.getText());
+        this.jTFApellido.setText(caracteresIngresados);
+
         JTextField valoresModificados = this.jTFApellido;
         JLabel valorMod = new JLabel();
         String valorDelCampo = caracteresIngresados;
         String campo = this.jLApellido.getText();
-        
-        SocioTarjeta.getInstance().cotejarApellido(caracteresIngresados, labelInformativo, valorMod, valoresModificados, 
-            valorDelCampo, campo);
+
+        SocioTarjeta.getInstance().cotejarApellido(caracteresIngresados, labelInformativo, valorMod, valoresModificados,
+                valorDelCampo, campo);
     }//GEN-LAST:event_jTFApellidoActionPerformed
 
     private void jTFNombreActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jTFNombreActionPerformed
         // TODO add your handling code here:
-        String caracteresIngresados = this.jTFNombre.getText();
+        String caracteresIngresados = darFormatoPalabras(this.jTFNombre.getText().toLowerCase(), this.jTFNombre.getText());
+        this.jTFNombre.setText(caracteresIngresados);
+
         JTextField valoresModificados = this.jTFNombre;
         JLabel valorMod = new JLabel();
         String valorDelCampo = caracteresIngresados;
-        String campo = this.jLNombre.getText();
-        labelInformativo.setText("");
-        
-        SocioTarjeta.getInstance().cotejarNombre(caracteresIngresados, labelInformativo, valorMod, valoresModificados, 
-            valorDelCampo, campo);
+        String campo = this.jTFNombre.getText();
+
+        SocioTarjeta.getInstance().cotejarApellido(caracteresIngresados, labelInformativo, valorMod, valoresModificados,
+                valorDelCampo, campo);
     }//GEN-LAST:event_jTFNombreActionPerformed
 
     private void jTFMailActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jTFMailActionPerformed
@@ -555,14 +628,22 @@ public class SocioAgregarView extends javax.swing.JInternalFrame {
         JLabel valorMod = new JLabel();
         String valorDelCampo = caracteresIngresados;
         String campo = this.jTFMail.getText();
-        
-        SocioTarjeta.getInstance().cotejarEmail(caracteresIngresados, labelInformativo, valorMod, valoresModificados, 
-            valorDelCampo, campo);
+
+        SocioTarjeta.getInstance().cotejarEmail(caracteresIngresados, labelInformativo, valorMod, valoresModificados,
+                valorDelCampo, campo);
     }//GEN-LAST:event_jTFMailActionPerformed
 
     private void jTFApellidoKeyReleased(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_jTFApellidoKeyReleased
         // TODO add your handling code here:
         JLabel valorMod = new JLabel();
+        if(evt.getKeyCode() == 8){
+            this.jTFApellido.setForeground(Color.BLACK);
+            //hacer un getApellido para chequear si es null, y si no lo es forzar el null
+        }else{
+            if(this.jTFApellido.getForeground().equals(Color.CYAN) && evt.getKeyCode() != 10){
+                this.jTFApellido.setForeground(Color.BLACK);
+            }
+        }
         
         SocioTarjeta.getInstance().noEnterApellido(labelInformativo, valorMod, evt);
     }//GEN-LAST:event_jTFApellidoKeyReleased
@@ -570,35 +651,70 @@ public class SocioAgregarView extends javax.swing.JInternalFrame {
     private void jTFNombreKeyReleased(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_jTFNombreKeyReleased
         // TODO add your handling code here:
         JLabel valorMod = new JLabel();
-        
+        if(evt.getKeyCode() == 8){
+            this.jTFNombre.setForeground(Color.BLACK);
+            //hacer un getNombre para chequear si es null, y si no lo es forzar el null
+        }else{
+            if(this.jTFNombre.getForeground().equals(Color.CYAN) && evt.getKeyCode() != 10){
+                this.jTFNombre.setForeground(Color.BLACK);
+            }
+        }
         SocioTarjeta.getInstance().noEnterNombre(labelInformativo, valorMod, evt);
     }//GEN-LAST:event_jTFNombreKeyReleased
 
     private void jTFDomicilioKeyReleased(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_jTFDomicilioKeyReleased
         // TODO add your handling code here:
         JLabel valorMod = new JLabel();
-        
+        if(evt.getKeyCode() == 8){
+            this.jTFDomicilio.setForeground(Color.BLACK);
+            //hacer un getDomicilio para chequear si es null, y si no lo es forzar el null pues quedará guardado 
+        }else{
+            if(this.jTFDomicilio.getForeground().equals(Color.CYAN) && evt.getKeyCode() != 10){
+                this.jTFDomicilio.setForeground(Color.BLACK);
+            }
+        }
         SocioTarjeta.getInstance().noEnterDomicilio(labelInformativo, valorMod, evt);
     }//GEN-LAST:event_jTFDomicilioKeyReleased
 
     private void jTFDNIKeyReleased(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_jTFDNIKeyReleased
         // TODO add your handling code here:
         JLabel valorMod = new JLabel();
-        
+        if(evt.getKeyCode() == 8){
+            this.jTFDNI.setForeground(Color.BLACK);
+            //hacer un getDNI para chequear si es null, y si no lo es forzar el null
+        }else{
+            if(this.jTFDNI.getForeground().equals(Color.CYAN) && evt.getKeyCode() != 10){
+                this.jTFDNI.setForeground(Color.BLACK);
+            }
+        }
         SocioTarjeta.getInstance().noEnterDNI(labelInformativo, valorMod, evt);
     }//GEN-LAST:event_jTFDNIKeyReleased
 
     private void jTFTelefonoKeyReleased(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_jTFTelefonoKeyReleased
         // TODO add your handling code here:
         JLabel valorMod = new JLabel();
-        
+        if(evt.getKeyCode() == 8){
+            this.jTFTelefono.setForeground(Color.BLACK);
+            //hacer un getApellido para chequear si es null, y si no lo es forzar el null
+        }else{
+            if(this.jTFTelefono.getForeground().equals(Color.CYAN) && evt.getKeyCode() != 10){
+                this.jTFTelefono.setForeground(Color.BLACK);
+            }
+        }
         SocioTarjeta.getInstance().noEnterTelefono(labelInformativo, valorMod, evt);
     }//GEN-LAST:event_jTFTelefonoKeyReleased
 
     private void jTFMailKeyReleased(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_jTFMailKeyReleased
         // TODO add your handling code here:
         JLabel valorMod = new JLabel();
-        
+        if(evt.getKeyCode() == 8){
+            this.jTFMail.setForeground(Color.BLACK);
+            //hacer un getApellido para chequear si es null, y si no lo es forzar el null
+        }else{
+            if(this.jTFMail.getForeground().equals(Color.CYAN) && evt.getKeyCode() != 10){
+                this.jTFMail.setForeground(Color.BLACK);
+            }
+        }
         SocioTarjeta.getInstance().noEnterMail(labelInformativo, valorMod, evt);
     }//GEN-LAST:event_jTFMailKeyReleased
 
@@ -607,6 +723,47 @@ public class SocioAgregarView extends javax.swing.JInternalFrame {
         resetearCampos();
     }//GEN-LAST:event_jLResetMouseClicked
 
+    private void jLCancelarMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jLCancelarMouseClicked
+        // TODO add your handling code here:
+        this.dispose();
+        Principal.getInstance().habilitarModificaciones(false, false, true);
+    }//GEN-LAST:event_jLCancelarMouseClicked
+
+    private String darFormatoPalabras(String caracteresIngresados, String valor){
+        if(valor.equals("Domicilio:")){
+            Pattern patron = Pattern.compile("\\b(de|la|y|en|ante|bajo|con|contra|de|desde|entre|hacia|hasta|"+
+                    "para|por|sin|sobre|los|lo|las|o|al|el)\\b|\\b\\p{Ll}+");
+            Matcher match = patron.matcher(caracteresIngresados);
+            StringBuffer resultado = new StringBuffer();
+            
+            while(match.find()){
+                if(match.group(1) != null){
+                    match.appendReplacement(resultado, match.group(0).toLowerCase());
+                }else{
+                    match.appendReplacement(resultado, match.group().substring(0, 1).toUpperCase() +
+                            match.group().substring(1).toLowerCase());
+                }
+            }
+            match.appendTail(resultado);
+            JOptionPane.showMessageDialog(null, resultado.toString());
+            return resultado.toString();
+        }else{
+            String[] ingresos = caracteresIngresados.split(" ");
+            StringBuilder resultado = new StringBuilder();
+        
+            for(String ingreso : ingresos){
+                if(!ingreso.isEmpty()){
+                    resultado.append(Character.toUpperCase(ingreso.charAt(0)));
+                    resultado.append(ingreso.substring(1));
+                    resultado.append(" ");
+                }
+            }
+            return resultado.toString().trim();
+        }
+        
+        
+        
+    }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JLabel jLAgregar;

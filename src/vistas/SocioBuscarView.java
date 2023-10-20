@@ -1,5 +1,8 @@
 package vistas;
 
+import com.toedter.calendar.JCalendar;
+import com.toedter.calendar.JDateChooser;
+import java.awt.Dimension;
 import java.awt.FlowLayout;
 import java.awt.LayoutManager;
 import java.util.List;
@@ -10,7 +13,7 @@ public class SocioBuscarView extends javax.swing.JInternalFrame {
     
     //Se crea un ArrayList de tipo String que contiene el criterio de búsqueda para rellenar JLabel sobre el campo de texto de la VISTA BUSCAR SOCIO
     private final String[] criteriosDeBusqueda = 
-    {"Número de Socio", "Nombre", "Domicilio", "Mail", "Estado"};
+    {"Número de Socio", "Apellido", "Nombre", "Domicilio", "DNI", "Teléfono", "Mail", "Fecha de Alta", "Fecha de Baja", "Estado", "Fecha"};
     //Se declara un List para guardar las TARJETAS
     private List <SocioTarjeta> resultados;
     //Se declara una instancia de la TARJETA
@@ -234,6 +237,17 @@ public class SocioBuscarView extends javax.swing.JInternalFrame {
     private void jCBSocioBuscarCriterioActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jCBSocioBuscarCriterioActionPerformed
         //Se guarda en una variable el valor String del item seleccionado en el JComboBox, por ejemplo "Número de Socio"
         String seleccion = jCBSocioBuscarCriterio.getSelectedItem().toString();
+        if(seleccion.equals("Fecha")){
+            JDateChooser fechaDesde = new JDateChooser();
+            fechaDesde.setBounds(10, 220, 100, 50);
+            Dimension dimensiones = new Dimension(300, 200);
+            fechaDesde.getJCalendar().getDayChooser().setPreferredSize(dimensiones);
+            fechaDesde.getJCalendar().getMonthChooser().setPreferredSize(dimensiones);
+            fechaDesde.getJCalendar().getYearChooser().setPreferredSize(dimensiones);
+            
+            this.jPSocioBuscar.add(fechaDesde);
+            this.jPSocioBuscar.repaint();
+        }
         //Se adapta el JLabel que apunta qué debe hacer el usuario. Por ejemplo "Ingrese el " + "Número de Socio":
         jLSocioBuscarIngreseValor.setText("Ingrese el " + seleccion);
     }//GEN-LAST:event_jCBSocioBuscarCriterioActionPerformed
