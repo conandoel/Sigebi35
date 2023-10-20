@@ -291,7 +291,7 @@ public class LibroData {
     }
     
     public List<Libro> listarLibroSinAutor(/*para algo debera servir, qsy*/){
-        List<Libro> listaLibro = new ArrayList<>();
+        
         String sql = "select * from libro";
         try {
             
@@ -300,8 +300,7 @@ public class LibroData {
 
             while(rs.next()){
                 //autor.setIdAutor(rs.getInt("autor"));
-                
-                Libro libro=new Libro();
+                libro=new Libro();
                 libro.setIsbn(rs.getLong("isbn"));
                 libro.setTitulo(rs.getString("titulo"));
                 libro.setAutor(rs.getString("autor"));
@@ -311,11 +310,11 @@ public class LibroData {
                 libro.setEstado(rs.getBoolean("estado"));
 
             
-                listaLibro.add(libro);
+                listaLibros.add(libro);
             }    
         } catch (SQLException ex) {
             Logger.getLogger(LibroData.class.getName()).log(Level.SEVERE, null, ex);
         }
-        return listaLibro;
+        return listaLibros;
     }
 }
