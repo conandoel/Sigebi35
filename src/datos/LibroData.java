@@ -291,7 +291,8 @@ public class LibroData {
     }
     
     public List<Libro> listarLibroSinAutor(/*para algo debera servir, qsy*/){
-        
+        Libro libro;
+        List <Libro> listaLibros = new ArrayList<>();
         String sql = "select * from libro";
         try {
             
