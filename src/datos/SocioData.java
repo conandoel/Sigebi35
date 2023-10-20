@@ -39,16 +39,14 @@ public class SocioData {
         if (efecto.equals("E")) {
             if (criterio.equals("Número de Socio") | criterio.equals("Estado")) {
                 criterio = "idSocio";
-            } else if(criterio.equals("Teléfono")){
-                criterio = "telefono";
-            }else{
+            } else {
                 //Para "idSocio" el cambio es radical, pero para los demás como "Estado" sólo basta pasarlos a minúsculas
                 criterio = criterio.toLowerCase();
             }
             //Se crea la consulta con la actualización de estado por ejemplo WHERE "domicilio" = "Brown 333"
             sql = "UPDATE lector SET estado = 0 WHERE " + criterio + " = '" + valor + "';";
         } else {
-            if (criterio.equals("fechaDeAlta") || criterio.equals("fechaDeBaja") || criterio.equals("Fecha de Alta") || criterio.equals("Fecha de Baja")) {
+            if (criterio.equals("fechaDeAlta") || criterio.equals("fechaDeBaja")) {
                 //Se crea la consulta con la actualización de estado por ejemplo WHERE "domicilio" = "Brown 333"
                 sql = "UPDATE lector SET " + criterio + " = '" + valor + "' WHERE " + criterio + " = '" + soloMod + "';";
                 valor = soloMod;
@@ -98,11 +96,8 @@ public class SocioData {
         return socioLocal;
     }
 
-    
-    
-    //CREO QUE ESTA LA PUEDO BORRAR
     public void eliminarSocio(File file, FileInputStream fis, String rutaMasNombreDeFoto) throws FileNotFoundException {
-
+        JOptionPane.showMessageDialog(null, "LLEGA HASTA ACÁ");
         String sql = "UPDATE lector SET fotoPerfil = ? WHERE fotoPerfilNombre = '?';";
 
         PreparedStatement ps = null; // declarar el PreparedStatement fuera del bloque try
@@ -141,8 +136,6 @@ public class SocioData {
         }
     }
 
-    
-    //CREO QUE SE PUEDE BORRAR
     public void buscarLectorPorDNI() {
     }
 
@@ -166,8 +159,7 @@ public class SocioData {
         }
         return socioLocal;
     }
-    
-    
+
     public List<Socio> buscarSociosPorFecha(String criterioFecha, String fecha) {
 
         String sql = "SELECT * FROM lector WHERE ? = '" + fecha + "';";

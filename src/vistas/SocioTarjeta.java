@@ -234,13 +234,7 @@ public class SocioTarjeta extends javax.swing.JPanel {
         //CANDIDATA A STATIC - Si el criterio de BÚSQUEDA es "Número de Socio" (como esté en el ComboBox de la vista SocioBuscarView, se cambia a idSocio para poder comparar con las columnas
         if (criterio.equals("Número de Socio")) {
             criterio = "idSocio";
-        } else if(criterio.equals("Teléfono")){
-            criterio = "telefono";
-        } else if(criterio.equals("Fecha de Alta")){
-            criterio = "fechaDeAlta";
-        } else if(criterio.equals("Fecha de Baja")){
-            criterio = "fechaDeBaja";
-        }else{
+        } else {
             //Si no es "Número de Socio" el criterio, entonces se pasa a minúsculas. Por ejemplo "Estado" pasará a ser "estado" para poder ser comparado con el nombre de la columna en la BASE DE DATOS
             criterio = criterio.toLowerCase();
         }
@@ -1478,38 +1472,12 @@ public class SocioTarjeta extends javax.swing.JPanel {
             valorMod.setVisible(false);
         }
     }
-    private boolean punto = true;
     public void noEnterDNI(JLabel labelInformativo, JLabel valorMod, KeyEvent e){
-        
-        JTextField dni = SocioAgregarView.getInstance().getJTFDNI();
         if(e.getKeyCode() == 10){
             
-        }else if(e.getKeyCode() == 110){
-            dni.setText(dni.getText().substring(0, dni.getText().length() - 1));
         }else{
-            
             labelInformativo.setText("Ingresando el DNI");
             valorMod.setVisible(false);
-
-            System.out.println(punto);
-            if((dni.getText().length() == 2 && punto) | (dni.getText().length() == 6 && !punto)){
-                dni.setText(dni.getText() + ".");
-                
-            }else if((dni.getText().length() == 2) && !punto || (dni.getText().length() == 6 && punto)){
-                if(dni.getText().length() == 6){
-                    dni.setText(dni.getText().substring(0, 5));
-                }else if(dni.getText().length() == 2){
-                    dni.setText(dni.getText().substring(0, 1));
-                }
-            }
-            if(dni.getText().length() > 2 && dni.getText().length() < 6){
-                punto = false;
-            }else{
-                punto = true;
-            }
-            if(dni.getText().length() > 10){
-                dni.setText(dni.getText().substring(0, 10));
-            }
         }
     }
     public void noEnterTelefono(JLabel labelInformativo, JLabel valorMod, KeyEvent e){
