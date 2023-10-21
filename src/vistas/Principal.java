@@ -2,8 +2,16 @@ package vistas;
 
 import entidades.Libro;
 import datos.SocioData;
+import java.awt.Color;
+import java.awt.Container;
+import java.awt.Graphics2D;
+import java.awt.LinearGradientPaint;
+import java.awt.MultipleGradientPaint;
+import java.awt.image.BufferedImage;
 import java.io.File;
+import javax.swing.JFrame;
 import javax.swing.JTextField;
+import javax.swing.UIManager;
 
 public class Principal extends javax.swing.JFrame {
     //Clases de otras vistas, para manejar los metodos de los libros
@@ -19,9 +27,12 @@ public class Principal extends javax.swing.JFrame {
      * Creates new form Principal
      */
     public Principal() {
+        
         initComponents();
+        pintarJFrame();
         //Se guarda en pr la instancia del PROGRAMA para utilizar el PATRÓN DE DISEÑO Singleton
         pr = this;
+        this.setBackground(Color.yellow);
         //Se crea un manejador de la lógica. No recuerdo ni sé por qué lo creo aquí
         SocioData sd = new SocioData();
         //sd.insertarImagenesSocio();   NO UTILIZAR ! ! ! ! ! ! ! ! ! (ESTO SE USA UNA SOLA VEZ PARA CARGAR LAS IMÁGENES EN LA BASE DE DATOS. DESPUÉS ES REDUNDANTE. POSIBLEMENTE USARÉ PARA CREAR NUEVO SOCIO
@@ -30,6 +41,7 @@ public class Principal extends javax.swing.JFrame {
         //Se llama al método encargado de chequear si las imágenes ya están en la PC o si hay que crearlas
         chequearSiYaHayImagenes(sd);
     }
+    
     
     //Se crea el método getInstance
     public static Principal getInstance() {
@@ -48,6 +60,31 @@ public class Principal extends javax.swing.JFrame {
             //Si NO EXISTE, se cargan las imágenes en la PC
             check.obtenerImagenesSocio();
         }
+    }
+    
+    private void pintarJFrame(){
+        // Crear un objeto BufferedImage con el mismo tamaño que el JFrame
+        BufferedImage bi = new BufferedImage(getWidth(), getHeight(), BufferedImage.TYPE_INT_ARGB);
+        // Obtener un objeto Graphics2D del BufferedImage
+        Graphics2D g2d = bi.createGraphics();
+
+        // Establecer los colores y las fracciones del degradado lineal
+        Color[] colors = {Color.CYAN, Color.GREEN, Color.BLUE};
+        float[] fractions = {0f, 0.2f, 1f};
+        LinearGradientPaint gp = new LinearGradientPaint(0, 0, getHeight(), 0, fractions, colors, MultipleGradientPaint.CycleMethod.NO_CYCLE);
+
+        // Aplicar el degradado al Graphics2D
+        g2d.setPaint(gp);
+        // Rellenar el Graphics2D con el degradado
+        g2d.fillRect(0, 0, getWidth(), getHeight());
+
+        // Establecer el BufferedImage como el icono del JFrame
+        setIconImage(bi);
+        
+        // Otros métodos del JFrame
+        setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+        setVisible(true);
+
     }
 
   
