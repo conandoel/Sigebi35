@@ -1481,7 +1481,14 @@ public class SocioTarjeta extends javax.swing.JPanel {
     private boolean punto = true;
     public void noEnterDNI(JLabel labelInformativo, JLabel valorMod, KeyEvent e){
         
-        JTextField dni = SocioAgregarView.getInstance().getJTFDNI();
+        JTextField dni;
+        
+        if(valorMod.getText().equals("DNI")){
+            dni = SocioBuscarView.getInstance().getCuadroDeBusqueda();
+        }else{
+            dni = SocioAgregarView.getInstance().getJTFDNI();
+        }
+        
         if(e.getKeyCode() == 10){
             
         }else if(e.getKeyCode() == 110){
@@ -1492,7 +1499,7 @@ public class SocioTarjeta extends javax.swing.JPanel {
             valorMod.setVisible(false);
 
             System.out.println(punto);
-            if((dni.getText().length() == 2 && punto) | (dni.getText().length() == 6 && !punto)){
+            if((dni.getText().length() == 2 && punto) || (dni.getText().length() == 6 && !punto)){
                 dni.setText(dni.getText() + ".");
                 
             }else if((dni.getText().length() == 2) && !punto || (dni.getText().length() == 6 && punto)){

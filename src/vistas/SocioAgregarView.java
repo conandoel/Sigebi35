@@ -679,6 +679,7 @@ public class SocioAgregarView extends javax.swing.JInternalFrame {
     private void jTFDNIKeyReleased(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_jTFDNIKeyReleased
         // TODO add your handling code here:
         JLabel valorMod = new JLabel();
+        valorMod.setText("BuscarDNI");
         if(evt.getKeyCode() == 8){
             this.jTFDNI.setForeground(Color.BLACK);
             //hacer un getDNI para chequear si es null, y si no lo es forzar el null
