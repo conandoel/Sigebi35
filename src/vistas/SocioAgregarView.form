@@ -185,12 +185,12 @@
                               <Component id="jLTelefono" alignment="3" min="-2" max="-2" attributes="0"/>
                               <Component id="jTFTelefono" alignment="3" min="-2" max="-2" attributes="0"/>
                           </Group>
-                          <EmptySpace type="unrelated" max="-2" attributes="0"/>
+                          <EmptySpace max="-2" attributes="0"/>
                           <Group type="103" groupAlignment="3" attributes="0">
                               <Component id="jTFMail" alignment="3" min="-2" max="-2" attributes="0"/>
                               <Component id="jLMail" alignment="3" min="-2" max="-2" attributes="0"/>
                           </Group>
-                          <EmptySpace pref="23" max="32767" attributes="0"/>
+                          <EmptySpace pref="29" max="32767" attributes="0"/>
                           <Group type="103" groupAlignment="3" attributes="0">
                               <Component id="jLFechaDeAlta" alignment="3" min="-2" max="-2" attributes="0"/>
                               <Component id="jLFechaDeAltaDEFAULT" alignment="3" min="-2" max="-2" attributes="0"/>
