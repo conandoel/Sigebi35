@@ -3,6 +3,7 @@ package vistas;
 import com.toedter.calendar.JCalendar;
 import com.toedter.calendar.JDateChooser;
 import java.awt.Color;
+import java.awt.Container;
 import java.awt.Dimension;
 import java.awt.FlowLayout;
 import java.awt.LayoutManager;
@@ -13,6 +14,7 @@ import javax.swing.JLabel;
 import javax.swing.JOptionPane;
 import javax.swing.JPopupMenu;
 import javax.swing.JTextField;
+import javax.swing.plaf.basic.BasicInternalFrameUI;
 
 public class SocioBuscarView extends javax.swing.JInternalFrame {
     
@@ -34,6 +36,10 @@ public class SocioBuscarView extends javax.swing.JInternalFrame {
     private SocioBuscarView() {
         initComponents();
         jCBCargarSocioBuscarCriterios();
+        
+        Container pane = ((BasicInternalFrameUI) this.getUI ()).getNorthPane();
+        // Eliminar el botón del menú
+        pane.remove(0);
         
         sbr = this;
         //jBBuscar.addActionListener(action);
@@ -301,6 +307,12 @@ public class SocioBuscarView extends javax.swing.JInternalFrame {
     //Método manejador del BOTÓN que realiza la confirmación de las búsquedas
     private void jBBuscarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jBBuscarActionPerformed
         //Si el campo de texto en donde se ingresa el valor está vacío, el campo de texto vuelve a tomar el foco, y el JLabel que informa, hace el informe correspondiente
+        realizarBusqueda();
+        
+ 
+    }//GEN-LAST:event_jBBuscarActionPerformed
+    
+    private void realizarBusqueda(){
         //CREO QUE HAY QUE MANEJAR OTRAS POSIBILIDADES - VER POR QUÉ OTROS INFORMES ESTÁN EN OTROS MÉTODOS
         if(this.jTFSocioBuscarIngreseValor.getText().equals("")){
             this.jTFSocioBuscarIngreseValor.requestFocus();
@@ -324,14 +336,12 @@ public class SocioBuscarView extends javax.swing.JInternalFrame {
             //Aquí "primeraVez" pasa a tener valor "false" para que a la segunda vez en adelante se limpie el contenedor de TARJETAS
             Principal.getInstance().primeraVez = false;
         }
-        
- 
-    }//GEN-LAST:event_jBBuscarActionPerformed
+    }
     
     private void jBBuscarKeyReleased(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_jBBuscarKeyReleased
         // TODO add your handling code here:
         if(evt.getKeyCode()==10){
-            //this.jBBuscarActionPerformed(java.awt.event.ActionEvent evt);
+            realizarBusqueda();
         }
     }//GEN-LAST:event_jBBuscarKeyReleased
 

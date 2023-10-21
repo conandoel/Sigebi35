@@ -12,6 +12,7 @@ import javax.swing.JOptionPane;
 import javax.swing.JTextField;
 import java.lang.reflect.Field;
 import java.awt.Color;
+import java.awt.Container;
 import java.awt.Image;
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -19,6 +20,7 @@ import java.util.List;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 import javax.swing.ImageIcon;
+import javax.swing.plaf.basic.BasicInternalFrameUI;
 
 public class SocioAgregarView extends javax.swing.JInternalFrame {
 
@@ -29,7 +31,10 @@ public class SocioAgregarView extends javax.swing.JInternalFrame {
     public SocioAgregarView() {
         initComponents();
         establecerDefault();
-
+        Container pane = ((BasicInternalFrameUI) this.getUI ()).getNorthPane();
+        // Eliminar el botón del menú
+        pane.remove(0);
+        
         sar = this;
     }
 
