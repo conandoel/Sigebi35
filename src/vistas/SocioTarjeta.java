@@ -226,7 +226,7 @@ public class SocioTarjeta extends javax.swing.JPanel {
         socios = new ArrayList<>();
         columnas = new ArrayList<>();
         tarjetas = new ArrayList<>();
-        
+
         //Se crea un OBJETO socioData el cual MANIPULA las consultas con la BASE DE DATOS
         metodoDeSocio = new SocioData();
         //Se llena la LISTA columnas con los nombres de las columnas de la tabla "lector" de la BASE DE DATOS utilizando el método de SocioData listarColumnas (idSocio, nombre, fechaDeAlta, etc)
@@ -254,6 +254,12 @@ public class SocioTarjeta extends javax.swing.JPanel {
             if (criterio.equals(columna)) {
                 socios = metodoDeSocio.buscarHistorialSocios(criterio, valor);
             }
+        }
+        
+        if(EFECTO.equals("AGREGAR")){
+            SocioTarjeta tarjeta = new SocioTarjeta();
+            int NroX = 0;
+            establecerIconos(EFECTO, tarjeta, NroX);
         }
 
         //Se itera por la LISTA recién rellenada con los SOCIOS HISTÓRICOS
@@ -317,7 +323,27 @@ public class SocioTarjeta extends javax.swing.JPanel {
             tarjeta.jLEstado.setText(socio.isEstado() ? "Socio Activo" : "Desasociado");
 
             //Según el EFECTO que fue pasado como argumento al llamar a este método se realizan acciones en consecuencia
-            switch (EFECTO) {
+            
+            
+            
+            
+            establecerIconos(EFECTO, tarjeta, NroX);
+            
+            
+            
+            
+            //La tarjeta ya rellenada con los datos se agrega a la LISTA tarjetas
+            tarjetas.add(tarjeta);
+            //Nrox aumenta en 1, por tanto si al momento su valor era 5560 pasará a ser 5561, con lo cual asignará los datos de las tarjetas
+            //NOTA: SE CREAN LAS TARJETAS DE TODOS LOS SOCIOS DE LA BASE DE DATOS. CREO QUE ESTE ENFOQUE ES DEFICIENTE POR LA POSIBLE ENORME CANTIDAD DE SOCIOS POSIBLES EN EL MUNDO REAL
+            NroX++;
+        }
+        //Finalmente el método devuelve la LISTA con todas las TARJETAS rellenadas
+        return tarjetas;
+    }
+    
+    private void establecerIconos(String EFECTO, SocioTarjeta tarjeta, int NroX){
+        switch (EFECTO) {
                 //Si EFECTO es MODIFICAR, un JLabel de la tarjeta toma el valor "M" para futuras manipulaciones. El JLabel de fuente "invisible" toma el valor de número de socio
                 case "MODIFICAR" -> {
                     tarjeta.jLABM.setText("M");
@@ -348,12 +374,18 @@ public class SocioTarjeta extends javax.swing.JPanel {
                 case "AGREGAR" -> {
                     List <JLabel> iconos = SocioAgregarView.getInstance().getIconos();
                     for(JLabel icono : iconos){
+                        icono.setText("LCDTM");
+                        JOptionPane.showMessageDialog(null, icono.getText());
                         Image dAgregar = agregar.getScaledInstance(icono.getWidth(), icono.getHeight(), Image.SCALE_SMOOTH);
-
+                        
+                        JOptionPane.showMessageDialog(this, "Estoy haciendo pruebas: Línea 382 de SocioTarjeta");
                         ImageIcon iconAgregar = new ImageIcon(dAgregar);
-
+                        
                         icono.setIcon(iconAgregar);
                     }
+                    
+                    JLabel icon = SocioAgregarView.getInstance().getIcon();
+                    icon.setText("LA PUTEEE");
                 }
                 default -> {
                     //Si EFECTO tiene un valor diferente (Se utiliza "NADA" pero debería ser "BUSCAR") el JLabel toma valor "B" y se elimina el número de socio (No había necesidad)
@@ -363,14 +395,6 @@ public class SocioTarjeta extends javax.swing.JPanel {
                     tarjeta.jLEfecto.setVisible(false);
                 }
             }
-            //La tarjeta ya rellenada con los datos se agrega a la LISTA tarjetas
-            tarjetas.add(tarjeta);
-            //Nrox aumenta en 1, por tanto si al momento su valor era 5560 pasará a ser 5561, con lo cual asignará los datos de las tarjetas
-            //NOTA: SE CREAN LAS TARJETAS DE TODOS LOS SOCIOS DE LA BASE DE DATOS. CREO QUE ESTE ENFOQUE ES DEFICIENTE POR LA POSIBLE ENORME CANTIDAD DE SOCIOS POSIBLES EN EL MUNDO REAL
-            NroX++;
-        }
-        //Finalmente el método devuelve la LISTA con todas las TARJETAS rellenadas
-        return tarjetas;
     }
 
     /**

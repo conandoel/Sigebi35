@@ -46,6 +46,9 @@ public class SocioAgregarView extends javax.swing.JInternalFrame {
     public List <JLabel> getIconos(){
         return lista;
     }
+    public JLabel getIcon(){
+        return this.jLAgregar;
+    }
 
     public static SocioAgregarView getInstance() {
         //Si el atributo sbr es nulo, lo creamos con el constructor
