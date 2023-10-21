@@ -20,6 +20,7 @@ public class Principal extends javax.swing.JFrame {
     //Constantes para manejar la creación de TARJETAS
     private static final String MODIFICAR = "MODIFICAR";
     private static final String ELIMINAR = "ELIMINAR";
+    private static final String AGREGAR = "AGREGAR";
     private static final String NADA = "NADA";
     private static Principal pr;
     public boolean primeraVez = true;
@@ -407,6 +408,7 @@ public class Principal extends javax.swing.JFrame {
 
     private void jMAgregarSocioActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMAgregarSocioActionPerformed
         this.jMAgregarSocio.setEnabled(false);
+        SocioBuscarView.getInstance().afectarSocio(AGREGAR);
         cargarAgregarSocio();
  
     }//GEN-LAST:event_jMAgregarSocioActionPerformed

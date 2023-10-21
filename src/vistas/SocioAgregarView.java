@@ -14,6 +14,8 @@ import java.lang.reflect.Field;
 import java.awt.Color;
 import java.awt.Container;
 import java.awt.Image;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
@@ -21,6 +23,7 @@ import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 import javax.swing.ImageIcon;
 import javax.swing.plaf.basic.BasicInternalFrameUI;
+import javax.swing.Timer;
 
 public class SocioAgregarView extends javax.swing.JInternalFrame {
 
@@ -32,14 +35,16 @@ public class SocioAgregarView extends javax.swing.JInternalFrame {
         initComponents();
         establecerDefault();
         Container pane = ((BasicInternalFrameUI) this.getUI ()).getNorthPane();
-        // Eliminar el botón del menú
         pane.remove(0);
-        
         sar = this;
     }
 
     public JLabel getLabelInformativo() {
         return this.labelInformativo;
+    }
+    List <JLabel> lista = Arrays.asList(this.jLReset, this.jLCancelar, this.jLAgregar);
+    public List <JLabel> getIconos(){
+        return lista;
     }
 
     public static SocioAgregarView getInstance() {
@@ -53,7 +58,7 @@ public class SocioAgregarView extends javax.swing.JInternalFrame {
     public JTextField getJTFDNI(){
         return this.jTFDNI;
     }
-
+    
     /**
      * This method is called from within the constructor to initialize the form.
      * WARNING: Do NOT modify this code. The content of this method is always
@@ -444,6 +449,16 @@ public class SocioAgregarView extends javax.swing.JInternalFrame {
         Image img2 = img.getScaledInstance(100, 100, Image.SCALE_SMOOTH); // crea una nueva imagen con el tamaño y el tipo de escalado deseados
         fotoPerfilAgregar.setIcon(new ImageIcon(img2));
     }
+    //Todavía no implementado
+     private void temporizarAgregarSocio(JLabel campo, JTextField valor){
+        
+        Timer temporizador = new Timer(1000, new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                
+            }
+        });
+    }
 
     private void jLAgregarMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jLAgregarMouseClicked
         
@@ -567,8 +582,36 @@ public class SocioAgregarView extends javax.swing.JInternalFrame {
         
         return lista;
     }
+    public void resetearCampos(){
+        
+        List <JTextField> listaTextFields = new ArrayList<>();
+        List lista = devolverListadoTF();
+        listaTextFields.addAll(lista);
+        
+        chequearCampos(listaTextFields);
+    }
+    
+    private void chequearCampos(List <JTextField> listaTextFields){
+        int checkCampo = 0;
+        for(JTextField textField : listaTextFields){
+            if(textField.getText().equals("")){
+                checkCampo++;
+            }else{
+                textField.setText("");
+                textField.setForeground(Color.BLACK);
+            }
+        }
+        final int CANTIDAD_CAMPOS_VACIOS = 6;
+        if(this.foto == null && checkCampo == CANTIDAD_CAMPOS_VACIOS){
+            labelInformativo.setText("No hay campos para resetear");
+        }else{
+            labelInformativo.setText("Se resetearon todos los campos");
+        }
+        cargarFotoPerfilVacio(this.jLImagen);
+        SocioTarjeta.getInstance().temporizar(labelInformativo);
+    }
 
-    public void resetearCampos() {
+    /*public void resetearCampos() {
         int campoChecker = 0;
         ArrayList <JTextField> listaTextFields = new ArrayList<>();
         List lista = devolverListadoTF();
@@ -596,7 +639,7 @@ public class SocioAgregarView extends javax.swing.JInternalFrame {
         }
         cargarFotoPerfilVacio(this.jLImagen);
         SocioTarjeta.getInstance().temporizar(labelInformativo);
-    }
+    }*/
 
     private void jTFApellidoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jTFApellidoActionPerformed
         // TODO add your handling code here:
@@ -731,7 +774,12 @@ public class SocioAgregarView extends javax.swing.JInternalFrame {
 
     private void jLCancelarMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jLCancelarMouseClicked
         // TODO add your handling code here:
-        this.dispose();
+        int respuesta = JOptionPane.showConfirmDialog(this, "Se perderán todos los datos. Desea continuar?");
+        if( respuesta == 0 ){
+            this.dispose();
+        }
+        Principal.getInstance().revalidate();
+        Principal.getInstance().repaint();
         Principal.getInstance().habilitarModificaciones(false, false, true);
     }//GEN-LAST:event_jLCancelarMouseClicked
 

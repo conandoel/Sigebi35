@@ -72,6 +72,10 @@ public class SocioBuscarView extends javax.swing.JInternalFrame {
     private int activarEliminar=0;
     //Método que comunica criterio y valor elegido en la VISTA para ser utilizado por el método listarSocio para crear las TARJETAS.
     public void afectarSocio(String EFECTO){
+        if(EFECTO.equals("AGREGAR")){
+            criterio = "NINGUNO";
+            valor = "";
+        }
         //Se envía el pedido de rediseño de TARJETAS para ver si estarán en módo "BUSCAR", "ELIMINAR", o "MODIFICAR"
         resultados = SocioTarjeta.getInstance().listarSocio(criterio, valor, EFECTO);
         //Si el valor de EFECTO es "LIMPIAR" entonces la visibilidad de las TARJETAS es false
@@ -88,11 +92,14 @@ public class SocioBuscarView extends javax.swing.JInternalFrame {
                     activarEliminar=0;
                 }
 
-            }else{
+            }else{JOptionPane.showMessageDialog(null, "Eliminar else == " + activarEliminar);
                 activarEliminar--;
             }
+        }else if(EFECTO.equals("AGREGAR")){
+            JOptionPane.showMessageDialog(null, "Limpiar == " + activarEliminar);
         }else{
             //AQUÍ LÓGICA DE MODIFICACIÓN
+
         }
         
         //Se recargan las TARJETAS

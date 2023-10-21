@@ -151,6 +151,9 @@ public class SocioTarjeta extends javax.swing.JPanel {
     //Estas son los dos Íconos que aparecen en las TARJETAS para MODIFICAR y ELIMINAR
     private final Image modificar = new ImageIcon(getClass().getResource("/vistas/imagenes/modificar.png")).getImage();
     private final Image eliminar = new ImageIcon(getClass().getResource("/vistas/imagenes/eliminar.png")).getImage();
+    private final Image resetear = new ImageIcon(getClass().getResource("/vistas/imagenes/resetear.png")).getImage();
+    private final Image cancelar = new ImageIcon(getClass().getResource("/vistas/imagenes/cancelar.png")).getImage();
+    private final Image agregar = new ImageIcon(getClass().getResource("/vistas/imagenes/agregarSocio.png")).getImage();
 
     //Esto es un Override de paintComponent del JPanel SocioTarjeta para darle color
     @Override
@@ -223,7 +226,7 @@ public class SocioTarjeta extends javax.swing.JPanel {
         socios = new ArrayList<>();
         columnas = new ArrayList<>();
         tarjetas = new ArrayList<>();
-
+        
         //Se crea un OBJETO socioData el cual MANIPULA las consultas con la BASE DE DATOS
         metodoDeSocio = new SocioData();
         //Se llena la LISTA columnas con los nombres de las columnas de la tabla "lector" de la BASE DE DATOS utilizando el método de SocioData listarColumnas (idSocio, nombre, fechaDeAlta, etc)
@@ -340,6 +343,16 @@ public class SocioTarjeta extends javax.swing.JPanel {
                         tarjeta.jLEfecto.setVisible(true);
                     } else {
                         tarjeta.jLEfecto.setVisible(false);
+                    }
+                }
+                case "AGREGAR" -> {
+                    List <JLabel> iconos = SocioAgregarView.getInstance().getIconos();
+                    for(JLabel icono : iconos){
+                        Image dAgregar = agregar.getScaledInstance(icono.getWidth(), icono.getHeight(), Image.SCALE_SMOOTH);
+
+                        ImageIcon iconAgregar = new ImageIcon(dAgregar);
+
+                        icono.setIcon(iconAgregar);
                     }
                 }
                 default -> {
