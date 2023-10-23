@@ -17,8 +17,8 @@ import java.time.format.DateTimeFormatter;
 public class SocioData {
 
     private Connection con = null;
-    private List <Socio> socios;
-    private List <String> columnas;
+    private List<Socio> socios;
+    private List<String> columnas;
     private int[] idSocios;
     private Socio socio;
 
@@ -29,19 +29,18 @@ public class SocioData {
     public void agregarLector() {
     }
 
-
     //Método para eliminar un socio
     public Socio eliminarSocio(String efecto, String soloMod, String criterio, String valor, String idSocio) {
         //Se toma el valor del JComboBox que contiene los criterios de búsqueda y se adapta a su valor en BASE DE DATOS
-        List <Socio> sociosLocal = new ArrayList<>();
+        List<Socio> sociosLocal = new ArrayList<>();
         Socio socioLocal = new Socio();
         String sql;
         if (efecto.equals("E")) {
             if (criterio.equals("Número de Socio") | criterio.equals("Estado")) {
                 criterio = "idSocio";
-            } else if(criterio.equals("Teléfono")){
+            } else if (criterio.equals("Teléfono")) {
                 criterio = "telefono";
-            }else{
+            } else {
                 //Para "idSocio" el cambio es radical, pero para los demás como "Estado" sólo basta pasarlos a minúsculas
                 criterio = criterio.toLowerCase();
             }
@@ -52,7 +51,7 @@ public class SocioData {
                 //Se crea la consulta con la actualización de estado por ejemplo WHERE "domicilio" = "Brown 333"
                 sql = "UPDATE lector SET " + criterio + " = '" + valor + "' WHERE " + criterio + " = '" + soloMod + "';";
                 valor = soloMod;
-                JOptionPane.showMessageDialog(null, valor);
+
             } else if (criterio.equalsIgnoreCase("Número de Socio") | criterio.equalsIgnoreCase("Estado")) {//Ver si es Número de Socio o Socio número
                 criterio = "idSocio";
                 int valorInt = Integer.parseInt(valor);
@@ -66,10 +65,10 @@ public class SocioData {
             }
         }
         System.out.println(sql);
-        List <String> columnas;
+        List<String> columnas;
         //Se ejecuta la consulta SQL
         try {
-            
+
             PreparedStatement ps = con.prepareStatement(sql);
             int filas = ps.executeUpdate();
             //Se crea un ArrayList que se llena con los nombres de las columnas con el método utilitario
@@ -78,7 +77,7 @@ public class SocioData {
 
             if (filas > 0) {
                 //Si se eliminó algo se crea un socio
-                
+
                 //Se itera por la columna buscando el match entre criterio y columna
                 for (String columna : columnas) {
                     if (criterio.equals(columna)) {
@@ -88,7 +87,7 @@ public class SocioData {
                     }
                 }
             }
-            
+
             //el primer socio (Siempre va a ser uno) se guarda en una instancia de socio
             socioLocal = sociosLocal.get(0);
         } catch (SQLException ex) {
@@ -98,8 +97,6 @@ public class SocioData {
         return socioLocal;
     }
 
-    
-    
     //CREO QUE ESTA LA PUEDO BORRAR
     public void eliminarSocio(File file, FileInputStream fis, String rutaMasNombreDeFoto) throws FileNotFoundException {
 
@@ -141,7 +138,6 @@ public class SocioData {
         }
     }
 
-    
     //CREO QUE SE PUEDE BORRAR
     public void buscarLectorPorDNI() {
     }
@@ -166,8 +162,7 @@ public class SocioData {
         }
         return socioLocal;
     }
-    
-    
+
     public List<Socio> buscarSociosPorFecha(String criterioFecha, String fecha) {
 
         String sql = "SELECT * FROM lector WHERE ? = '" + fecha + "';";
@@ -203,9 +198,8 @@ public class SocioData {
         return socios;
     }
 
-    
     //OTRA VEZ ME VOLVIÓ A TIRAR EL PUTO ERROR
-    public List <Socio> buscarHistorialSocios(String criterio, String valorStringInt) {
+    public List<Socio> buscarHistorialSocios(String criterio, String valorStringInt) {
         //ESE -1 EN ALGÚN LADO ME TIRÓ ERROR
         int valorInt = -1;
         String valorString = "";
@@ -220,8 +214,8 @@ public class SocioData {
             sql = "SELECT * FROM lector WHERE " + criterio + " = ?;";
 
         }
-        
-        List <Socio> sociosLocal = new ArrayList<>();
+
+        List<Socio> sociosLocal = new ArrayList<>();
         Socio socioLocal;
         try {
 
@@ -230,7 +224,7 @@ public class SocioData {
                 ps.setInt(1, valorInt);
             } else {
                 ps.setString(1, valorString);
-                
+
             }
             ResultSet rs = ps.executeQuery();
 
@@ -244,10 +238,12 @@ public class SocioData {
                 socioLocal.setFechaDeAlta(rs.getDate("fechaDeAlta").toLocalDate());
                 //Esta parte hay que arreglarla
                 //si el campo es null en la base de datos se muere
-                if(rs.getDate("fechaDeBaja") == null){
-                    LocalDate dia= LocalDate.now();
-                socioLocal.setFechaDeBaja(dia);
-                }else{socioLocal.setFechaDeBaja(rs.getDate("fechaDeBaja").toLocalDate());}
+                if (rs.getDate("fechaDeBaja") == null) {
+                    LocalDate dia = LocalDate.now();
+                    socioLocal.setFechaDeBaja(dia);
+                } else {
+                    socioLocal.setFechaDeBaja(rs.getDate("fechaDeBaja").toLocalDate());
+                }
                 socioLocal.setEstado(rs.getBoolean("estado"));
                 sociosLocal.add(socioLocal);
                 System.out.println("Número de elementos en sociosLocal: " + sociosLocal.size());
@@ -377,7 +373,7 @@ public class SocioData {
 
     public Socio eliminarSocio(String efecto, String soloMod, String criterio, String valor) {
         //Se toma el valor del JComboBox que contiene los criterios de búsqueda y se adapta a su valor en BASE DE DATOS
-        List <Socio> sociosLocal = new ArrayList<>();
+        List<Socio> sociosLocal = new ArrayList<>();
         Socio socioLocal = new Socio();
         String sql;
         if (efecto.equals("E")) {
@@ -394,7 +390,7 @@ public class SocioData {
                 //Se crea la consulta con la actualización de estado por ejemplo WHERE "domicilio" = "Brown 333"
                 sql = "UPDATE lector SET " + criterio + " = '" + valor + "' WHERE " + criterio + " = '" + soloMod + "';";
                 valor = soloMod;
-                JOptionPane.showMessageDialog(null, valor);
+
             } else if (criterio.equalsIgnoreCase("Número de Socio") | criterio.equalsIgnoreCase("Estado")) {//Ver si es Número de Socio o Socio número
                 criterio = "idSocio";
                 int valorInt = Integer.parseInt(valor);
@@ -408,10 +404,10 @@ public class SocioData {
             }
         }
         System.out.println(sql);
-        List <String> columnas;
+        List<String> columnas;
         //Se ejecuta la consulta SQL
         try {
-            
+
             PreparedStatement ps = con.prepareStatement(sql);
             int filas = ps.executeUpdate();
             //Se crea un ArrayList que se llena con los nombres de las columnas con el método utilitario
@@ -420,7 +416,7 @@ public class SocioData {
 
             if (filas > 0) {
                 //Si se eliminó algo se crea un socio
-                
+
                 //Se itera por la columna buscando el match entre criterio y columna
                 for (String columna : columnas) {
                     if (criterio.equals(columna)) {
@@ -430,7 +426,7 @@ public class SocioData {
                     }
                 }
             }
-            
+
             //el primer socio (Siempre va a ser uno) se guarda en una instancia de socio
             socioLocal = sociosLocal.get(0);
         } catch (SQLException ex) {
@@ -439,59 +435,310 @@ public class SocioData {
         //Se devuelve un objeto Socio (Aunque aún no sé para qué. Supongo que preveo)
         return socioLocal;
     }
-    
-public void agregarSocio(Socio socio, Foto foto){//Quitar luego el último. Prueba
-    
-    int idSocio = socio.getIdSocio();
-    String apellido = socio.getApellido();
-    String nombre = socio.getNombre();
-    String domicilio = socio.getDomicilio();
-    String telefono = socio.getTelefono();
-    String mail = socio.getMail();
-    
-    DateTimeFormatter formato = DateTimeFormatter.ofPattern ("yyyy-MM-dd");
-    
-    String fechaDeAlta = formato.format(socio.getFechaDeAlta());
-    String fechaDeBaja = formato.format(socio.getFechaDeBaja());
-    
-    
-    boolean estado = socio.isEstado();
-    
-    String fotoPerfilNombre = socio.getFotoPerfilNombre();
-    File file = foto.getFile();
-    FileInputStream fis = foto.getFis();
-    
-    
-    String sql = "INSERT INTO lector VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?);";
 
-    try{
-        JOptionPane.showMessageDialog(null, sql);
-        PreparedStatement ps = con.prepareStatement(sql, Statement.RETURN_GENERATED_KEYS);
-        ps.setInt(1, idSocio);
-        ps.setString(2, apellido);
-        ps.setString(3, nombre);
-        ps.setString(4, domicilio);
-        ps.setString(5, telefono);
-        ps.setString(6, mail);
-        ps.setString(7, fechaDeAlta);
-        ps.setString(8, fechaDeBaja);
-        ps.setBlob(9, fis, file.length());
-        ps.setString(10, fotoPerfilNombre);
-        ps.setBoolean(11, estado);
-        
-        ps.executeUpdate();
-        ResultSet rs = ps.getGeneratedKeys();
-        
-        if (rs.next()) {
-            long idGenerado = rs.getLong(1);
-            JOptionPane.showMessageDialog(null,  idGenerado);
+    public void agregarSocio(Socio socio, Foto foto) {//Quitar luego el último. Prueba
+
+        int idSocio = socio.getIdSocio();
+        String apellido = socio.getApellido();
+        String nombre = socio.getNombre();
+        String domicilio = socio.getDomicilio();
+        String telefono = socio.getTelefono();
+        String mail = socio.getMail();
+
+        DateTimeFormatter formato = DateTimeFormatter.ofPattern("yyyy-MM-dd");
+
+        String fechaDeAlta = formato.format(socio.getFechaDeAlta());
+        String fechaDeBaja = formato.format(socio.getFechaDeBaja());
+
+        boolean estado = socio.isEstado();
+
+        String fotoPerfilNombre = socio.getFotoPerfilNombre();
+        File file = foto.getFile();
+        FileInputStream fis = foto.getFis();
+
+        String sql = "INSERT INTO lector VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?);";
+
+        try {
+
+            PreparedStatement ps = con.prepareStatement(sql, Statement.RETURN_GENERATED_KEYS);
+            ps.setInt(1, idSocio);
+            ps.setString(2, apellido);
+            ps.setString(3, nombre);
+            ps.setString(4, domicilio);
+            ps.setString(5, telefono);
+            ps.setString(6, mail);
+            ps.setString(7, fechaDeAlta);
+            ps.setString(8, fechaDeBaja);
+            ps.setBlob(9, fis, file.length());
+            ps.setString(10, fotoPerfilNombre);
+            ps.setBoolean(11, estado);
+
+            ps.executeUpdate();
+            ResultSet rs = ps.getGeneratedKeys();
+
+            if (rs.next()) {
+                long idGenerado = rs.getLong(1);
+
+            }
+        } catch (SQLException ex) {
+
         }
-    }catch(SQLException ex){
-        
+
     }
     
-}
-    
-    
-}
+    public List<Socio> obtenerRangoFechas(String fechaDesde, String fechaHasta, String criterio1, String criterio2){
+        List<Socio> sociosLocal = new ArrayList<>();
 
+
+        fechaDesde = armarFechaDesde(fechaDesde);
+        fechaHasta = armarFechaHasta(fechaHasta);
+
+        String sql = armarSQL(criterio1, criterio2);
+ 
+        try {
+            //Se crea un objeto Statement con la consulta
+            PreparedStatement ps = con.prepareStatement(sql);
+            ps.setString(1, fechaDesde);
+            ps.setString(2, fechaHasta);
+            ps.setString(3, fechaDesde);
+            ps.setString(4, fechaHasta);
+            //Se ejecutar la consulta y se obtiene el resultado
+            ResultSet rs = ps.executeQuery();
+            //Si hay un resultado, se obtiene la imagen y el nombre
+            while (rs.next()) {
+                Socio socioLocal = new Socio();
+                socioLocal.setIdSocio(rs.getInt("idSocio"));
+                socioLocal.setApellido(rs.getString("apellido"));
+                socioLocal.setNombre(rs.getString("nombre"));
+                socioLocal.setDomicilio(rs.getString("domicilio"));
+                socioLocal.setMail(rs.getString("mail"));
+                socioLocal.setFechaDeAlta(rs.getDate("fechaDeAlta").toLocalDate());
+                //Esta parte hay que arreglarla
+                //si el campo es null en la base de datos se muere
+                if (rs.getDate("fechaDeBaja") == null) {
+                    LocalDate dia = LocalDate.now();
+                    socioLocal.setFechaDeBaja(dia);
+                } else {
+                    socioLocal.setFechaDeBaja(rs.getDate("fechaDeBaja").toLocalDate());
+                }
+                socioLocal.setEstado(rs.getBoolean("estado"));
+                sociosLocal.add(socioLocal);
+            }
+            //Se cierran los recursos
+            rs.close();
+            ps.close();
+        } catch (SQLException ex) {
+
+        }
+        return sociosLocal;
+    }
+    
+    private String armarSQL(String criterio1, String criterio2){
+        String sql;
+        if(criterio1.equals("fechaDeAlta")){
+            if(criterio1.equals(criterio2)){
+                sql = "SELECT * FROM lector WHERE " + criterio1 + " BETWEEN ? AND ?;";
+            }else{
+                sql = "SELECT * FROM lector WHERE " + criterio1 + " BETWEEN ? AND ? " +
+                "AND " + criterio2 + " BETWEEN " + "? AND ?;";
+            }
+        }else{
+            if(criterio1.equals(criterio2)){
+                sql = "SELECT * FROM lector WHERE " + criterio1 + " BETWEEN ? AND ? " +
+                "AND " + criterio2 + " BETWEEN " + "? AND ?;";
+            }else{
+                sql = "SELECT * FROM lector WHERE " + criterio1 + " BETWEEN ? AND ? " +
+                "AND " + criterio2 + " BETWEEN " + "? AND ?;";
+            }
+        }
+        return sql;
+    }
+    
+    private String armarFechaDesde(String fecha){
+        int digitos = fecha.length();
+        String izq = "";
+        String der = "";
+        switch (digitos) {
+            case 0:
+                fecha = "0001-01-01";
+                break;
+            case 1:
+                izq = "0001-01-";
+                if(fecha.equals("0")){
+                    der = "1";
+                }else{
+                    der = "0";
+                }
+                fecha = izq + fecha + der;
+                break;
+            case 2:
+                izq = "0001-01-";
+                fecha = izq + fecha;
+                break;
+            case 3:
+                izq = "0001-" + fecha.substring(2, 3);
+                if(!fecha.substring(2, 3).equals("0")){
+                   der = "0-"; 
+                }else{
+                   der = "1-";
+                }
+                fecha = izq + der + fecha.substring(0, 2);
+                break;
+            case 4:
+                izq = "0001-" + fecha.substring(2, 4) + "-";
+                fecha = izq + fecha.substring(0, 2);
+                break;
+            case 5:
+                izq = fecha.substring(4, 5) + "000-";
+                fecha = izq + fecha.substring(2, 4) + "-" + fecha.substring(0, 2);
+                break;
+            case 6:
+                izq = fecha.substring(4, 6) + "00-";
+                fecha = izq + fecha.substring(2, 4) + "-" + fecha.substring(0, 2);
+                break;
+            case 7:
+                izq = fecha.substring(4, 7) + "0-";
+                fecha = izq + fecha.substring(2, 4) + "-" + fecha.substring(0, 2);
+                break;
+            case 8:
+                fecha = fecha.substring(4, 8) + "-" + fecha.substring(2, 4) + "-" + fecha.substring(0, 2);
+                break;
+            default:
+                break;
+        }
+        return fecha;
+    }
+    
+    private String armarFechaHasta(String fecha){
+        int digitos = fecha.length();
+        String izq = "";
+        String der = "";
+        switch (digitos) {
+            case 0:
+                fecha = "9999-12-31";
+                break;
+            case 1:
+                izq = "9999-12-";
+                der = "9";
+                fecha = izq + fecha + der;
+                break;
+            case 2:
+                izq = "9999-12-";
+                fecha = izq + fecha;
+                break;
+            case 3:
+                izq = "9999-" + fecha.substring(2, 3);
+                der = "2-";
+                fecha = izq + der + fecha.substring(0, 2);
+                break;
+            case 4:
+                izq = "9999-" + fecha.substring(2, 4) + "-";
+                fecha = izq + fecha.substring(0, 2);
+                break;
+            case 5:
+                izq = fecha.substring(4, 5) + "999-";
+                fecha = izq + fecha.substring(2, 4) + "-" + fecha.substring(0, 2);
+                break;
+            case 6:
+                izq = fecha.substring(4, 6) + "99-";
+                fecha = izq + fecha.substring(2, 4) + "-" + fecha.substring(0, 2);
+                break;
+            case 7:
+                izq = fecha.substring(4, 7) + "9-";
+                fecha = izq + fecha.substring(2, 4) + "-" + fecha.substring(0, 2);
+                break;
+            case 8:
+                fecha = fecha.substring(4, 8) + "-" + fecha.substring(2, 4) + "-" + fecha.substring(0, 2);
+                break;
+            default:
+                break;
+        }
+        return fecha;
+    }
+
+    public List<Socio> obtenerFechas(String fecha, String criterio) {
+
+        List<Socio> sociosLocal = new ArrayList<>();
+
+        int digitos = fecha.length();
+        String izq = "";
+        String der = "";
+        switch (digitos) {
+            case 0:
+                break;
+            case 1:
+                izq = "____-__-";
+                der = "_";
+                fecha = izq + fecha + der;
+                break;
+            case 2:
+                izq = "____-__-";
+                fecha = izq + fecha;
+                break;
+            case 3:
+                izq = "____-" + fecha.substring(2, 3);
+                der = "_-";
+                fecha = izq + der + fecha.substring(0, 2);
+                der = "";
+                break;
+            case 4:
+                izq = "____-" + fecha.substring(2, 4) + "-";
+                fecha = izq + fecha.substring(0, 2);
+                break;
+            case 5:
+                izq = fecha.substring(4, 5) + "___-";
+                fecha = izq + fecha.substring(2, 4) + "-" + fecha.substring(0, 2);
+                break;
+            case 6:
+                izq = fecha.substring(4, 6) + "__-";
+                fecha = izq + fecha.substring(2, 4) + "-" + fecha.substring(0, 2);
+                break;
+            case 7:
+                izq = fecha.substring(4, 7) + "_-";
+                fecha = izq + fecha.substring(2, 4) + "-" + fecha.substring(0, 2);
+                break;
+            case 8:
+                fecha = fecha.substring(4, 8) + "-" + fecha.substring(2, 4) + "-" + fecha.substring(0, 2);
+                break;
+            default:
+                break;
+        }
+
+        String sql = "SELECT * FROM lector WHERE " + criterio + " LIKE ?;";
+
+        try {
+            //Se crea un objeto Statement con la consulta
+            PreparedStatement ps = con.prepareStatement(sql);
+            ps.setString(1, fecha);
+            //Se ejecutar la consulta y se obtiene el resultado
+            ResultSet rs = ps.executeQuery();
+            //Si hay un resultado, se obtiene la imagen y el nombre
+            while (rs.next()) {
+                Socio socioLocal = new Socio();
+                socioLocal.setIdSocio(rs.getInt("idSocio"));
+                socioLocal.setApellido(rs.getString("apellido"));
+                socioLocal.setNombre(rs.getString("nombre"));
+                socioLocal.setDomicilio(rs.getString("domicilio"));
+                socioLocal.setMail(rs.getString("mail"));
+                socioLocal.setFechaDeAlta(rs.getDate("fechaDeAlta").toLocalDate());
+                //Esta parte hay que arreglarla
+                //si el campo es null en la base de datos se muere
+                if (rs.getDate("fechaDeBaja") == null) {
+                    LocalDate dia = LocalDate.now();
+                    socioLocal.setFechaDeBaja(dia);
+                } else {
+                    socioLocal.setFechaDeBaja(rs.getDate("fechaDeBaja").toLocalDate());
+                }
+                socioLocal.setEstado(rs.getBoolean("estado"));
+                sociosLocal.add(socioLocal);
+            }
+            //Se cierran los recursos
+            rs.close();
+            ps.close();
+        } catch (SQLException ex) {
+
+        }
+        return sociosLocal;
+    }
+
+}

@@ -237,26 +237,39 @@ public class SocioTarjeta extends javax.swing.JPanel {
         //CANDIDATA A STATIC - Si el criterio de BÚSQUEDA es "Número de Socio" (como esté en el ComboBox de la vista SocioBuscarView, se cambia a idSocio para poder comparar con las columnas
         if (criterio.equals("Número de Socio")) {
             criterio = "idSocio";
-        } else if(criterio.equals("Teléfono")){
+        } else if (criterio.equals("Teléfono")) {
             criterio = "telefono";
-        } else if(criterio.equals("Fecha de Alta")){
+        } else if (criterio.equals("Fecha de Alta")) {
             criterio = "fechaDeAlta";
-        } else if(criterio.equals("Fecha de Baja")){
+        } else if (criterio.equals("Fecha de Baja")) {
             criterio = "fechaDeBaja";
-        }else{
+        } else {
             //Si no es "Número de Socio" el criterio, entonces se pasa a minúsculas. Por ejemplo "Estado" pasará a ser "estado" para poder ser comparado con el nombre de la columna en la BASE DE DATOS
             criterio = criterio.toLowerCase();
         }
 
-        //Se itera por la LISTA de nombres de columnas de la TABLA lector y compara el valor de criterio con alguna de las columnas de lector 
-        for (String columna : columnas) {
-            //Al encontrar coincidencia se llama al método buscarHistorialSocios de SocioData, el cual devuelve a todos los SOCIOS ya sean activos o no y lo guarda en la LISTA socios
-            if (criterio.equals(columna)) {
-                socios = metodoDeSocio.buscarHistorialSocios(criterio, valor);
+        if (!EFECTO.equals("FECHA")) {
+//Se itera por la LISTA de nombres de columnas de la TABLA lector y compara el valor de criterio con alguna de las columnas de lector 
+            for (String columna : columnas) {
+                //Al encontrar coincidencia se llama al método buscarHistorialSocios de SocioData, el cual devuelve a todos los SOCIOS ya sean activos o no y lo guarda en la LISTA socios
+                if (criterio.equals(columna)) {
+                    socios = metodoDeSocio.buscarHistorialSocios(criterio, valor);
+                }
+            }
+        } else {
+            String criterio1 = SocioBuscarView.getInstance().getCriterio1();
+            String criterio2 = SocioBuscarView.getInstance().getCriterio2();
+            String fechaDesde = SocioBuscarView.getInstance().getFechaDesde();
+            String fechaHasta = SocioBuscarView.getInstance().getFechaHasta();
+            if(criterio.equals("rango_fechas")){
+                socios = metodoDeSocio.obtenerRangoFechas(fechaDesde, fechaHasta, criterio1, criterio2);
+            }else{
+                socios = metodoDeSocio.obtenerFechas(valor, criterio);
+                EFECTO = "BUSCAR";
             }
         }
-        
-        if(EFECTO.equals("AGREGAR")){
+
+        if (EFECTO.equals("AGREGAR")) {
             SocioTarjeta tarjeta = new SocioTarjeta();
             int NroX = 0;
             establecerIconos(EFECTO, tarjeta, NroX);
@@ -323,15 +336,8 @@ public class SocioTarjeta extends javax.swing.JPanel {
             tarjeta.jLEstado.setText(socio.isEstado() ? "Socio Activo" : "Desasociado");
 
             //Según el EFECTO que fue pasado como argumento al llamar a este método se realizan acciones en consecuencia
-            
-            
-            
-            
             establecerIconos(EFECTO, tarjeta, NroX);
-            
-            
-            
-            
+
             //La tarjeta ya rellenada con los datos se agrega a la LISTA tarjetas
             tarjetas.add(tarjeta);
             //Nrox aumenta en 1, por tanto si al momento su valor era 5560 pasará a ser 5561, con lo cual asignará los datos de las tarjetas
@@ -341,60 +347,60 @@ public class SocioTarjeta extends javax.swing.JPanel {
         //Finalmente el método devuelve la LISTA con todas las TARJETAS rellenadas
         return tarjetas;
     }
-    
-    private void establecerIconos(String EFECTO, SocioTarjeta tarjeta, int NroX){
+
+    private void establecerIconos(String EFECTO, SocioTarjeta tarjeta, int NroX) {
         switch (EFECTO) {
-                //Si EFECTO es MODIFICAR, un JLabel de la tarjeta toma el valor "M" para futuras manipulaciones. El JLabel de fuente "invisible" toma el valor de número de socio
-                case "MODIFICAR" -> {
-                    tarjeta.jLABM.setText("M");
-                    tarjeta.jLEfecto.setText(Integer.toString(NroX));
-                    //Se establece el tamaño de la imagen el cual va a ser el mismo que asignamos anteriormente al JLabel correspondiente en este mismo método
-                    Image dModificar = modificar.getScaledInstance(tarjeta.jLEfecto.getWidth(), tarjeta.jLEfecto.getHeight(), Image.SCALE_SMOOTH);
-                    //Se crea un ÍCONO con la imagen redimensionada de MODIFICAR
-                    ImageIcon iconModificar = new ImageIcon(dModificar);
-                    //Se asigna el ÍCONO al JLabel correspondiente
-                    tarjeta.jLEfecto.setIcon(iconModificar);
-                }
-                //Si EFECTO es ELIMINAR, un JLabel de la tarjeta toma el valor "E" para futuras manipulaciones. El JLabel de fuente "invisible" toma el valor de número de socio
-                case "ELIMINAR" -> {
-                    tarjeta.jLABM.setText("E");
-                    tarjeta.jLEfecto.setText(Integer.toString(NroX));
-                    //Se establece el tamaño de la imagen el cual va a ser el mismo que asignamos anteriormente al JLabel correspondiente en este mismo método
-                    Image dEliminar = eliminar.getScaledInstance(tarjeta.jLEfecto.getWidth(), tarjeta.jLEfecto.getHeight(), Image.SCALE_SMOOTH);
-                    //Se crea un ÍCONO con la imagen redimensionada de ELIMINAR
-                    ImageIcon iconEliminar = new ImageIcon(dEliminar);
-                    //Se asigna el ÍCONO al JLabel correspondiente
-                    tarjeta.jLEfecto.setIcon(iconEliminar);
-                    if (tarjeta.jLEfecto.isVisible()) {
-                        tarjeta.jLEfecto.setVisible(true);
-                    } else {
-                        tarjeta.jLEfecto.setVisible(false);
-                    }
-                }
-                case "AGREGAR" -> {
-                    List <JLabel> iconos = SocioAgregarView.getInstance().getIconos();
-                    for(JLabel icono : iconos){
-                        icono.setText("LCDTM");
-                        JOptionPane.showMessageDialog(null, icono.getText());
-                        Image dAgregar = agregar.getScaledInstance(icono.getWidth(), icono.getHeight(), Image.SCALE_SMOOTH);
-                        
-                        JOptionPane.showMessageDialog(this, "Estoy haciendo pruebas: Línea 382 de SocioTarjeta");
-                        ImageIcon iconAgregar = new ImageIcon(dAgregar);
-                        
-                        icono.setIcon(iconAgregar);
-                    }
-                    
-                    JLabel icon = SocioAgregarView.getInstance().getIcon();
-                    icon.setText("LA PUTEEE");
-                }
-                default -> {
-                    //Si EFECTO tiene un valor diferente (Se utiliza "NADA" pero debería ser "BUSCAR") el JLabel toma valor "B" y se elimina el número de socio (No había necesidad)
-                    tarjeta.jLABM.setText("B");
-                    tarjeta.jLEfecto.setText("");
-                    //Se invisibiliza el JLabel adecuado para no mostrar ÍCONOS
+            //Si EFECTO es MODIFICAR, un JLabel de la tarjeta toma el valor "M" para futuras manipulaciones. El JLabel de fuente "invisible" toma el valor de número de socio
+            case "MODIFICAR" -> {
+                tarjeta.jLABM.setText("M");
+                tarjeta.jLEfecto.setText(Integer.toString(NroX));
+                //Se establece el tamaño de la imagen el cual va a ser el mismo que asignamos anteriormente al JLabel correspondiente en este mismo método
+                Image dModificar = modificar.getScaledInstance(tarjeta.jLEfecto.getWidth(), tarjeta.jLEfecto.getHeight(), Image.SCALE_SMOOTH);
+                //Se crea un ÍCONO con la imagen redimensionada de MODIFICAR
+                ImageIcon iconModificar = new ImageIcon(dModificar);
+                //Se asigna el ÍCONO al JLabel correspondiente
+                tarjeta.jLEfecto.setIcon(iconModificar);
+            }
+            //Si EFECTO es ELIMINAR, un JLabel de la tarjeta toma el valor "E" para futuras manipulaciones. El JLabel de fuente "invisible" toma el valor de número de socio
+            case "ELIMINAR" -> {
+                tarjeta.jLABM.setText("E");
+                tarjeta.jLEfecto.setText(Integer.toString(NroX));
+                //Se establece el tamaño de la imagen el cual va a ser el mismo que asignamos anteriormente al JLabel correspondiente en este mismo método
+                Image dEliminar = eliminar.getScaledInstance(tarjeta.jLEfecto.getWidth(), tarjeta.jLEfecto.getHeight(), Image.SCALE_SMOOTH);
+                //Se crea un ÍCONO con la imagen redimensionada de ELIMINAR
+                ImageIcon iconEliminar = new ImageIcon(dEliminar);
+                //Se asigna el ÍCONO al JLabel correspondiente
+                tarjeta.jLEfecto.setIcon(iconEliminar);
+                if (tarjeta.jLEfecto.isVisible()) {
+                    tarjeta.jLEfecto.setVisible(true);
+                } else {
                     tarjeta.jLEfecto.setVisible(false);
                 }
+            }//PRUEBA - EN CONSTRUCCION -
+            case "AGREGAR" -> {
+                List<JLabel> iconos = SocioAgregarView.getInstance().getIconos();
+                for (JLabel icono : iconos) {
+                    icono.setText("LCDTM");
+                    JOptionPane.showMessageDialog(null, icono.getText());
+                    Image dAgregar = agregar.getScaledInstance(icono.getWidth(), icono.getHeight(), Image.SCALE_SMOOTH);
+
+                    JOptionPane.showMessageDialog(this, "Estoy haciendo pruebas: Línea 382 de SocioTarjeta");
+                    ImageIcon iconAgregar = new ImageIcon(dAgregar);
+
+                    icono.setIcon(iconAgregar);
+                }
+
+                JLabel icon = SocioAgregarView.getInstance().getIcon();
+                icon.setText("LA PUTEEE");
             }
+            default -> {
+                //Si EFECTO tiene un valor diferente (Se utiliza "NADA" pero debería ser "BUSCAR") el JLabel toma valor "B" y se elimina el número de socio (No había necesidad)
+                tarjeta.jLABM.setText("B");
+                tarjeta.jLEfecto.setText("");
+                //Se invisibiliza el JLabel adecuado para no mostrar ÍCONOS
+                tarjeta.jLEfecto.setVisible(false);
+            }
+        }
     }
 
     /**
@@ -743,8 +749,8 @@ public class SocioTarjeta extends javax.swing.JPanel {
         String fotoPerfilNombre = "./src/vistas/imagenes/foto_" + idSocio;
         //AQUÍ rutaMasNombreDeFoto tiene el valor por ejemplo "./src/vistas/imagenes/foto_5564";
         String rutaMasNombreDeFoto = fotoPerfilNombre;
-        JOptionPane.showMessageDialog(null, "Dentro de saveImage: " + rutaMasNombreDeFoto);
-        JOptionPane.showMessageDialog(null, "Dentro de saveImage: " + file);
+
+        
         //AQUÍ AL output se lo nombra por tanto "./src/vistas/imagenes/foto_5564" + ".jpg"
         File output = new File(rutaMasNombreDeFoto + ".jpg");
         BufferedImage image = ImageIO.read(file);
@@ -1490,85 +1496,107 @@ public class SocioTarjeta extends javax.swing.JPanel {
             }
         }
     }
-    
-    public void noEnterApellido(JLabel labelInformativo, JLabel valorMod, KeyEvent e){
-        if(e.getKeyCode() == 10){
-            
-        }else{
+
+    public void noEnterApellido(JLabel labelInformativo, JLabel valorMod, KeyEvent e) {
+        if (e.getKeyCode() == 10) {
+
+        } else {
             labelInformativo.setText("Ingresando el Apellido");
             valorMod.setVisible(false);
         }
     }
-    public void noEnterNombre(JLabel labelInformativo, JLabel valorMod, KeyEvent e){
-        if(e.getKeyCode() == 10){
-            
-        }else{
+
+    public void noEnterNombre(JLabel labelInformativo, JLabel valorMod, KeyEvent e) {
+        if (e.getKeyCode() == 10) {
+
+        } else {
             labelInformativo.setText("Ingresando el Nombre");
             valorMod.setVisible(false);
         }
     }
-    public void noEnterDomicilio(JLabel labelInformativo, JLabel valorMod, KeyEvent e){
-        if(e.getKeyCode() == 10){
-            
-        }else{
+
+    public void noEnterDomicilio(JLabel labelInformativo, JLabel valorMod, KeyEvent e) {
+        if (e.getKeyCode() == 10) {
+
+        } else {
             labelInformativo.setText("Ingresando el Domicilio");
             valorMod.setVisible(false);
         }
     }
     private boolean punto = true;
-    public void noEnterDNI(JLabel labelInformativo, JLabel valorMod, KeyEvent e){
-        
+
+    public void noEnterDNI(JLabel labelInformativo, JLabel valorMod, KeyEvent e) {
+
         JTextField dni;
-        
-        if(valorMod.getText().equals("DNI")){
+
+        if (valorMod.getText().equals("DNI")) {
             dni = SocioBuscarView.getInstance().getCuadroDeBusqueda();
-        }else{
+        } else {
             dni = SocioAgregarView.getInstance().getJTFDNI();
         }
-        
-        if(e.getKeyCode() == 10){
-            
-        }else if(e.getKeyCode() == 110){
+
+        if (e.getKeyCode() == 10) {
+
+        } else if (e.getKeyCode() == 110) {
             dni.setText(dni.getText().substring(0, dni.getText().length() - 1));
-        }else{
-            
+        } else {
+
             labelInformativo.setText("Ingresando el DNI");
             valorMod.setVisible(false);
 
             System.out.println(punto);
-            if((dni.getText().length() == 2 && punto) || (dni.getText().length() == 6 && !punto)){
+            if ((dni.getText().length() == 2 && punto) || (dni.getText().length() == 6 && !punto)) {
                 dni.setText(dni.getText() + ".");
-                
-            }else if((dni.getText().length() == 2) && !punto || (dni.getText().length() == 6 && punto)){
-                if(dni.getText().length() == 6){
+
+            } else if ((dni.getText().length() == 2) && !punto || (dni.getText().length() == 6 && punto)) {
+                if (dni.getText().length() == 6) {
                     dni.setText(dni.getText().substring(0, 5));
-                }else if(dni.getText().length() == 2){
+                } else if (dni.getText().length() == 2) {
                     dni.setText(dni.getText().substring(0, 1));
                 }
             }
-            if(dni.getText().length() > 2 && dni.getText().length() < 6){
+            if (dni.getText().length() > 2 && dni.getText().length() < 6) {
                 punto = false;
-            }else{
+            } else {
                 punto = true;
             }
-            if(dni.getText().length() > 10){
+            if (dni.getText().length() > 10) {
                 dni.setText(dni.getText().substring(0, 10));
             }
         }
     }
-    public void noEnterTelefono(JLabel labelInformativo, JLabel valorMod, KeyEvent e){
-        if(e.getKeyCode() == 10){
-            
-        }else{
+
+    public void noEnterTelefono(JLabel labelInformativo, JLabel valorMod, KeyEvent e) {
+        if (e.getKeyCode() == 10) {
+
+        } else {
             labelInformativo.setText("Ingresando el teléfono");
             valorMod.setVisible(false);
         }
     }
-    public void noEnterMail(JLabel labelInformativo, JLabel valorMod, KeyEvent e){
-        if(e.getKeyCode() == 10){
-            
-        }else{
+
+    public void noEnterMail(JLabel labelInformativo, JLabel valorMod, KeyEvent e) {
+        if (e.getKeyCode() == 10) {
+
+        } else {
             labelInformativo.setText("El E-Mail debe tener el formato ejemplo@dominio.extensión");
+            valorMod.setVisible(false);
+        }
+    }
+    
+    public void noEnterFechaDeAlta(JLabel labelInformativo, JLabel valorMod, KeyEvent e){
+        if (e.getKeyCode() == 10) {
+
+        } else {
+            labelInformativo.setText("Ingrese sólo números para la fecha");
+            valorMod.setVisible(false);
+        }
+    }
+    public void noEnterFechaDeBaja(JLabel labelInformativo, JLabel valorMod, KeyEvent e){
+        if (e.getKeyCode() == 10) {
+
+        } else {
+            labelInformativo.setText("Ingrese sólo números para la fecha");
             valorMod.setVisible(false);
         }
     }
@@ -1583,9 +1611,9 @@ public class SocioTarjeta extends javax.swing.JPanel {
                 valorMod.setText(caracteresIngresados);
                 valoresModificados.setVisible(false);
                 valorMod.setVisible(true);
-                
+
                 metodoDeSocio.eliminarSocio("M", valorDelCampo, campo.replaceAll(":", ""), valorMod.getText(), this.jLNumeroDeSocio.getText());
-            }else{
+            } else {
                 valoresModificados.setForeground(Color.CYAN);
             }
             labelInformativo.setText("El Apellido ha sido ingresado correctamente");
@@ -1603,9 +1631,9 @@ public class SocioTarjeta extends javax.swing.JPanel {
                 valorMod.setText(caracteresIngresados);
                 valoresModificados.setVisible(false);
                 valorMod.setVisible(true);
-                
+
                 metodoDeSocio.eliminarSocio("M", valorDelCampo, campo.replaceAll(":", ""), valorMod.getText(), this.jLNumeroDeSocio.getText());
-            }else{
+            } else {
                 valoresModificados.setForeground(Color.CYAN);
             }
             labelInformativo.setText("El Nombre ha sido ingresado correctamente");
@@ -1616,16 +1644,16 @@ public class SocioTarjeta extends javax.swing.JPanel {
     public void cotejarDomicilio(String caracteresIngresados, JLabel labelInformativo, JLabel valorMod, JTextField valoresModificados,
             String valorDelCampo, String campo) {
         if (!caracteresIngresados.matches(".*\\s\\D*\\d+\\s*$")) {
-           valoresModificados.setForeground(Color.BLACK);
+            valoresModificados.setForeground(Color.BLACK);
             labelInformativo.setText("El Domicilio debe incluír un número");
         } else {
             if (labelInformativo.getClass().getEnclosingClass() == SocioTarjeta.class) {
                 valorMod.setText(caracteresIngresados);
                 valoresModificados.setVisible(false);
                 valorMod.setVisible(true);
-                
+
                 metodoDeSocio.eliminarSocio("M", valorDelCampo, campo.replaceAll(":", ""), valorMod.getText(), this.jLNumeroDeSocio.getText());
-            }else{
+            } else {
                 valoresModificados.setForeground(Color.CYAN);
             }
             labelInformativo.setText("El Domicilio ha sido ingresado correctamente");
@@ -1635,7 +1663,8 @@ public class SocioTarjeta extends javax.swing.JPanel {
 
     public void cotejarDNI(String caracteresIngresados, JLabel labelInformativo, JLabel valorMod, JTextField valoresModificados,
             String valorDelCampo, String campo) {
-        if (!caracteresIngresados.matches("^[0-9]{8}$")) {
+
+        if (!caracteresIngresados.matches("\\d{2}\\.\\d{3}\\.\\d{3}")) {
             valoresModificados.setForeground(Color.BLACK);
             labelInformativo.setText("El DNI está mal especificado");
         } else {
@@ -1643,9 +1672,9 @@ public class SocioTarjeta extends javax.swing.JPanel {
                 valorMod.setText(caracteresIngresados);
                 valoresModificados.setVisible(false);
                 valorMod.setVisible(true);
-                
+
                 metodoDeSocio.eliminarSocio("M", valorDelCampo, campo.replaceAll(":", ""), valorMod.getText(), this.jLNumeroDeSocio.getText());
-            }else{
+            } else {
                 valoresModificados.setForeground(Color.CYAN);
             }
             labelInformativo.setText("El DNI ha sido ingresado correctamente");
@@ -1663,9 +1692,9 @@ public class SocioTarjeta extends javax.swing.JPanel {
                 valorMod.setText(caracteresIngresados);
                 valoresModificados.setVisible(false);
                 valorMod.setVisible(true);
-                
+
                 metodoDeSocio.eliminarSocio("M", valorDelCampo, campo.replaceAll(":", ""), valorMod.getText(), this.jLNumeroDeSocio.getText());
-            }else{
+            } else {
                 valoresModificados.setForeground(Color.CYAN);
             }
             labelInformativo.setText("El Teléfono ha sido ingresado correctamente");
@@ -1683,12 +1712,52 @@ public class SocioTarjeta extends javax.swing.JPanel {
                 valorMod.setText(caracteresIngresados);
                 valoresModificados.setVisible(false);
                 valorMod.setVisible(true);
-                
+
                 metodoDeSocio.eliminarSocio("M", valorDelCampo, campo.replaceAll(":", ""), valorMod.getText(), this.jLNumeroDeSocio.getText());
-            }else{
+            } else {
                 valoresModificados.setForeground(Color.CYAN);
             }
             labelInformativo.setText("El E-Mail ha sido ingresado correctamente");
+            temporizar(labelInformativo);
+        }
+    }
+    public void cotejarFechaDeAlta(String caracteresIngresados, JLabel labelInformativo, JLabel valorMod, JTextField valoresModificados,
+            String valorDelCampo, String campo) {
+
+        if (!caracteresIngresados.matches("\\d{2}\\-\\d{2}\\-\\d{4}")) {
+            valoresModificados.setForeground(Color.BLACK);
+            labelInformativo.setText("La Fecha está mal especificada");
+        } else {
+            if (labelInformativo.getClass().getEnclosingClass() == SocioTarjeta.class) {
+                valorMod.setText(caracteresIngresados);
+                valoresModificados.setVisible(false);
+                valorMod.setVisible(true);
+
+                metodoDeSocio.eliminarSocio("M", valorDelCampo, campo.replaceAll(":", ""), valorMod.getText(), this.jLNumeroDeSocio.getText());
+            } else {
+                valoresModificados.setForeground(Color.CYAN);
+            }
+            labelInformativo.setText("La fecha ha sido ingresada\ncorrectamente");
+            temporizar(labelInformativo);
+        }
+    }
+    public void cotejarFechaDeBaja(String caracteresIngresados, JLabel labelInformativo, JLabel valorMod, JTextField valoresModificados,
+            String valorDelCampo, String campo) {
+
+        if (!caracteresIngresados.matches("\\d{2}\\-\\d{2}\\-\\d{4}")) {
+            valoresModificados.setForeground(Color.BLACK);
+            labelInformativo.setText("La Fecha está mal especificada");
+        } else {
+            if (labelInformativo.getClass().getEnclosingClass() == SocioTarjeta.class) {
+                valorMod.setText(caracteresIngresados);
+                valoresModificados.setVisible(false);
+                valorMod.setVisible(true);
+
+                metodoDeSocio.eliminarSocio("M", valorDelCampo, campo.replaceAll(":", ""), valorMod.getText(), this.jLNumeroDeSocio.getText());
+            } else {
+                valoresModificados.setForeground(Color.CYAN);
+            }
+            labelInformativo.setText("La fecha ha sido ingresada\ncorrectamente");
             temporizar(labelInformativo);
         }
     }
