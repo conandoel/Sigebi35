@@ -1,6 +1,7 @@
 package datos;
 
 import entidades.Ejemplar;
+import entidades.Libro;
 import entidades.Prestamo;
 import entidades.Socio;
 import java.sql.Connection;
@@ -37,6 +38,9 @@ public class PrestamoData {
             //Se chequea si exito es mayor que 0 lo cual significa que se realizó un INSERT
             if(exito > 0){
                 JOptionPane.showMessageDialog(null, "Prestamo Realizado Exitosamente.");
+                pres.getEjemplar().setEstado("Prestado");
+                EjemplarData ed=new EjemplarData();
+                ed.modificarEjemplar(pres.getEjemplar());
             }else{
                 JOptionPane.showMessageDialog(null, "Prestamo Rechazado");
             }
@@ -158,7 +162,7 @@ public class PrestamoData {
         List<Prestamo> prestamos=new ArrayList<>();
         try {
             
-            String sql = "SELECT * FROM prestamo WHERE idSocio = ?";
+            String sql = "SELECT * FROM prestamo WHERE idSocio = ? and estado = true";
             PreparedStatement ps = con.prepareStatement(sql);
             ps.setInt(1, idSocio);
             ResultSet rs = ps.executeQuery();
@@ -168,6 +172,7 @@ public class PrestamoData {
                 Prestamo prestamo=new Prestamo();
                 ejemplar.setCodigo(rs.getInt(4));
                 socio.setIdSocio(rs.getInt(5));
+                //System.out.println("El id del socio en el prestamo data "+socio.getIdSocio());
                 prestamo.setIdPrestamo(rs.getInt(1));
                 prestamo.setFechaInicio(rs.getDate(2).toLocalDate());
                 prestamo.setFechaFin(rs.getDate(3).toLocalDate());
@@ -184,4 +189,41 @@ public class PrestamoData {
         return prestamos;
     } 
     
+    public List<Prestamo> listarPrestamosSuperCargado(int idSocio){
+        
+            List<Prestamo> prestamos=new ArrayList<>();
+        try {
+            
+            String sql="SELECT * FROM prestamo p JOIN ejemplar e on p.idEjemplar=e.idEjemplar JOIN libro l on e.isbn=l.isbn WHERE p.estado=1 and p.idSocio= ?";
+            PreparedStatement ps = con.prepareStatement(sql);
+            ps.setInt(1, idSocio);
+            ResultSet rs = ps.executeQuery();
+            while (rs.next()) {
+                Ejemplar ejemplar = new Ejemplar();
+                Socio socio = new Socio();
+                Prestamo prestamo=new Prestamo();
+                Libro libro=new Libro();
+                
+                //System.out.println("El id del socio en el prestamo data "+socio.getIdSocio());
+                prestamo.setIdPrestamo(rs.getInt(1));
+                prestamo.setFechaInicio(rs.getDate(2).toLocalDate());
+                prestamo.setFechaFin(rs.getDate(3).toLocalDate());
+                prestamo.setEjemplar(ejemplar);
+                prestamo.setLector(socio);
+                prestamo.setEstado(rs.getBoolean(6));
+                ejemplar.setCodigo(rs.getInt(4));
+                libro.setIsbn(rs.getLong(10));
+                libro.setTitulo(rs.getString(11));
+                ejemplar.setLibro(libro);
+                ejemplar.setEstado(rs.getString(9));
+                socio.setIdSocio(rs.getInt(5));
+                
+                prestamos.add(prestamo);
+            }
+            ps.close();
+        } catch (SQLException ex) {
+            Logger.getLogger(PrestamoData.class.getName()).log(Level.SEVERE, null, ex);
+        }
+        return prestamos;
+    }
 }

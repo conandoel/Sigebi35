@@ -7,12 +7,16 @@ package vistas;
 
 import datos.EjemplarData;
 import datos.LibroData;
+import datos.PrestamoData;
 import datos.SocioData;
 import entidades.Ejemplar;
 import entidades.Libro;
+import entidades.Prestamo;
 import entidades.Socio;
+import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.List;
+import javax.swing.JOptionPane;
 import javax.swing.table.DefaultTableModel;
 
 
@@ -28,6 +32,7 @@ public class PrestamosView extends javax.swing.JInternalFrame {
     List<Socio> socios=new ArrayList<>();
     List<Libro> libros=new ArrayList<>();
     List<Ejemplar> ejemplares=new ArrayList<>();
+    List<String> editoriales=new ArrayList<>();
     private DefaultTableModel modelo=new DefaultTableModel();
     
     public PrestamosView() {
@@ -63,6 +68,9 @@ public class PrestamosView extends javax.swing.JInternalFrame {
         jlAutor = new javax.swing.JLabel();
         jScrollPane2 = new javax.swing.JScrollPane();
         jtEjemplares = new javax.swing.JTable();
+        jbtnPrestar = new javax.swing.JButton();
+        jLabel5 = new javax.swing.JLabel();
+        jcbEditoriales = new javax.swing.JComboBox<>();
 
         jLabel4.setText("jLabel4");
 
@@ -87,7 +95,7 @@ public class PrestamosView extends javax.swing.JInternalFrame {
 
         jLabel1.setText("Lector:");
 
-        jlNombre.setText("Nombre:");
+        jlNombre.setText("Nombre: ");
 
         jlApellido.setText("Apellido:");
 
@@ -122,6 +130,21 @@ public class PrestamosView extends javax.swing.JInternalFrame {
         ));
         jScrollPane2.setViewportView(jtEjemplares);
 
+        jbtnPrestar.setText("Prestar");
+        jbtnPrestar.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jbtnPrestarActionPerformed(evt);
+            }
+        });
+
+        jLabel5.setText("Editorial:");
+
+        jcbEditoriales.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jcbEditorialesActionPerformed(evt);
+            }
+        });
+
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
         layout.setHorizontalGroup(
@@ -138,7 +161,7 @@ public class PrestamosView extends javax.swing.JInternalFrame {
                                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                                     .addGroup(layout.createSequentialGroup()
                                         .addComponent(jlDireccion)
-                                        .addGap(149, 149, 149)
+                                        .addGap(18, 18, 18)
                                         .addComponent(jlMail))
                                     .addGroup(layout.createSequentialGroup()
                                         .addComponent(jLabel1)
@@ -146,24 +169,33 @@ public class PrestamosView extends javax.swing.JInternalFrame {
                                         .addComponent(jtfIdSocio, javax.swing.GroupLayout.PREFERRED_SIZE, 88, javax.swing.GroupLayout.PREFERRED_SIZE)
                                         .addGap(18, 18, 18)
                                         .addComponent(jlNombre)
-                                        .addGap(124, 124, 124)
+                                        .addGap(18, 18, 18)
                                         .addComponent(jlApellido))))
                             .addGroup(layout.createSequentialGroup()
                                 .addGap(281, 281, 281)
-                                .addComponent(jLabel2))
+                                .addComponent(jLabel2)))
+                        .addGap(300, 300, 300))
+                    .addGroup(layout.createSequentialGroup()
+                        .addGap(39, 39, 39)
+                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                             .addGroup(layout.createSequentialGroup()
-                                .addGap(39, 39, 39)
-                                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                                    .addGroup(layout.createSequentialGroup()
-                                        .addComponent(jlIsbn)
-                                        .addGap(201, 201, 201)
-                                        .addComponent(jlAutor))
-                                    .addGroup(layout.createSequentialGroup()
-                                        .addComponent(jLabel3)
-                                        .addGap(18, 18, 18)
-                                        .addComponent(jtfLibroNombre, javax.swing.GroupLayout.PREFERRED_SIZE, 255, javax.swing.GroupLayout.PREFERRED_SIZE))
-                                    .addComponent(jScrollPane2, javax.swing.GroupLayout.PREFERRED_SIZE, 477, javax.swing.GroupLayout.PREFERRED_SIZE))))
-                        .addGap(0, 104, Short.MAX_VALUE)))
+                                .addComponent(jScrollPane2, javax.swing.GroupLayout.PREFERRED_SIZE, 477, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                                .addComponent(jbtnPrestar))
+                            .addGroup(layout.createSequentialGroup()
+                                .addComponent(jlIsbn)
+                                .addGap(201, 201, 201)
+                                .addComponent(jlAutor)
+                                .addGap(0, 0, Short.MAX_VALUE))
+                            .addGroup(layout.createSequentialGroup()
+                                .addComponent(jLabel3)
+                                .addGap(18, 18, 18)
+                                .addComponent(jtfLibroNombre, javax.swing.GroupLayout.PREFERRED_SIZE, 255, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                                .addComponent(jLabel5)
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                                .addComponent(jcbEditoriales, 0, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)))
+                        .addGap(20, 20, 20)))
                 .addContainerGap())
         );
         layout.setVerticalGroup(
@@ -183,15 +215,20 @@ public class PrestamosView extends javax.swing.JInternalFrame {
                 .addGap(18, 18, 18)
                 .addComponent(jSeparator1, javax.swing.GroupLayout.PREFERRED_SIZE, 10, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGap(18, 18, 18)
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(jLabel3)
-                    .addComponent(jtfLibroNombre, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addGap(18, 18, 18)
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(jlIsbn)
-                    .addComponent(jlAutor))
-                .addGap(18, 18, 18)
-                .addComponent(jScrollPane2, javax.swing.GroupLayout.PREFERRED_SIZE, 110, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
+                    .addGroup(layout.createSequentialGroup()
+                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                            .addComponent(jLabel3)
+                            .addComponent(jtfLibroNombre, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(jLabel5)
+                            .addComponent(jcbEditoriales, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                        .addGap(18, 18, 18)
+                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                            .addComponent(jlIsbn)
+                            .addComponent(jlAutor))
+                        .addGap(18, 18, 18)
+                        .addComponent(jScrollPane2, javax.swing.GroupLayout.PREFERRED_SIZE, 110, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addComponent(jbtnPrestar))
                 .addContainerGap(58, Short.MAX_VALUE))
         );
 
@@ -218,21 +255,65 @@ public class PrestamosView extends javax.swing.JInternalFrame {
         // TODO add your handling code here:
         limpiarlabelslibros();
         limpiarTabla();
+        limpiarEditoriales();
         if(jtfLibroNombre.getText().equals("")){
             limpiarlabelslibros();
             limpiarTabla();
+            limpiarEditoriales();
         }else{
             for(Libro libro:libros){
                 if(libro.getTitulo().equalsIgnoreCase(jtfLibroNombre.getText())){
                     //jlAutor.setText("Autor: "+libro.getAutor().getNombre()+" "+libro.getAutor().getApellido()); DAMIAN
                     jlAutor.setText("Autor: "+libro.getAutor());
+                    jcbEditoriales.addItem(libro.getEditorial());
                     jlIsbn.setText("ISBN: "+libro.getIsbn());
-                    cargarEjemplares(libro);
+                    jcbEditoriales.setSelectedItem(libro.getEditorial());
+                    //cargarEjemplares(libro);
                     
                 }
             }
         }
     }//GEN-LAST:event_jtfLibroNombreKeyReleased
+
+    private void jbtnPrestarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jbtnPrestarActionPerformed
+        // Aca comienza la papota del prestamo
+        Ejemplar ejemplar=new Ejemplar();
+        Socio lector = new Socio();
+        Prestamo pres =new Prestamo();
+        PrestamoData pd=new PrestamoData();
+        if((!jlIsbn.getText().equalsIgnoreCase("ISBN: "))&&(!jlNombre.getText().equalsIgnoreCase("Nombre: "))&& (jtEjemplares.getSelectedRow()>-1)){
+            int idej=jtEjemplares.getSelectedRow();
+            int cel=Integer.parseInt(jtEjemplares.getValueAt(idej, 0).toString());
+            String estadito=jtEjemplares.getValueAt(idej, 1).toString();
+            if(estadito.equalsIgnoreCase("Disponible")){
+                ejemplar.setCodigo(cel);
+                lector.setIdSocio(Integer.parseInt(jtfIdSocio.getText()));
+                pres.setLector(lector);
+                pres.setEjemplar(ejemplar);
+                pres.setFechaInicio(LocalDate.now());
+                pres.setFechaFin(LocalDate.now().plusDays(7));
+                pres.setEstado(true);
+            
+                pd.agregarPrestamo(pres);
+                limpiarTabla();
+
+            }else{JOptionPane.showMessageDialog(null, "Debe elegir un ejemplar Disponible");}
+        }else{
+            JOptionPane.showMessageDialog(null, "Compruebe que todos los campos esten completos");
+        }
+    }//GEN-LAST:event_jbtnPrestarActionPerformed
+
+    private void jcbEditorialesActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jcbEditorialesActionPerformed
+        // TODO add your handling code here:
+        limpiarTabla();
+        String edit=(String)jcbEditoriales.getSelectedItem();
+        for(Libro libro:libros){
+            if(edit.equalsIgnoreCase(libro.getEditorial())&& libro.getTitulo().equalsIgnoreCase(jtfLibroNombre.getText())){
+                jlIsbn.setText("ISBN: "+libro.getIsbn());
+                cargarEjemplares(libro);
+            }
+        }
+    }//GEN-LAST:event_jcbEditorialesActionPerformed
     private void cargarTabla(){
         modelo.addColumn("Codigo");
         modelo.addColumn("Estado");
@@ -249,7 +330,7 @@ public class PrestamosView extends javax.swing.JInternalFrame {
     private void cargarEjemplares(Libro libro){
         EjemplarData ed=new EjemplarData();
         ejemplares=null;
-        System.out.println("pasa por carga de ejemplares");
+        System.out.println("pasa por carga de ejemplares"+libro.getIsbn());
         ejemplares=ed.listarEjemplares(libro);
         cargarTablaEjemplares();
     }
@@ -279,15 +360,32 @@ public class PrestamosView extends javax.swing.JInternalFrame {
             modelo.removeRow(f);
         }
     }
+    
+    private void limpiarEditoriales(){
+        int j=jcbEditoriales.getItemCount();
+        if(j>0){
+        try{
+            for(int i=j-1;i>=0;i--){
+                jcbEditoriales.removeItemAt(i);
+            }
+        }catch(NullPointerException ex){
+        
+        }
+        }
+    }
+    
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel2;
     private javax.swing.JLabel jLabel3;
     private javax.swing.JLabel jLabel4;
+    private javax.swing.JLabel jLabel5;
     private javax.swing.JScrollPane jScrollPane1;
     private javax.swing.JScrollPane jScrollPane2;
     private javax.swing.JSeparator jSeparator1;
     private javax.swing.JTable jTable1;
+    private javax.swing.JButton jbtnPrestar;
+    private javax.swing.JComboBox<String> jcbEditoriales;
     private javax.swing.JLabel jlApellido;
     private javax.swing.JLabel jlAutor;
     private javax.swing.JLabel jlDireccion;

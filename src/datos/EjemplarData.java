@@ -42,9 +42,12 @@ public class EjemplarData {
         }
     }
     public void modificarEjemplar(Ejemplar ejemplar){
-        String sql = "update materia set estado = '" + ejemplar.getEstado() +  " where idEjemplar = " + ejemplar.getCodigo();
+        String sql = "update ejemplar set estado = ? where idEjemplar = ?";
         try{
             PreparedStatement ps = con.prepareStatement(sql);
+            ps.setString(1, ejemplar.getEstado());
+            ps.setInt(2,  ejemplar.getCodigo());
+            
             int resultado = ps.executeUpdate();
             if(resultado == 0){
                 JOptionPane.showMessageDialog(null, "No se afectaron filas.");
