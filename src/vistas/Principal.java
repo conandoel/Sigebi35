@@ -154,6 +154,19 @@ public class Principal extends javax.swing.JFrame {
             .addComponent(panel, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
         );
 
+        // Sobrescribir el método paintComponent del JPanel
+        //@Override
+        /*public void paintComponent(Graphics g) {
+            // Llamar al método paintComponent de la superclase
+            super.paintComponent(g);
+            // Obtener el objeto Graphics2D
+            Graphics2D g2d = (Graphics2D) g;
+            // Aplicar el degradado al Graphics2D
+            g2d.setPaint(gp);
+            // Rellenar el panel con el degradado
+            g2d.fillRect(0, 0, getWidth(), getHeight());
+        }*/
+
         jMArchivo.setText("Archivo");
 
         jMenuItem1.setText("Prestar Libro");
@@ -165,6 +178,11 @@ public class Principal extends javax.swing.JFrame {
         jMArchivo.add(jMenuItem1);
 
         jMenuItem2.setText("Devolver Libro");
+        jMenuItem2.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jMenuItem2ActionPerformed(evt);
+            }
+        });
         jMArchivo.add(jMenuItem2);
 
         jMSalir.setText("Salir");
@@ -237,6 +255,11 @@ public class Principal extends javax.swing.JFrame {
         jMEliminar.add(jMElimLibros);
 
         jMenuItem7.setText("...ejemplar");
+        jMenuItem7.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jMenuItem7ActionPerformed(evt);
+            }
+        });
         jMEliminar.add(jMenuItem7);
 
         jMElimSocios.setText("...socios");
@@ -281,6 +304,11 @@ public class Principal extends javax.swing.JFrame {
         JMAgregarSocio.add(jMAgregarSocio);
 
         jMenuItem5.setText("...Ejemplar");
+        jMenuItem5.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jMenuItem5ActionPerformed(evt);
+            }
+        });
         JMAgregarSocio.add(jMenuItem5);
 
         jMenuBar1.add(JMAgregarSocio);
@@ -373,7 +401,12 @@ public class Principal extends javax.swing.JFrame {
 
     private void jMenuItem6ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMenuItem6ActionPerformed
         // TODO add your handling code here:
-
+        jDPEscritorio.removeAll();
+        jDPEscritorio.repaint();
+        ModificarEjemplarView pv=new ModificarEjemplarView();
+        pv.setVisible(true);
+        jDPEscritorio.add(pv);
+        jDPEscritorio.moveToFront(pv);
     }//GEN-LAST:event_jMenuItem6ActionPerformed
     
     //Manejador del evento al seleccionar MODIFICAR -> SOCIOS
@@ -446,6 +479,37 @@ public class Principal extends javax.swing.JFrame {
         // TODO add your handling code here:
         
     }//GEN-LAST:event_JMAgregarSocioActionPerformed
+
+    private void jMenuItem2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMenuItem2ActionPerformed
+        // TODO add your handling code here:
+        jDPEscritorio.removeAll();
+        jDPEscritorio.removeAll();
+        jDPEscritorio.repaint();
+        DevolucionesView pv=new DevolucionesView();
+        pv.setVisible(true);
+        jDPEscritorio.add(pv);
+        jDPEscritorio.moveToFront(pv);
+    }//GEN-LAST:event_jMenuItem2ActionPerformed
+
+    private void jMenuItem7ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMenuItem7ActionPerformed
+        // TODO add your handling code here:
+        jDPEscritorio.removeAll();
+        jDPEscritorio.repaint();
+        EliminarEjemplarView pv=new EliminarEjemplarView();
+        pv.setVisible(true);
+        jDPEscritorio.add(pv);
+        jDPEscritorio.moveToFront(pv);
+    }//GEN-LAST:event_jMenuItem7ActionPerformed
+
+    private void jMenuItem5ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMenuItem5ActionPerformed
+        // TODO add your handling code here:
+        jDPEscritorio.removeAll();
+        jDPEscritorio.repaint();
+        AgregarEjemplarView pv=new AgregarEjemplarView();
+        pv.setVisible(true);
+        jDPEscritorio.add(pv);
+        jDPEscritorio.moveToFront(pv);
+    }//GEN-LAST:event_jMenuItem5ActionPerformed
   
     /**
      * @param args the command line arguments

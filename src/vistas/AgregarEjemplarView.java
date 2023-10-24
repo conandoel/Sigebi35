@@ -134,8 +134,16 @@ public class AgregarEjemplarView extends javax.swing.JInternalFrame {
     private void cargarcbl(){
         LibroData ld=new LibroData();
         libros=ld.listarLibroSinAutor();
+        int cont=0;
         for(Libro libro:libros){
+            for(int i=0;i<jcbLibros.getItemCount();i++){
+                if(libro.getTitulo().equals(jcbLibros.getItemAt(i).toString())){
+                   cont++;
+                }
+            }
+            if(cont==0){
             jcbLibros.addItem(libro.getTitulo());
+            }else{cont=0;}
         }
     }
     private void limpiarEditoriales(){

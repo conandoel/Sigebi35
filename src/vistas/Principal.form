@@ -30,6 +30,9 @@
               <Properties>
                 <Property name="text" type="java.lang.String" value="Devolver Libro"/>
               </Properties>
+              <Events>
+                <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="jMenuItem2ActionPerformed"/>
+              </Events>
             </MenuItem>
             <MenuItem class="javax.swing.JMenuItem" name="jMSalir">
               <Properties>
@@ -119,6 +122,9 @@
               <Properties>
                 <Property name="text" type="java.lang.String" value="...ejemplar"/>
               </Properties>
+              <Events>
+                <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="jMenuItem7ActionPerformed"/>
+              </Events>
             </MenuItem>
             <MenuItem class="javax.swing.JMenuItem" name="jMElimSocios">
               <Properties>
@@ -166,6 +172,9 @@
               <Properties>
                 <Property name="text" type="java.lang.String" value="...Ejemplar"/>
               </Properties>
+              <Events>
+                <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="jMenuItem5ActionPerformed"/>
+              </Events>
             </MenuItem>
           </SubComponents>
         </Menu>
@@ -223,7 +232,7 @@
       <SubComponents>
         <Container class="javax.swing.JPanel" name="panel">
           <AuxValues>
-            <AuxValue name="JavaCodeGenerator_AddingCodePost" type="java.lang.String" value="// Sobrescribir el m&#xe9;todo paintComponent del JPanel&#xa;@Override&#xa;public void paintComponent(Graphics g) {&#xa;  // Llamar al m&#xe9;todo paintComponent de la superclase&#xa;  super.paintComponent(g);&#xa;  // Obtener el objeto Graphics2D&#xa;  Graphics2D g2d = (Graphics2D) g;&#xa;  // Aplicar el degradado al Graphics2D&#xa;  g2d.setPaint(gp);&#xa;  // Rellenar el panel con el degradado&#xa;  g2d.fillRect(0, 0, getWidth(), getHeight());&#xa;}"/>
+            <AuxValue name="JavaCodeGenerator_AddingCodePost" type="java.lang.String" value="// Sobrescribir el m&#xe9;todo paintComponent del JPanel&#xa;//@Override&#xa;/*public void paintComponent(Graphics g) {&#xa;  // Llamar al m&#xe9;todo paintComponent de la superclase&#xa;  super.paintComponent(g);&#xa;  // Obtener el objeto Graphics2D&#xa;  Graphics2D g2d = (Graphics2D) g;&#xa;  // Aplicar el degradado al Graphics2D&#xa;  g2d.setPaint(gp);&#xa;  // Rellenar el panel con el degradado&#xa;  g2d.fillRect(0, 0, getWidth(), getHeight());&#xa;}*/"/>
           </AuxValues>
 
           <Layout>
