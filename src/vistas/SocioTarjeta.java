@@ -32,6 +32,8 @@ import javax.swing.JOptionPane;
 import javax.swing.JTextField;
 import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 import javax.swing.JFileChooser;
 
 public class SocioTarjeta extends javax.swing.JPanel {
@@ -261,9 +263,9 @@ public class SocioTarjeta extends javax.swing.JPanel {
             String criterio2 = SocioBuscarView.getInstance().getCriterio2();
             String fechaDesde = SocioBuscarView.getInstance().getFechaDesde();
             String fechaHasta = SocioBuscarView.getInstance().getFechaHasta();
-            if(criterio.equals("rango_fechas")){
+            if (criterio.equals("rango_fechas")) {
                 socios = metodoDeSocio.obtenerRangoFechas(fechaDesde, fechaHasta, criterio1, criterio2);
-            }else{
+            } else {
                 socios = metodoDeSocio.obtenerFechas(valor, criterio);
                 EFECTO = "BUSCAR";
             }
@@ -750,7 +752,6 @@ public class SocioTarjeta extends javax.swing.JPanel {
         //AQUÍ rutaMasNombreDeFoto tiene el valor por ejemplo "./src/vistas/imagenes/foto_5564";
         String rutaMasNombreDeFoto = fotoPerfilNombre;
 
-        
         //AQUÍ AL output se lo nombra por tanto "./src/vistas/imagenes/foto_5564" + ".jpg"
         File output = new File(rutaMasNombreDeFoto + ".jpg");
         BufferedImage image = ImageIO.read(file);
@@ -1583,23 +1584,105 @@ public class SocioTarjeta extends javax.swing.JPanel {
             valorMod.setVisible(false);
         }
     }
+    private char[] shiftCarcs = new char[]{'$', '!', '"', '·', '%', '&', '/', '(', ')', '=', '?', '¡', '|', '\\', '@', '#', '~', '€', '¬', '[', ']', '{', '}', '.', ',', '<', '>', 'º'};
+
+    public void noEnterFecha(JLabel labelInformativo, JLabel valorMod, KeyEvent e) {
+        if (e.getKeyCode() == 10) {
+
+        } else {
+            char c = e.getKeyChar();
+            JTextField field = (JTextField) e.getSource();
+            String texto = field.getText();
+            if (!Character.isDigit(c) && c != '-') {
+
+                for (char ch : shiftCarcs) {
+                    if (ch == c) {
+                        // Cancelar el evento de tecla presionada
+                        e.consume();
+                    }
+                }
+
+                // Comprobar si el índice es válido
+                int pos = texto.indexOf(c);
+                if (pos >= 0) {
+                    texto = texto.substring(0, pos) + texto.substring(pos + 1);
+                    field.setText(texto);
+                }
+                // Crear una expresión regular para el formato dd-MM-yyyy
+                Pattern pattern = Pattern.compile("^(0[1-9]|[12][0-9]|3[01])-(0[1-9]|1[012])-(19|20)\\d\\d$");
+                // Comprobar si el texto coincide con la expresión regular
+                Matcher matcher = pattern.matcher(texto);
+                if (matcher.matches()) {
+                    // Si el texto es válido, ocultar el mensaje de error
+                    labelInformativo.setVisible(false);
+                    valorMod.setVisible(true);
+                } else {
+                    // Si el texto no es válido, mostrar el mensaje de error
+                    labelInformativo.setText("Fecha en el formato dd-MM-yyyy");
+                    labelInformativo.setVisible(true);
+                    valorMod.setVisible(false);
+                }
+
+            } else if (c == '-') {
+                    
+
+                    if (((c == '-') && (texto.length() != 3)) && ((c == '-') && (texto.length() != 6))) {
+                        // Comprobar si el índice es válido
+                        int pos = texto.length() - 1;
+                        if (pos >= 0) {
+                            texto = texto.substring(0, pos) + texto.substring(pos + 1);
+                            field.setText(texto);
+                        }
+                        // Crear una expresión regular para el formato dd-MM-yyyy
+                        Pattern pattern = Pattern.compile("^(0[1-9]|[12][0-9]|3[01])-(0[1-9]|1[012])-(19|20)\\d\\d$");
+                        // Comprobar si el texto coincide con la expresión regular
+                        Matcher matcher = pattern.matcher(texto);
+                        if (matcher.matches()) {
+                            // Si el texto es válido, ocultar el mensaje de error
+                            labelInformativo.setVisible(false);
+                            valorMod.setVisible(true);
+                        } else {
+                            // Si el texto no es válido, mostrar el mensaje de error
+                            labelInformativo.setText("Fecha en el formato dd-MM-yyyy");
+                            labelInformativo.setVisible(true);
+                            valorMod.setVisible(false);
+                        }
+                    }
+                }else if(Character.isDigit(c) && (((texto.length() == 3)) || ((texto.length() == 6)) || ((texto.length() > 10)))){
+                // Comprobar si el índice es válido
+                int pos = texto.indexOf(c);
+                if (pos >= 0) {
+                    texto = texto.substring(0, pos) + texto.substring(pos + 1);
+                    field.setText(texto);
+                }
+                // Crear una expresión regular para el formato dd-MM-yyyy
+                Pattern pattern = Pattern.compile("^(0[1-9]|[12][0-9]|3[01])-(0[1-9]|1[012])-(19|20)\\d\\d$");
+                // Comprobar si el texto coincide con la expresión regular
+                Matcher matcher = pattern.matcher(texto);
+                if (matcher.matches()) {
+                    // Si el texto es válido, ocultar el mensaje de error
+                    labelInformativo.setVisible(false);
+                    valorMod.setVisible(true);
+                } else {
+                    // Si el texto no es válido, mostrar el mensaje de error
+                    labelInformativo.setText("Fecha en el formato dd-MM-yyyy");
+                    labelInformativo.setVisible(true);
+                    valorMod.setVisible(false);
+                }
+            }
+        }
+    }
+
+    public void noEnterFechaDeBaja(JLabel labelInformativo, JLabel valorMod, KeyEvent e) {
+        if (e.getKeyCode() == 10) {
+
+        } else {
+            labelInformativo.setText("Ingrese sólo números para la fecha");
+            valorMod.setVisible(false);
+        }
+    }
+
     
-    public void noEnterFechaDeAlta(JLabel labelInformativo, JLabel valorMod, KeyEvent e){
-        if (e.getKeyCode() == 10) {
-
-        } else {
-            labelInformativo.setText("Ingrese sólo números para la fecha");
-            valorMod.setVisible(false);
-        }
-    }
-    public void noEnterFechaDeBaja(JLabel labelInformativo, JLabel valorMod, KeyEvent e){
-        if (e.getKeyCode() == 10) {
-
-        } else {
-            labelInformativo.setText("Ingrese sólo números para la fecha");
-            valorMod.setVisible(false);
-        }
-    }
 
     public void cotejarApellido(String caracteresIngresados, JLabel labelInformativo, JLabel valorMod, JTextField valoresModificados,
             String valorDelCampo, String campo) {
@@ -1721,6 +1804,7 @@ public class SocioTarjeta extends javax.swing.JPanel {
             temporizar(labelInformativo);
         }
     }
+
     public void cotejarFechaDeAlta(String caracteresIngresados, JLabel labelInformativo, JLabel valorMod, JTextField valoresModificados,
             String valorDelCampo, String campo) {
 
@@ -1741,6 +1825,7 @@ public class SocioTarjeta extends javax.swing.JPanel {
             temporizar(labelInformativo);
         }
     }
+
     public void cotejarFechaDeBaja(String caracteresIngresados, JLabel labelInformativo, JLabel valorMod, JTextField valoresModificados,
             String valorDelCampo, String campo) {
 

@@ -4,14 +4,18 @@ import com.toedter.calendar.JCalendar;
 import com.toedter.calendar.JDateChooser;
 import datos.SocioData;
 import entidades.Socio;
+import java.awt.AWTException;
 import java.awt.Color;
 import java.awt.Container;
 import java.awt.Dimension;
 import java.awt.FlowLayout;
 import java.awt.LayoutManager;
+import java.awt.Robot;
 import java.awt.event.KeyEvent;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import javax.swing.BoxLayout;
 import javax.swing.JButton;
 import javax.swing.JLabel;
@@ -66,15 +70,19 @@ public class SocioBuscarView extends javax.swing.JInternalFrame {
     public String getCriterio() {
         return criterio;
     }
+
     public String getCriterio1() {
         return criterio1;
     }
+
     public String getCriterio2() {
         return criterio2;
     }
+
     public String getFechaDesde() {
         return fechaDesde;
     }
+
     public String getFechaHasta() {
         return fechaHasta;
     }
@@ -121,7 +129,7 @@ public class SocioBuscarView extends javax.swing.JInternalFrame {
                 activarEliminar--;
             }
         } else if (EFECTO.equals("AGREGAR")) {
-            
+
         } else {
             //AQUÍ LÓGICA DE MODIFICACIÓN
 
@@ -237,11 +245,6 @@ public class SocioBuscarView extends javax.swing.JInternalFrame {
         jBFechaHasta.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 jBFechaHastaActionPerformed(evt);
-            }
-        });
-        jBFechaHasta.addKeyListener(new java.awt.event.KeyAdapter() {
-            public void keyReleased(java.awt.event.KeyEvent evt) {
-                jBFechaHastaKeyReleased(evt);
             }
         });
 
@@ -387,36 +390,44 @@ public class SocioBuscarView extends javax.swing.JInternalFrame {
         } else if (criterio.equals("DNI")) {
             SocioTarjeta.getInstance().cotejarDNI(caracteresIngresados, this.jLInfo, valorMod, valoresModificados,
                     valorDelCampo, campo);
-        } else if(criterio.equals("Nombre")){
+        } else if (criterio.equals("Nombre")) {
             caracteresIngresados = caracteresIngresados.trim();
             SocioTarjeta.getInstance().cotejarApellido(caracteresIngresados, this.jLInfo, valorMod, valoresModificados,
                     valorDelCampo, campo);
-        } else if(criterio.equals("Domicilio")){
+        } else if (criterio.equals("Domicilio")) {
             caracteresIngresados = caracteresIngresados.trim();
             SocioTarjeta.getInstance().cotejarApellido(caracteresIngresados, this.jLInfo, valorMod, valoresModificados,
                     valorDelCampo, campo);
-        } else if(criterio.equals("Mail")){
+        } else if (criterio.equals("Mail")) {
             caracteresIngresados = caracteresIngresados.trim();
             SocioTarjeta.getInstance().cotejarEmail(caracteresIngresados, this.jLInfo, valorMod, valoresModificados,
                     valorDelCampo, campo);
-        } else if(criterio.equals("Fecha de Alta")){
+        } else if (criterio.equals("Fecha de Alta")) {
             SocioTarjeta.getInstance().cotejarFechaDeAlta(caracteresIngresados, this.jLInfo, valorMod, valoresModificados,
                     valorDelCampo, campo);
-        } else if(criterio.equals("Fecha de Baja")){
+        } else if (criterio.equals("Fecha de Baja")) {
             SocioTarjeta.getInstance().cotejarFechaDeBaja(caracteresIngresados, this.jLInfo, valorMod, valoresModificados,
                     valorDelCampo, campo);
         }
 
     }
 
+    private boolean primeraVez = false;
+
     //Manejador que escucha la elección de un elemento dentro del JComboBox de la VISTA BUSCAR SOCIO
     private void jCBSocioBuscarCriterioActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jCBSocioBuscarCriterioActionPerformed
         //Se guarda en una variable el valor String del item seleccionado en el JComboBox, por ejemplo "Número de Socio"
+        if (primeraVez) {
+            Principal.getInstance().cargarBusquedaSocio();
+
+        }
+        primeraVez = true;
         String seleccion = jCBSocioBuscarCriterio.getSelectedItem().toString();
-            jBFechaHasta.setVisible(false);
-            jBFechaHasta.setForeground(Color.GREEN);
-            jTFFechaHasta.setVisible(false);
-            jLFechaHasta.setVisible(false);
+
+        jBFechaHasta.setVisible(false);
+        jBFechaHasta.setForeground(Color.GREEN);
+        jTFFechaHasta.setVisible(false);
+        jLFechaHasta.setVisible(false);
         this.jTFSocioBuscarIngreseValor.setText("");
         if (seleccion.equals("Fecha")) {
             jBFechaHasta.setVisible(true);
@@ -425,13 +436,10 @@ public class SocioBuscarView extends javax.swing.JInternalFrame {
             jBBuscar.setText("▲");
             jBBuscar.setForeground(Color.GREEN);
             jLSocioBuscarIngreseValor.setText("Desde Fecha de Alta:");
-        }else if(seleccion.equals("Fecha de Alta")){
+        } else if (seleccion.equals("Fecha de Alta")) {
 
+        } else if (seleccion.equals("Fecha de Baja")) {
 
-            
-
-        }else if(seleccion.equals("Fecha de Baja")){
-            
         }
         //Se adapta el JLabel que apunta qué debe hacer el usuario. Por ejemplo "Ingrese el " + "Número de Socio":
         jLSocioBuscarIngreseValor.setText("Ingrese el " + seleccion);
@@ -439,13 +447,14 @@ public class SocioBuscarView extends javax.swing.JInternalFrame {
     //Método manejador del BOTÓN que realiza la confirmación de las búsquedas
     private void jBBuscarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jBBuscarActionPerformed
         //Si el campo de texto en donde se ingresa el valor está vacío, el campo de texto vuelve a tomar el foco, y el JLabel que informa, hace el informe correspondiente
-        if(this.jBBuscar.getText().equals("▲")){
+        /*if(this.jBBuscar.getText().equals("▲")){
             
         }else if(this.jBBuscar.getText().equals("▼")){
             
         }else{
             realizarBusqueda();
-        }
+        }*/ //CONSTRUCCIÓN
+        this.jTFSocioBuscarIngreseValor.requestFocus();
 
     }//GEN-LAST:event_jBBuscarActionPerformed
 
@@ -461,7 +470,7 @@ public class SocioBuscarView extends javax.swing.JInternalFrame {
             valor = this.jTFSocioBuscarIngreseValor.getText();
             criterio = this.jCBSocioBuscarCriterio.getSelectedItem().toString();
 
-            if(criterio.equals("DNI")){
+            if (criterio.equals("DNI")) {
                 valor = valor.replaceAll("\\.", "");
             }
 
@@ -482,10 +491,10 @@ public class SocioBuscarView extends javax.swing.JInternalFrame {
 
     private void jBBuscarKeyReleased(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_jBBuscarKeyReleased
         // TODO add your handling code here:
-        //EN CONSTRUCCIÓN -
-        if(this.jCBSocioBuscarCriterio.getSelectedItem().toString()=="Fecha"){
-            
-        }else{
+        //EN CONSTRUCCIÓN - esto me pa que no va
+        if (this.jCBSocioBuscarCriterio.getSelectedItem().toString() == "Fecha") {
+
+        } else {
             if (evt.getKeyCode() == 10) {
                 realizarBusqueda();
             }
@@ -494,10 +503,6 @@ public class SocioBuscarView extends javax.swing.JInternalFrame {
 
     private void jTFSocioBuscarIngreseValorKeyReleased(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_jTFSocioBuscarIngreseValorKeyReleased
         // TODO add your handling code here:
-        /*if(jCBSocioBuscarCriterio.getSelectedItem().equals("Fecha de Alta")){
-            
-        }*/
-
         String criterio = this.jCBSocioBuscarCriterio.getSelectedItem().toString();
         direccionarCriterio(criterio, evt);
     }//GEN-LAST:event_jTFSocioBuscarIngreseValorKeyReleased
@@ -509,21 +514,19 @@ public class SocioBuscarView extends javax.swing.JInternalFrame {
     private void jTFFechaHastaKeyReleased(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_jTFFechaHastaKeyReleased
         // TODO add your handling code here:
         String fechaCriterio = jTFFechaHasta.getText();
-        if(fechaCriterio.equals("▲")){
+        if (fechaCriterio.equals("▲")) {
             String criterio = "Fecha";
             direccionarCriterio(criterio, evt);
-        }else{
-            
+        } else {
+            String criterio = this.jCBSocioBuscarCriterio.getSelectedItem().toString();
+            direccionarCriterio(criterio, evt);
         }
     }//GEN-LAST:event_jTFFechaHastaKeyReleased
 
     private void jBFechaHastaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jBFechaHastaActionPerformed
         // TODO add your handling code here:
+        this.jTFFechaHasta.requestFocus();
     }//GEN-LAST:event_jBFechaHastaActionPerformed
-
-    private void jBFechaHastaKeyReleased(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_jBFechaHastaKeyReleased
-        // TODO add your handling code here:
-    }//GEN-LAST:event_jBFechaHastaKeyReleased
 
     private void jBBuscarMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jBBuscarMouseClicked
         // TODO add your handling code here:
@@ -534,15 +537,32 @@ public class SocioBuscarView extends javax.swing.JInternalFrame {
         // TODO add your handling code here:
         cambiarBotonesFechas(this.jBFechaHasta);
     }//GEN-LAST:event_jBFechaHastaMouseClicked
-    private void cambiarBotonesFechas(JButton boton){
-        if(boton.getText().equals("▲")){
+    private void cambiarBotonesFechas(JButton boton) {
+        if (boton.getText().equals("▲")) {
             boton.setText("▼");
             boton.setForeground(Color.RED);
-        }else if(boton.getText().equals("▼")){
+        } else if (boton.getText().equals("▼")) {
             boton.setText("▲");
             boton.setForeground(Color.GREEN);
         }
+
+        Robot robot;
+        try {
+            robot = new Robot();
+            robot.keyRelease(KeyEvent.VK_SPACE);
+        } catch (AWTException ex) {
+
+        }
+
+        KeyEvent evento = new KeyEvent(this.jTFFechaHasta, // El componente fuente del evento
+                KeyEvent.KEY_RELEASED, // El tipo de evento
+                System.currentTimeMillis(), // El tiempo del evento
+                0, // Los modificadores del evento (ninguno en este caso)
+                ' ' // El carácter de la tecla (espacio en este caso)
+        );
+        direccionarCriterio("fechaDeAlta", evento);
     }
+
     private void direccionarCriterio(String criterio, KeyEvent evt) {
         JLabel valorMod = new JLabel();
         if (criterio.equals("DNI")) {
@@ -572,32 +592,33 @@ public class SocioBuscarView extends javax.swing.JInternalFrame {
         } else if (criterio.equals("Domicilio")) {
             valorMod.setText("Domicilio");
             SocioTarjeta.getInstance().noEnterDomicilio(this.jLInfo, valorMod, evt);
-        } else if(criterio.equals("Mail")){
-            if(evt.getKeyCode() == 32){
+        } else if (criterio.equals("Mail")) {
+            if (evt.getKeyCode() == 32) {
                 this.jTFSocioBuscarIngreseValor.setText(this.jTFSocioBuscarIngreseValor.getText().substring(0, this.jTFSocioBuscarIngreseValor.getText().length() - 1));
-            }else{
+            } else {
                 SocioTarjeta.getInstance().noEnterMail(this.jLInfo, valorMod, evt);
             }
-        } else if (criterio.equals("Fecha de Alta") || criterio.equals("Fecha de Baja")){
+        } else if (criterio.equals("Fecha de Alta") || criterio.equals("Fecha de Baja")) {
             char c = evt.getKeyChar();
-            if(evt.getKeyCode() == 32){
+            if (evt.getKeyCode() == 32) {
                 this.jTFSocioBuscarIngreseValor.setText(this.jTFSocioBuscarIngreseValor.getText().substring(0, this.jTFSocioBuscarIngreseValor.getText().length() - 1));
-            }else{
-                if(Character.isDigit(c) || c == '-'){
+            } else {
+                SocioTarjeta.getInstance().noEnterFecha(this.jLInfo, valorMod, evt);
+                if (Character.isDigit(c) || c == '-') {
                     String fechaIngresada = this.jTFSocioBuscarIngreseValor.getText();
                     fechaIngresada = fechaIngresada.replaceAll("-", "");
-                    List <SocioTarjeta> tarjetas = new ArrayList<>();
-                    if(criterio.equals("Fecha de Alta")){
+
+                    if (criterio.equals("Fecha de Alta")) {
                         valorMod.setText("Fecha de Alta");
                         this.criterio = "fechaDeAlta";
-                        SocioTarjeta.getInstance().noEnterFechaDeAlta(this.jLInfo, valorMod, evt);
-                    }else{
+                        
+                    } else {
                         valorMod.setText("Fecha de Baja");
                         this.criterio = "fechaDeBaja";
-                        SocioTarjeta.getInstance().noEnterFechaDeBaja(this.jLInfo, valorMod, evt);
+                        SocioTarjeta.getInstance().noEnterFecha(this.jLInfo, valorMod, evt);
                     }
                     resultados = SocioTarjeta.getInstance().listarSocio(criterio, fechaIngresada, "FECHA");
-                    for(SocioTarjeta resultado : resultados){
+                    for (SocioTarjeta resultado : resultados) {
                         resultado.setVisible(true);
                     }
                     cargarLasTarjetas();
@@ -605,49 +626,63 @@ public class SocioBuscarView extends javax.swing.JInternalFrame {
                 }
 
             }
-        }else if(criterio.equals("Fecha")){
+        } else if (criterio.equals("Fecha")) {
             char c = evt.getKeyChar();
-            if(evt.getKeyCode() == 32){
-                this.jTFSocioBuscarIngreseValor.setText(this.jTFSocioBuscarIngreseValor.getText().substring(0, this.jTFSocioBuscarIngreseValor.getText().length() - 1));
-            }else{
-                if(Character.isDigit(c) || c == '-'){
-                    fechaDesde = this.jTFSocioBuscarIngreseValor.getText();
-                    fechaDesde = fechaDesde.replaceAll("-", "");
-                    fechaHasta = this.jTFFechaHasta.getText();
-                    fechaHasta = fechaHasta.replaceAll("-", "");
-                    List <SocioTarjeta> tarjetas = new ArrayList<>();
-                    
-                    if(this.jBBuscar.getText().equals("▲")){
-                        valorMod.setText("Fecha de Alta");
-                        this.criterio1 = "fechaDeAlta";
-                        SocioTarjeta.getInstance().noEnterFechaDeAlta(this.jLInfo, valorMod, evt);
-                    }else{
-                        valorMod.setText("Fecha de Baja");
-                        this.criterio1 = "fechaDeBaja";
-                        SocioTarjeta.getInstance().noEnterFechaDeBaja(this.jLInfo, valorMod, evt);
-                    }
-
-                    if(this.jBFechaHasta.getText().equals("▲")){
-                        valorMod.setText("Fecha de Alta");
-                        this.criterio2 = "fechaDeAlta";
-                        SocioTarjeta.getInstance().noEnterFechaDeAlta(this.jLInfo, valorMod, evt);
-                    }else{
-                        valorMod.setText("Fecha de Baja");
-                        this.criterio2 = "fechaDeBaja";
-                        SocioTarjeta.getInstance().noEnterFechaDeBaja(this.jLInfo, valorMod, evt);
-                    }
-                    this.criterio = "";
-                    this.valor = ""; //ESTO ES PARA MANEJAR EL ESTADO. AGREGAR A LA VISTA SI QUIERE QUE SEAN SOCIOS O TODOS
-                    criterio = "rango_fechas";
-                    resultados = SocioTarjeta.getInstance().listarSocio(criterio, "", "FECHA");
-
-                    for(SocioTarjeta resultado : resultados){
-                        resultado.setVisible(true);
-                    }
-                    cargarLasTarjetas();
-                    resultados.clear();
+            
+            if (Character.isDigit(c) || c == '-' || c == ' ') {
+                fechaDesde = this.jTFSocioBuscarIngreseValor.getText();
+                fechaDesde = fechaDesde.replaceAll("-", "");
+                fechaHasta = this.jTFFechaHasta.getText();
+                fechaHasta = fechaHasta.replaceAll("-", "");
+                List<SocioTarjeta> tarjetas = new ArrayList<>();
+                if (evt.getKeyCode() == 32) {
+                    this.jTFSocioBuscarIngreseValor.setText(this.jTFSocioBuscarIngreseValor.getText().trim());
+                    this.jTFFechaHasta.setText(this.jTFFechaHasta.getText().trim());
                 }
+                SocioTarjeta.getInstance().noEnterFecha(valorMod, valorMod, evt);
+                
+                
+                if (this.jBBuscar.getText().equals("▲")) {
+                    valorMod.setText("Fecha de Alta");
+                    this.criterio1 = "fechaDeAlta";
+                    SocioTarjeta.getInstance().noEnterFecha(this.jLInfo, valorMod, evt);
+                } else {
+                    valorMod.setText("Fecha de Baja");
+                    this.criterio1 = "fechaDeBaja";
+                    SocioTarjeta.getInstance().noEnterFechaDeBaja(this.jLInfo, valorMod, evt);
+                }
+
+                if (this.jBFechaHasta.getText().equals("▲")) {
+                    valorMod.setText("Fecha de Alta");
+                    this.criterio2 = "fechaDeAlta";
+                    SocioTarjeta.getInstance().noEnterFecha(this.jLInfo, valorMod, evt);
+                } else {
+                    valorMod.setText("Fecha de Baja");
+                    this.criterio2 = "fechaDeBaja";
+                    SocioTarjeta.getInstance().noEnterFechaDeBaja(this.jLInfo, valorMod, evt);
+                }
+                this.criterio = "";
+                this.valor = ""; //ESTO ES PARA MANEJAR EL ESTADO. AGREGAR A LA VISTA SI QUIERE QUE SEAN SOCIOS O TODOS
+                criterio = "rango_fechas";
+                resultados = SocioTarjeta.getInstance().listarSocio(criterio, "", "FECHA");
+
+                for (SocioTarjeta resultado : resultados) {
+                    resultado.setVisible(true);
+                }
+                cargarLasTarjetas();
+                resultados.clear();
+            }else{
+                JTextField field = (JTextField) evt.getSource();
+                //Se obtiene el texto del textfield
+                String texto = field.getText();
+                //Se obtiene la posición del caracter no deseado
+                int pos = texto.indexOf(c);
+                //Se elimina el caracter no deseado usando substring
+                texto = texto.substring(0, pos) + texto.substring(pos + 1);
+                //Se asigna el nuevo texto al textfield sin el caracter no deseado
+                field.setText(texto);
             }
+
         }
     }
 

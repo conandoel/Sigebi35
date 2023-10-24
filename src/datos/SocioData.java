@@ -603,8 +603,7 @@ public class SocioData {
             case 8:
                 fecha = fecha.substring(4, 8) + "-" + fecha.substring(2, 4) + "-" + fecha.substring(0, 2);
                 break;
-            default:
-                break;
+
         }
         return fecha;
     }
@@ -650,8 +649,7 @@ public class SocioData {
             case 8:
                 fecha = fecha.substring(4, 8) + "-" + fecha.substring(2, 4) + "-" + fecha.substring(0, 2);
                 break;
-            default:
-                break;
+
         }
         return fecha;
     }
@@ -700,8 +698,7 @@ public class SocioData {
             case 8:
                 fecha = fecha.substring(4, 8) + "-" + fecha.substring(2, 4) + "-" + fecha.substring(0, 2);
                 break;
-            default:
-                break;
+
         }
 
         String sql = "SELECT * FROM lector WHERE " + criterio + " LIKE ?;";
