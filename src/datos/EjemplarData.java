@@ -128,4 +128,30 @@ public class EjemplarData {
         return ejemplares;
     }
     
+    public List<Ejemplar> listarEjemplaresLibre(){
+        List<Ejemplar> ejemplares=new ArrayList<>();
+        Ejemplar ej;
+        Libro libro;
+        String sql="Select * from ejemplar e join libro l on e.isbn=l.isbn ";
+        try{
+            PreparedStatement ps=con.prepareStatement(sql);
+            ResultSet rs=ps.executeQuery();
+            while(rs.next()){
+                ej=new Ejemplar();
+                libro=new Libro();
+                ej.setCodigo(rs.getInt(1));
+                ej.setEstado(rs.getString(3));
+                libro.setIsbn(rs.getLong(4));
+                libro.setTitulo(rs.getString(5));
+                ej.setLibro(libro);
+                System.out.println(ej.getCodigo());
+                ejemplares.add(ej);
+            
+            }
+        }catch(SQLException ex){
+        
+        }
+        return ejemplares;
+    }
+    
 }
