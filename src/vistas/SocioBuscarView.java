@@ -49,15 +49,12 @@ public class SocioBuscarView extends javax.swing.JInternalFrame {
     private SocioBuscarView() {
         initComponents();
         jCBCargarSocioBuscarCriterios();
-
+        
         Container pane = ((BasicInternalFrameUI) this.getUI()).getNorthPane();
         // Eliminar el botón del menú
         pane.remove(0);
 
         sbr = this;
-        //jBBuscar.addActionListener(action);
-        //jBBuscar.getInputMap().put(KeyStroke.getKeyStroke("ENTER"), "doClick");
-        //jBBuscar.getActionMap().put("doClick", action);
 
     }
 
@@ -101,6 +98,7 @@ public class SocioBuscarView extends javax.swing.JInternalFrame {
         //Se devuelve el atributo sbr
         return sbr;
     }
+ 
     private int activarEliminar = 0;
 
     //Método que comunica criterio y valor elegido en la VISTA para ser utilizado por el método listarSocio para crear las TARJETAS.

@@ -13,9 +13,12 @@ import javax.swing.JTextField;
 import java.lang.reflect.Field;
 import java.awt.Color;
 import java.awt.Container;
+import java.awt.Dimension;
 import java.awt.Image;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.awt.event.ComponentAdapter;
+import java.awt.event.ComponentEvent;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
@@ -30,13 +33,19 @@ public class SocioAgregarView extends javax.swing.JInternalFrame {
     private static SocioAgregarView sar;
     SocioData metodoDeSocio = new SocioData();
     private Foto foto;
+    private final Image resetear = new ImageIcon(getClass().getResource("/vistas/imagenes/resetear.png")).getImage();
+    private final Image cancelar = new ImageIcon(getClass().getResource("/vistas/imagenes/cancelar.png")).getImage();
+    private final Image agregar = new ImageIcon(getClass().getResource("/vistas/imagenes/agregarSocio.png")).getImage();
 
     public SocioAgregarView() {
         initComponents();
         establecerDefault();
+        
         Container pane = ((BasicInternalFrameUI) this.getUI ()).getNorthPane();
         pane.remove(0);
         sar = this;
+
+
     }
 
     public JLabel getLabelInformativo() {
@@ -61,6 +70,11 @@ public class SocioAgregarView extends javax.swing.JInternalFrame {
     public JTextField getJTFDNI(){
         return this.jTFDNI;
     }
+    
+    private void aplicarHover(){
+        
+    }
+
     
     /**
      * This method is called from within the constructor to initialize the form.
@@ -108,7 +122,7 @@ public class SocioAgregarView extends javax.swing.JInternalFrame {
         );
         jPSocioAgregarLayout.setVerticalGroup(
             jPSocioAgregarLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 344, Short.MAX_VALUE)
+            .addGap(0, 0, Short.MAX_VALUE)
         );
 
         jLApellido.setText("Apellido:");
@@ -178,24 +192,44 @@ public class SocioAgregarView extends javax.swing.JInternalFrame {
             }
         });
 
-        jLAgregar.setText("Agregar");
+        jLAgregar.setIcon(new javax.swing.ImageIcon(getClass().getResource("/vistas/imagenes/agregarSocio2.png"))); // NOI18N
         jLAgregar.addMouseListener(new java.awt.event.MouseAdapter() {
             public void mouseClicked(java.awt.event.MouseEvent evt) {
                 jLAgregarMouseClicked(evt);
             }
+            public void mouseEntered(java.awt.event.MouseEvent evt) {
+                jLAgregarMouseEntered(evt);
+            }
+            public void mouseExited(java.awt.event.MouseEvent evt) {
+                jLAgregarMouseExited(evt);
+            }
         });
 
+        jLReset.setIcon(new javax.swing.ImageIcon(getClass().getResource("/vistas/imagenes/resetear.png"))); // NOI18N
         jLReset.setText("Reset");
         jLReset.addMouseListener(new java.awt.event.MouseAdapter() {
             public void mouseClicked(java.awt.event.MouseEvent evt) {
                 jLResetMouseClicked(evt);
             }
+            public void mouseEntered(java.awt.event.MouseEvent evt) {
+                jLResetMouseEntered(evt);
+            }
+            public void mouseExited(java.awt.event.MouseEvent evt) {
+                jLResetMouseExited(evt);
+            }
         });
 
+        jLCancelar.setIcon(new javax.swing.ImageIcon(getClass().getResource("/vistas/imagenes/cancelar.png"))); // NOI18N
         jLCancelar.setText("Cancelar");
         jLCancelar.addMouseListener(new java.awt.event.MouseAdapter() {
             public void mouseClicked(java.awt.event.MouseEvent evt) {
                 jLCancelarMouseClicked(evt);
+            }
+            public void mouseEntered(java.awt.event.MouseEvent evt) {
+                jLCancelarMouseEntered(evt);
+            }
+            public void mouseExited(java.awt.event.MouseEvent evt) {
+                jLCancelarMouseExited(evt);
             }
         });
 
@@ -292,13 +326,13 @@ public class SocioAgregarView extends javax.swing.JInternalFrame {
             .addGroup(jPanel1Layout.createSequentialGroup()
                 .addGap(19, 19, 19)
                 .addComponent(jLAgregarSocios, javax.swing.GroupLayout.PREFERRED_SIZE, 145, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(267, 267, 267)
-                .addComponent(jLReset, javax.swing.GroupLayout.PREFERRED_SIZE, 57, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(242, 242, 242)
+                .addComponent(jLReset, javax.swing.GroupLayout.PREFERRED_SIZE, 63, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                .addComponent(jLCancelar, javax.swing.GroupLayout.PREFERRED_SIZE, 65, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(jLCancelar, javax.swing.GroupLayout.PREFERRED_SIZE, 57, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(18, 18, 18)
-                .addComponent(jLAgregar, javax.swing.GroupLayout.PREFERRED_SIZE, 57, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(0, 52, Short.MAX_VALUE))
+                .addComponent(jLAgregar, javax.swing.GroupLayout.PREFERRED_SIZE, 62, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(0, 64, Short.MAX_VALUE))
         );
         jPanel1Layout.setVerticalGroup(
             jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -338,11 +372,11 @@ public class SocioAgregarView extends javax.swing.JInternalFrame {
                         .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                             .addComponent(jLTelefono)
                             .addComponent(jTFTelefono, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                         .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                             .addComponent(jTFMail, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                             .addComponent(jLMail))
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 23, Short.MAX_VALUE)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                         .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                             .addComponent(jLFechaDeAlta)
                             .addComponent(jLFechaDeAltaDEFAULT))
@@ -350,13 +384,15 @@ public class SocioAgregarView extends javax.swing.JInternalFrame {
                         .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                             .addComponent(jLFechaDeBaja)
                             .addComponent(jLFechaDeBajaDEFAULT))))
-                .addGap(28, 28, 28)
-                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(jLReset, javax.swing.GroupLayout.PREFERRED_SIZE, 29, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(jLCancelar, javax.swing.GroupLayout.PREFERRED_SIZE, 29, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(jLAgregar, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                    .addComponent(jLAgregarSocios, javax.swing.GroupLayout.PREFERRED_SIZE, 25, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addGap(30, 30, 30))
+                .addGap(5, 5, 5)
+                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
+                    .addComponent(jLAgregarSocios, javax.swing.GroupLayout.PREFERRED_SIZE, 25, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                        .addComponent(jLAgregar, javax.swing.GroupLayout.PREFERRED_SIZE, 65, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                            .addComponent(jLReset, javax.swing.GroupLayout.PREFERRED_SIZE, 65, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(jLCancelar, javax.swing.GroupLayout.PREFERRED_SIZE, 65, javax.swing.GroupLayout.PREFERRED_SIZE))))
+                .addGap(53, 53, 53))
         );
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
@@ -444,6 +480,8 @@ public class SocioAgregarView extends javax.swing.JInternalFrame {
         this.jLFechaDeBajaDEFAULT.setText(fechaDeBajaDEFAULT.replaceAll("-", " \\| "));
 
         cargarFotoPerfilVacio(this.jLImagen);
+        
+        
 
     }
 
@@ -785,6 +823,32 @@ public class SocioAgregarView extends javax.swing.JInternalFrame {
         Principal.getInstance().repaint();
         Principal.getInstance().habilitarModificaciones(false, false, true);
     }//GEN-LAST:event_jLCancelarMouseClicked
+
+    private void jLResetMouseEntered(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jLResetMouseEntered
+        // TODO add your handling code here:
+        this.jLReset.setSize(this.jLReset.getWidth()+1, this.jLReset.getHeight()+1);
+    }//GEN-LAST:event_jLResetMouseEntered
+
+    private void jLResetMouseExited(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jLResetMouseExited
+        // TODO add your handling code here:
+        this.jLReset.setSize(this.jLReset.getWidth()-1, this.jLReset.getWidth()-1);
+    }//GEN-LAST:event_jLResetMouseExited
+
+    private void jLCancelarMouseEntered(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jLCancelarMouseEntered
+        this.jLCancelar.setSize(this.jLCancelar.getWidth()+1, this.jLCancelar.getHeight()+1);
+    }//GEN-LAST:event_jLCancelarMouseEntered
+
+    private void jLCancelarMouseExited(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jLCancelarMouseExited
+        this.jLCancelar.setSize(this.jLCancelar.getWidth()-1, this.jLCancelar.getHeight()-1);
+    }//GEN-LAST:event_jLCancelarMouseExited
+
+    private void jLAgregarMouseEntered(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jLAgregarMouseEntered
+        this.jLAgregar.setSize(this.jLAgregar.getWidth()+3, this.jLAgregar.getHeight()+3);
+    }//GEN-LAST:event_jLAgregarMouseEntered
+
+    private void jLAgregarMouseExited(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jLAgregarMouseExited
+        this.jLAgregar.setSize(this.jLAgregar.getWidth()-3, this.jLAgregar.getHeight()-3);
+    }//GEN-LAST:event_jLAgregarMouseExited
 
     private String darFormatoPalabras(String caracteresIngresados, String valor){
         if(valor.equals("Domicilio:")){

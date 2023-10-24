@@ -153,9 +153,7 @@ public class SocioTarjeta extends javax.swing.JPanel {
     //Estas son los dos Íconos que aparecen en las TARJETAS para MODIFICAR y ELIMINAR
     private final Image modificar = new ImageIcon(getClass().getResource("/vistas/imagenes/modificar.png")).getImage();
     private final Image eliminar = new ImageIcon(getClass().getResource("/vistas/imagenes/eliminar.png")).getImage();
-    private final Image resetear = new ImageIcon(getClass().getResource("/vistas/imagenes/resetear.png")).getImage();
-    private final Image cancelar = new ImageIcon(getClass().getResource("/vistas/imagenes/cancelar.png")).getImage();
-    private final Image agregar = new ImageIcon(getClass().getResource("/vistas/imagenes/agregarSocio.png")).getImage();
+    
 
     //Esto es un Override de paintComponent del JPanel SocioTarjeta para darle color
     @Override
@@ -378,22 +376,6 @@ public class SocioTarjeta extends javax.swing.JPanel {
                 } else {
                     tarjeta.jLEfecto.setVisible(false);
                 }
-            }//PRUEBA - EN CONSTRUCCION -
-            case "AGREGAR" -> {
-                List<JLabel> iconos = SocioAgregarView.getInstance().getIconos();
-                for (JLabel icono : iconos) {
-                    icono.setText("LCDTM");
-                    JOptionPane.showMessageDialog(null, icono.getText());
-                    Image dAgregar = agregar.getScaledInstance(icono.getWidth(), icono.getHeight(), Image.SCALE_SMOOTH);
-
-                    JOptionPane.showMessageDialog(this, "Estoy haciendo pruebas: Línea 382 de SocioTarjeta");
-                    ImageIcon iconAgregar = new ImageIcon(dAgregar);
-
-                    icono.setIcon(iconAgregar);
-                }
-
-                JLabel icon = SocioAgregarView.getInstance().getIcon();
-                icon.setText("LA PUTEEE");
             }
             default -> {
                 //Si EFECTO tiene un valor diferente (Se utiliza "NADA" pero debería ser "BUSCAR") el JLabel toma valor "B" y se elimina el número de socio (No había necesidad)
