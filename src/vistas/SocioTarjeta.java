@@ -1593,9 +1593,13 @@ public class SocioTarjeta extends javax.swing.JPanel {
 
         } else {
             labelInformativo.setForeground(Color.BLACK);
-            char c = e.getKeyChar();
+            
+            
             JTextField field = (JTextField) e.getSource();
             String texto = field.getText();
+
+            
+            char c = e.getKeyChar();
             if (!Character.isDigit(c) && c != '-') {
 
                 for (char ch : shiftCarcs) {

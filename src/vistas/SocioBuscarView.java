@@ -145,11 +145,11 @@ public class SocioBuscarView extends javax.swing.JInternalFrame {
         //Según la SECCION que va a tomar en realidad el valor de "EFECTO" que puede ser "MODIFICAR", "ELIMINAR", "LIMPIAR" (Aún no hace nada eso), y "NADA"
         switch (SECCION) {
             case "MODIFICAR" ->
-                this.jLBuscarSocios.setText("Modificar socios");
+                this.jLBuscarSocios.setText("Modificar Socios");
             case "ELIMINAR" ->
-                this.jLBuscarSocios.setText("Eliminar socios");
+                this.jLBuscarSocios.setText("Eliminar Socios");
             default ->
-                this.jLBuscarSocios.setText("Buscar socios");
+                this.jLBuscarSocios.setText("Búsqueda de Socios");
         }
         //Cada case es para modificar el JLabel por tanto según sea el caso, la VISTA BUSCAR SOCIO será "Buscar socios" o "Eliminar Socios", etc
     }
@@ -528,7 +528,9 @@ public class SocioBuscarView extends javax.swing.JInternalFrame {
 
     private void jBBuscarMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jBBuscarMouseClicked
         // TODO add your handling code here:
-        cambiarBotonesFechas(this.jBBuscar);
+        if(this.jCBSocioBuscarCriterio.getSelectedItem().toString().equals("Fecha")){
+            cambiarBotonesFechas(this.jBBuscar);
+        }
     }//GEN-LAST:event_jBBuscarMouseClicked
 
     private void jBFechaHastaMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jBFechaHastaMouseClicked
@@ -600,9 +602,9 @@ public class SocioBuscarView extends javax.swing.JInternalFrame {
             char c = evt.getKeyChar();
             if (evt.getKeyCode() == 32) {
                 this.jTFSocioBuscarIngreseValor.setText(this.jTFSocioBuscarIngreseValor.getText().substring(0, this.jTFSocioBuscarIngreseValor.getText().length() - 1));
-            } else {
+            }else {
                 SocioTarjeta.getInstance().noEnterFecha(this.jLInfo, valorMod, evt);
-                if (Character.isDigit(c) || c == '-') {
+                if (Character.isDigit(c) || c == '-' || evt.getKeyCode() == 8) {
                     String fechaIngresada = this.jTFSocioBuscarIngreseValor.getText();
                     fechaIngresada = fechaIngresada.replaceAll("-", "");
 
@@ -701,7 +703,10 @@ public class SocioBuscarView extends javax.swing.JInternalFrame {
             //Si no regresaron TARJETAS entonces se informa mediante un JLabel ubicado debajo del JTextField para búsqueda, y el layout queda en null
         } else {
             this.jLInfo.setText("La búsqueda no arrojó resultados");
-            layout = null;
+            Principal.getInstance().cargarBusquedaSocio();
+
+            layout = new FlowLayout(FlowLayout.LEFT);
+            this.jTFSocioBuscarIngreseValor.requestFocus();
         }
         //Si el layout es diferente de null, o sea que se han devuelto TARJETAS
         if (layout != null) {
