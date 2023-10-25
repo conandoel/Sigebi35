@@ -1,15 +1,22 @@
 
 package vistas;
 import entidades.Libro;
+import datos.LibroData;
 import java.awt.Color;
+import java.util.*;
+import javax.swing.table.DefaultTableModel;
 public class LibroModificarView extends javax.swing.JInternalFrame {
-    Principal principal; LibroBuscarView lBuscar;
+    Principal principal; LibroBuscarView lBuscar; LibroData lData = new LibroData();
+    DefaultTableModel modelo = new DefaultTableModel();
     
     public LibroModificarView(Principal p) {
         this.principal = p;
         setTitle("Modificar Libros");
         initComponents();
-    }
+        cargarTabla();
+        cargarFilas();
+        inheditar();
+    }   
 
     @SuppressWarnings("unchecked")
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
@@ -39,12 +46,15 @@ public class LibroModificarView extends javax.swing.JInternalFrame {
         jtfEjemplaresmod = new javax.swing.JTextField();
         jlbDatoActual = new javax.swing.JLabel();
         jlbDatoMod = new javax.swing.JLabel();
-        jrbEstado = new javax.swing.JRadioButton();
         jrbEstadomod = new javax.swing.JRadioButton();
-        jButton1 = new javax.swing.JButton();
-        jButton2 = new javax.swing.JButton();
+        jbtCommit = new javax.swing.JButton();
+        jbtnCancelar = new javax.swing.JButton();
+        jlbDisponible = new javax.swing.JLabel();
+        jScrollPane1 = new javax.swing.JScrollPane();
+        jtbLibros = new javax.swing.JTable();
 
-        setPreferredSize(new java.awt.Dimension(340, 397));
+        setMaximumSize(new java.awt.Dimension(415, 420));
+        setMinimumSize(new java.awt.Dimension(415, 420));
 
         jlbISBN.setFont(new java.awt.Font("Dialog", 1, 14)); // NOI18N
         jlbISBN.setText("ISBN:");
@@ -68,10 +78,21 @@ public class LibroModificarView extends javax.swing.JInternalFrame {
         jlbEjemplares.setText("Ejemplares:");
 
         jlbEstado.setFont(new java.awt.Font("Dialog", 1, 14)); // NOI18N
-        jlbEstado.setText("Disponible:");
+        jlbEstado.setText("Estado:");
 
         jtfISBN.setEnabled(false);
         jtfISBN.setDisabledTextColor(Color.black);
+
+        jtfISBNmod.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jtfISBNmodActionPerformed(evt);
+            }
+        });
+        jtfISBNmod.addKeyListener(new java.awt.event.KeyAdapter() {
+            public void keyTyped(java.awt.event.KeyEvent evt) {
+                jtfISBNmodKeyTyped(evt);
+            }
+        });
 
         jtfTitulo.setDisabledTextColor(Color.black);
         jtfTitulo.setEnabled(false);
@@ -87,6 +108,11 @@ public class LibroModificarView extends javax.swing.JInternalFrame {
 
         jtfEditorial.setEnabled(false);
         jtfEditorial.setDisabledTextColor(Color.black);
+        jtfEditorial.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jtfEditorialActionPerformed(evt);
+            }
+        });
 
         jtfEjemplares.setEnabled(false);
         jtfEjemplares.setDisabledTextColor(Color.black);
@@ -97,16 +123,41 @@ public class LibroModificarView extends javax.swing.JInternalFrame {
         jlbDatoMod.setFont(new java.awt.Font("Dialog", 1, 14)); // NOI18N
         jlbDatoMod.setText("Modificacion:");
 
-        jButton1.setFont(new java.awt.Font("Dialog", 1, 14)); // NOI18N
-        jButton1.setText("Modificar");
-
-        jButton2.setFont(new java.awt.Font("Dialog", 1, 14)); // NOI18N
-        jButton2.setText("Cancelar");
-        jButton2.addActionListener(new java.awt.event.ActionListener() {
+        jbtCommit.setFont(new java.awt.Font("Dialog", 1, 14)); // NOI18N
+        jbtCommit.setText("Modificar");
+        jbtCommit.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jButton2ActionPerformed(evt);
+                jbtCommitActionPerformed(evt);
             }
         });
+
+        jbtnCancelar.setFont(new java.awt.Font("Dialog", 1, 14)); // NOI18N
+        jbtnCancelar.setText("Cancelar");
+        jbtnCancelar.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jbtnCancelarActionPerformed(evt);
+            }
+        });
+
+        jlbDisponible.setFont(new java.awt.Font("Dialog", 1, 14)); // NOI18N
+
+        jtbLibros.setModel(new javax.swing.table.DefaultTableModel(
+            new Object [][] {
+                {null, null, null, null},
+                {null, null, null, null},
+                {null, null, null, null},
+                {null, null, null, null}
+            },
+            new String [] {
+                "Title 1", "Title 2", "Title 3", "Title 4"
+            }
+        ));
+        jtbLibros.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                jtbLibrosMouseClicked(evt);
+            }
+        });
+        jScrollPane1.setViewportView(jtbLibros);
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
@@ -114,57 +165,60 @@ public class LibroModificarView extends javax.swing.JInternalFrame {
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
                 .addContainerGap()
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING, false)
-                    .addComponent(jlbEstado, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                    .addComponent(jlbEditorial, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                    .addComponent(jlbEjemplares, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                    .addComponent(jlbGenero, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                    .addComponent(jlbAnio, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                    .addComponent(jlbAutor, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                    .addComponent(jlbTitulo, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                    .addComponent(jlbISBN, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(jButton1)
-                    .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                        .addGroup(layout.createSequentialGroup()
-                            .addComponent(jtfGenero, javax.swing.GroupLayout.PREFERRED_SIZE, 140, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                            .addComponent(jtfGeneromod, javax.swing.GroupLayout.PREFERRED_SIZE, 140, javax.swing.GroupLayout.PREFERRED_SIZE))
-                        .addGroup(layout.createSequentialGroup()
+                    .addGroup(layout.createSequentialGroup()
+                        .addComponent(jlbISBN, javax.swing.GroupLayout.PREFERRED_SIZE, 82, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addComponent(jtfISBN, javax.swing.GroupLayout.PREFERRED_SIZE, 140, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addGroup(layout.createSequentialGroup()
+                        .addComponent(jlbAnio, javax.swing.GroupLayout.PREFERRED_SIZE, 82, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addComponent(jtfAnio, javax.swing.GroupLayout.PREFERRED_SIZE, 140, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addGroup(layout.createSequentialGroup()
+                        .addComponent(jlbGenero, javax.swing.GroupLayout.PREFERRED_SIZE, 82, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addComponent(jtfGenero, javax.swing.GroupLayout.PREFERRED_SIZE, 140, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addGroup(layout.createSequentialGroup()
+                        .addComponent(jlbEditorial, javax.swing.GroupLayout.PREFERRED_SIZE, 82, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addComponent(jtfEditorial, javax.swing.GroupLayout.PREFERRED_SIZE, 140, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addGroup(layout.createSequentialGroup()
+                        .addComponent(jlbEjemplares)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addComponent(jtfEjemplares, javax.swing.GroupLayout.PREFERRED_SIZE, 140, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addGroup(layout.createSequentialGroup()
+                        .addComponent(jlbEstado, javax.swing.GroupLayout.PREFERRED_SIZE, 82, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                            .addGroup(layout.createSequentialGroup()
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                                    .addComponent(jlbDatoActual, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                                    .addComponent(jbtCommit)))
+                            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                                .addComponent(jlbDisponible, javax.swing.GroupLayout.PREFERRED_SIZE, 140, javax.swing.GroupLayout.PREFERRED_SIZE))))
+                    .addGroup(layout.createSequentialGroup()
+                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addComponent(jlbTitulo, javax.swing.GroupLayout.PREFERRED_SIZE, 82, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(jlbAutor, javax.swing.GroupLayout.PREFERRED_SIZE, 82, javax.swing.GroupLayout.PREFERRED_SIZE))
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                             .addComponent(jtfTitulo, javax.swing.GroupLayout.PREFERRED_SIZE, 140, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                            .addComponent(jtfTitulomod, javax.swing.GroupLayout.PREFERRED_SIZE, 140, javax.swing.GroupLayout.PREFERRED_SIZE))
-                        .addGroup(layout.createSequentialGroup()
-                            .addComponent(jtfAutor, javax.swing.GroupLayout.PREFERRED_SIZE, 140, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                            .addComponent(jtfAutormod, javax.swing.GroupLayout.PREFERRED_SIZE, 140, javax.swing.GroupLayout.PREFERRED_SIZE))
-                        .addGroup(layout.createSequentialGroup()
-                            .addComponent(jtfAnio, javax.swing.GroupLayout.PREFERRED_SIZE, 140, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                            .addComponent(jtfAniomod, javax.swing.GroupLayout.PREFERRED_SIZE, 140, javax.swing.GroupLayout.PREFERRED_SIZE))
-                        .addGroup(layout.createSequentialGroup()
-                            .addComponent(jtfEditorial, javax.swing.GroupLayout.PREFERRED_SIZE, 140, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                            .addComponent(jtfEditorialmod, javax.swing.GroupLayout.PREFERRED_SIZE, 140, javax.swing.GroupLayout.PREFERRED_SIZE))
-                        .addGroup(layout.createSequentialGroup()
-                            .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                                .addComponent(jtfISBN, javax.swing.GroupLayout.PREFERRED_SIZE, 140, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                .addComponent(jlbDatoActual, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
-                            .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                            .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                                .addComponent(jtfISBNmod, javax.swing.GroupLayout.DEFAULT_SIZE, 140, Short.MAX_VALUE)
-                                .addComponent(jlbDatoMod, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)))
-                        .addGroup(layout.createSequentialGroup()
-                            .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                                .addComponent(jtfEjemplares, javax.swing.GroupLayout.PREFERRED_SIZE, 140, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                .addComponent(jrbEstado))
-                            .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                            .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                                .addComponent(jrbEstadomod)
-                                .addComponent(jtfEjemplaresmod, javax.swing.GroupLayout.PREFERRED_SIZE, 140, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                .addComponent(jButton2)))))
-                .addContainerGap(12, Short.MAX_VALUE))
+                            .addComponent(jtfAutor, javax.swing.GroupLayout.PREFERRED_SIZE, 140, javax.swing.GroupLayout.PREFERRED_SIZE))))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addComponent(jlbDatoMod, javax.swing.GroupLayout.PREFERRED_SIZE, 140, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(jbtnCancelar)
+                    .addComponent(jtfISBNmod, javax.swing.GroupLayout.PREFERRED_SIZE, 140, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(jtfTitulomod, javax.swing.GroupLayout.PREFERRED_SIZE, 140, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(jtfAutormod, javax.swing.GroupLayout.PREFERRED_SIZE, 140, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(jtfAniomod, javax.swing.GroupLayout.PREFERRED_SIZE, 140, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(jtfGeneromod, javax.swing.GroupLayout.PREFERRED_SIZE, 140, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(jtfEditorialmod, javax.swing.GroupLayout.PREFERRED_SIZE, 140, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(jtfEjemplaresmod, javax.swing.GroupLayout.PREFERRED_SIZE, 140, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(jrbEstadomod))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(jScrollPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 462, Short.MAX_VALUE))
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -179,10 +233,11 @@ public class LibroModificarView extends javax.swing.JInternalFrame {
                     .addComponent(jtfISBN, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(jtfISBNmod, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(jlbTitulo)
-                    .addComponent(jtfTitulo, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(jtfTitulomod, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addComponent(jtfTitulo, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.PREFERRED_SIZE, 24, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                        .addComponent(jlbTitulo)
+                        .addComponent(jtfTitulomod, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jlbAutor)
@@ -209,41 +264,95 @@ public class LibroModificarView extends javax.swing.JInternalFrame {
                     .addComponent(jtfEjemplares, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(jtfEjemplaresmod, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
-                    .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                        .addComponent(jlbEstado)
-                        .addComponent(jrbEstado))
-                    .addComponent(jrbEstadomod))
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING, false)
+                    .addComponent(jlbEstado, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                    .addComponent(jrbEstadomod)
+                    .addComponent(jlbDisponible, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(jButton1)
-                    .addComponent(jButton2))
-                .addContainerGap(16, Short.MAX_VALUE))
+                    .addComponent(jbtCommit)
+                    .addComponent(jbtnCancelar))
+                .addContainerGap(39, Short.MAX_VALUE))
+            .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 0, Short.MAX_VALUE)
         );
 
         pack();
     }// </editor-fold>//GEN-END:initComponents
 
-    private void jButton2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton2ActionPerformed
+    private void jbtnCancelarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jbtnCancelarActionPerformed
         this.dispose();
-    }//GEN-LAST:event_jButton2ActionPerformed
+    }//GEN-LAST:event_jbtnCancelarActionPerformed
+
+    private void jtfISBNmodActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jtfISBNmodActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_jtfISBNmodActionPerformed
+
+    private void jtfEditorialActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jtfEditorialActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_jtfEditorialActionPerformed
+
+    private void jbtCommitActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jbtCommitActionPerformed
+        Libro libro = new Libro();
+        
+        if(jtfISBNmod.getText().equalsIgnoreCase("")){libro.setIsbn(Long.parseLong(llll(jtfISBN.getText())));}else{libro.setIsbn(Long.parseLong(llll(jtfISBNmod.getText())));}
+        if(jtfTitulomod.getText().equalsIgnoreCase("")){libro.setTitulo(jtfTitulo.getText());}else{libro.setTitulo(jtfTitulomod.getText());}
+        if(jtfAutormod.getText().equalsIgnoreCase("")){libro.setAutor(jtfAutor.getText());}else{libro.setAutor(jtfAutormod.getText());}
+        if(jtfAniomod.getText().equalsIgnoreCase("")){libro.setAnio(Integer.parseInt(llll(jtfAnio.getText())));}else{libro.setAnio(Integer.parseInt(llll(jtfAniomod.getText())));}
+        if(jtfGeneromod.getText().equalsIgnoreCase("")){libro.setGenero(jtfGenero.getText());}else{libro.setGenero(jtfGeneromod.getText());}
+        if(jtfEditorialmod.getText().equalsIgnoreCase("")){libro.setEditorial(jtfEditorial.getText());}else{libro.setEditorial(jtfEditorialmod.getText());}
+        libro.setEstado(jrbEstadomod.isSelected());
+        
+        lData.modificarLibro(Long.parseLong(llll(jtfISBN.getText())), libro);
+        
+        System.out.println(llll(jtfISBNmod.getText()));
+        limpiarTabla();
+        cargarFilas();
+    }//GEN-LAST:event_jbtCommitActionPerformed
+
+    private void jtfISBNmodKeyTyped(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_jtfISBNmodKeyTyped
+
+    }//GEN-LAST:event_jtfISBNmodKeyTyped
+
+    private void jtbLibrosMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jtbLibrosMouseClicked
+        int fila = jtbLibros.getSelectedRow();
+        Libro libro = new Libro();
+        libro = lData.getLibroEspecifico(Long.parseLong(jtbLibros.getValueAt(fila, 0).toString()));
+        System.out.println(libro.getTitulo());
+        
+        jtfISBN.setText(String.valueOf(libro.getIsbn()));
+        jtfTitulo.setText(libro.getTitulo());
+        jtfAutor.setText(libro.getAutor());
+        jtfAnio.setText(String.valueOf(libro.getAnio()));
+        jtfGenero.setText(libro.getGenero());
+        jtfEditorial.setText(libro.getEditorial());
+
+        if(libro.isEstado()){
+            
+            jlbDisponible.setText("Disponible");
+        }else{
+            jlbDisponible.setText("No disponible");
+        }
+        
+    }//GEN-LAST:event_jtbLibrosMouseClicked
 
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
-    private javax.swing.JButton jButton1;
-    private javax.swing.JButton jButton2;
+    private javax.swing.JScrollPane jScrollPane1;
+    private javax.swing.JButton jbtCommit;
+    private javax.swing.JButton jbtnCancelar;
     private javax.swing.JLabel jlbAnio;
     private javax.swing.JLabel jlbAutor;
     private javax.swing.JLabel jlbDatoActual;
     private javax.swing.JLabel jlbDatoMod;
+    private javax.swing.JLabel jlbDisponible;
     private javax.swing.JLabel jlbEditorial;
     private javax.swing.JLabel jlbEjemplares;
     private javax.swing.JLabel jlbEstado;
     private javax.swing.JLabel jlbGenero;
     private javax.swing.JLabel jlbISBN;
     private javax.swing.JLabel jlbTitulo;
-    private javax.swing.JRadioButton jrbEstado;
     private javax.swing.JRadioButton jrbEstadomod;
+    private javax.swing.JTable jtbLibros;
     private javax.swing.JTextField jtfAnio;
     private javax.swing.JTextField jtfAniomod;
     private javax.swing.JTextField jtfAutor;
@@ -268,9 +377,74 @@ public class LibroModificarView extends javax.swing.JInternalFrame {
         jtfEditorial.setText(libro.getEditorial());
         jtfEjemplares.setText(Integer.toString(libro.getCantEjemplares()));
         jtfGenero.setText(libro.getGenero());
-        jrbEstado.setSelected(libro.isEstado());
+        //jrbEstado.setSelected(libro.isEstado());
+        if(libro.isEstado()){
+            jlbDisponible.setText("Disponible");
+        }else{
+            jlbDisponible.setText("No disponible");
+        }
     }
 
 
-
+    private String llll(String isbn){
+        String llll = isbn;
+        
+        String llll2 = llll.replaceAll("\\s", "");
+            
+        
+        return llll2;
+    }
+    
+    private void limpiarTabla(){
+        int filas = modelo.getRowCount();
+        for (int i = filas - 1; i >= 0; i--){
+            modelo.removeRow(i);
+        }
+    }
+    private void cargarTabla(){
+        modelo.addColumn("ISBN");
+        modelo.addColumn("Titulo");
+        modelo.addColumn("Autor");
+        modelo.addColumn("Genero");
+        modelo.addColumn("Estado");
+        
+        jtbLibros.setModel(modelo); 
+    }
+    
+    private void cargarFilas(){
+        List<Libro> listaLibro = new ArrayList<>();
+        listaLibro = lData.listarLibroPorEstado(true, 0);
+        
+        Iterator<Libro> iterador = listaLibro.iterator();//Crea un iterador con los libros encontrados
+        if(iterador.hasNext()){
+            while(iterador.hasNext()){//Llena la tabla con la lista de libros encontrados en la base de datos
+                
+                Libro libro = new Libro(); libro = iterador.next();
+                String estado;
+                if(libro.isEstado()){
+                    estado = "Disponible";
+                }else{
+                    estado = "No disponible";
+                }
+                
+                modelo.addRow(new Object[] {libro.getIsbn(), libro.getTitulo(), libro.getAutor(),
+                                            libro.getGenero(), estado});
+                
+            }
+        }
+    }
+    
+    private void inheditar(){
+        //Tendria que deshabilitar la posibilidad de editar las celdas de la tabla
+        int i = jtbLibros.getRowCount(); int j = jtbLibros.getColumnCount();
+        
+        for(int k = 0; k <= i; k++){
+            for(int l = 0; l <= j; l++){
+                modelo.isCellEditable(k, l);
+            }
+        }
+    }
+        
+    
+    
 }

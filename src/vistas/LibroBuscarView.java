@@ -2,6 +2,7 @@ package vistas;
 
 import entidades.Libro;
 import datos.LibroData;
+import java.awt.Dimension;
 import java.util.*;
 import javax.swing.*;
 import javax.swing.table.DefaultTableModel;
@@ -9,16 +10,21 @@ import javax.swing.table.DefaultTableModel;
 public class LibroBuscarView extends javax.swing.JInternalFrame {
     private DefaultTableModel modelo = new DefaultTableModel();
     LibroData lData = new LibroData();
-    Libro libro = new Libro();
     Principal p;
-    List<Libro> libros = new ArrayList<>();
+    
     String Condicion = "ISBN";
     public LibroBuscarView(Principal principal) {
         this.p = principal;
         setTitle("Buscar Libros");
         initComponents();
         cargarTabla();
+        jtListaLibro.getColumnModel().getColumn(0).setPreferredWidth(60);
+        jtListaLibro.getColumnModel().getColumn(1).setPreferredWidth(150);
+        jtListaLibro.getColumnModel().getColumn(3).setPreferredWidth(10);
+        jtListaLibro.getColumnModel().getColumn(4).setPreferredWidth(20);
+       
         cargarCombo();
+        cargarCombo2();
         
     }
 
@@ -37,6 +43,7 @@ public class LibroBuscarView extends javax.swing.JInternalFrame {
         jbtnConfirmar = new javax.swing.JButton();
         jbtnCancelar = new javax.swing.JButton();
         jbtnNuevo = new javax.swing.JButton();
+        jcbElejirEstado = new javax.swing.JComboBox<>();
 
         jcbDato.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -57,6 +64,11 @@ public class LibroBuscarView extends javax.swing.JInternalFrame {
                 "Title 1", "Title 2", "Title 3", "Title 4"
             }
         ));
+        jtListaLibro.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                jtListaLibroMouseClicked(evt);
+            }
+        });
         jScrollPane1.setViewportView(jtListaLibro);
 
         jbtnBuscar.setText("Buscar");
@@ -82,7 +94,7 @@ public class LibroBuscarView extends javax.swing.JInternalFrame {
 
         jbtnEliminar.setFont(new java.awt.Font("Dialog", 1, 14)); // NOI18N
         jbtnEliminar.setForeground(new java.awt.Color(255, 0, 0));
-        jbtnEliminar.setText("Eliminar");
+        jbtnEliminar.setText("Deshabilitar");
         jbtnEliminar.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 jbtnEliminarActionPerformed(evt);
@@ -118,38 +130,41 @@ public class LibroBuscarView extends javax.swing.JInternalFrame {
             }
         });
 
+        jcbElejirEstado.setVisible(false);
+        jcbElejirEstado.setEnabled(false);
+
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
         layout.setHorizontalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
-                        .addContainerGap()
-                        .addComponent(jScrollPane1))
                     .addGroup(layout.createSequentialGroup()
-                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addGroup(layout.createSequentialGroup()
-                                .addGap(21, 21, 21)
-                                .addComponent(jLabel1, javax.swing.GroupLayout.PREFERRED_SIZE, 101, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                .addGap(18, 18, 18)
-                                .addComponent(jcbDato, javax.swing.GroupLayout.PREFERRED_SIZE, 140, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                .addGap(36, 36, 36)
-                                .addComponent(jtfBusqueda, javax.swing.GroupLayout.PREFERRED_SIZE, 216, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                .addGap(18, 18, 18)
-                                .addComponent(jbtnBuscar))
-                            .addGroup(layout.createSequentialGroup()
-                                .addContainerGap()
-                                .addComponent(jbtnNuevo)
-                                .addGap(18, 18, 18)
-                                .addComponent(jbtnModificar)
-                                .addGap(18, 18, 18)
-                                .addComponent(jbtnEliminar)
-                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                                .addComponent(jbtnConfirmar)
-                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                                .addComponent(jbtnCancelar)))
-                        .addGap(0, 36, Short.MAX_VALUE)))
+                        .addGap(21, 21, 21)
+                        .addComponent(jLabel1, javax.swing.GroupLayout.PREFERRED_SIZE, 101, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addGap(18, 18, 18)
+                        .addComponent(jcbDato, javax.swing.GroupLayout.PREFERRED_SIZE, 140, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addGap(36, 36, 36)
+                        .addComponent(jcbElejirEstado, javax.swing.GroupLayout.PREFERRED_SIZE, 137, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addComponent(jtfBusqueda, javax.swing.GroupLayout.PREFERRED_SIZE, 216, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addGap(18, 18, 18)
+                        .addComponent(jbtnBuscar)
+                        .addGap(0, 0, Short.MAX_VALUE))
+                    .addGroup(layout.createSequentialGroup()
+                        .addContainerGap()
+                        .addComponent(jbtnNuevo)
+                        .addGap(18, 18, 18)
+                        .addComponent(jbtnModificar)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                        .addComponent(jbtnEliminar)
+                        .addGap(18, 18, 18)
+                        .addComponent(jbtnConfirmar)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addComponent(jbtnCancelar))
+                    .addGroup(layout.createSequentialGroup()
+                        .addContainerGap()
+                        .addComponent(jScrollPane1)))
                 .addContainerGap())
         );
         layout.setVerticalGroup(
@@ -160,7 +175,8 @@ public class LibroBuscarView extends javax.swing.JInternalFrame {
                     .addComponent(jtfBusqueda, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(jcbDato, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(jbtnBuscar)
-                    .addComponent(jLabel1))
+                    .addComponent(jLabel1)
+                    .addComponent(jcbElejirEstado, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 157, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGap(18, 18, 18)
@@ -180,21 +196,53 @@ public class LibroBuscarView extends javax.swing.JInternalFrame {
         jtfBusqueda.setText("");//Limpia el text field cuando se cambia el filtro del combobox
         Condicion = (String)jcbDato.getSelectedItem();
         System.out.println(Condicion);
+        if(Condicion.equalsIgnoreCase("Disponible")){
+            jtfBusqueda.setVisible(false); jtfBusqueda.setEnabled(false);
+            jcbElejirEstado.setVisible(true); jcbElejirEstado.setEnabled(true);
+        }else{
+            
+            jcbElejirEstado.setVisible(false); jcbElejirEstado.setEnabled(false);
+            jtfBusqueda.setVisible(true); jtfBusqueda.setEnabled(true);
+                        
+        }
     }//GEN-LAST:event_jcbDatoActionPerformed
 
     private void jbtnBuscarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jbtnBuscarActionPerformed
-        
+        List<Libro> libros = new ArrayList<>();
         limpiarTabla(jtListaLibro);
         
-        switch(Condicion){//Usa un metodo de busqueda de LibroData dependiendo del filtro
+        try{
+            switch(Condicion){//Usa un metodo de busqueda de LibroData dependiendo del filtro
             case("ISBN"):
                 libros = lData.buscarLibroPorISBN(Long.parseLong(jtfBusqueda.getText()));
+                break;
             case("Autor"):
                 libros = lData.buscarLibroPorAutor(jtfBusqueda.getText());
+                break;
+            case("Disponible"):
+                String estado = jcbElejirEstado.getSelectedItem().toString();
+                if(estado.equals("Disponible")){
+                    libros = lData.listarLibroPorEstado(true, 1);
+                }else{
+                    libros = lData.listarLibroPorEstado(false, 1);
+                }
+                break;
             default://El filtro puede ser Isbn, Autor, TITULO y GENERO. Si no se usa los primeros dos, usa este metodo
-                libros = lData.buscarLibroPorTituloGenero(Condicion, jtfBusqueda.getText());
-
+                libros = lData.buscarLibroGeneral(Condicion, jtfBusqueda.getText());
+                break;
+            }
+        
+        jbtnModificar.setVisible(true); jbtnModificar.setEnabled(true);
+            
+        }catch(NumberFormatException ex){
+            if(jtfBusqueda.getText().equalsIgnoreCase("")){
+                JOptionPane.showMessageDialog(null, "Campo de busqueda para ISBN no puede estar vacio");
+            }else{
+                JOptionPane.showMessageDialog(null, "Ingrese un dato valido");
+            }
+            
         }
+        
         
         Iterator<Libro> iterador = libros.iterator();//Crea un iterador con los libros encontrados
         if(iterador.hasNext()){
@@ -207,17 +255,28 @@ public class LibroBuscarView extends javax.swing.JInternalFrame {
                 
             }
         }
-        
+        if(jtListaLibro.getRowCount() == 0){
+            jbtnModificar.setVisible(false); jbtnModificar.setEnabled(false);
+        }
+         
     }//GEN-LAST:event_jbtnBuscarActionPerformed
 
     private void jbtnModificarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jbtnModificarActionPerformed
-        //Debe enviarte a otra vista para modificar el libro seleccionado. Me quede sin tiempo. Mañana
+        Libro libro = new Libro();
+        
+        libro = libroSeleccionado(libro);
+        
+        if(libro != null){
+            Dimension d = new Dimension(415, 420);
+            p.cargarModLibro(libro, 420, 415);
+        }
         
     }//GEN-LAST:event_jbtnModificarActionPerformed
 
     private void jbtnEliminarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jbtnEliminarActionPerformed
         //Inhabilitar los demas botones, para que se enfoque en la confirmacion de la eliminacion
         
+        ////////////////////////////////////////////////////////////////////////
         //Botones
         jbtnBuscar.setEnabled(false);
         jbtnNuevo.setEnabled(false);
@@ -237,6 +296,8 @@ public class LibroBuscarView extends javax.swing.JInternalFrame {
         
         jbtnConfirmar.setEnabled(true); jbtnConfirmar.setVisible(true);
         jbtnCancelar.setEnabled(true); jbtnCancelar.setVisible(true);
+        ////////////////////////////////////////////////////////////////////////
+        
         
     }//GEN-LAST:event_jbtnEliminarActionPerformed
 
@@ -246,13 +307,36 @@ public class LibroBuscarView extends javax.swing.JInternalFrame {
 
     private void jbtnConfirmarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jbtnConfirmarActionPerformed
         //Habilita nuevamente los demas botones, deshabilita Confirmar y Cancelar, y procede a eliminar el libro de la base de datos
-        lData.eliminarLibro(Integer.parseInt(jtfBusqueda.getText()));
+        try{
+            int fila = jtListaLibro.getSelectedRow();
+            
+            lData.eliminarLibro(Long.parseLong(jtListaLibro.getValueAt(fila, 0).toString()));
+        }catch(NumberFormatException e){
+            System.out.println("eeeeeeeeee");
+        }catch(ArrayIndexOutOfBoundsException ee){
+            JOptionPane.showMessageDialog(null, "Seleccione un libro");
+        }
         habilitacionE();
+        
+        
     }//GEN-LAST:event_jbtnConfirmarActionPerformed
 
     private void jbtnCancelarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jbtnCancelarActionPerformed
         habilitacionE();
     }//GEN-LAST:event_jbtnCancelarActionPerformed
+
+    private void jtListaLibroMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jtListaLibroMouseClicked
+        if(evt.getClickCount() >= 1 && jtListaLibro.getRowCount() > -1){
+            jbtnModificar.setVisible(true); jbtnModificar.setEnabled(true);   
+        }else{
+            jbtnModificar.setVisible(false); jbtnModificar.setEnabled(false);
+        }
+        int fila = jtListaLibro.getSelectedRow();
+        System.out.println(jtListaLibro.getValueAt(fila, 0));
+        System.out.println(jtListaLibro.getValueAt(fila, 1));
+
+        
+    }//GEN-LAST:event_jtListaLibroMouseClicked
 
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
@@ -265,6 +349,7 @@ public class LibroBuscarView extends javax.swing.JInternalFrame {
     private javax.swing.JButton jbtnModificar;
     private javax.swing.JButton jbtnNuevo;
     private javax.swing.JComboBox<String> jcbDato;
+    private javax.swing.JComboBox<String> jcbElejirEstado;
     private javax.swing.JTable jtListaLibro;
     private javax.swing.JTextField jtfBusqueda;
     // End of variables declaration//GEN-END:variables
@@ -275,7 +360,7 @@ public class LibroBuscarView extends javax.swing.JInternalFrame {
     modelo.addColumn("ISBN");
     modelo.addColumn("Titulo");
     modelo.addColumn("Autor");
-    modelo.addColumn("Año de publicación");
+    modelo.addColumn("Año");
     modelo.addColumn("Genero");
     jtListaLibro.setModel(modelo);
     }
@@ -284,6 +369,11 @@ public class LibroBuscarView extends javax.swing.JInternalFrame {
         jcbDato.addItem("Titulo");
         jcbDato.addItem("Autor");
         jcbDato.addItem("Genero");
+        jcbDato.addItem("Disponible");
+    }
+    private void cargarCombo2(){
+        jcbElejirEstado.addItem("Disponible");
+        jcbElejirEstado.addItem("No disponible");
     }
     private void limpiarTabla(JTable t){
         DefaultTableModel m = (DefaultTableModel)t.getModel();
@@ -316,4 +406,17 @@ public class LibroBuscarView extends javax.swing.JInternalFrame {
         jbtnConfirmar.setEnabled(false); jbtnConfirmar.setVisible(false);
         jbtnCancelar.setEnabled(false); jbtnConfirmar.setVisible(false);
     }
+    
+    private Libro libroSeleccionado(Libro libro){
+        try{
+            int fila = jtListaLibro.getSelectedRow();
+            libro = lData.getLibroEspecifico(Long.parseLong(jtListaLibro.getValueAt(fila, 0).toString()));
+        }catch(ArrayIndexOutOfBoundsException e){
+            JOptionPane.showMessageDialog(null, "Seleccione un libro");
+            libro = null;
+        }
+        return libro;
+    
+    }
+    
 }
