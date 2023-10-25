@@ -367,7 +367,7 @@ public class SocioTarjeta extends javax.swing.JPanel {
     private void establecerIconos(String EFECTO, SocioTarjeta tarjeta, int NroX) {
         switch (EFECTO) {
             //Si EFECTO es MODIFICAR, un JLabel de la tarjeta toma el valor "M" para futuras manipulaciones. El JLabel de fuente "invisible" toma el valor de número de socio
-            case "MODIFICAR" -> {
+            case "MODIFICAR" : {
                 tarjeta.jLABM.setText("M");
                 tarjeta.jLEfecto.setText(Integer.toString(NroX));
                 //Se establece el tamaño de la imagen el cual va a ser el mismo que asignamos anteriormente al JLabel correspondiente en este mismo método
@@ -378,7 +378,7 @@ public class SocioTarjeta extends javax.swing.JPanel {
                 tarjeta.jLEfecto.setIcon(iconModificar);
             }
             //Si EFECTO es ELIMINAR, un JLabel de la tarjeta toma el valor "E" para futuras manipulaciones. El JLabel de fuente "invisible" toma el valor de número de socio
-            case "ELIMINAR" -> {
+            case "ELIMINAR" : {
                 tarjeta.jLABM.setText("E");
                 tarjeta.jLEfecto.setText(Integer.toString(NroX));
                 //Se establece el tamaño de la imagen el cual va a ser el mismo que asignamos anteriormente al JLabel correspondiente en este mismo método
@@ -393,7 +393,7 @@ public class SocioTarjeta extends javax.swing.JPanel {
                     tarjeta.jLEfecto.setVisible(false);
                 }
             }
-            default -> {
+            default : {
                 //Si EFECTO tiene un valor diferente (Se utiliza "NADA" pero debería ser "BUSCAR") el JLabel toma valor "B" y se elimina el número de socio (No había necesidad)
                 tarjeta.jLABM.setText("B");
                 tarjeta.jLEfecto.setText("");

@@ -8,8 +8,16 @@ import datos.PrestamoData;
 import datos.SocioData;
 import entidades.Prestamo;
 import entidades.Socio;
+import java.awt.Image;
+import java.awt.image.BufferedImage;
+import java.io.File;
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.logging.Level;
+import java.util.logging.Logger;
+import javax.imageio.ImageIO;
+import javax.swing.ImageIcon;
 import javax.swing.JOptionPane;
 import javax.swing.table.DefaultTableModel;
 
@@ -31,6 +39,7 @@ public class DevolucionesView extends javax.swing.JInternalFrame {
         initComponents();
         cargarSocios();
         cargarTabla();
+        jLFoto.setVisible(false);
     }
 
     /**
@@ -52,6 +61,8 @@ public class DevolucionesView extends javax.swing.JInternalFrame {
         jScrollPane1 = new javax.swing.JScrollPane();
         jtbDevoluciones = new javax.swing.JTable();
         jbtDevolver = new javax.swing.JToggleButton();
+        jPanel1 = new javax.swing.JPanel();
+        jLFoto = new javax.swing.JLabel();
 
         jLabel1.setText("Lector:");
 
@@ -91,6 +102,26 @@ public class DevolucionesView extends javax.swing.JInternalFrame {
             }
         });
 
+        jPanel1.setMinimumSize(new java.awt.Dimension(71, 81));
+
+        jLFoto.setText("foto");
+
+        javax.swing.GroupLayout jPanel1Layout = new javax.swing.GroupLayout(jPanel1);
+        jPanel1.setLayout(jPanel1Layout);
+        jPanel1Layout.setHorizontalGroup(
+            jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(jPanel1Layout.createSequentialGroup()
+                .addContainerGap()
+                .addComponent(jLFoto)
+                .addContainerGap(44, Short.MAX_VALUE))
+        );
+        jPanel1Layout.setVerticalGroup(
+            jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(jPanel1Layout.createSequentialGroup()
+                .addComponent(jLFoto)
+                .addGap(0, 0, Short.MAX_VALUE))
+        );
+
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
         layout.setHorizontalGroup(
@@ -99,20 +130,25 @@ public class DevolucionesView extends javax.swing.JInternalFrame {
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(layout.createSequentialGroup()
                         .addGap(34, 34, 34)
-                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                            .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 633, javax.swing.GroupLayout.PREFERRED_SIZE)
                             .addGroup(layout.createSequentialGroup()
-                                .addComponent(jlDireccion)
-                                .addGap(18, 18, 18)
-                                .addComponent(jlMail))
-                            .addGroup(layout.createSequentialGroup()
-                                .addComponent(jLabel1)
-                                .addGap(18, 18, 18)
-                                .addComponent(jtfIdSocio, javax.swing.GroupLayout.PREFERRED_SIZE, 88, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                .addGap(18, 18, 18)
-                                .addComponent(jlNombre)
-                                .addGap(18, 18, 18)
-                                .addComponent(jlApellido))
-                            .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 633, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                                    .addGroup(layout.createSequentialGroup()
+                                        .addComponent(jlDireccion)
+                                        .addGap(18, 18, 18)
+                                        .addComponent(jlMail))
+                                    .addGroup(layout.createSequentialGroup()
+                                        .addComponent(jLabel1)
+                                        .addGap(18, 18, 18)
+                                        .addComponent(jtfIdSocio, javax.swing.GroupLayout.PREFERRED_SIZE, 88, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                        .addGap(18, 18, 18)
+                                        .addComponent(jlNombre)
+                                        .addGap(18, 18, 18)
+                                        .addComponent(jlApellido)))
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                                .addComponent(jPanel1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addGap(81, 81, 81))))
                     .addGroup(layout.createSequentialGroup()
                         .addGap(317, 317, 317)
                         .addComponent(jLabel2)))
@@ -126,21 +162,24 @@ public class DevolucionesView extends javax.swing.JInternalFrame {
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
                 .addComponent(jLabel2)
-                .addGap(13, 13, 13)
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(jtfIdSocio, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(jLabel1)
-                    .addComponent(jlNombre)
-                    .addComponent(jlApellido))
-                .addGap(18, 18, 18)
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(jlDireccion)
-                    .addComponent(jlMail))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
+                    .addGroup(layout.createSequentialGroup()
+                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                            .addComponent(jtfIdSocio, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(jLabel1)
+                            .addComponent(jlNombre)
+                            .addComponent(jlApellido))
+                        .addGap(18, 18, 18)
+                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                            .addComponent(jlDireccion)
+                            .addComponent(jlMail)))
+                    .addComponent(jPanel1, javax.swing.GroupLayout.PREFERRED_SIZE, 71, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addGap(18, 18, 18)
                 .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 203, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                 .addComponent(jbtDevolver)
-                .addContainerGap(103, Short.MAX_VALUE))
+                .addContainerGap(97, Short.MAX_VALUE))
         );
 
         pack();
@@ -150,8 +189,10 @@ public class DevolucionesView extends javax.swing.JInternalFrame {
         // TODO add your handling code here:
         limpiarLabels();
         limpiarTabla();
+        jLFoto.setVisible(false);
         if(jtfIdSocio.getText().equals("")){limpiarLabels();
             limpiarTabla();
+            jLFoto.setVisible(false);
         }else{
             for(Socio socio:socios){
                 if(String.valueOf(socio.getIdSocio()).equals(jtfIdSocio.getText())){
@@ -159,6 +200,8 @@ public class DevolucionesView extends javax.swing.JInternalFrame {
                     jlNombre.setText("Nombre: "+socio.getNombre());
                     jlDireccion.setText("Direccion: "+socio.getDomicilio());
                     jlMail.setText("E-Mail: "+socio.getMail());
+                    jLFoto.setVisible(true);
+                    cargarFoto(socio.getIdSocio());
                     cargarDev(socio);
                 }
             }
@@ -218,9 +261,29 @@ public class DevolucionesView extends javax.swing.JInternalFrame {
             modelo.addRow(new Object[]{prestamo.getIdPrestamo(),prestamo.getLector().getIdSocio(),prestamo.getEjemplar().getLibro().getTitulo(),prestamo.getFechaInicio(),prestamo.getFechaFin()});
         }
     }
+    
+    private void cargarFoto(int idSocio){
+        try {
+            File file = new File("./src/vistas/imagenes/foto_" + idSocio + ".jpg");
+            //Se  lee una imagen desde un archivo y se almacena en una variable de tipo BufferedImage
+            BufferedImage fotoPerfil = ImageIO.read(file);
+            
+            //Se borra el texto POR DEFECTO "Imagen" del JLabel y se establece su tamaño contenedor
+            jLFoto.setText("");
+            jLFoto.setSize(71, 81);
+            //Se dimensiona la IMAGEN para que tenga el mismo largo y ancho del JLabel
+            Image dFotoPerfil = fotoPerfil.getScaledInstance(jLFoto.getWidth(), jLFoto.getHeight(), Image.SCALE_SMOOTH);
+            //Se pone la imagen en el JLabel usando setIcon()
+            jLFoto.setIcon(new ImageIcon(dFotoPerfil));
+        } catch (IOException ex) {
+            Logger.getLogger(PrestamosView.class.getName()).log(Level.SEVERE, null, ex);
+        }
+    }
     // Variables declaration - do not modify//GEN-BEGIN:variables
+    private javax.swing.JLabel jLFoto;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel2;
+    private javax.swing.JPanel jPanel1;
     private javax.swing.JScrollPane jScrollPane1;
     private javax.swing.JToggleButton jbtDevolver;
     private javax.swing.JLabel jlApellido;

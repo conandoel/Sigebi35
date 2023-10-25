@@ -2,11 +2,14 @@ package datos;
 
 import entidades.Ejemplar;
 import entidades.Libro;
+import entidades.Prestamo;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
+import java.time.LocalDate;
+import java.time.chrono.ChronoLocalDate;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.logging.Level;
@@ -52,7 +55,8 @@ public class EjemplarData {
             if(resultado == 0){
                 JOptionPane.showMessageDialog(null, "No se afectaron filas.");
             }else{
-                JOptionPane.showMessageDialog(null, "Se afectaron " + resultado + " filas.");
+                //JOptionPane.showMessageDialog(null, "Se afectaron " + resultado + " filas.");
+                System.out.println("Se afectaron " + resultado + " filas.");
             }
             ps.close();
         }catch(SQLException ex){
@@ -152,6 +156,24 @@ public class EjemplarData {
         
         }
         return ejemplares;
+    }
+    
+    public void ejemplaresDemorados(){
+        Ejemplar ej = new Ejemplar();
+        PrestamoData pd=new PrestamoData();
+        List<Prestamo> prestamos = new ArrayList<>();
+        prestamos=pd.listarPrestamos();
+        int cont=0;
+        for(Prestamo prestamo:prestamos){
+            if(prestamo.getFechaFin().isBefore(LocalDate.now())){
+                ej.setCodigo(prestamo.getEjemplar().getCodigo());
+                ej.setEstado("Demorado");
+                modificarEjemplar(ej);
+                cont++;
+            }
+        }
+        JOptionPane.showMessageDialog(null, "Hay "+cont+" prestamos demorados");
+    
     }
     
 }
