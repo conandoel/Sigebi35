@@ -1,7 +1,7 @@
 package vistas;
 
-import com.toedter.calendar.JCalendar;
-import com.toedter.calendar.JDateChooser;
+//import com.toedter.calendar.JCalendar;
+//import com.toedter.calendar.JDateChooser;
 import datos.SocioData;
 import entidades.Socio;
 import java.awt.AWTException;
@@ -146,11 +146,11 @@ public class SocioBuscarView extends javax.swing.JInternalFrame {
         SocioBuscarView.getInstance().jLBuscarSocios.setText("Modificar socios");
         //Según la SECCION que va a tomar en realidad el valor de "EFECTO" que puede ser "MODIFICAR", "ELIMINAR", "LIMPIAR" (Aún no hace nada eso), y "NADA"
         switch (SECCION) {
-            case "MODIFICAR" ->
+            case "MODIFICAR" :
                 this.jLBuscarSocios.setText("Modificar Socios");
-            case "ELIMINAR" ->
+            case "ELIMINAR" :
                 this.jLBuscarSocios.setText("Eliminar Socios");
-            default ->
+            default :
                 this.jLBuscarSocios.setText("Búsqueda de Socios");
         }
         //Cada case es para modificar el JLabel por tanto según sea el caso, la VISTA BUSCAR SOCIO será "Buscar socios" o "Eliminar Socios", etc

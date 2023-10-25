@@ -1,5 +1,6 @@
 package vistas;
 
+import datos.EjemplarData;
 import entidades.Libro;
 import datos.SocioData;
 import java.awt.Color;
@@ -41,6 +42,8 @@ public class Principal extends javax.swing.JFrame {
         habilitarModificaciones(false, false, true);
         //Se llama al método encargado de chequear si las imágenes ya están en la PC o si hay que crearlas
         chequearSiYaHayImagenes(sd);
+        EjemplarData ed=new EjemplarData();
+        ed.ejemplaresDemorados();
     }
     
     
