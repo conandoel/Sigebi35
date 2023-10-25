@@ -32,6 +32,9 @@ import javax.swing.JOptionPane;
 import javax.swing.JTextField;
 import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
+import java.util.concurrent.Executors;
+import java.util.concurrent.ScheduledExecutorService;
+import java.util.concurrent.TimeUnit;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 import javax.swing.JFileChooser;
@@ -172,6 +175,16 @@ public class SocioTarjeta extends javax.swing.JPanel {
         //Se rellena el panel con el degradado
         g2d.fillRect(0, 0, getWidth(), getHeight());
 
+    }
+    
+    public void retrasarTemporizador(int delay, JComponent componente){
+
+        ScheduledExecutorService servicio = Executors.newSingleThreadScheduledExecutor();
+
+        servicio.schedule(() -> temporizar(componente), delay, TimeUnit.MILLISECONDS);
+
+        // Detener el servicio después de que se ejecute la tarea
+        servicio.shutdown();
     }
 
     public void temporizar(JComponent componente) {
@@ -751,7 +764,7 @@ public class SocioTarjeta extends javax.swing.JPanel {
         }
         // Escribir la imagen en el archivo de salida
         ImageIO.write(image, "jpg", output);
-        JOptionPane.showMessageDialog(this, "Imagen guardada como " + output.getName(), "Listo!", JOptionPane.INFORMATION_MESSAGE);
+        
 
         //metodoDeSocio.eliminarSocio(output, fis, rutaMasNombreDeFoto);
     }
@@ -1442,7 +1455,8 @@ public class SocioTarjeta extends javax.swing.JPanel {
                         //En este case se cerciora que la cantidad de caracteres no sea mayor a 4 forzando un borrado del quinto caracter y enviando un molesto aviso de JOptionPane
                         case 5:
                             valoresModificados.setText(caracteresIngresados.substring(0, 4));
-                            JOptionPane.showMessageDialog(this, "No se admite un número mayor a: CONSEGUIR NÚMERO DE SOCIO MAYOR + 1"); //Aquí hay que chequear con la BASE DE DATOS cuál es el último idSocio
+                            int socioMayor = metodoDeSocio.obtenerCantidadSocios() + 1;
+                            JOptionPane.showMessageDialog(this, "No se admite un número mayor a: " + socioMayor); //Aquí hay que chequear con la BASE DE DATOS cuál es el último idSocio
                             controlarENTER = false;
                             this.repaint();
                             break;
@@ -1485,6 +1499,7 @@ public class SocioTarjeta extends javax.swing.JPanel {
 
         } else {
             labelInformativo.setText("Ingresando el Apellido");
+            labelInformativo.setForeground(Color.BLACK);
             valorMod.setVisible(false);
         }
     }
@@ -1494,6 +1509,7 @@ public class SocioTarjeta extends javax.swing.JPanel {
 
         } else {
             labelInformativo.setText("Ingresando el Nombre");
+            labelInformativo.setForeground(Color.BLACK);
             valorMod.setVisible(false);
         }
     }
@@ -1503,6 +1519,7 @@ public class SocioTarjeta extends javax.swing.JPanel {
 
         } else {
             labelInformativo.setText("Ingresando el Domicilio");
+            labelInformativo.setForeground(Color.BLACK);
             valorMod.setVisible(false);
         }
     }
@@ -1525,9 +1542,10 @@ public class SocioTarjeta extends javax.swing.JPanel {
         } else {
 
             labelInformativo.setText("Ingresando el DNI");
+            labelInformativo.setForeground(Color.BLACK);
             valorMod.setVisible(false);
-
-            System.out.println(punto);
+            
+            
             if ((dni.getText().length() == 2 && punto) || (dni.getText().length() == 6 && !punto)) {
                 dni.setText(dni.getText() + ".");
 
@@ -1554,6 +1572,7 @@ public class SocioTarjeta extends javax.swing.JPanel {
 
         } else {
             labelInformativo.setText("Ingresando el teléfono");
+            labelInformativo.setForeground(Color.BLACK);
             valorMod.setVisible(false);
         }
     }
@@ -1563,6 +1582,7 @@ public class SocioTarjeta extends javax.swing.JPanel {
 
         } else {
             labelInformativo.setText("El E-Mail debe tener el formato ejemplo@dominio.extensión");
+            labelInformativo.setForeground(Color.BLACK);
             valorMod.setVisible(false);
         }
     }
@@ -1572,6 +1592,7 @@ public class SocioTarjeta extends javax.swing.JPanel {
         if (e.getKeyCode() == 10) {
 
         } else {
+            labelInformativo.setForeground(Color.BLACK);
             char c = e.getKeyChar();
             JTextField field = (JTextField) e.getSource();
             String texto = field.getText();
@@ -1660,6 +1681,7 @@ public class SocioTarjeta extends javax.swing.JPanel {
 
         } else {
             labelInformativo.setText("Ingrese sólo números para la fecha");
+            labelInformativo.setForeground(Color.BLACK);
             valorMod.setVisible(false);
         }
     }
@@ -1668,9 +1690,11 @@ public class SocioTarjeta extends javax.swing.JPanel {
 
     public void cotejarApellido(String caracteresIngresados, JLabel labelInformativo, JLabel valorMod, JTextField valoresModificados,
             String valorDelCampo, String campo) {
+        
         if (caracteresIngresados.matches(".*\\d.*")) {
             valoresModificados.setForeground(Color.BLACK);
             labelInformativo.setText("El Apellido no puede incluír números");
+            labelInformativo.setForeground(Color.RED);
         } else {
             if (labelInformativo.getClass().getEnclosingClass() == SocioTarjeta.class) {
                 valorMod.setText(caracteresIngresados);
@@ -1682,15 +1706,18 @@ public class SocioTarjeta extends javax.swing.JPanel {
                 valoresModificados.setForeground(Color.CYAN);
             }
             labelInformativo.setText("El Apellido ha sido ingresado correctamente");
+            labelInformativo.setForeground(Color.GREEN);
             temporizar(labelInformativo);
         }
     }
 
     public void cotejarNombre(String caracteresIngresados, JLabel labelInformativo, JLabel valorMod, JTextField valoresModificados,
             String valorDelCampo, String campo) {
+        
         if (caracteresIngresados.matches(".*\\d.*")) {
             valoresModificados.setForeground(Color.BLACK);
             labelInformativo.setText("El Nombre no puede incluír números");
+            labelInformativo.setForeground(Color.RED);
         } else {
             if (labelInformativo.getClass().getEnclosingClass() == SocioTarjeta.class) {
                 valorMod.setText(caracteresIngresados);
@@ -1702,15 +1729,18 @@ public class SocioTarjeta extends javax.swing.JPanel {
                 valoresModificados.setForeground(Color.CYAN);
             }
             labelInformativo.setText("El Nombre ha sido ingresado correctamente");
+            labelInformativo.setForeground(Color.GREEN);
             temporizar(labelInformativo);
         }
     }
 
     public void cotejarDomicilio(String caracteresIngresados, JLabel labelInformativo, JLabel valorMod, JTextField valoresModificados,
             String valorDelCampo, String campo) {
+        
         if (!caracteresIngresados.matches(".*\\s\\D*\\d+\\s*$")) {
             valoresModificados.setForeground(Color.BLACK);
             labelInformativo.setText("El Domicilio debe incluír un número");
+            labelInformativo.setForeground(Color.RED);
         } else {
             if (labelInformativo.getClass().getEnclosingClass() == SocioTarjeta.class) {
                 valorMod.setText(caracteresIngresados);
@@ -1722,6 +1752,7 @@ public class SocioTarjeta extends javax.swing.JPanel {
                 valoresModificados.setForeground(Color.CYAN);
             }
             labelInformativo.setText("El Domicilio ha sido ingresado correctamente");
+            labelInformativo.setForeground(Color.GREEN);
             temporizar(labelInformativo);
         }
     }
@@ -1732,6 +1763,7 @@ public class SocioTarjeta extends javax.swing.JPanel {
         if (!caracteresIngresados.matches("\\d{2}\\.\\d{3}\\.\\d{3}")) {
             valoresModificados.setForeground(Color.BLACK);
             labelInformativo.setText("El DNI está mal especificado");
+            labelInformativo.setForeground(Color.RED);
         } else {
             if (labelInformativo.getClass().getEnclosingClass() == SocioTarjeta.class) {
                 valorMod.setText(caracteresIngresados);
@@ -1743,15 +1775,18 @@ public class SocioTarjeta extends javax.swing.JPanel {
                 valoresModificados.setForeground(Color.CYAN);
             }
             labelInformativo.setText("El DNI ha sido ingresado correctamente");
+            labelInformativo.setForeground(Color.GREEN);
             temporizar(labelInformativo);
         }
     }
 
     public void cotejarTelefono(String caracteresIngresados, JLabel labelInformativo, JLabel valorMod, JTextField valoresModificados,
             String valorDelCampo, String campo) {
+        
         if (!caracteresIngresados.matches("^[0-9]{9,11}$")) {
             valoresModificados.setForeground(Color.BLACK);
             labelInformativo.setText("El Teléfono está mal especificado");
+            labelInformativo.setForeground(Color.RED);
         } else {
             if (labelInformativo.getClass().getEnclosingClass() == SocioTarjeta.class) {
                 valorMod.setText(caracteresIngresados);
@@ -1763,15 +1798,18 @@ public class SocioTarjeta extends javax.swing.JPanel {
                 valoresModificados.setForeground(Color.CYAN);
             }
             labelInformativo.setText("El Teléfono ha sido ingresado correctamente");
+            labelInformativo.setForeground(Color.GREEN);
             temporizar(labelInformativo);
         }
     }
 
     public void cotejarEmail(String caracteresIngresados, JLabel labelInformativo, JLabel valorMod, JTextField valoresModificados,
             String valorDelCampo, String campo) {
+        
         if (!caracteresIngresados.matches("^[\\w\\.-]+@[\\w\\.-]+\\.\\w+$")) {
             valoresModificados.setForeground(Color.BLACK);
             labelInformativo.setText("El E-Mail está mal especificado");
+            labelInformativo.setForeground(Color.RED);
         } else {
             if (labelInformativo.getClass().getEnclosingClass() == SocioTarjeta.class) {
                 valorMod.setText(caracteresIngresados);
@@ -1782,7 +1820,8 @@ public class SocioTarjeta extends javax.swing.JPanel {
             } else {
                 valoresModificados.setForeground(Color.CYAN);
             }
-            labelInformativo.setText("El E-Mail ha sido ingresado correctamente");
+            labelInformativo.setText("El E-Mail ha sido ingresado ncorrectamente");
+            labelInformativo.setForeground(Color.GREEN);
             temporizar(labelInformativo);
         }
     }
@@ -1793,6 +1832,7 @@ public class SocioTarjeta extends javax.swing.JPanel {
         if (!caracteresIngresados.matches("\\d{2}\\-\\d{2}\\-\\d{4}")) {
             valoresModificados.setForeground(Color.BLACK);
             labelInformativo.setText("La Fecha está mal especificada");
+            labelInformativo.setForeground(Color.RED);
         } else {
             if (labelInformativo.getClass().getEnclosingClass() == SocioTarjeta.class) {
                 valorMod.setText(caracteresIngresados);
@@ -1804,6 +1844,7 @@ public class SocioTarjeta extends javax.swing.JPanel {
                 valoresModificados.setForeground(Color.CYAN);
             }
             labelInformativo.setText("La fecha ha sido ingresada\ncorrectamente");
+            labelInformativo.setForeground(Color.GREEN);
             temporizar(labelInformativo);
         }
     }
@@ -1814,6 +1855,7 @@ public class SocioTarjeta extends javax.swing.JPanel {
         if (!caracteresIngresados.matches("\\d{2}\\-\\d{2}\\-\\d{4}")) {
             valoresModificados.setForeground(Color.BLACK);
             labelInformativo.setText("La Fecha está mal especificada");
+            labelInformativo.setForeground(Color.RED);
         } else {
             if (labelInformativo.getClass().getEnclosingClass() == SocioTarjeta.class) {
                 valorMod.setText(caracteresIngresados);
@@ -1825,6 +1867,7 @@ public class SocioTarjeta extends javax.swing.JPanel {
                 valoresModificados.setForeground(Color.CYAN);
             }
             labelInformativo.setText("La fecha ha sido ingresada\ncorrectamente");
+            labelInformativo.setForeground(Color.GREEN);
             temporizar(labelInformativo);
         }
     }

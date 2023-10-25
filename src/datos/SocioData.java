@@ -442,6 +442,7 @@ public class SocioData {
         String apellido = socio.getApellido();
         String nombre = socio.getNombre();
         String domicilio = socio.getDomicilio();
+        int dni = socio.getDni();
         String telefono = socio.getTelefono();
         String mail = socio.getMail();
 
@@ -456,7 +457,7 @@ public class SocioData {
         File file = foto.getFile();
         FileInputStream fis = foto.getFis();
 
-        String sql = "INSERT INTO lector VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?);";
+        String sql = "INSERT INTO lector VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?);";
 
         try {
 
@@ -465,13 +466,14 @@ public class SocioData {
             ps.setString(2, apellido);
             ps.setString(3, nombre);
             ps.setString(4, domicilio);
-            ps.setString(5, telefono);
-            ps.setString(6, mail);
-            ps.setString(7, fechaDeAlta);
-            ps.setString(8, fechaDeBaja);
-            ps.setBlob(9, fis, file.length());
-            ps.setString(10, fotoPerfilNombre);
-            ps.setBoolean(11, estado);
+            ps.setInt(5, dni);
+            ps.setString(6, telefono);
+            ps.setString(7, mail);
+            ps.setString(8, fechaDeAlta);
+            ps.setString(9, fechaDeBaja);
+            ps.setBlob(10, fis, file.length());
+            ps.setString(11, fotoPerfilNombre);
+            ps.setBoolean(12, estado);
 
             ps.executeUpdate();
             ResultSet rs = ps.getGeneratedKeys();
