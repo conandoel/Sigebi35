@@ -42,8 +42,6 @@
           <Group type="102" alignment="1" attributes="0">
               <EmptySpace max="-2" attributes="0"/>
               <Group type="103" groupAlignment="0" attributes="0">
-                  <Component id="jlbISBN" max="32767" attributes="0"/>
-                  <Component id="jlbTitulo" alignment="0" pref="268" max="32767" attributes="0"/>
                   <Component id="jlbAutor" alignment="0" pref="268" max="32767" attributes="0"/>
                   <Component id="jlbEditorial" alignment="0" pref="268" max="32767" attributes="0"/>
                   <Group type="102" alignment="0" attributes="0">
@@ -53,6 +51,8 @@
                   </Group>
                   <Component id="jlbGenero" alignment="0" pref="268" max="32767" attributes="0"/>
                   <Component id="jlbAnio" alignment="0" pref="268" max="32767" attributes="0"/>
+                  <Component id="jlbISBN" alignment="0" max="32767" attributes="0"/>
+                  <Component id="jlbTitulo" alignment="0" max="32767" attributes="0"/>
               </Group>
               <EmptySpace max="-2" attributes="0"/>
               <Group type="103" groupAlignment="0" attributes="0">
@@ -81,7 +81,7 @@
                       <Component id="jlbGenero" min="-2" max="-2" attributes="0"/>
                       <EmptySpace type="unrelated" max="-2" attributes="0"/>
                       <Component id="jlbEditorial" min="-2" max="-2" attributes="0"/>
-                      <EmptySpace pref="32" max="32767" attributes="0"/>
+                      <EmptySpace pref="50" max="32767" attributes="0"/>
                       <Group type="103" groupAlignment="3" attributes="0">
                           <Component id="jlbEliminar" alignment="3" min="-2" max="-2" attributes="0"/>
                           <Component id="jbtCancelar" alignment="3" min="-2" max="-2" attributes="0"/>
@@ -124,41 +124,26 @@
     </Container>
     <Component class="javax.swing.JLabel" name="jlbISBN">
       <Properties>
-        <Property name="font" type="java.awt.Font" editor="org.netbeans.beaninfo.editors.FontEditor">
-          <Font name="Dialog" size="14" style="1"/>
-        </Property>
         <Property name="text" type="java.lang.String" value="ISBN:"/>
       </Properties>
     </Component>
     <Component class="javax.swing.JLabel" name="jlbTitulo">
       <Properties>
-        <Property name="font" type="java.awt.Font" editor="org.netbeans.beaninfo.editors.FontEditor">
-          <Font name="Dialog" size="14" style="1"/>
-        </Property>
         <Property name="text" type="java.lang.String" value="Titulo:"/>
       </Properties>
     </Component>
     <Component class="javax.swing.JLabel" name="jlbAutor">
       <Properties>
-        <Property name="font" type="java.awt.Font" editor="org.netbeans.beaninfo.editors.FontEditor">
-          <Font name="Dialog" size="14" style="1"/>
-        </Property>
         <Property name="text" type="java.lang.String" value="Autor:"/>
       </Properties>
     </Component>
     <Component class="javax.swing.JLabel" name="jlbGenero">
       <Properties>
-        <Property name="font" type="java.awt.Font" editor="org.netbeans.beaninfo.editors.FontEditor">
-          <Font name="Dialog" size="14" style="1"/>
-        </Property>
         <Property name="text" type="java.lang.String" value="Genero:"/>
       </Properties>
     </Component>
     <Component class="javax.swing.JLabel" name="jlbEditorial">
       <Properties>
-        <Property name="font" type="java.awt.Font" editor="org.netbeans.beaninfo.editors.FontEditor">
-          <Font name="Dialog" size="14" style="1"/>
-        </Property>
         <Property name="text" type="java.lang.String" value="Editorial:"/>
       </Properties>
     </Component>
@@ -191,9 +176,6 @@
     </Component>
     <Component class="javax.swing.JLabel" name="jlbAnio">
       <Properties>
-        <Property name="font" type="java.awt.Font" editor="org.netbeans.beaninfo.editors.FontEditor">
-          <Font name="Dialog" size="14" style="1"/>
-        </Property>
         <Property name="text" type="java.lang.String" value="A&#xf1;o:"/>
       </Properties>
     </Component>

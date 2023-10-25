@@ -66,19 +66,14 @@ public class LibroEliminarView extends javax.swing.JInternalFrame {
         });
         jScrollPane1.setViewportView(jtbListaDeshabilitados);
 
-        jlbISBN.setFont(new java.awt.Font("Dialog", 1, 14)); // NOI18N
         jlbISBN.setText("ISBN:");
 
-        jlbTitulo.setFont(new java.awt.Font("Dialog", 1, 14)); // NOI18N
         jlbTitulo.setText("Titulo:");
 
-        jlbAutor.setFont(new java.awt.Font("Dialog", 1, 14)); // NOI18N
         jlbAutor.setText("Autor:");
 
-        jlbGenero.setFont(new java.awt.Font("Dialog", 1, 14)); // NOI18N
         jlbGenero.setText("Genero:");
 
-        jlbEditorial.setFont(new java.awt.Font("Dialog", 1, 14)); // NOI18N
         jlbEditorial.setText("Editorial:");
 
         jlbEliminar.setFont(new java.awt.Font("Dialog", 1, 14)); // NOI18N
@@ -95,7 +90,6 @@ public class LibroEliminarView extends javax.swing.JInternalFrame {
         jlbLibrosInhabilitados.setFont(new java.awt.Font("Dialog", 1, 14)); // NOI18N
         jlbLibrosInhabilitados.setText("Libros Inhabilitados:");
 
-        jlbAnio.setFont(new java.awt.Font("Dialog", 1, 14)); // NOI18N
         jlbAnio.setText("Año:");
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
@@ -105,8 +99,6 @@ public class LibroEliminarView extends javax.swing.JInternalFrame {
             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
                 .addContainerGap()
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(jlbISBN, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                    .addComponent(jlbTitulo, javax.swing.GroupLayout.DEFAULT_SIZE, 268, Short.MAX_VALUE)
                     .addComponent(jlbAutor, javax.swing.GroupLayout.DEFAULT_SIZE, 268, Short.MAX_VALUE)
                     .addComponent(jlbEditorial, javax.swing.GroupLayout.DEFAULT_SIZE, 268, Short.MAX_VALUE)
                     .addGroup(layout.createSequentialGroup()
@@ -114,7 +106,9 @@ public class LibroEliminarView extends javax.swing.JInternalFrame {
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                         .addComponent(jbtCancelar))
                     .addComponent(jlbGenero, javax.swing.GroupLayout.DEFAULT_SIZE, 268, Short.MAX_VALUE)
-                    .addComponent(jlbAnio, javax.swing.GroupLayout.DEFAULT_SIZE, 268, Short.MAX_VALUE))
+                    .addComponent(jlbAnio, javax.swing.GroupLayout.DEFAULT_SIZE, 268, Short.MAX_VALUE)
+                    .addComponent(jlbISBN, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                    .addComponent(jlbTitulo, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 453, javax.swing.GroupLayout.PREFERRED_SIZE)
@@ -139,7 +133,7 @@ public class LibroEliminarView extends javax.swing.JInternalFrame {
                         .addComponent(jlbGenero)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                         .addComponent(jlbEditorial)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 32, Short.MAX_VALUE)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 50, Short.MAX_VALUE)
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                             .addComponent(jlbEliminar)
                             .addComponent(jbtCancelar))
@@ -153,6 +147,7 @@ public class LibroEliminarView extends javax.swing.JInternalFrame {
     }// </editor-fold>//GEN-END:initComponents
 
     private void jtbListaDeshabilitadosMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jtbListaDeshabilitadosMouseClicked
+
         int fila;
         
         fila = jtbListaDeshabilitados.getSelectedRow();
@@ -164,7 +159,6 @@ public class LibroEliminarView extends javax.swing.JInternalFrame {
         jlbAnio.setText("Año: " + jtbListaDeshabilitados.getValueAt(fila, 3));
         jlbGenero.setText("Genero: " + jtbListaDeshabilitados.getValueAt(fila, 4));
         jlbEditorial.setText("Editorial: " + jtbListaDeshabilitados.getValueAt(fila, 5));
-            
         
     }//GEN-LAST:event_jtbListaDeshabilitadosMouseClicked
 

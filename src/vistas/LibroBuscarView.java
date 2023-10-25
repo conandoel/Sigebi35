@@ -268,7 +268,7 @@ public class LibroBuscarView extends javax.swing.JInternalFrame {
         
         if(libro != null){
             Dimension d = new Dimension(415, 420);
-            p.cargarModLibro(libro, 420, 415);
+            p.cargarModLibro(libro, 400, 415);
         }
         
     }//GEN-LAST:event_jbtnModificarActionPerformed
