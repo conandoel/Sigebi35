@@ -163,13 +163,16 @@ public class EjemplarData {
         PrestamoData pd=new PrestamoData();
         List<Prestamo> prestamos = new ArrayList<>();
         prestamos=pd.listarPrestamos();
+        int cont=0;
         for(Prestamo prestamo:prestamos){
             if(prestamo.getFechaFin().isBefore(LocalDate.now())){
                 ej.setCodigo(prestamo.getEjemplar().getCodigo());
                 ej.setEstado("Demorado");
                 modificarEjemplar(ej);
+                cont++;
             }
         }
+        JOptionPane.showMessageDialog(null, "Hay "+cont+" prestamos demorados");
     
     }
     
