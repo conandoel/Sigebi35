@@ -34,7 +34,6 @@
                   <Component id="jlbAnio" alignment="0" max="32767" attributes="0"/>
                   <Component id="jlbGenero" alignment="0" max="32767" attributes="0"/>
                   <Component id="jlbEstado" alignment="0" max="32767" attributes="0"/>
-                  <Component id="jlbEjemplares" alignment="0" max="32767" attributes="0"/>
                   <Component id="jbtnAñadir" alignment="0" max="32767" attributes="0"/>
               </Group>
               <EmptySpace type="separate" max="-2" attributes="0"/>
@@ -42,7 +41,6 @@
                   <Component id="jtfAutor" alignment="0" max="32767" attributes="0"/>
                   <Component id="jtfAnio" alignment="0" max="32767" attributes="0"/>
                   <Component id="jtfGenero" alignment="0" max="32767" attributes="0"/>
-                  <Component id="jtfEjemplares" alignment="0" max="32767" attributes="0"/>
                   <Component id="jtfISBN" alignment="0" max="32767" attributes="0"/>
                   <Component id="jbtnCancelar" pref="132" max="32767" attributes="0"/>
                   <Component id="jtfEditorial" max="32767" attributes="0"/>
@@ -86,17 +84,12 @@
                   <Component id="jlbEstado" alignment="3" min="-2" max="-2" attributes="0"/>
                   <Component id="jrbEstado" alignment="3" min="-2" max="-2" attributes="0"/>
               </Group>
-              <EmptySpace type="unrelated" max="-2" attributes="0"/>
-              <Group type="103" groupAlignment="3" attributes="0">
-                  <Component id="jlbEjemplares" alignment="3" min="-2" max="-2" attributes="0"/>
-                  <Component id="jtfEjemplares" alignment="3" min="-2" max="-2" attributes="0"/>
-              </Group>
-              <EmptySpace type="unrelated" max="-2" attributes="0"/>
+              <EmptySpace type="separate" max="-2" attributes="0"/>
               <Group type="103" groupAlignment="3" attributes="0">
                   <Component id="jLabel1" alignment="3" min="-2" max="-2" attributes="0"/>
                   <Component id="jtfEditorial" alignment="3" min="-2" max="-2" attributes="0"/>
               </Group>
-              <EmptySpace max="32767" attributes="0"/>
+              <EmptySpace pref="53" max="32767" attributes="0"/>
               <Group type="103" groupAlignment="3" attributes="0">
                   <Component id="jbtnCancelar" alignment="3" min="-2" max="-2" attributes="0"/>
                   <Component id="jbtnAñadir" alignment="3" min="-2" max="-2" attributes="0"/>
@@ -155,14 +148,6 @@
         <Property name="text" type="java.lang.String" value="Disponible:"/>
       </Properties>
     </Component>
-    <Component class="javax.swing.JLabel" name="jlbEjemplares">
-      <Properties>
-        <Property name="font" type="java.awt.Font" editor="org.netbeans.beaninfo.editors.FontEditor">
-          <Font name="Dialog" size="14" style="1"/>
-        </Property>
-        <Property name="text" type="java.lang.String" value="Ejemplares:"/>
-      </Properties>
-    </Component>
     <Component class="javax.swing.JTextField" name="jtfAutor">
       <Properties>
         <Property name="font" type="java.awt.Font" editor="org.netbeans.beaninfo.editors.FontEditor">
@@ -178,13 +163,6 @@
       </Properties>
     </Component>
     <Component class="javax.swing.JTextField" name="jtfGenero">
-      <Properties>
-        <Property name="font" type="java.awt.Font" editor="org.netbeans.beaninfo.editors.FontEditor">
-          <Font name="Dialog" size="14" style="0"/>
-        </Property>
-      </Properties>
-    </Component>
-    <Component class="javax.swing.JTextField" name="jtfEjemplares">
       <Properties>
         <Property name="font" type="java.awt.Font" editor="org.netbeans.beaninfo.editors.FontEditor">
           <Font name="Dialog" size="14" style="0"/>

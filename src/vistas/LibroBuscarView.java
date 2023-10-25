@@ -195,7 +195,6 @@ public class LibroBuscarView extends javax.swing.JInternalFrame {
     private void jcbDatoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jcbDatoActionPerformed
         jtfBusqueda.setText("");//Limpia el text field cuando se cambia el filtro del combobox
         Condicion = (String)jcbDato.getSelectedItem();
-        System.out.println(Condicion);
         if(Condicion.equalsIgnoreCase("Disponible")){
             jtfBusqueda.setVisible(false); jtfBusqueda.setEnabled(false);
             jcbElejirEstado.setVisible(true); jcbElejirEstado.setEnabled(true);
@@ -268,7 +267,7 @@ public class LibroBuscarView extends javax.swing.JInternalFrame {
         
         if(libro != null){
             Dimension d = new Dimension(415, 420);
-            p.cargarModLibro(libro, 400, 415);
+            p.cargarModLibro(libro, 400, 380);
         }
         
     }//GEN-LAST:event_jbtnModificarActionPerformed
@@ -312,7 +311,6 @@ public class LibroBuscarView extends javax.swing.JInternalFrame {
             
             lData.eliminarLibro(Long.parseLong(jtListaLibro.getValueAt(fila, 0).toString()));
         }catch(NumberFormatException e){
-            System.out.println("eeeeeeeeee");
         }catch(ArrayIndexOutOfBoundsException ee){
             JOptionPane.showMessageDialog(null, "Seleccione un libro");
         }
@@ -332,10 +330,6 @@ public class LibroBuscarView extends javax.swing.JInternalFrame {
             jbtnModificar.setVisible(false); jbtnModificar.setEnabled(false);
         }
         int fila = jtListaLibro.getSelectedRow();
-        System.out.println(jtListaLibro.getValueAt(fila, 0));
-        System.out.println(jtListaLibro.getValueAt(fila, 1));
-
-        
     }//GEN-LAST:event_jtListaLibroMouseClicked
 
 

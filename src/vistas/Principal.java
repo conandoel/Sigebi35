@@ -426,8 +426,7 @@ public class Principal extends javax.swing.JFrame {
         jDPEscritorio.removeAll();
         jDPEscritorio.repaint();
         Libro libro = new Libro();
-        Dimension d =new Dimension(420, 850);
-        cargarModLibro(libro, 850, 415);
+        cargarModLibro(libro, 850, 380);
         
     }//GEN-LAST:event_jMModLibrosActionPerformed
 

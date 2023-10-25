@@ -24,11 +24,9 @@ public class LibroNuevoView extends javax.swing.JInternalFrame {
         jlbGenero = new javax.swing.JLabel();
         jlbAnio = new javax.swing.JLabel();
         jlbEstado = new javax.swing.JLabel();
-        jlbEjemplares = new javax.swing.JLabel();
         jtfAutor = new javax.swing.JTextField();
         jtfAnio = new javax.swing.JTextField();
         jtfGenero = new javax.swing.JTextField();
-        jtfEjemplares = new javax.swing.JTextField();
         jtfISBN = new javax.swing.JTextField();
         jbtnAñadir = new javax.swing.JButton();
         jbtnCancelar = new javax.swing.JButton();
@@ -57,16 +55,11 @@ public class LibroNuevoView extends javax.swing.JInternalFrame {
         jlbEstado.setFont(new java.awt.Font("Dialog", 1, 14)); // NOI18N
         jlbEstado.setText("Disponible:");
 
-        jlbEjemplares.setFont(new java.awt.Font("Dialog", 1, 14)); // NOI18N
-        jlbEjemplares.setText("Ejemplares:");
-
         jtfAutor.setFont(new java.awt.Font("Dialog", 0, 14)); // NOI18N
 
         jtfAnio.setFont(new java.awt.Font("Dialog", 0, 14)); // NOI18N
 
         jtfGenero.setFont(new java.awt.Font("Dialog", 0, 14)); // NOI18N
-
-        jtfEjemplares.setFont(new java.awt.Font("Dialog", 0, 14)); // NOI18N
 
         jtfISBN.setFont(new java.awt.Font("Dialog", 0, 14)); // NOI18N
 
@@ -105,14 +98,12 @@ public class LibroNuevoView extends javax.swing.JInternalFrame {
                     .addComponent(jlbAnio, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                     .addComponent(jlbGenero, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                     .addComponent(jlbEstado, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                    .addComponent(jlbEjemplares, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                     .addComponent(jbtnAñadir, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
                 .addGap(18, 18, 18)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
                     .addComponent(jtfAutor)
                     .addComponent(jtfAnio)
                     .addComponent(jtfGenero)
-                    .addComponent(jtfEjemplares)
                     .addComponent(jtfISBN)
                     .addComponent(jbtnCancelar, javax.swing.GroupLayout.DEFAULT_SIZE, 132, Short.MAX_VALUE)
                     .addComponent(jtfEditorial)
@@ -147,15 +138,11 @@ public class LibroNuevoView extends javax.swing.JInternalFrame {
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jlbEstado)
                     .addComponent(jrbEstado))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(jlbEjemplares)
-                    .addComponent(jtfEjemplares, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                .addGap(18, 18, 18)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jLabel1)
                     .addComponent(jtfEditorial, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 53, Short.MAX_VALUE)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jbtnCancelar)
                     .addComponent(jbtnAñadir))
@@ -174,7 +161,7 @@ public class LibroNuevoView extends javax.swing.JInternalFrame {
             libro.setAnio(Integer.parseInt(jtfAnio.getText()));
             libro.setGenero(jtfGenero.getText());
             libro.setEditorial(jtfEditorial.getText());
-            libro.setCantEjemplares(Integer.parseInt(jtfEjemplares.getText()));
+
             libro.setEstado(jrbEstado.isSelected());
             
             lData.guardarLibro(libro);
@@ -195,7 +182,6 @@ public class LibroNuevoView extends javax.swing.JInternalFrame {
     private javax.swing.JButton jbtnCancelar;
     private javax.swing.JLabel jlbAnio;
     private javax.swing.JLabel jlbAutor;
-    private javax.swing.JLabel jlbEjemplares;
     private javax.swing.JLabel jlbEstado;
     private javax.swing.JLabel jlbGenero;
     private javax.swing.JLabel jlbISBN;
@@ -204,7 +190,6 @@ public class LibroNuevoView extends javax.swing.JInternalFrame {
     private javax.swing.JTextField jtfAnio;
     private javax.swing.JTextField jtfAutor;
     private javax.swing.JTextField jtfEditorial;
-    private javax.swing.JTextField jtfEjemplares;
     private javax.swing.JTextField jtfGenero;
     private javax.swing.JTextField jtfISBN;
     private javax.swing.JTextField jtfTitulo;

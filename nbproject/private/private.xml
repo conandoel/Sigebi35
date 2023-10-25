@@ -3,11 +3,12 @@
     <editor-bookmarks xmlns="http://www.netbeans.org/ns/editor-bookmarks/2" lastBookmarkId="0"/>
     <open-files xmlns="http://www.netbeans.org/ns/projectui-open-files/2">
         <group>
-            <file>file:/D:/ARGENTINA%20PROGRAMA/Biblioteca/Sigebi35/src/vistas/SocioAgregarView.java</file>
-            <file>file:/D:/ARGENTINA%20PROGRAMA/Biblioteca/Sigebi35/src/vistas/Principal.java</file>
-            <file>file:/D:/ARGENTINA%20PROGRAMA/Biblioteca/Sigebi35/src/datos/SocioData.java</file>
-            <file>file:/D:/ARGENTINA%20PROGRAMA/Biblioteca/Sigebi35/src/vistas/SocioTarjeta.java</file>
-            <file>file:/D:/ARGENTINA%20PROGRAMA/Biblioteca/Sigebi35/src/vistas/SocioBuscarView.java</file>
+            <file>file:/C:/Users/damia/OneDrive/Documentos/GitHub/Sivebi35.2/Sigebi35/src/vistas/Principal.java</file>
+            <file>file:/C:/Users/damia/OneDrive/Documentos/GitHub/Sivebi35.2/Sigebi35/src/vistas/LibroModificarView.java</file>
+            <file>file:/C:/Users/damia/OneDrive/Documentos/GitHub/Sivebi35.2/Sigebi35/src/datos/Conexion.java</file>
+            <file>file:/C:/Users/damia/OneDrive/Documentos/GitHub/Sivebi35.2/Sigebi35/src/vistas/LibroNuevoView.java</file>
+            <file>file:/C:/Users/damia/OneDrive/Documentos/GitHub/Sivebi35.2/Sigebi35/src/datos/LibroData.java</file>
+            <file>file:/C:/Users/damia/OneDrive/Documentos/GitHub/Sivebi35.2/Sigebi35/src/vistas/LibroBuscarView.java</file>
         </group>
     </open-files>
 </project-private>
