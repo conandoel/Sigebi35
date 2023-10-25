@@ -109,6 +109,7 @@ public class SocioBuscarView extends javax.swing.JInternalFrame {
             criterio = "NINGUNO";
             valor = "";
         }
+        JOptionPane.showMessageDialog(null, "criterio: " + criterio + "\nvalor: " + valor + "\nEFECTO: " + EFECTO);
         //Se envía el pedido de rediseño de TARJETAS para ver si estarán en módo "BUSCAR", "ELIMINAR", o "MODIFICAR"
         resultados = SocioTarjeta.getInstance().listarSocio(criterio, valor, EFECTO);
         //Si el valor de EFECTO es "LIMPIAR" entonces la visibilidad de las TARJETAS es false
@@ -508,7 +509,9 @@ public class SocioBuscarView extends javax.swing.JInternalFrame {
 
     private void jTFSocioBuscarIngreseValorKeyReleased(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_jTFSocioBuscarIngreseValorKeyReleased
         // TODO add your handling code here:
-        String criterio = this.jCBSocioBuscarCriterio.getSelectedItem().toString();
+        
+        criterio = this.jCBSocioBuscarCriterio.getSelectedItem().toString(); // quiza crear String criterio
+        valor = this.jTFSocioBuscarIngreseValor.getText();
         direccionarCriterio(criterio, evt);
     }//GEN-LAST:event_jTFSocioBuscarIngreseValorKeyReleased
 
@@ -824,6 +827,7 @@ public class SocioBuscarView extends javax.swing.JInternalFrame {
                 cargarLasTarjetas();
                 resultados.clear();
             } else {
+                
                 JTextField field = (JTextField) evt.getSource();
                 //Se obtiene el texto del textfield
                 String texto = field.getText();

@@ -4,9 +4,11 @@
     <open-files xmlns="http://www.netbeans.org/ns/projectui-open-files/2">
         <group>
             <file>file:/D:/GitHub/Argentina%20Programa/Sigebi35ULP/src/vistas/SocioBuscarView.java</file>
+            <file>file:/D:/GitHub/Argentina%20Programa/Sigebi35ULP/src/datos/PrestamoData.java</file>
             <file>file:/D:/GitHub/Argentina%20Programa/Sigebi35ULP/src/vistas/Principal.java</file>
             <file>file:/D:/GitHub/Argentina%20Programa/Sigebi35ULP/src/vistas/SocioTarjeta.java</file>
             <file>file:/D:/GitHub/Argentina%20Programa/Sigebi35ULP/src/datos/SocioData.java</file>
+            <file>file:/D:/GitHub/Argentina%20Programa/Sigebi35ULP/src/entidades/Prestamo.java</file>
             <file>file:/D:/GitHub/Argentina%20Programa/Sigebi35ULP/src/vistas/SocioAgregarView.java</file>
             <file>file:/D:/GitHub/Argentina%20Programa/Sigebi35ULP/src/vistas/DropShadowPanel.java</file>
         </group>

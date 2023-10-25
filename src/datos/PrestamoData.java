@@ -162,7 +162,7 @@ public class PrestamoData {
         List<Prestamo> prestamos=new ArrayList<>();
         try {
             
-            String sql = "SELECT * FROM prestamo WHERE idSocio = ? and estado = true";
+            String sql = "SELECT * FROM prestamo WHERE idSocio = ? and estado = 1";
             PreparedStatement ps = con.prepareStatement(sql);
             ps.setInt(1, idSocio);
             ResultSet rs = ps.executeQuery();

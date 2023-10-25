@@ -156,7 +156,6 @@ public class SocioTarjeta extends javax.swing.JPanel {
     //Estas son los dos Íconos que aparecen en las TARJETAS para MODIFICAR y ELIMINAR
     private final Image modificar = new ImageIcon(getClass().getResource("/vistas/imagenes/modificar.png")).getImage();
     private final Image eliminar = new ImageIcon(getClass().getResource("/vistas/imagenes/eliminar.png")).getImage();
-    
 
     //Esto es un Override de paintComponent del JPanel SocioTarjeta para darle color
     @Override
@@ -176,8 +175,8 @@ public class SocioTarjeta extends javax.swing.JPanel {
         g2d.fillRect(0, 0, getWidth(), getHeight());
 
     }
-    
-    public void retrasarTemporizador(int delay, JComponent componente){
+
+    public void retrasarTemporizador(int delay, JComponent componente) {
 
         ScheduledExecutorService servicio = Executors.newSingleThreadScheduledExecutor();
 
@@ -266,9 +265,9 @@ public class SocioTarjeta extends javax.swing.JPanel {
             for (String columna : columnas) {
                 //Al encontrar coincidencia se llama al método buscarHistorialSocios de SocioData, el cual devuelve a todos los SOCIOS ya sean activos o no y lo guarda en la LISTA socios
                 if (criterio.equals(columna)) {
-                    if(!columna.equals("dni")){
+                    if (!columna.equals("dni")) {
                         socios = metodoDeSocio.buscarHistorialSocios(criterio, valor);
-                    }else{
+                    } else {
                         socios = metodoDeSocio.buscarHistorialSocios(criterio, valor);
                     }
                 }
@@ -433,6 +432,10 @@ public class SocioTarjeta extends javax.swing.JPanel {
         jLNumeroDeSocio = new javax.swing.JLabel();
         jLABM = new javax.swing.JLabel();
         jLEfecto = new javax.swing.JLabel();
+        jLDni = new javax.swing.JLabel();
+        jLDNI = new javax.swing.JLabel();
+        jLTel = new javax.swing.JLabel();
+        jLTelefono = new javax.swing.JLabel();
 
         jLNumSocio.setForeground(new java.awt.Color(102, 102, 102));
         jLNumSocio.setText("Socio número:");
@@ -531,6 +534,26 @@ public class SocioTarjeta extends javax.swing.JPanel {
             }
         });
 
+        jLDni.setText("DNI:");
+        jLDni.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                jLDniMouseClicked(evt);
+            }
+        });
+
+        jLDNI.setFont(new java.awt.Font("Segoe UI", 1, 14)); // NOI18N
+        jLDNI.setText("29.099.405");
+
+        jLTel.setText("Teléfono:");
+        jLTel.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                jLTelMouseClicked(evt);
+            }
+        });
+
+        jLTelefono.setFont(new java.awt.Font("Yu Gothic UI Semilight", 1, 12)); // NOI18N
+        jLTelefono.setText("3413208245");
+
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(this);
         this.setLayout(layout);
         layout.setHorizontalGroup(
@@ -547,53 +570,66 @@ public class SocioTarjeta extends javax.swing.JPanel {
                                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
                                     .addComponent(jLEst)
                                     .addComponent(jLFecBaja)
-                                    .addComponent(jLFecAlta)))
+                                    .addComponent(jLFecAlta)
+                                    .addComponent(jLTel)))
                             .addGroup(layout.createSequentialGroup()
                                 .addContainerGap()
                                 .addComponent(jLNumSocio)))
                         .addGap(16, 16, 16)
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
                             .addGroup(layout.createSequentialGroup()
+                                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                                    .addComponent(jLTelefono)
+                                    .addComponent(jLEstado, javax.swing.GroupLayout.PREFERRED_SIZE, 76, javax.swing.GroupLayout.PREFERRED_SIZE))
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                                .addComponent(jLEfecto))
+                            .addGroup(layout.createSequentialGroup()
                                 .addComponent(jLNom)
                                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                                 .addComponent(jLNombre, javax.swing.GroupLayout.PREFERRED_SIZE, 214, javax.swing.GroupLayout.PREFERRED_SIZE))
-                            .addComponent(jLNumeroDeSocio, javax.swing.GroupLayout.PREFERRED_SIZE, 214, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addComponent(jLFechaDeAlta, javax.swing.GroupLayout.PREFERRED_SIZE, 214, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(jLFechaDeAlta, javax.swing.GroupLayout.PREFERRED_SIZE, 92, javax.swing.GroupLayout.PREFERRED_SIZE)
                             .addGroup(layout.createSequentialGroup()
-                                .addComponent(jLApe)
+                                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                                    .addComponent(jLApe)
+                                    .addComponent(jLNumeroDeSocio))
                                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                                .addComponent(jLApellido, javax.swing.GroupLayout.PREFERRED_SIZE, 214, javax.swing.GroupLayout.PREFERRED_SIZE))
-                            .addGroup(layout.createSequentialGroup()
                                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                                    .addComponent(jLDom)
-                                    .addComponent(jLEm))
-                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                                    .addComponent(jLEmail, javax.swing.GroupLayout.PREFERRED_SIZE, 214, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                    .addComponent(jLDomicilio, javax.swing.GroupLayout.PREFERRED_SIZE, 214, javax.swing.GroupLayout.PREFERRED_SIZE)))
-                            .addGroup(layout.createSequentialGroup()
-                                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                                    .addComponent(jLEstado, javax.swing.GroupLayout.PREFERRED_SIZE, 214, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                    .addComponent(jLFechaDeBaja, javax.swing.GroupLayout.PREFERRED_SIZE, 214, javax.swing.GroupLayout.PREFERRED_SIZE))
-                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                                .addComponent(jLEfecto, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)))
-                        .addGap(0, 17, Short.MAX_VALUE))
+                                    .addComponent(jLApellido, javax.swing.GroupLayout.PREFERRED_SIZE, 214, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
+                                        .addComponent(jLDni)
+                                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                                        .addComponent(jLDNI, javax.swing.GroupLayout.PREFERRED_SIZE, 81, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                        .addGap(15, 15, 15))))
+                            .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
+                                .addGroup(layout.createSequentialGroup()
+                                    .addComponent(jLFechaDeBaja, javax.swing.GroupLayout.PREFERRED_SIZE, 92, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                    .addGap(182, 182, 182))
+                                .addGroup(layout.createSequentialGroup()
+                                    .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                                        .addComponent(jLDom)
+                                        .addComponent(jLEm))
+                                    .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                                    .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                                        .addComponent(jLEmail, javax.swing.GroupLayout.PREFERRED_SIZE, 214, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                        .addComponent(jLDomicilio, javax.swing.GroupLayout.PREFERRED_SIZE, 214, javax.swing.GroupLayout.PREFERRED_SIZE)))))
+                        .addGap(0, 25, Short.MAX_VALUE))
                     .addGroup(layout.createSequentialGroup()
                         .addContainerGap()
-                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addComponent(jSeparator1)
-                            .addComponent(jLABM, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))))
+                        .addComponent(jLABM, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                    .addComponent(jSeparator1, javax.swing.GroupLayout.Alignment.TRAILING))
                 .addContainerGap())
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
-                .addContainerGap(18, Short.MAX_VALUE)
+                .addContainerGap(8, Short.MAX_VALUE)
                 .addComponent(jLABM)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jLNumSocio)
-                    .addComponent(jLNumeroDeSocio))
+                    .addComponent(jLNumeroDeSocio)
+                    .addComponent(jLDni)
+                    .addComponent(jLDNI))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addComponent(jLFoto, javax.swing.GroupLayout.PREFERRED_SIZE, 81, javax.swing.GroupLayout.PREFERRED_SIZE)
@@ -618,17 +654,21 @@ public class SocioTarjeta extends javax.swing.JPanel {
                     .addComponent(jLFecAlta)
                     .addComponent(jLFechaDeAlta))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(jLFecBaja)
+                    .addComponent(jLFechaDeBaja))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
                     .addGroup(layout.createSequentialGroup()
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                            .addComponent(jLFecBaja)
-                            .addComponent(jLFechaDeBaja))
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                             .addComponent(jLEst)
-                            .addComponent(jLEstado)))
-                    .addComponent(jLEfecto, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
-                .addGap(18, 18, 18)
+                            .addComponent(jLEstado))
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addComponent(jLTelefono)
+                            .addComponent(jLTel)))
+                    .addComponent(jLEfecto, javax.swing.GroupLayout.PREFERRED_SIZE, 38, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(jSeparator1, javax.swing.GroupLayout.PREFERRED_SIZE, 10, javax.swing.GroupLayout.PREFERRED_SIZE))
         );
     }// </editor-fold>//GEN-END:initComponents
@@ -768,7 +808,6 @@ public class SocioTarjeta extends javax.swing.JPanel {
         }
         // Escribir la imagen en el archivo de salida
         ImageIO.write(image, "jpg", output);
-        
 
         //metodoDeSocio.eliminarSocio(output, fis, rutaMasNombreDeFoto);
     }
@@ -850,6 +889,20 @@ public class SocioTarjeta extends javax.swing.JPanel {
         preEditarCamposSocio(this.campoAModificar);
     }//GEN-LAST:event_jLEmMouseClicked
 
+    private void jLDniMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jLDniMouseClicked
+        // TODO add your handling code here:
+        this.campoAModificar = this.jLDni;
+        this.valorAModificar = this.jLDNI;
+        preEditarCamposSocio(this.campoAModificar);
+    }//GEN-LAST:event_jLDniMouseClicked
+
+    private void jLTelMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jLTelMouseClicked
+        // TODO add your handling code here:
+        this.campoAModificar = this.jLTel;
+        this.valorAModificar = this.jLTelefono;
+        preEditarCamposSocio(this.campoAModificar);
+    }//GEN-LAST:event_jLTelMouseClicked
+
     //Manejador de eventos para cuando se suelta una tecla en el JLabel jTFSocioMod
     public void jTFSocioModKeyReleased(java.awt.event.KeyEvent evt) {
         //Al largarse la tecla se llama al método indicado (Esto está en construcción)
@@ -869,6 +922,7 @@ public class SocioTarjeta extends javax.swing.JPanel {
         if (this.jLABM.getText().equals("CLICKEE SOBRE EL CAMPO PARA EDITAR EL VALOR DESEADO")) {
             String criterio = jLabel.getText();
             editarCamposSocio(criterio);
+            JOptionPane.showMessageDialog(null, criterio);
         }
     }
 
@@ -883,32 +937,38 @@ public class SocioTarjeta extends javax.swing.JPanel {
 
         switch (criterio) {
             case "Socio número:":
-                modificar(this.jLNumeroDeSocio, this.jLNumeroDeSocio.getText(), 100, 38, 50, 24, Font.BOLD, 14);
+                modificar(this.jLNumeroDeSocio, this.jLNumeroDeSocio.getText(), 100, 28, 50, 24, Font.BOLD, 14);
                 break;
             case "Imagen":
                 String numeroDeFoto = this.jLNumeroDeSocio.getText();
                 selectImage(numeroDeFoto);
                 break;
             case "Apellido:":
-                modificar(this.jLApellido, this.jLApellido.getText(), 160, 61, 100, 24, Font.PLAIN, 12);
+                modificar(this.jLApellido, this.jLApellido.getText(), 160, 52, 100, 24, Font.PLAIN, 12);
                 break;
             case "Nombre:":
-                modificar(this.jLNombre, this.jLNombre.getText(), 160, 84, 100, 24, Font.PLAIN, 12);
+                modificar(this.jLNombre, this.jLNombre.getText(), 160, 74, 100, 24, Font.PLAIN, 12);
                 break;
             case "Domicilio:":
-                modificar(this.jLDomicilio, this.jLDomicilio.getText(), 160, 106, 100, 24, Font.PLAIN, 12);
+                modificar(this.jLDomicilio, this.jLDomicilio.getText(), 160, 96, 100, 24, Font.PLAIN, 12);
                 break;
             case "E-Mail:":
-                modificar(this.jLEmail, this.jLEmail.getText(), 160, 128, 220, 24, Font.PLAIN, 12);
+                modificar(this.jLEmail, this.jLEmail.getText(), 160, 118, 220, 24, Font.PLAIN, 12);
                 break;
             case "Fecha de Alta:":
-                modificar(this.jLFechaDeAlta, this.jLFechaDeAlta.getText(), 100, 151, 86, 24, Font.BOLD, 12);
+                modificar(this.jLFechaDeAlta, this.jLFechaDeAlta.getText(), 100, 141, 86, 24, Font.BOLD, 12);
                 break;
             case "Fecha de Baja:":
-                modificar(this.jLFechaDeBaja, this.jLFechaDeBaja.getText(), 100, 173, 86, 24, Font.BOLD, 12);
+                modificar(this.jLFechaDeBaja, this.jLFechaDeBaja.getText(), 100, 163, 86, 24, Font.BOLD, 12);
+                break;
+            case "DNI:":
+                modificar(this.jLDni, this.jLDNI.getText(), 275, 28, 150, 24, Font.BOLD, 14);
+                break;
+            case "Teléfono:":
+                modificar(this.jLTel, this.jLTelefono.getText(), 100, 207, 100, 24, Font.BOLD, 12);
                 break;
             case "Estado:":
-                modificar(this.jLEst, this.jLEstado.getText(), 100, 195, 150, 24, Font.PLAIN, 12);
+                modificar(this.jLEst, this.jLEstado.getText(), 100, 185, 150, 24, Font.PLAIN, 12);
                 break;
         }
     }
@@ -982,16 +1042,21 @@ public class SocioTarjeta extends javax.swing.JPanel {
             }
 
         } else {
+
             int idSocio = Integer.parseInt(this.jLEfecto.getText());
             prestamos = metodoDePrestamo.listarPrestamos(idSocio);
-            deudor = new Socio();
-            for (Prestamo prestamo : prestamos) {
-                if (prestamo.getLector().getIdSocio() == idSocio) {
-                    deudor = prestamo.getLector();
+            if (!prestamos.isEmpty()) {
+
+                deudor = new Socio();
+
+                for (Prestamo prestamo : prestamos) {
+
+                    if (prestamo.getLector().getIdSocio() == idSocio) {
+                        deudor = prestamo.getLector();
+                    }
                 }
-            }
-            if (deudor != null) {
-                JOptionPane.showMessageDialog(null, "No se puede desasociar porque el Socio tiene préstamos activos");
+
+                JOptionPane.showMessageDialog(this, "No se puede desasociar porque el Socio tiene préstamos activos");
                 this.jLEstado.setText("Socio Activo");
                 this.jLEstado.setVisible(true);
                 jCBEstado.setVisible(false);
@@ -999,6 +1064,31 @@ public class SocioTarjeta extends javax.swing.JPanel {
                 this.jLEstado.setText("Desasociado");
                 this.jLEstado.setVisible(true);
                 jCBEstado.setVisible(false);
+                //cambiar fecha en label y en base de datos: 
+                LocalDate fechaBajaModificar = LocalDate.now(); //Se crea la fecha actual formato LocalDate
+                DateTimeFormatter formatoBajaModificar = DateTimeFormatter.ofPattern("yyyy-MM-dd"); //Se le da el formato que tenemos en la base de datos
+                String fechaActualDeBaja = fechaBajaModificar.format(formatoBajaModificar);  //Listo para enviar a la base de datos
+                        
+                String anyoBajaModificar = fechaActualDeBaja.substring(0, 4);
+                String mesBajaModificar = fechaActualDeBaja.substring(5, 7);
+                String diaBajaModificar = fechaActualDeBaja.substring(8, 10);
+                        
+                String fechaDBModificar = diaBajaModificar + "-" + mesBajaModificar + "-" + anyoBajaModificar;
+                String fechaParaTarjeta = fechaDBModificar.replaceAll("-", " \\| ");
+                
+                String fechaDBVieja = this.jLFechaDeBaja.getText().replaceAll(" \\| ", "-");
+
+                
+                this.jLFechaDeBaja.setText(fechaParaTarjeta);
+                //metodoDeSocio.eliminarSocio("M", fechaDBVieja, "fechaDeBaja", fechaActualDeBaja);
+                String criterioBusqueda = SocioBuscarView.getInstance().getCriterio();
+                String valorBusqueda = SocioBuscarView.getInstance().getValor();
+                //JOptionPane.showMessageDialog(this, "Criterio Busqueda: " + criterioBusqueda + "\nValor Busqueda: " + valorBusqueda);
+                metodoDeSocio.modificarFecha(fechaActualDeBaja, "fechaDeBaja", this.jLEfecto.getText(), criterioBusqueda, valorBusqueda);
+                
+                
+                
+                
             }
             /*
             
@@ -1548,8 +1638,7 @@ public class SocioTarjeta extends javax.swing.JPanel {
             labelInformativo.setText("Ingresando el DNI");
             labelInformativo.setForeground(Color.BLACK);
             valorMod.setVisible(false);
-            
-            
+
             if ((dni.getText().length() == 2 && punto) || (dni.getText().length() == 6 && !punto)) {
                 dni.setText(dni.getText() + ".");
 
@@ -1568,7 +1657,7 @@ public class SocioTarjeta extends javax.swing.JPanel {
             if (dni.getText().length() > 10) {
                 dni.setText(dni.getText().substring(0, 10));
             }
-            
+
         }
     }
 
@@ -1598,12 +1687,10 @@ public class SocioTarjeta extends javax.swing.JPanel {
 
         } else {
             labelInformativo.setForeground(Color.BLACK);
-            
-            
+
             JTextField field = (JTextField) e.getSource();
             String texto = field.getText();
 
-            
             char c = e.getKeyChar();
             if (!Character.isDigit(c) && c != '-') {
 
@@ -1636,31 +1723,30 @@ public class SocioTarjeta extends javax.swing.JPanel {
                 }
 
             } else if (c == '-') {
-                    
 
-                    if (((c == '-') && (texto.length() != 3)) && ((c == '-') && (texto.length() != 6))) {
-                        // Comprobar si el índice es válido
-                        int pos = texto.length() - 1;
-                        if (pos >= 0) {
-                            texto = texto.substring(0, pos) + texto.substring(pos + 1);
-                            field.setText(texto);
-                        }
-                        // Crear una expresión regular para el formato dd-MM-yyyy
-                        Pattern pattern = Pattern.compile("^(0[1-9]|[12][0-9]|3[01])-(0[1-9]|1[012])-(19|20)\\d\\d$");
-                        // Comprobar si el texto coincide con la expresión regular
-                        Matcher matcher = pattern.matcher(texto);
-                        if (matcher.matches()) {
-                            // Si el texto es válido, ocultar el mensaje de error
-                            labelInformativo.setVisible(false);
-                            valorMod.setVisible(true);
-                        } else {
-                            // Si el texto no es válido, mostrar el mensaje de error
-                            labelInformativo.setText("Fecha en el formato dd-MM-yyyy");
-                            labelInformativo.setVisible(true);
-                            valorMod.setVisible(false);
-                        }
+                if (((c == '-') && (texto.length() != 3)) && ((c == '-') && (texto.length() != 6))) {
+                    // Comprobar si el índice es válido
+                    int pos = texto.length() - 1;
+                    if (pos >= 0) {
+                        texto = texto.substring(0, pos) + texto.substring(pos + 1);
+                        field.setText(texto);
                     }
-                }else if(Character.isDigit(c) && (((texto.length() == 3)) || ((texto.length() == 6)) || ((texto.length() > 10)))){
+                    // Crear una expresión regular para el formato dd-MM-yyyy
+                    Pattern pattern = Pattern.compile("^(0[1-9]|[12][0-9]|3[01])-(0[1-9]|1[012])-(19|20)\\d\\d$");
+                    // Comprobar si el texto coincide con la expresión regular
+                    Matcher matcher = pattern.matcher(texto);
+                    if (matcher.matches()) {
+                        // Si el texto es válido, ocultar el mensaje de error
+                        labelInformativo.setVisible(false);
+                        valorMod.setVisible(true);
+                    } else {
+                        // Si el texto no es válido, mostrar el mensaje de error
+                        labelInformativo.setText("Fecha en el formato dd-MM-yyyy");
+                        labelInformativo.setVisible(true);
+                        valorMod.setVisible(false);
+                    }
+                }
+            } else if (Character.isDigit(c) && (((texto.length() == 3)) || ((texto.length() == 6)) || ((texto.length() > 10)))) {
                 // Comprobar si el índice es válido
                 int pos = texto.indexOf(c);
                 if (pos >= 0) {
@@ -1695,23 +1781,21 @@ public class SocioTarjeta extends javax.swing.JPanel {
         }
     }
 
-    
-
     public void cotejarApellido(String caracteresIngresados, JLabel labelInformativo, JLabel valorMod, JTextField valoresModificados,
             String valorDelCampo, String campo) {
-        
         if (caracteresIngresados.matches(".*\\d.*")) {
             valoresModificados.setForeground(Color.BLACK);
             labelInformativo.setText("El Apellido no puede incluír números");
             labelInformativo.setForeground(Color.RED);
         } else {
-            if (labelInformativo.getClass().getEnclosingClass() == SocioTarjeta.class) {
+            if (labelInformativo == this.jLABM) {
                 valorMod.setText(caracteresIngresados);
                 valoresModificados.setVisible(false);
                 valorMod.setVisible(true);
-
+                JOptionPane.showMessageDialog(null, valoresModificados.getText() + " IF");
                 metodoDeSocio.eliminarSocio("M", valorDelCampo, campo.replaceAll(":", ""), valorMod.getText(), this.jLNumeroDeSocio.getText());
             } else {
+                JOptionPane.showMessageDialog(null, valoresModificados.getText() + " ELSE");
                 valoresModificados.setForeground(Color.CYAN);
             }
             labelInformativo.setText("El Apellido ha sido ingresado correctamente");
@@ -1722,13 +1806,13 @@ public class SocioTarjeta extends javax.swing.JPanel {
 
     public void cotejarNombre(String caracteresIngresados, JLabel labelInformativo, JLabel valorMod, JTextField valoresModificados,
             String valorDelCampo, String campo) {
-        
+
         if (caracteresIngresados.matches(".*\\d.*")) {
             valoresModificados.setForeground(Color.BLACK);
             labelInformativo.setText("El Nombre no puede incluír números");
             labelInformativo.setForeground(Color.RED);
         } else {
-            if (labelInformativo.getClass().getEnclosingClass() == SocioTarjeta.class) {
+            if (labelInformativo == this.jLABM) {
                 valorMod.setText(caracteresIngresados);
                 valoresModificados.setVisible(false);
                 valorMod.setVisible(true);
@@ -1745,13 +1829,13 @@ public class SocioTarjeta extends javax.swing.JPanel {
 
     public void cotejarDomicilio(String caracteresIngresados, JLabel labelInformativo, JLabel valorMod, JTextField valoresModificados,
             String valorDelCampo, String campo) {
-        
+
         if (!caracteresIngresados.matches(".*\\s\\D*\\d+\\s*$")) {
             valoresModificados.setForeground(Color.BLACK);
             labelInformativo.setText("El Domicilio debe incluír un número");
             labelInformativo.setForeground(Color.RED);
         } else {
-            if (labelInformativo.getClass().getEnclosingClass() == SocioTarjeta.class) {
+            if (labelInformativo == this.jLABM) {
                 valorMod.setText(caracteresIngresados);
                 valoresModificados.setVisible(false);
                 valorMod.setVisible(true);
@@ -1774,7 +1858,7 @@ public class SocioTarjeta extends javax.swing.JPanel {
             labelInformativo.setText("El DNI está mal especificado");
             labelInformativo.setForeground(Color.RED);
         } else {
-            if (labelInformativo.getClass().getEnclosingClass() == SocioTarjeta.class) {
+            if (labelInformativo == this.jLABM) {
                 valorMod.setText(caracteresIngresados);
                 valoresModificados.setVisible(false);
                 valorMod.setVisible(true);
@@ -1791,13 +1875,13 @@ public class SocioTarjeta extends javax.swing.JPanel {
 
     public void cotejarTelefono(String caracteresIngresados, JLabel labelInformativo, JLabel valorMod, JTextField valoresModificados,
             String valorDelCampo, String campo) {
-        
+
         if (!caracteresIngresados.matches("^[0-9]{9,11}$")) {
             valoresModificados.setForeground(Color.BLACK);
             labelInformativo.setText("El Teléfono está mal especificado");
             labelInformativo.setForeground(Color.RED);
         } else {
-            if (labelInformativo.getClass().getEnclosingClass() == SocioTarjeta.class) {
+            if (labelInformativo == this.jLABM) {
                 valorMod.setText(caracteresIngresados);
                 valoresModificados.setVisible(false);
                 valorMod.setVisible(true);
@@ -1814,13 +1898,13 @@ public class SocioTarjeta extends javax.swing.JPanel {
 
     public void cotejarEmail(String caracteresIngresados, JLabel labelInformativo, JLabel valorMod, JTextField valoresModificados,
             String valorDelCampo, String campo) {
-        
+
         if (!caracteresIngresados.matches("^[\\w\\.-]+@[\\w\\.-]+\\.\\w+$")) {
             valoresModificados.setForeground(Color.BLACK);
             labelInformativo.setText("El E-Mail está mal especificado");
             labelInformativo.setForeground(Color.RED);
         } else {
-            if (labelInformativo.getClass().getEnclosingClass() == SocioTarjeta.class) {
+            if (labelInformativo == this.jLABM) {
                 valorMod.setText(caracteresIngresados);
                 valoresModificados.setVisible(false);
                 valorMod.setVisible(true);
@@ -1843,7 +1927,7 @@ public class SocioTarjeta extends javax.swing.JPanel {
             labelInformativo.setText("La Fecha está mal especificada");
             labelInformativo.setForeground(Color.RED);
         } else {
-            if (labelInformativo.getClass().getEnclosingClass() == SocioTarjeta.class) {
+            if (labelInformativo == this.jLABM) {
                 valorMod.setText(caracteresIngresados);
                 valoresModificados.setVisible(false);
                 valorMod.setVisible(true);
@@ -1866,7 +1950,7 @@ public class SocioTarjeta extends javax.swing.JPanel {
             labelInformativo.setText("La Fecha está mal especificada");
             labelInformativo.setForeground(Color.RED);
         } else {
-            if (labelInformativo.getClass().getEnclosingClass() == SocioTarjeta.class) {
+            if (labelInformativo == this.jLABM) {
                 valorMod.setText(caracteresIngresados);
                 valoresModificados.setVisible(false);
                 valorMod.setVisible(true);
@@ -1885,6 +1969,8 @@ public class SocioTarjeta extends javax.swing.JPanel {
     private javax.swing.JLabel jLABM;
     private javax.swing.JLabel jLApe;
     private javax.swing.JLabel jLApellido;
+    private javax.swing.JLabel jLDNI;
+    private javax.swing.JLabel jLDni;
     private javax.swing.JLabel jLDom;
     private javax.swing.JLabel jLDomicilio;
     private javax.swing.JLabel jLEfecto;
@@ -1901,6 +1987,8 @@ public class SocioTarjeta extends javax.swing.JPanel {
     private javax.swing.JLabel jLNombre;
     private javax.swing.JLabel jLNumSocio;
     private javax.swing.JLabel jLNumeroDeSocio;
+    private javax.swing.JLabel jLTel;
+    private javax.swing.JLabel jLTelefono;
     private javax.swing.JSeparator jSeparator1;
     // End of variables declaration//GEN-END:variables
 }
