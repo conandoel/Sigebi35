@@ -845,12 +845,16 @@ public class SocioAgregarView extends javax.swing.JInternalFrame {
 
     private void jLResetMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jLResetMouseClicked
         // TODO add your handling code here:
-        resetearCampos();
+        int respuesta = JOptionPane.showConfirmDialog(this, "Se perderán todos los datos. Desea continuar?", "Reseteando", WIDTH, JOptionPane.PLAIN_MESSAGE, jLReset.getIcon());
+        if(respuesta == 0){
+            resetearCampos();
+        }
     }//GEN-LAST:event_jLResetMouseClicked
 
     private void jLCancelarMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jLCancelarMouseClicked
         // TODO add your handling code here:
-        int respuesta = JOptionPane.showConfirmDialog(this, "Se perderán todos los datos. Desea continuar?");
+        int respuesta = JOptionPane.showConfirmDialog(this, "Se perderán todos los datos. Desea continuar?", "Cancelando", WIDTH, JOptionPane.PLAIN_MESSAGE, jLCancelar.getIcon());
+        
         if (respuesta == 0) {
             this.dispose();
         }

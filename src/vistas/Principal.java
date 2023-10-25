@@ -441,6 +441,7 @@ public class Principal extends javax.swing.JFrame {
 
     private void jMAgregarSocioActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMAgregarSocioActionPerformed
         this.jMAgregarSocio.setEnabled(false);
+        SocioBuscarView.getInstance().getCuadroDeBusqueda().setText("");
         SocioBuscarView.getInstance().afectarSocio(AGREGAR);
         cargarAgregarSocio();
  

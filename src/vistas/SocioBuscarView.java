@@ -49,12 +49,10 @@ public class SocioBuscarView extends javax.swing.JInternalFrame {
     private SocioBuscarView() {
         initComponents();
         jCBCargarSocioBuscarCriterios();
-        
+
         Container pane = ((BasicInternalFrameUI) this.getUI()).getNorthPane();
         // Eliminar el botón del menú
         pane.remove(0);
-
-        sbr = this;
 
     }
 
@@ -89,6 +87,10 @@ public class SocioBuscarView extends javax.swing.JInternalFrame {
         return this.jTFSocioBuscarIngreseValor;
     }
 
+    public String getCBEstado() {
+        return this.jCBEstado.getSelectedItem().toString();
+    }
+
     //Se crea el método getInstance para el PATRÓN DE DISEÑO Singleton
     public static SocioBuscarView getInstance() {
         //Si el atributo sbr es nulo, lo creamos con el constructor
@@ -98,7 +100,7 @@ public class SocioBuscarView extends javax.swing.JInternalFrame {
         //Se devuelve el atributo sbr
         return sbr;
     }
- 
+
     private int activarEliminar = 0;
 
     //Método que comunica criterio y valor elegido en la VISTA para ser utilizado por el método listarSocio para crear las TARJETAS.
@@ -172,6 +174,7 @@ public class SocioBuscarView extends javax.swing.JInternalFrame {
         jSPResultados = new javax.swing.JScrollPane();
         jLInfo = new javax.swing.JLabel();
         jPanel1 = new javax.swing.JPanel();
+        jCBEstado = new javax.swing.JComboBox<>();
         jPanel2 = new javax.swing.JPanel();
         jTFFechaHasta = new javax.swing.JTextField();
         jLFechaHasta = new javax.swing.JLabel();
@@ -209,15 +212,26 @@ public class SocioBuscarView extends javax.swing.JInternalFrame {
 
         jLInfo.setForeground(new java.awt.Color(255, 0, 51));
 
+        jCBEstado.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Todos", "Socio Activo", "Desasociado" }));
+        jCBEstado.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jCBEstadoActionPerformed(evt);
+            }
+        });
+
         javax.swing.GroupLayout jPanel1Layout = new javax.swing.GroupLayout(jPanel1);
         jPanel1.setLayout(jPanel1Layout);
         jPanel1Layout.setHorizontalGroup(
             jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 196, Short.MAX_VALUE)
+            .addGroup(jPanel1Layout.createSequentialGroup()
+                .addComponent(jCBEstado, javax.swing.GroupLayout.PREFERRED_SIZE, 159, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(0, 12, Short.MAX_VALUE))
         );
         jPanel1Layout.setVerticalGroup(
             jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 88, Short.MAX_VALUE)
+            .addGroup(jPanel1Layout.createSequentialGroup()
+                .addComponent(jCBEstado, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(0, 12, Short.MAX_VALUE))
         );
 
         jTFFechaHasta.addActionListener(new java.awt.event.ActionListener() {
@@ -263,9 +277,9 @@ public class SocioBuscarView extends javax.swing.JInternalFrame {
         jPanel2Layout.setVerticalGroup(
             jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel2Layout.createSequentialGroup()
-                .addContainerGap(10, Short.MAX_VALUE)
+                .addContainerGap(16, Short.MAX_VALUE)
                 .addComponent(jLFechaHasta)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
                     .addComponent(jBFechaHasta, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                     .addComponent(jTFFechaHasta))
@@ -322,45 +336,40 @@ public class SocioBuscarView extends javax.swing.JInternalFrame {
         jPSocioBuscarLayout.setVerticalGroup(
             jPSocioBuscarLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(jPSocioBuscarLayout.createSequentialGroup()
-                .addGroup(jPSocioBuscarLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addGroup(jPSocioBuscarLayout.createSequentialGroup()
-                        .addGap(32, 32, 32)
-                        .addComponent(jLBuscarSocios, javax.swing.GroupLayout.PREFERRED_SIZE, 25, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addComponent(jLSocioBuscarCriterio)
-                        .addGap(5, 5, 5)
-                        .addComponent(jCBSocioBuscarCriterio, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addGap(18, 18, 18)
-                        .addComponent(jLSocioBuscarIngreseValor)
-                        .addGap(7, 7, 7)
-                        .addGroup(jPSocioBuscarLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                            .addComponent(jBBuscar, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                            .addComponent(jTFSocioBuscarIngreseValor))
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 34, Short.MAX_VALUE)
-                        .addComponent(jLInfo)
-                        .addGap(44, 44, 44)
-                        .addComponent(jPanel2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addGap(17, 17, 17)
-                        .addComponent(jPanel1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                    .addGroup(jPSocioBuscarLayout.createSequentialGroup()
-                        .addContainerGap()
-                        .addComponent(jSPResultados)))
+                .addContainerGap()
+                .addComponent(jSPResultados)
                 .addContainerGap())
+            .addGroup(jPSocioBuscarLayout.createSequentialGroup()
+                .addGap(32, 32, 32)
+                .addComponent(jLBuscarSocios, javax.swing.GroupLayout.PREFERRED_SIZE, 25, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(jLSocioBuscarCriterio)
+                .addGap(5, 5, 5)
+                .addComponent(jCBSocioBuscarCriterio, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(18, 18, 18)
+                .addComponent(jLSocioBuscarIngreseValor)
+                .addGap(7, 7, 7)
+                .addGroup(jPSocioBuscarLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                    .addComponent(jBBuscar, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                    .addComponent(jTFSocioBuscarIngreseValor))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(jLInfo)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(jPanel2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 87, Short.MAX_VALUE)
+                .addComponent(jPanel1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(21, 21, 21))
         );
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
         layout.setHorizontalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(layout.createSequentialGroup()
-                .addComponent(jPSocioBuscar, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                .addGap(0, 0, Short.MAX_VALUE))
+            .addComponent(jPSocioBuscar, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(layout.createSequentialGroup()
-                .addComponent(jPSocioBuscar, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+            .addComponent(jPSocioBuscar, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
         );
 
         pack();
@@ -434,10 +443,8 @@ public class SocioBuscarView extends javax.swing.JInternalFrame {
             jBBuscar.setText("▲");
             jBBuscar.setForeground(Color.GREEN);
             jLSocioBuscarIngreseValor.setText("Desde Fecha de Alta:");
-        } else if (seleccion.equals("Fecha de Alta")) {
-
-        } else if (seleccion.equals("Fecha de Baja")) {
-
+        } else if (seleccion.equals("Estado")) {
+            jCBEstado.setVisible(true);
         }
         //Se adapta el JLabel que apunta qué debe hacer el usuario. Por ejemplo "Ingrese el " + "Número de Socio":
         jLSocioBuscarIngreseValor.setText("Ingrese el " + seleccion);
@@ -528,7 +535,7 @@ public class SocioBuscarView extends javax.swing.JInternalFrame {
 
     private void jBBuscarMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jBBuscarMouseClicked
         // TODO add your handling code here:
-        if(this.jCBSocioBuscarCriterio.getSelectedItem().toString().equals("Fecha")){
+        if (this.jCBSocioBuscarCriterio.getSelectedItem().toString().equals("Fecha")) {
             cambiarBotonesFechas(this.jBBuscar);
         }
     }//GEN-LAST:event_jBBuscarMouseClicked
@@ -537,6 +544,42 @@ public class SocioBuscarView extends javax.swing.JInternalFrame {
         // TODO add your handling code here:
         cambiarBotonesFechas(this.jBFechaHasta);
     }//GEN-LAST:event_jBFechaHastaMouseClicked
+
+    private void jCBEstadoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jCBEstadoActionPerformed
+        // TODO add your handling code here:
+        if (this.jCBSocioBuscarCriterio.getSelectedItem().toString().equals("DNI")) {
+
+        } else if (this.jCBSocioBuscarCriterio.getSelectedItem().toString().equals("Fecha de Alta") || this.jCBSocioBuscarCriterio.getSelectedItem().toString().equals("Fecha de Baja")) {
+            //Creamos un objeto Robot
+            Robot robot = null;
+            try {
+                robot = new Robot();
+            } catch (AWTException ex) {
+                Logger.getLogger(SocioBuscarView.class.getName()).log(Level.SEVERE, null, ex);
+            }
+            String fechaIngresada = null;
+            for (int i = 0; i < 10; i++) {
+                if (i == Integer.parseInt(this.jTFSocioBuscarIngreseValor.getText())) {
+                    fechaIngresada = String.valueOf(i);
+                }
+            }
+            this.jTFSocioBuscarIngreseValor.setText(fechaIngresada);
+            this.jTFSocioBuscarIngreseValor.requestFocus();
+            robot.keyRelease(KeyEvent.VK_5);
+        } else {
+            Robot robot = null;
+            try {
+                robot = new Robot();
+            } catch (AWTException ex) {
+
+            }
+            this.jTFSocioBuscarIngreseValor.requestFocus();
+            //Simulamos la pulsación de la tecla SHIFT
+            robot.keyPress(KeyEvent.VK_SHIFT);
+            //Simulamos la liberación de la tecla SHIFT
+            robot.keyRelease(KeyEvent.VK_SHIFT);
+        }
+    }//GEN-LAST:event_jCBEstadoActionPerformed
     private void cambiarBotonesFechas(JButton boton) {
         if (boton.getText().equals("▲")) {
             boton.setText("▼");
@@ -565,44 +608,152 @@ public class SocioBuscarView extends javax.swing.JInternalFrame {
 
     private void direccionarCriterio(String criterio, KeyEvent evt) {
         JLabel valorMod = new JLabel();
-        if (criterio.equals("DNI")) {
-            valorMod.setText("DNI");
+        if(criterio.equals("Número de Socio")){
+            this.criterio = "Número de Socio";
+            valorMod.setText("Número de Socio");
             char c = evt.getKeyChar();
             if (Character.isDigit(c) || evt.getKeyCode() == 8) {
+                if(this.jTFSocioBuscarIngreseValor.getText().length() > 4){
+                    this.jTFSocioBuscarIngreseValor.setText(this.jTFSocioBuscarIngreseValor.getText().substring(0, this.jTFSocioBuscarIngreseValor.getText().length()-1));
+                }
                 SocioTarjeta.getInstance().noEnterDNI(this.jLInfo, valorMod, evt);
+                resultados = SocioTarjeta.getInstance().listarSocio(criterio, this.jTFSocioBuscarIngreseValor.getText(), "BUSCAR");
+                for (SocioTarjeta resultado : resultados) {
+                    resultado.setVisible(true);
+                }
+                cargarLasTarjetas();
+                resultados.clear();
+                if (this.jTFSocioBuscarIngreseValor.getText().equals("")) {
+                    resultados = SocioTarjeta.getInstance().listarSocio(criterio, "x", "BUSCAR");
+                    for (SocioTarjeta resultado : resultados) {
+                        resultado.setVisible(true);
+                    }
+                    cargarLasTarjetas();
+                    resultados.clear();
+                }
             } else {
                 this.jTFSocioBuscarIngreseValor.setText(this.jTFSocioBuscarIngreseValor.getText().substring(0, this.jTFSocioBuscarIngreseValor.getText().length() - 1));
             }
+        }else if (criterio.equals("DNI")) {
+            this.criterio = "DNI";
+            valorMod.setText("DNI");
+            String valor = this.jTFSocioBuscarIngreseValor.getText().replaceAll("\\.", "");
+
+            char c = evt.getKeyChar();
+            if (Character.isDigit(c) || evt.getKeyCode() == 8) {
+                SocioTarjeta.getInstance().noEnterDNI(this.jLInfo, valorMod, evt);
+                this.jTFSocioBuscarIngreseValor.setText(valor);
+                resultados = SocioTarjeta.getInstance().listarSocio(criterio, valor, "BUSCAR");
+                for (SocioTarjeta resultado : resultados) {
+                    resultado.setVisible(true);
+                }
+                cargarLasTarjetas();
+                resultados.clear();
+                if (valor.equals("")) {
+                    resultados = SocioTarjeta.getInstance().listarSocio(criterio, "X", "BUSCAR");
+                    for (SocioTarjeta resultado : resultados) {
+                        resultado.setVisible(true);
+                    }
+                    cargarLasTarjetas();
+                    resultados.clear();
+                }
+            } else {
+                this.jTFSocioBuscarIngreseValor.setText(this.jTFSocioBuscarIngreseValor.getText().substring(0, this.jTFSocioBuscarIngreseValor.getText().length() - 1));
+            }
+
         } else if (criterio.equals("Apellido")) {
+            this.criterio = "Apellido";
             valorMod.setText("Apellido");
             char c = evt.getKeyChar();
             if (!Character.isDigit(c) || evt.getKeyCode() == 8) {
                 SocioTarjeta.getInstance().noEnterApellido(this.jLInfo, valorMod, evt);
+                resultados = SocioTarjeta.getInstance().listarSocio(criterio, this.jTFSocioBuscarIngreseValor.getText(), "BUSCAR");
+                for (SocioTarjeta resultado : resultados) {
+                    resultado.setVisible(true);
+                }
+                cargarLasTarjetas();
+                resultados.clear();
+                if (this.jTFSocioBuscarIngreseValor.getText().equals("")) {
+                    resultados = SocioTarjeta.getInstance().listarSocio(criterio, "9", "BUSCAR");
+                    for (SocioTarjeta resultado : resultados) {
+                        resultado.setVisible(true);
+                    }
+                    cargarLasTarjetas();
+                    resultados.clear();
+                }
             } else {
                 this.jTFSocioBuscarIngreseValor.setText(this.jTFSocioBuscarIngreseValor.getText().substring(0, this.jTFSocioBuscarIngreseValor.getText().length() - 1));
             }
         } else if (criterio.equals("Nombre")) {
+            this.criterio = "Nombre";
             valorMod.setText("Nombre");
             char c = evt.getKeyChar();
             if (!Character.isDigit(c) || evt.getKeyCode() == 8) {
                 SocioTarjeta.getInstance().noEnterNombre(this.jLInfo, valorMod, evt);
+                resultados = SocioTarjeta.getInstance().listarSocio(criterio, this.jTFSocioBuscarIngreseValor.getText(), "BUSCAR");
+                for (SocioTarjeta resultado : resultados) {
+                    resultado.setVisible(true);
+                }
+                cargarLasTarjetas();
+                resultados.clear();
+                if (this.jTFSocioBuscarIngreseValor.getText().equals("")) {
+                    resultados = SocioTarjeta.getInstance().listarSocio(criterio, "9", "BUSCAR");
+                    for (SocioTarjeta resultado : resultados) {
+                        resultado.setVisible(true);
+                    }
+                    cargarLasTarjetas();
+                    resultados.clear();
+                }
             } else {
                 this.jTFSocioBuscarIngreseValor.setText(this.jTFSocioBuscarIngreseValor.getText().substring(0, this.jTFSocioBuscarIngreseValor.getText().length() - 1));
             }
         } else if (criterio.equals("Domicilio")) {
             valorMod.setText("Domicilio");
+            this.criterio = "Domicilio";
             SocioTarjeta.getInstance().noEnterDomicilio(this.jLInfo, valorMod, evt);
+            resultados = SocioTarjeta.getInstance().listarSocio(criterio, this.jTFSocioBuscarIngreseValor.getText(), "BUSCAR");
+            for (SocioTarjeta resultado : resultados) {
+                resultado.setVisible(true);
+            }
+            cargarLasTarjetas();
+            resultados.clear();
+            if (this.jTFSocioBuscarIngreseValor.getText().equals("")) {
+                resultados = SocioTarjeta.getInstance().listarSocio(criterio, "*", "BUSCAR");
+                for (SocioTarjeta resultado : resultados) {
+                    resultado.setVisible(true);
+                }
+                cargarLasTarjetas();
+                resultados.clear();
+            }
         } else if (criterio.equals("Mail")) {
+            valorMod.setText("Mail");
+            this.criterio = "Mail";
             if (evt.getKeyCode() == 32) {
+
                 this.jTFSocioBuscarIngreseValor.setText(this.jTFSocioBuscarIngreseValor.getText().substring(0, this.jTFSocioBuscarIngreseValor.getText().length() - 1));
             } else {
                 SocioTarjeta.getInstance().noEnterMail(this.jLInfo, valorMod, evt);
+                resultados = SocioTarjeta.getInstance().listarSocio(criterio, this.jTFSocioBuscarIngreseValor.getText(), "BUSCAR");
+                for (SocioTarjeta resultado : resultados) {
+                    resultado.setVisible(true);
+                }
+                cargarLasTarjetas();
+                resultados.clear();
+                if (this.jTFSocioBuscarIngreseValor.getText().equals("")) {
+                    resultados = SocioTarjeta.getInstance().listarSocio(criterio, "^", "BUSCAR");
+                    for (SocioTarjeta resultado : resultados) {
+                        resultado.setVisible(true);
+                    }
+                    cargarLasTarjetas();
+                    resultados.clear();
+                }
             }
+
         } else if (criterio.equals("Fecha de Alta") || criterio.equals("Fecha de Baja")) {
             char c = evt.getKeyChar();
-            if (evt.getKeyCode() == 32) {
+            if (evt.getKeyCode() == 32 || this.jTFSocioBuscarIngreseValor.getText().length() > 10) {
                 this.jTFSocioBuscarIngreseValor.setText(this.jTFSocioBuscarIngreseValor.getText().substring(0, this.jTFSocioBuscarIngreseValor.getText().length() - 1));
-            }else {
+            } else {
                 SocioTarjeta.getInstance().noEnterFecha(this.jLInfo, valorMod, evt);
                 if (Character.isDigit(c) || c == '-' || evt.getKeyCode() == 8) {
                     String fechaIngresada = this.jTFSocioBuscarIngreseValor.getText();
@@ -611,24 +762,26 @@ public class SocioBuscarView extends javax.swing.JInternalFrame {
                     if (criterio.equals("Fecha de Alta")) {
                         valorMod.setText("Fecha de Alta");
                         this.criterio = "fechaDeAlta";
-                        
+
                     } else {
                         valorMod.setText("Fecha de Baja");
                         this.criterio = "fechaDeBaja";
                         SocioTarjeta.getInstance().noEnterFecha(this.jLInfo, valorMod, evt);
                     }
-                    resultados = SocioTarjeta.getInstance().listarSocio(criterio, fechaIngresada, "FECHA");
-                    for (SocioTarjeta resultado : resultados) {
-                        resultado.setVisible(true);
+                    if (this.jTFSocioBuscarIngreseValor.getText().length() <= 10) {
+                        resultados = SocioTarjeta.getInstance().listarSocio(criterio, fechaIngresada, "FECHA");
+                        for (SocioTarjeta resultado : resultados) {
+                            resultado.setVisible(true);
+                        }
+                        cargarLasTarjetas();
+                        resultados.clear();
                     }
-                    cargarLasTarjetas();
-                    resultados.clear();
                 }
 
             }
         } else if (criterio.equals("Fecha")) {
             char c = evt.getKeyChar();
-            
+
             if (Character.isDigit(c) || c == '-' || c == ' ') {
                 fechaDesde = this.jTFSocioBuscarIngreseValor.getText();
                 fechaDesde = fechaDesde.replaceAll("-", "");
@@ -640,8 +793,7 @@ public class SocioBuscarView extends javax.swing.JInternalFrame {
                     this.jTFFechaHasta.setText(this.jTFFechaHasta.getText().trim());
                 }
                 SocioTarjeta.getInstance().noEnterFecha(valorMod, valorMod, evt);
-                
-                
+
                 if (this.jBBuscar.getText().equals("▲")) {
                     valorMod.setText("Fecha de Alta");
                     this.criterio1 = "fechaDeAlta";
@@ -671,7 +823,7 @@ public class SocioBuscarView extends javax.swing.JInternalFrame {
                 }
                 cargarLasTarjetas();
                 resultados.clear();
-            }else{
+            } else {
                 JTextField field = (JTextField) evt.getSource();
                 //Se obtiene el texto del textfield
                 String texto = field.getText();
@@ -743,6 +895,7 @@ public class SocioBuscarView extends javax.swing.JInternalFrame {
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton jBBuscar;
     private javax.swing.JButton jBFechaHasta;
+    private javax.swing.JComboBox<String> jCBEstado;
     private javax.swing.JComboBox<String> jCBSocioBuscarCriterio;
     private javax.swing.JLabel jLBuscarSocios;
     private javax.swing.JLabel jLFechaHasta;

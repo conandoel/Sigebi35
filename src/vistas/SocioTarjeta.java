@@ -266,7 +266,11 @@ public class SocioTarjeta extends javax.swing.JPanel {
             for (String columna : columnas) {
                 //Al encontrar coincidencia se llama al método buscarHistorialSocios de SocioData, el cual devuelve a todos los SOCIOS ya sean activos o no y lo guarda en la LISTA socios
                 if (criterio.equals(columna)) {
-                    socios = metodoDeSocio.buscarHistorialSocios(criterio, valor);
+                    if(!columna.equals("dni")){
+                        socios = metodoDeSocio.buscarHistorialSocios(criterio, valor);
+                    }else{
+                        socios = metodoDeSocio.buscarHistorialSocios(criterio, valor);
+                    }
                 }
             }
         } else {
@@ -1564,6 +1568,7 @@ public class SocioTarjeta extends javax.swing.JPanel {
             if (dni.getText().length() > 10) {
                 dni.setText(dni.getText().substring(0, 10));
             }
+            
         }
     }
 

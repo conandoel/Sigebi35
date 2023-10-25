@@ -13,6 +13,7 @@ import javax.swing.JOptionPane;
 import java.io.IOException;
 import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
+import vistas.SocioBuscarView;
 
 public class SocioData {
 
@@ -201,18 +202,43 @@ public class SocioData {
     //OTRA VEZ ME VOLVIÓ A TIRAR EL PUTO ERROR
     public List<Socio> buscarHistorialSocios(String criterio, String valorStringInt) {
         //ESE -1 EN ALGÚN LADO ME TIRÓ ERROR
+        String estado = SocioBuscarView.getInstance().getCBEstado();
         int valorInt = -1;
         String valorString = "";
         String sql;
-
-        try {
-            valorInt = Integer.parseInt(valorStringInt);
-            sql = "SELECT * FROM lector WHERE " + criterio + " = " + valorInt + ";";
-            System.out.println(sql);
-        } catch (NumberFormatException ex) {
-            valorString = valorStringInt;
-            sql = "SELECT * FROM lector WHERE " + criterio + " = ?;";
-
+        
+        switch (estado) {
+            
+            case "Socio Activo":
+                try {
+                    valorInt = Integer.parseInt(valorStringInt);
+                    sql = "SELECT * FROM lector WHERE " + criterio + " LIKE ? AND estado = 1;";
+                } catch (NumberFormatException ex) {
+                    valorString = valorStringInt;
+                    sql = "SELECT * FROM lector WHERE " + criterio + " LIKE ? AND estado = 1;";
+                    System.out.println("Número de elementos en sociosLocal: " + sql + "\nSocioActivo");
+                }
+                break;
+            case "Desasociado":
+                try {
+                    valorInt = Integer.parseInt(valorStringInt);
+                    sql = "SELECT * FROM lector WHERE " + criterio + " LIKE ? AND estado = 0;";
+                } catch (NumberFormatException ex) {
+                    valorString = valorStringInt;
+                    sql = "SELECT * FROM lector WHERE " + criterio + " LIKE ? AND estado = 0;";
+                    System.out.println("Número de elementos en sociosLocal: " + sql + "\nDesasociado");
+                }
+                break;
+            default:
+                try {
+                    valorInt = Integer.parseInt(valorStringInt);
+                    sql = "SELECT * FROM lector WHERE " + criterio + " LIKE ?;";
+                } catch (NumberFormatException ex) {
+                    valorString = valorStringInt;
+                    sql = "SELECT * FROM lector WHERE " + criterio + " LIKE ?;";
+                    System.out.println("Número de elementos en sociosLocal: " + sql + "\nDefault");
+                }
+            break;
         }
 
         List<Socio> sociosLocal = new ArrayList<>();
@@ -221,9 +247,9 @@ public class SocioData {
 
             PreparedStatement ps = con.prepareStatement(sql);
             if (valorInt >= 0) {
-                ps.setInt(1, valorInt);
+                ps.setString(1, String.valueOf(valorInt) + "%");
             } else {
-                ps.setString(1, valorString);
+                ps.setString(1, valorString + "%");
 
             }
             ResultSet rs = ps.executeQuery();
@@ -246,7 +272,7 @@ public class SocioData {
                 }
                 socioLocal.setEstado(rs.getBoolean("estado"));
                 sociosLocal.add(socioLocal);
-                System.out.println("Número de elementos en sociosLocal: " + sociosLocal.size());
+                
             }
 
         } catch (SQLException ex) {
@@ -487,16 +513,15 @@ public class SocioData {
         }
 
     }
-    
-    public List<Socio> obtenerRangoFechas(String fechaDesde, String fechaHasta, String criterio1, String criterio2){
+
+    public List<Socio> obtenerRangoFechas(String fechaDesde, String fechaHasta, String criterio1, String criterio2) {
         List<Socio> sociosLocal = new ArrayList<>();
-
-
+        
         fechaDesde = armarFechaDesde(fechaDesde);
         fechaHasta = armarFechaHasta(fechaHasta);
 
         String sql = armarSQL(criterio1, criterio2);
- 
+
         try {
             //Se crea un objeto Statement con la consulta
             PreparedStatement ps = con.prepareStatement(sql);
@@ -534,29 +559,29 @@ public class SocioData {
         }
         return sociosLocal;
     }
-    
-    private String armarSQL(String criterio1, String criterio2){
+
+    private String armarSQL(String criterio1, String criterio2) {
         String sql;
-        if(criterio1.equals("fechaDeAlta")){
-            if(criterio1.equals(criterio2)){
+        if (criterio1.equals("fechaDeAlta")) {
+            if (criterio1.equals(criterio2)) {
                 sql = "SELECT * FROM lector WHERE " + criterio1 + " BETWEEN ? AND ?;";
-            }else{
-                sql = "SELECT * FROM lector WHERE " + criterio1 + " BETWEEN ? AND ? " +
-                "AND " + criterio2 + " BETWEEN " + "? AND ?;";
+            } else {
+                sql = "SELECT * FROM lector WHERE " + criterio1 + " BETWEEN ? AND ? "
+                        + "AND " + criterio2 + " BETWEEN " + "? AND ?;";
             }
-        }else{
-            if(criterio1.equals(criterio2)){
-                sql = "SELECT * FROM lector WHERE " + criterio1 + " BETWEEN ? AND ? " +
-                "AND " + criterio2 + " BETWEEN " + "? AND ?;";
-            }else{
-                sql = "SELECT * FROM lector WHERE " + criterio1 + " BETWEEN ? AND ? " +
-                "AND " + criterio2 + " BETWEEN " + "? AND ?;";
+        } else {
+            if (criterio1.equals(criterio2)) {
+                sql = "SELECT * FROM lector WHERE " + criterio1 + " BETWEEN ? AND ? "
+                        + "AND " + criterio2 + " BETWEEN " + "? AND ?;";
+            } else {
+                sql = "SELECT * FROM lector WHERE " + criterio1 + " BETWEEN ? AND ? "
+                        + "AND " + criterio2 + " BETWEEN " + "? AND ?;";
             }
         }
         return sql;
     }
-    
-    private String armarFechaDesde(String fecha){
+
+    private String armarFechaDesde(String fecha) {
         int digitos = fecha.length();
         String izq = "";
         String der = "";
@@ -566,9 +591,9 @@ public class SocioData {
                 break;
             case 1:
                 izq = "0001-01-";
-                if(fecha.equals("0")){
+                if (fecha.equals("0")) {
                     der = "1";
-                }else{
+                } else {
                     der = "0";
                 }
                 fecha = izq + fecha + der;
@@ -579,10 +604,10 @@ public class SocioData {
                 break;
             case 3:
                 izq = "0001-" + fecha.substring(2, 3);
-                if(!fecha.substring(2, 3).equals("0")){
-                   der = "0-"; 
-                }else{
-                   der = "1-";
+                if (!fecha.substring(2, 3).equals("0")) {
+                    der = "0-";
+                } else {
+                    der = "1-";
                 }
                 fecha = izq + der + fecha.substring(0, 2);
                 break;
@@ -609,8 +634,8 @@ public class SocioData {
         }
         return fecha;
     }
-    
-    private String armarFechaHasta(String fecha){
+
+    private String armarFechaHasta(String fecha) {
         int digitos = fecha.length();
         String izq = "";
         String der = "";
@@ -657,7 +682,7 @@ public class SocioData {
     }
 
     public List<Socio> obtenerFechas(String fecha, String criterio) {
-
+        String estado = SocioBuscarView.getInstance().getCBEstado();
         List<Socio> sociosLocal = new ArrayList<>();
 
         int digitos = fecha.length();
@@ -702,8 +727,19 @@ public class SocioData {
                 break;
 
         }
-
-        String sql = "SELECT * FROM lector WHERE " + criterio + " LIKE ?;";
+        String sql;
+        switch(estado){
+            case "Socio Activo":
+                sql = "SELECT * FROM lector WHERE " + criterio + " LIKE ? AND estado = 1;";
+                break;
+            case "Desasociado":
+                sql = "SELECT * FROM lector WHERE " + criterio + " LIKE ? AND estado = 0;";
+                break;
+            default:
+                sql = "SELECT * FROM lector WHERE " + criterio + " LIKE ?;";
+                break;
+        }
+        
 
         try {
             //Se crea un objeto Statement con la consulta
