@@ -304,7 +304,15 @@ public class LibroModificarView extends javax.swing.JInternalFrame {
         
         lData.modificarLibro(Long.parseLong(llll(jtfISBN.getText())), libro);
         
-        System.out.println(llll(jtfISBNmod.getText()));
+        jtfISBN.setText(String.valueOf(libro.getIsbn()));
+        jtfTitulo.setText(libro.getTitulo());
+        jtfAutor.setText(libro.getAutor());
+        jtfAnio.setText(String.valueOf(libro.getAnio()));
+        jtfGenero.setText(libro.getGenero());
+        jtfEditorial.setText(libro.getEditorial());
+        if(libro.isEstado()){jlbDisponible.setText("Disponible");}else{jlbDisponible.setText("No disponible");}
+        
+        
         limpiarTabla();
         cargarFilas();
     }//GEN-LAST:event_jbtCommitActionPerformed
@@ -317,7 +325,6 @@ public class LibroModificarView extends javax.swing.JInternalFrame {
         int fila = jtbLibros.getSelectedRow();
         Libro libro = new Libro();
         libro = lData.getLibroEspecifico(Long.parseLong(jtbLibros.getValueAt(fila, 0).toString()));
-        System.out.println(libro.getTitulo());
         
         jtfISBN.setText(String.valueOf(libro.getIsbn()));
         jtfTitulo.setText(libro.getTitulo());
