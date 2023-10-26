@@ -16,9 +16,12 @@ import java.awt.Container;
 import java.awt.Image;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.beans.PropertyVetoException;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 import javax.swing.ImageIcon;
@@ -855,6 +858,11 @@ public class SocioAgregarView extends javax.swing.JInternalFrame {
         int respuesta = JOptionPane.showConfirmDialog(this, "Se perderán todos los datos. Desea continuar?", "Cancelando", WIDTH, JOptionPane.PLAIN_MESSAGE, jLCancelar.getIcon());
         
         if (respuesta == 0) {
+            try {
+                this.setClosed(true);
+            } catch (PropertyVetoException ex) {
+                Logger.getLogger(SocioAgregarView.class.getName()).log(Level.SEVERE, null, ex);
+            }
             this.dispose();
         }
         Principal.getInstance().revalidate();

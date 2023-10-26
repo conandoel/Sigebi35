@@ -37,7 +37,7 @@ public class SocioData {
         List<Socio> sociosLocal = new ArrayList<>();
         Socio socioLocal = new Socio();
         String sql;
-JOptionPane.showMessageDialog(null, "Teléfono o... " + criterio);
+
         if (efecto.equals("E")) {
             if (criterio.equals("Número de Socio") | criterio.equals("Estado")) {
                 criterio = "idSocio";
@@ -223,7 +223,7 @@ JOptionPane.showMessageDialog(null, "Teléfono o... " + criterio);
                 sql = "SELECT * FROM lector WHERE " + criterio + " LIKE ? AND estado = 1;";
             } catch (NumberFormatException ex) {
                 valorString = valorStringInt;
-                sql = "SELECT * FROM lector WHERE " + criterio + " LIKE '?' AND estado = 1;";
+                sql = "SELECT * FROM lector WHERE " + criterio + " LIKE ? AND estado = 1;";
                 System.out.println("Número de elementos en sociosLocal: " + sql + "\nSocioActivo");
             }
             break;
@@ -233,7 +233,7 @@ JOptionPane.showMessageDialog(null, "Teléfono o... " + criterio);
                 sql = "SELECT * FROM lector WHERE " + criterio + " LIKE ? AND estado = 0;";
             } catch (NumberFormatException ex) {
                 valorString = valorStringInt;
-                sql = "SELECT * FROM lector WHERE " + criterio + " LIKE '?' AND estado = 0;";
+                sql = "SELECT * FROM lector WHERE " + criterio + " LIKE ? AND estado = 0;";
                 System.out.println("Número de elementos en sociosLocal: " + sql + "\nDesasociado");
             }
             break;
@@ -255,7 +255,7 @@ JOptionPane.showMessageDialog(null, "Teléfono o... " + criterio);
 
             PreparedStatement ps = con.prepareStatement(sql);
             if (valorInt >= 0) {
-                ps.setString(1, String.valueOf(valorInt) + "%");
+                ps.setString(1, ""+String.valueOf(valorInt)+"" + "%");
             } else {
                 ps.setString(1, valorString + "%");
 

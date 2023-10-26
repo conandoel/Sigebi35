@@ -1067,33 +1067,27 @@ public class SocioTarjeta extends javax.swing.JPanel {
         } else if (!this.jLEstado.getText().equals(estadoSeleccionado) && estadoSeleccionado.equals("Desasociado")) {
 
             int idSocio = Integer.parseInt(this.jLEfecto.getText());
-            prestamos = metodoDePrestamo.listarPrestamos(idSocio);
+            prestamos = metodoDePrestamo.listarPrestamosSuperCargado(idSocio);
             if (!prestamos.isEmpty()) {
-                //EjemplarData ed = new EjemplarData();
-                //ej = new Ejemplar();
+                
                 
                 for (Prestamo prestamo : prestamos) {
-                    
-                    if (prestamo.getLector().getIdSocio() == idSocio) {
-                        
-                        
 
-                        //JLabel ejemplar = new JLabel();
-                        //ejemplar.setSize(60, 95);
+                    JLabel ejemplar = new JLabel();
+                    ejemplar.setSize(60, 95);
 
-                        //int codigo = prestamo.getEjemplar().getCodigo();
-                        //ej = ed.buscarEjemplar(codigo);
-                        //long isbn = ej.getIsbn();
+                    int codigo = prestamo.getEjemplar().getCodigo();
+                    long isbn = prestamo.getEjemplar().getLibro().getIsbn();
 
-                        //Image libro = new ImageIcon(getClass().getResource("/vistas/libros/" + isbn + ".jpg")).getImage();
-                        //Image dLibro = libro.getScaledInstance(ejemplar.getWidth(), ejemplar.getHeight(), Image.SCALE_SMOOTH);
-                        //ImageIcon iconEjemplar = new ImageIcon(dLibro);
-                        //ejemplar.setIcon(iconEjemplar);
+                        Image libro = new ImageIcon(getClass().getResource("/vistas/libros/" + isbn + ".jpg")).getImage();
+                        Image dLibro = libro.getScaledInstance(ejemplar.getWidth(), ejemplar.getHeight(), Image.SCALE_SMOOTH);
+                        ImageIcon iconEjemplar = new ImageIcon(dLibro);
+                        ejemplar.setIcon(iconEjemplar);
                         
                         
-                        /*JOptionPane.showMessageDialog(this, "El socio tiene préstamos activos",
-                                deudor.getTitulo(), JOptionPane.PLAIN_MESSAGE, ejemplar.getIcon());*/
-                    }
+                        JOptionPane.showMessageDialog(this, "El socio tiene los siguiente préstamos activos",
+                                prestamo.getEjemplar().getLibro().getTitulo(), JOptionPane.PLAIN_MESSAGE, ejemplar.getIcon());
+       
                 }
                 this.jLEstado.setText("Socio Activo");
                 this.jLEstado.setVisible(true);
