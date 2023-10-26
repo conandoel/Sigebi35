@@ -1,9 +1,12 @@
 package entidades;
 
 public class Ejemplar {
-    private int codigo;
-    private Libro libro;
+    private int codigo;//Me parece
+    private Libro libro;//que no va
     private String estado;
+    
+    private int idEjemplar;
+    private long isbn;
     
     public Ejemplar(){}
 
@@ -34,6 +37,23 @@ public class Ejemplar {
     public void setEstado(String estado) {
         this.estado = estado;
     }
+    
+    
+    /* agregado */
+    public long getIsbn(){
+        return this.isbn;
+    }
+    public void setIsbn(long isbn){
+        this.isbn = isbn;
+    }
+    
+    public int getIdEjemplar(){
+        return this.idEjemplar;
+    }
+    public void setIdEjemplar(int idEjemplar){
+        this.idEjemplar = idEjemplar;
+    }
+    
     
     
 }

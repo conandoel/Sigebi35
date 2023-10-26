@@ -109,7 +109,7 @@ public class SocioBuscarView extends javax.swing.JInternalFrame {
             criterio = "NINGUNO";
             valor = "";
         }
-        JOptionPane.showMessageDialog(null, "criterio: " + criterio + "\nvalor: " + valor + "\nEFECTO: " + EFECTO);
+
         //Se envía el pedido de rediseño de TARJETAS para ver si estarán en módo "BUSCAR", "ELIMINAR", o "MODIFICAR"
         resultados = SocioTarjeta.getInstance().listarSocio(criterio, valor, EFECTO);
         //Si el valor de EFECTO es "LIMPIAR" entonces la visibilidad de las TARJETAS es false
@@ -147,12 +147,15 @@ public class SocioBuscarView extends javax.swing.JInternalFrame {
         SocioBuscarView.getInstance().jLBuscarSocios.setText("Modificar socios");
         //Según la SECCION que va a tomar en realidad el valor de "EFECTO" que puede ser "MODIFICAR", "ELIMINAR", "LIMPIAR" (Aún no hace nada eso), y "NADA"
         switch (SECCION) {
-            case "MODIFICAR" :
+            case "MODIFICAR":
                 this.jLBuscarSocios.setText("Modificar Socios");
-            case "ELIMINAR" :
+                break;
+            case "ELIMINAR":
                 this.jLBuscarSocios.setText("Eliminar Socios");
-            default :
+                break;
+            default:
                 this.jLBuscarSocios.setText("Búsqueda de Socios");
+                break;
         }
         //Cada case es para modificar el JLabel por tanto según sea el caso, la VISTA BUSCAR SOCIO será "Buscar socios" o "Eliminar Socios", etc
     }
@@ -509,10 +512,13 @@ public class SocioBuscarView extends javax.swing.JInternalFrame {
 
     private void jTFSocioBuscarIngreseValorKeyReleased(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_jTFSocioBuscarIngreseValorKeyReleased
         // TODO add your handling code here:
-        
+        if(this.jCBSocioBuscarCriterio.getSelectedItem().toString().equals("DNI")){
         criterio = this.jCBSocioBuscarCriterio.getSelectedItem().toString(); // quiza crear String criterio
         valor = this.jTFSocioBuscarIngreseValor.getText();
         direccionarCriterio(criterio, evt);
+        }else{
+            this.noEnterDNI(this.jLInfo, this.jTFSocioBuscarIngreseValor, evt);
+        }
     }//GEN-LAST:event_jTFSocioBuscarIngreseValorKeyReleased
 
     private void jTFFechaHastaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jTFFechaHastaActionPerformed
@@ -892,6 +898,46 @@ public class SocioBuscarView extends javax.swing.JInternalFrame {
     private void jCBCargarSocioBuscarCriterios() {
         for (String criterioLocal : criteriosDeBusqueda) {
             jCBSocioBuscarCriterio.addItem(criterioLocal);
+        }
+    }
+    private JTextField dni = new JTextField();
+    private boolean punto = true;
+    public void noEnterDNI(JLabel labelInformativo, JTextField val, KeyEvent e) {
+
+        
+        dni.setText(val.getText());
+
+
+        if (e.getKeyCode() == 10) {
+
+        } else if (e.getKeyCode() == 110) {
+            
+            dni.setText(dni.getText().substring(0, dni.getText().length() - 1));
+        } else {
+
+            labelInformativo.setText("Ingresando el DNI");
+            labelInformativo.setForeground(Color.BLACK);
+            //valorMod.setVisible(false);
+
+            if ((dni.getText().length() == 2 && punto) || (dni.getText().length() == 6 && !punto)) {
+                dni.setText(dni.getText() + ".");
+JOptionPane.showMessageDialog(this, "HOLA");
+            } else if ((dni.getText().length() == 2) && !punto || (dni.getText().length() == 6 && punto)) {
+                if (dni.getText().length() == 6) {
+                    dni.setText(dni.getText().substring(0, 5));
+                } else if (dni.getText().length() == 2) {
+                    dni.setText(dni.getText().substring(0, 1));
+                }
+            }
+            if (dni.getText().length() > 2 && dni.getText().length() < 6) {
+                punto = false;
+            } else {
+                punto = true;
+            }
+            if (dni.getText().length() > 10) {
+                dni.setText(dni.getText().substring(0, 10));
+            }
+
         }
     }
 
