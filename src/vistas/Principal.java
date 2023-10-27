@@ -359,6 +359,7 @@ public class Principal extends javax.swing.JFrame {
     //Manejador de eventos del menú al elegir "Buscar -> Socios"
     private void jMBuscarSociosActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMBuscarSociosActionPerformed
         //Si es la primera vez "primeraVez" tiene valor "true"
+        SocioTarjeta.getInstance().setJLABM("B");
         if(primeraVez){
             Principal.getInstance().habilitarModificaciones(false, false, true);
             //Se guarda el CUADRO DE BÚSQUEDA utilizando el PATRÓN DE DISEÑO Singleton
@@ -406,6 +407,7 @@ public class Principal extends javax.swing.JFrame {
     private void jMModificarSociosActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMModificarSociosActionPerformed
         //Utilizando el PATRÓN DE DISEÑO Singleton se envía que se REIMPRIMAN las TARJETAS con ÍCONO y OTROS de MODIFICAR
         SocioBuscarView.getInstance().afectarSocio(MODIFICAR);
+        SocioTarjeta.getInstance().setJLABM("M");
         //Con el PATRÓN DE DISEÑO Singleton se chequea si el CRITERIO NO es "estado" Y "valor" es 0 (AMBOS) Y que el rótulo del label específico no sea "Desasociado"
         if(!(SocioBuscarView.getInstance().getCriterio().equalsIgnoreCase("estado") &&
                 SocioBuscarView.getInstance().getValor().equalsIgnoreCase("0")) && !SocioTarjeta.getInstance().getEstado().equals("Desasociado")){
@@ -425,6 +427,7 @@ public class Principal extends javax.swing.JFrame {
     private void jMElimSociosActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMElimSociosActionPerformed
         //Utilizando el PATRÓN DE DISEÑO Singleton se envía que se REIMPRIMAN las TARJETAS con ÍCONO y OTROS de ELIMINAR
         SocioBuscarView.getInstance().afectarSocio(ELIMINAR);
+        SocioTarjeta.getInstance().setJLABM("E");
         //Si el criterio NO es estado Y al mismo tiempo el valor NO es 0 se habilita la MODIFICACIÓN y se deshabilita la ELIMINACIÓN pues ya está en modo ELIMINAR
         if(!(SocioBuscarView.getInstance().getCriterio().equalsIgnoreCase("estado") &&
                 SocioBuscarView.getInstance().getValor().equalsIgnoreCase("0"))){

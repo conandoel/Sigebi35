@@ -101,6 +101,48 @@ public class SocioBuscarView extends javax.swing.JInternalFrame {
         //Se devuelve el atributo sbr
         return sbr;
     }
+    
+    private boolean puntoB = true;
+    public void noEnterDNIBusqueda(JLabel labelInformativo, JLabel valorMod, KeyEvent e) {
+
+        
+            dni = this.jTFSocioBuscarIngreseValor;
+
+        if (e.getKeyCode() == 10) {
+
+        } else if (e.getKeyCode() == 110) {
+            
+            dni.setText(dni.getText().substring(0, dni.getText().length() - 1));
+        } else {
+            //labelInformativo.setText("Ingresando el DNI");
+            //labelInformativo.setForeground(Color.BLACK);
+            valorMod.setVisible(false);
+
+            if ((dni.getText().length() == 2 && puntoB) || (dni.getText().length() == 6 && !puntoB)) {
+                dni.setText(dni.getText() + ".");
+                System.out.println(dni.getText());
+            } else if ((dni.getText().length() == 2) && !puntoB || (dni.getText().length() == 6 && puntoB)) {
+                if (dni.getText().length() == 6) {
+                    dni.setText(dni.getText().substring(0, 5));
+                } else if (dni.getText().length() == 2) {
+                    dni.setText(dni.getText().substring(0, 1));
+                }
+            }
+            if (dni.getText().length() > 2 && dni.getText().length() < 6) {
+                puntoB = false;
+            } else {
+                puntoB = true;
+            }
+            if (dni.getText().length() > 10) {
+                dni.setText(dni.getText().substring(0, 10));
+            }
+
+        }
+    }
+    
+    
+    
+    
 
     private int activarEliminar = 0;
 
@@ -384,11 +426,11 @@ public class SocioBuscarView extends javax.swing.JInternalFrame {
     private void jTFSocioBuscarIngreseValorActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jTFSocioBuscarIngreseValorActionPerformed
         //Cuando se presiona ENTER en el campo de texto, el JButton que se encarga de confirmar la búsqueda gana el FOCO
 
-        JTextField valoresModificados = this.jTFSocioBuscarIngreseValor;
+        /*JTextField valoresModificados = this.jTFSocioBuscarIngreseValor;
         String campo = this.jTFSocioBuscarIngreseValor.getText();
         String criterio = this.jCBSocioBuscarCriterio.getSelectedItem().toString();
-        direccionarCotejamiento(valoresModificados, campo, criterio);
-        this.jBBuscar.requestFocus();//puedo ponerlo dentro de direccionarCotejamiento. Si está bien accionar
+        direccionarCotejamiento(valoresModificados, campo, criterio);*/
+        //this.jBBuscar.requestFocus();//puedo ponerlo dentro de direccionarCotejamiento. Si está bien accionar
     }//GEN-LAST:event_jTFSocioBuscarIngreseValorActionPerformed
 
     private void direccionarCotejamiento(JTextField valoresModificados, String campo, String criterio) {
@@ -629,11 +671,11 @@ public class SocioBuscarView extends javax.swing.JInternalFrame {
         } else if (criterio.equals("DNI")) {
             this.criterio = "DNI";
             valorMod.setText("DNI");
-            String valor = this.jTFSocioBuscarIngreseValor.getText().replaceAll("\\.", "");
-
+            //String valor = this.jTFSocioBuscarIngreseValor.getText().replaceAll("\\.", "");
+            
             char c = evt.getKeyChar();
             if (Character.isDigit(c) || evt.getKeyCode() == 8) {
-                SocioTarjeta.getInstance().noEnterDNI(this.jLInfo, valorMod, evt);
+                noEnterDNIBusqueda(this.jLInfo, valorMod, evt);
                 this.jTFSocioBuscarIngreseValor.setText(valor);
                 resultados = SocioTarjeta.getInstance().listarSocio(criterio, valor, "BUSCAR");
                 for (SocioTarjeta resultado : resultados) {

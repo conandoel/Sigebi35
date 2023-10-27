@@ -416,6 +416,7 @@ public class SocioAgregarView extends javax.swing.JInternalFrame {
     private void jTFDNIActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jTFDNIActionPerformed
         // TODO add your handling code here:
         String caracteresIngresados = this.jTFDNI.getText();
+        caracteresIngresados = caracteresIngresados.replaceAll("\\.", "");
         JTextField valoresModificados = this.jTFDNI;
         JLabel valorMod = new JLabel();
         String valorDelCampo = caracteresIngresados;
@@ -540,7 +541,7 @@ public class SocioAgregarView extends javax.swing.JInternalFrame {
                 }
             } catch (Exception ex) {
                 campoFoto = false;
-                SocioTarjeta.getInstance().retrasarTemporizador(0, this.jLImagen);
+                SocioTarjeta.getInstance().retrasarTemporizador(0, this.jLImagen, "");
             }
 
             
@@ -603,7 +604,7 @@ public class SocioAgregarView extends javax.swing.JInternalFrame {
         if (valor instanceof Integer) {
             if (((Integer) valor).intValue() <= 1) {
                 if (campo.equals("dni")) {
-                    SocioTarjeta.getInstance().retrasarTemporizador(2400, this.jLDni);
+                    SocioTarjeta.getInstance().retrasarTemporizador(2400, this.jLDni, "");
                 }
 
             } else {
@@ -613,19 +614,19 @@ public class SocioAgregarView extends javax.swing.JInternalFrame {
             if (valor.equals("")) {
                 switch (campo) {
                     case "apellido":
-                        SocioTarjeta.getInstance().retrasarTemporizador(600, this.jLApellido);
+                        SocioTarjeta.getInstance().retrasarTemporizador(600, this.jLApellido, "");
                         break;
                     case "nombre":
-                        SocioTarjeta.getInstance().retrasarTemporizador(1200, this.jLNombre);
+                        SocioTarjeta.getInstance().retrasarTemporizador(1200, this.jLNombre, "");
                         break;
                     case "domicilio":
-                        SocioTarjeta.getInstance().retrasarTemporizador(1800, this.jLDomicilio);
+                        SocioTarjeta.getInstance().retrasarTemporizador(1800, this.jLDomicilio, "");
                         break;
                     case "telefono":
-                        SocioTarjeta.getInstance().retrasarTemporizador(3000, this.jLTelefono);
+                        SocioTarjeta.getInstance().retrasarTemporizador(3000, this.jLTelefono, "");
                         break;
                     case "mail":
-                        SocioTarjeta.getInstance().retrasarTemporizador(3600, this.jLMail);
+                        SocioTarjeta.getInstance().retrasarTemporizador(3600, this.jLMail, "");
                         break;
                     default:
                         break;
@@ -639,7 +640,7 @@ public class SocioAgregarView extends javax.swing.JInternalFrame {
         }
 
         if (camposRellenos == TOTALMENTE_RELLENADOS && campoFoto) {
-            SocioTarjeta.getInstance().temporizar(this.labelInformativo);
+            SocioTarjeta.getInstance().temporizar(this.labelInformativo, "");
             this.labelInformativo.setText("Socio agregado con éxito");
             camposCorrectos = true;
             JOptionPane.showMessageDialog(this, "Saliendo al Menú Principal", "Socio Nº " + this.jLNumeroDeSocio.getText() + " agregado!", HEIGHT, this.jLAgregar.getIcon());
@@ -648,7 +649,7 @@ public class SocioAgregarView extends javax.swing.JInternalFrame {
             
             this.labelInformativo.setText("Confirme todos los campos que titilan");
             this.labelInformativo.setForeground(Color.RED);
-            SocioTarjeta.getInstance().temporizar(this.labelInformativo);
+            SocioTarjeta.getInstance().temporizar(this.labelInformativo, "");
             
         }
     }
@@ -686,7 +687,7 @@ public class SocioAgregarView extends javax.swing.JInternalFrame {
             labelInformativo.setText("Se resetearon todos los campos");
         }
         cargarFotoPerfilVacio(this.jLImagen);
-        SocioTarjeta.getInstance().temporizar(labelInformativo);
+        SocioTarjeta.getInstance().temporizar(labelInformativo, "");
     }
 
     /*public void resetearCampos() {
