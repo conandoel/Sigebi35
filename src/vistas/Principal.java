@@ -31,7 +31,7 @@ public class Principal extends javax.swing.JFrame {
     public Principal() {
         
         initComponents();
-        pintarJFrame();
+        //spintarJFrame();
         //Se guarda en pr la instancia del PROGRAMA para utilizar el PATRÓN DE DISEÑO Singleton
         pr = this;
         this.setBackground(Color.yellow);
@@ -68,7 +68,10 @@ public class Principal extends javax.swing.JFrame {
     
     private void pintarJFrame(){
         // Crear un objeto BufferedImage con el mismo tamaño que el JFrame
-        BufferedImage bi = new BufferedImage(getWidth(), getHeight(), BufferedImage.TYPE_INT_ARGB);
+        int width = panel.getWidth();
+        int height = panel.getHeight();
+        
+        BufferedImage bi = new BufferedImage(width, height, BufferedImage.TYPE_INT_ARGB);
         // Obtener un objeto Graphics2D del BufferedImage
         Graphics2D g2d = bi.createGraphics();
 
@@ -83,7 +86,7 @@ public class Principal extends javax.swing.JFrame {
         g2d.fillRect(0, 0, getWidth(), getHeight());
 
         // Establecer el BufferedImage como el icono del JFrame
-        setIconImage(bi);
+        this.panel.getGraphics().drawImage(bi, 0, 0, null);
         
         // Otros métodos del JFrame
         setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
@@ -156,19 +159,6 @@ public class Principal extends javax.swing.JFrame {
             jDPEscritorioLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addComponent(panel, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
         );
-
-        // Sobrescribir el método paintComponent del JPanel
-        //@Override
-        /*public void paintComponent(Graphics g) {
-            // Llamar al método paintComponent de la superclase
-            super.paintComponent(g);
-            // Obtener el objeto Graphics2D
-            Graphics2D g2d = (Graphics2D) g;
-            // Aplicar el degradado al Graphics2D
-            g2d.setPaint(gp);
-            // Rellenar el panel con el degradado
-            g2d.fillRect(0, 0, getWidth(), getHeight());
-        }*/
 
         jMArchivo.setText("Archivo");
 

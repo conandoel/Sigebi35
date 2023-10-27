@@ -858,11 +858,7 @@ public class SocioAgregarView extends javax.swing.JInternalFrame {
         int respuesta = JOptionPane.showConfirmDialog(this, "Se perderán todos los datos. Desea continuar?", "Cancelando", WIDTH, JOptionPane.PLAIN_MESSAGE, jLCancelar.getIcon());
         
         if (respuesta == 0) {
-            try {
-                this.setClosed(true);
-            } catch (PropertyVetoException ex) {
-                Logger.getLogger(SocioAgregarView.class.getName()).log(Level.SEVERE, null, ex);
-            }
+            
             this.dispose();
         }
         Principal.getInstance().revalidate();

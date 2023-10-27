@@ -89,7 +89,6 @@ public class SocioData {
                 //Se itera por la columna buscando el match entre criterio y columna
                 for (String columna : columnas) {
                     if (criterio.equals(columna)) {
-                        JOptionPane.showMessageDialog(null, "idSocio: " + idSocio);
                         //En el List de socios se guarda el socio eliminado con el criterio-valor establecido en la búsqueda
                         //Podría hacerse una sobrecarga de buscarHistorialSocios para que pueda devolver un socio
                         sociosLocal = buscarHistorialSocios("idSocio", String.valueOf(idSocio));
@@ -224,7 +223,7 @@ public class SocioData {
             } catch (NumberFormatException ex) {
                 valorString = valorStringInt;
                 sql = "SELECT * FROM lector WHERE " + criterio + " LIKE ? AND estado = 1;";
-                System.out.println("Número de elementos en sociosLocal: " + sql + "\nSocioActivo");
+
             }
             break;
             case "Desasociado":
@@ -234,7 +233,7 @@ public class SocioData {
             } catch (NumberFormatException ex) {
                 valorString = valorStringInt;
                 sql = "SELECT * FROM lector WHERE " + criterio + " LIKE ? AND estado = 0;";
-                System.out.println("Número de elementos en sociosLocal: " + sql + "\nDesasociado");
+
             }
             break;
             default:
@@ -244,11 +243,11 @@ public class SocioData {
             } catch (NumberFormatException ex) {
                 valorString = valorStringInt;
                 sql = "SELECT * FROM lector WHERE " + criterio + " LIKE ?;";
-                System.out.println("Número de elementos en sociosLocal: " + sql + "\nDefault");
+
             }
             break;
         }
-
+        System.out.println("BHS: " + sql);
         List<Socio> sociosLocal = new ArrayList<>();
         Socio socioLocal;
         try {
@@ -464,7 +463,7 @@ public class SocioData {
                 sql = "UPDATE lector SET " + criterio + " = '" + valor + "' WHERE " + criterio + " = '" + soloMod + "';";
             }
         }
-        System.out.println(sql);
+        System.out.println("MS: " + sql);
         List<String> columnas;
         //Se ejecuta la consulta SQL
         try {
@@ -551,13 +550,24 @@ public class SocioData {
 
     }
 
-    public List<Socio> obtenerRangoFechas(String fechaDesde, String fechaHasta, String criterio1, String criterio2) {
+    public List<Socio> obtenerRangoFechas(String fechaDesde, String fechaHasta, String criterio1, String criterio2, String estado) {
         List<Socio> sociosLocal = new ArrayList<>();
 
         fechaDesde = armarFechaDesde(fechaDesde);
         fechaHasta = armarFechaHasta(fechaHasta);
 
         String sql = armarSQL(criterio1, criterio2);
+        
+        switch(estado){
+            case "Socio Activo":
+                sql = sql + " AND estado = 1;";
+                break;
+            case "Desasociado":
+                sql = sql + " AND estado = 0;";
+                break;
+            default:    
+                break;
+        }
 
         try {
             //Se crea un objeto Statement con la consulta
@@ -601,18 +611,18 @@ public class SocioData {
         String sql;
         if (criterio1.equals("fechaDeAlta")) {
             if (criterio1.equals(criterio2)) {
-                sql = "SELECT * FROM lector WHERE " + criterio1 + " BETWEEN ? AND ?;";
+                sql = "SELECT * FROM lector WHERE " + criterio1 + " BETWEEN ? AND ?";
             } else {
                 sql = "SELECT * FROM lector WHERE " + criterio1 + " BETWEEN ? AND ? "
-                        + "AND " + criterio2 + " BETWEEN " + "? AND ?;";
+                        + "AND " + criterio2 + " BETWEEN " + "? AND ?";
             }
         } else {
             if (criterio1.equals(criterio2)) {
                 sql = "SELECT * FROM lector WHERE " + criterio1 + " BETWEEN ? AND ? "
-                        + "AND " + criterio2 + " BETWEEN " + "? AND ?;";
+                        + "AND " + criterio2 + " BETWEEN " + "? AND ?";
             } else {
                 sql = "SELECT * FROM lector WHERE " + criterio1 + " BETWEEN ? AND ? "
-                        + "AND " + criterio2 + " BETWEEN " + "? AND ?;";
+                        + "AND " + criterio2 + " BETWEEN " + "? AND ?";
             }
         }
         return sql;
@@ -806,6 +816,7 @@ public class SocioData {
             //Se cierran los recursos
             rs.close();
             ps.close();
+            System.out.println("OF: " + sql);
         } catch (SQLException ex) {
 
         }

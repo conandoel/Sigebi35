@@ -255,9 +255,9 @@ public class SocioTarjeta extends javax.swing.JPanel {
             criterio = "idSocio";
         } else if (criterio.equals("Teléfono")) {
             criterio = "telefono";
-        } else if (criterio.equals("Fecha de Alta")) {
+        } else if (criterio.equals("Fecha de Alta") || criterio.equals("fechaDeAlta")) {
             criterio = "fechaDeAlta";
-        } else if (criterio.equals("Fecha de Baja")) {
+        } else if (criterio.equals("Fecha de Baja") || criterio.equals("fechaDeBaja")) {
             criterio = "fechaDeBaja";
         } else {
             //Si no es "Número de Socio" el criterio, entonces se pasa a minúsculas. Por ejemplo "Estado" pasará a ser "estado" para poder ser comparado con el nombre de la columna en la BASE DE DATOS
@@ -281,8 +281,9 @@ public class SocioTarjeta extends javax.swing.JPanel {
             String criterio2 = SocioBuscarView.getInstance().getCriterio2();
             String fechaDesde = SocioBuscarView.getInstance().getFechaDesde();
             String fechaHasta = SocioBuscarView.getInstance().getFechaHasta();
+            String estado = SocioBuscarView.getInstance().getCBEstado();
             if (criterio.equals("rango_fechas")) {
-                socios = metodoDeSocio.obtenerRangoFechas(fechaDesde, fechaHasta, criterio1, criterio2);
+                socios = metodoDeSocio.obtenerRangoFechas(fechaDesde, fechaHasta, criterio1, criterio2, estado);
             } else {
                 socios = metodoDeSocio.obtenerFechas(valor, criterio);
                 EFECTO = "BUSCAR";
@@ -710,6 +711,11 @@ public class SocioTarjeta extends javax.swing.JPanel {
             }
         } else {
             if (valorBME.equals("E")) {
+                if(this.jLEstado.getText().equals("Desasociado")){
+                    String fechaDeBaja = this.jLFechaDeBaja.getText();
+                    JOptionPane.showMessageDialog(this, "El Socio Nº " + this.jLNumeroDeSocio.getText() + " no es un Socio Activo\n"+
+                            "desde " + this.jLFechaDeBaja.getText());
+                }else{
                 //Se muestra un cuadro de diálogo preguntando si se quiere borrar el socio actual
                 int respuesta = JOptionPane.showConfirmDialog(this, "Está seguro que desea dar de baja al socio Nº " + idSocio + "?", TOOL_TIP_TEXT_KEY, WIDTH);
                 //Si se responde OK se hace invisible el ÍCONO ELIMINAR, se elimina el lector de la BASE DE DATOS y se RECARGAN LAS TARJETAS para actualizar los cambios
@@ -722,9 +728,16 @@ public class SocioTarjeta extends javax.swing.JPanel {
                         SocioBuscarView.getInstance().afectarSocio("ELIMINAR");
                         //Si el criterio no es "Estado" entonces se manda criterio y valor elegidos por el usuario
                     } else {
-                        socio = metodoDeSocio.modificarSocio(valorBME, "", criterio, valor);
+                        socio = metodoDeSocio.modificarSocio(valorBME, "", criterio, this.jLNumeroDeSocio.getText());
                         SocioBuscarView.getInstance().afectarSocio("ELIMINAR");
+                        this.jLABM.setText("Socio eliminado con éxito");
+                        this.jLABM.setForeground(Color.RED);
+                        this.temporizar(this.jLABM);
                     }
+                }else{
+                    this.jLABM.setText("No se han realizado modificaciones");
+                    this.jLABM.setForeground(Color.RED);
+                }
                 }
             } else {
 
@@ -1018,8 +1031,6 @@ public class SocioTarjeta extends javax.swing.JPanel {
     }
     private PrestamoData metodoDePrestamo = new PrestamoData();
     private List<Prestamo> prestamos = new ArrayList<>();
-    private Libro deudor;
-    private Ejemplar ej;
 
     public void modificarComboBox(ActionEvent e, String estadoSeleccionado) {
         LocalDate fechaActualLD = LocalDate.now();
@@ -1123,7 +1134,7 @@ public class SocioTarjeta extends javax.swing.JPanel {
                     //metodoDeSocio.modificarSocio("M", fechaDBVieja, "fechaDeBaja", fechaActualDeBaja);
                     String criterioBusqueda = SocioBuscarView.getInstance().getCriterio();
                     String valorBusqueda = SocioBuscarView.getInstance().getValor();
-                    //JOptionPane.showMessageDialog(this, "Criterio Busqueda: " + criterioBusqueda + "\nValor Busqueda: " + valorBusqueda);
+
                     metodoDeSocio.modificarFecha(fechaActualDeBaja, "fechaDeBaja", this.jLEfecto.getText(), criterioBusqueda, valorBusqueda);
                     metodoDeSocio.modificarSocio("E", this.jLNumeroDeSocio.getText(), "Número de Socio", this.jLNumeroDeSocio.getText());
 
@@ -1172,7 +1183,7 @@ public class SocioTarjeta extends javax.swing.JPanel {
 
         valoresModificados.setVisible(true);
         //Si se presionó la tecla ENTER en el JTextField que sirve para MODIFICAR
-        if (tecla == ENTER && controlarENTER) {JOptionPane.showMessageDialog(this, campo);
+        if (tecla == ENTER && controlarENTER) {
             controlarENTER = true;
             //Si el campo que se está afectando es "Socio número:" (A esto hay que manejarlo de manera más elegante. Quizá haciendo referencia al arreglo del ComboBox
             switch (campo) {
@@ -1233,7 +1244,7 @@ public class SocioTarjeta extends javax.swing.JPanel {
                     break;
                 case "Fecha de Alta:": {
                     if (this.jTFSocioMod.getText().length() <= 10) {
-                        JOptionPane.showMessageDialog(this, valorMod.getText().length() <= 10);
+
                         placeholder = valorMod.getText();
                         String diaBaja = this.jLFechaDeBaja.getText().replaceAll(" \\| ", "").substring(0, 2);
                         String mesBaja = this.jLFechaDeBaja.getText().replaceAll(" \\| ", "").substring(2, 4);
@@ -1648,7 +1659,6 @@ public class SocioTarjeta extends javax.swing.JPanel {
                 case "Fecha de Alta:":
                     if (cantidadDeCaracteres > 10) {
                         this.jTFSocioMod.setText(this.jTFSocioMod.getText().substring(0, this.jTFSocioMod.getText().length() - 1));
-                        JOptionPane.showMessageDialog(this, "valorMod Modificado: " + valorMod.getText());
                     } else {
                         noEnterFecha(labelInformativo, valorMod, e);
                     }
