@@ -7,9 +7,7 @@ import datos.PrestamoData;
 import java.util.ArrayList;
 import java.util.List;
 import datos.SocioData;
-import entidades.Ejemplar;
 import entidades.Foto;
-import entidades.Libro;
 import java.awt.Color;
 import java.awt.Font;
 import java.awt.Graphics;
@@ -1757,7 +1755,7 @@ public class SocioTarjeta extends javax.swing.JPanel {
                 case "Estado:":
 
                     break;
-                case "DNI:"://JOptionPane.showMessageDialog(this, "ACA");
+                case "DNI:":
                     noEnterDNITarjeta(labelInformativo, valorMod, e);
                     break;
                 default:
@@ -2098,7 +2096,7 @@ public class SocioTarjeta extends javax.swing.JPanel {
             labelInformativo.setForeground(Color.GREEN);
             temporizar(labelInformativo, "M");
         }
-        }else{JOptionPane.showMessageDialog(this, "ACA sdfgsdf");
+        }else{
         if (!caracteresIngresados.matches("\\d{2}\\.\\d{3}\\.\\d{3}")) {
             valoresModificados.setForeground(Color.BLACK);
             labelInformativo.setText("El DNI está mal especificado");

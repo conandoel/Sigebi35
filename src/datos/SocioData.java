@@ -14,7 +14,6 @@ import java.io.IOException;
 import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
 import vistas.SocioBuscarView;
-import vistas.SocioTarjeta;
 
 public class SocioData {
 
@@ -209,7 +208,6 @@ public class SocioData {
     //OTRA VEZ ME VOLVIÓ A TIRAR EL PUTO ERROR
     public List<Socio> buscarHistorialSocios(String criterio, String valorStringInt) {
         //ESE -1 EN ALGÚN LADO ME TIRÓ ERROR
-        JOptionPane.showMessageDialog(null, "criterio: " + criterio + " valorStringInt: "+ valorStringInt);
         String estado = SocioBuscarView.getInstance().getCBEstado();
         int valorInt = -1;
         String valorString = "";
@@ -486,7 +484,7 @@ public class SocioData {
                         //En el List de socios se guarda el socio eliminado con el criterio-valor establecido en la búsqueda
                         //Podría hacerse una sobrecarga de buscarHistorialSocios para que pueda devolver un socio
                         criterio = SocioBuscarView.getInstance().getCriterio();
-                        valor = SocioBuscarView.getInstance().getValor();JOptionPane.showMessageDialog(null, criterio + " " + valor);
+                        valor = SocioBuscarView.getInstance().getValor();
                         sociosLocal = buscarHistorialSocios(criterio, valor);
                     }
                 }

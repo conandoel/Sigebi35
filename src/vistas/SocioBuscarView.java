@@ -14,13 +14,9 @@ import java.awt.Robot;
 import java.awt.event.KeyEvent;
 import java.util.ArrayList;
 import java.util.List;
-import java.util.logging.Level;
-import java.util.logging.Logger;
 import javax.swing.BoxLayout;
 import javax.swing.JButton;
 import javax.swing.JLabel;
-import javax.swing.JOptionPane;
-import javax.swing.JPopupMenu;
 import javax.swing.JTextField;
 import javax.swing.plaf.basic.BasicInternalFrameUI;
 
@@ -745,6 +741,24 @@ public class SocioBuscarView extends javax.swing.JInternalFrame {
             valorMod.setText("Domicilio");
             this.criterio = "Domicilio";
             SocioTarjeta.getInstance().noEnterDomicilio(this.jLInfo, valorMod, evt);
+            resultados = SocioTarjeta.getInstance().listarSocio(criterio, this.jTFSocioBuscarIngreseValor.getText(), "BUSCAR");
+            for (SocioTarjeta resultado : resultados) {
+                resultado.setVisible(true);
+            }
+            cargarLasTarjetas();
+            resultados.clear();
+            if (this.jTFSocioBuscarIngreseValor.getText().equals("")) {
+                resultados = SocioTarjeta.getInstance().listarSocio(criterio, "*", "BUSCAR");
+                for (SocioTarjeta resultado : resultados) {
+                    resultado.setVisible(true);
+                }
+                cargarLasTarjetas();
+                resultados.clear();
+            }
+        }else if (criterio.equals("Teléfono")) {
+            valorMod.setText("Teléfono");
+            this.criterio = "Teléfono";
+            SocioTarjeta.getInstance().noEnterTelefono(this.jLInfo, valorMod, evt);
             resultados = SocioTarjeta.getInstance().listarSocio(criterio, this.jTFSocioBuscarIngreseValor.getText(), "BUSCAR");
             for (SocioTarjeta resultado : resultados) {
                 resultado.setVisible(true);
