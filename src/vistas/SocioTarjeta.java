@@ -1296,7 +1296,6 @@ public class SocioTarjeta extends javax.swing.JPanel {
                     break;
                 case "DNI:":
                     caracteresIngresados = caracteresIngresados.replaceAll("\\.", "");
-                    JOptionPane.showMessageDialog(this, caracteresIngresados);
                     cotejarDNI(caracteresIngresados, labelInformativo, valorMod, valoresModificados,
                             valorDelCampo, campo);
                     break;
@@ -1359,7 +1358,7 @@ public class SocioTarjeta extends javax.swing.JPanel {
                                         labelInformativo.setText("Febrero no puede tener más de 29 días");
                                     } else if (diaFebrero < 29) {
                                         //Si la baja es menor a la fecha de alta entonces se toma como reinscripción
-                                        if (fechaDeBAJA < fechaDeALTA) {JOptionPane.showMessageDialog(null, "EN A");
+                                        if (fechaDeBAJA < fechaDeALTA) {
                                             int respuesta = JOptionPane.showConfirmDialog(this, "Se tomará como reinscripción. De acuerdo?");
                                             if (respuesta == 0) {
                                                 metodoDeSocio.eliminarSocio("M", soloMod, "fechaDeAlta", fechaDB, this.jLNumeroDeSocio.getText());
@@ -1475,7 +1474,7 @@ public class SocioTarjeta extends javax.swing.JPanel {
                             labelInformativo.setText("La Fecha de Baja está mal especificada");
                             labelInformativo.setForeground(Color.RED);
                         }
-                    //Si los caracteresIngresados concuerdan con el regex
+                        //Si los caracteresIngresados concuerdan con el regex
                     } else {//Si tiene el formato adecuado
                         //Se toman día, mes, y año de la fecha de baja de la tarjeta
                         String diaBajaSM = valorDelCampo.replaceAll(" \\| ", "").substring(0, 2);
@@ -1491,7 +1490,7 @@ public class SocioTarjeta extends javax.swing.JPanel {
                         String anyoBaja = caracteresIngresados.replaceAll("[-/]", "").substring(4, 8);
                         String fechaBaja = anyoBaja + mesBaja + diaBaja;
                         int fechaDeBAJA = Integer.parseInt(fechaBaja);
-                        
+
                         //Se guarda el día de la fecha
                         LocalDate fechaActualLD = LocalDate.now();
                         //Se prepara para pasar a entero, y se pasa a entero luego
@@ -1500,9 +1499,9 @@ public class SocioTarjeta extends javax.swing.JPanel {
                         int fechaActual = Integer.parseInt(fechaActualString.replaceAll("-", ""));
                         //Con los datos preparados anteriormente se confecciona la fecha de baja nueva
                         String fechaDB = anyoBaja + "-" + mesBaja + "-" + diaBaja;
-                        
+
                         //Se coteja si la fecha de baja ingresada por el usuario es menor que la fecha de alta de la tarjeta
-                        if (fechaDeBAJA < fechaDeALTA) {//si fecha de baja es mayor a la fecha de alta
+                        if (fechaDeBAJA < fechaDeALTA) {//si fecha de baja es menor a la fecha de alta
                             //Se informa que la fecha de Alta debe ser menor a la fecha de baja
                             labelInformativo.setText("La Fecha de Alta debe ser menor a la Fecha de Baja");
                             labelInformativo.setForeground(Color.RED);
@@ -1518,7 +1517,6 @@ public class SocioTarjeta extends javax.swing.JPanel {
                                     int diaFebrero = Integer.parseInt(caracteresIngresados.substring(0, 2));
 
                                     if (diaFebrero < 29) {//Si Febrero tiene menos de 29 días
-
                                         caracteresIngresados = caracteresIngresados.replaceAll("[-/]", " | ");
                                         valoresModificados.setVisible(false);
                                         valorMod.setText(caracteresIngresados);
@@ -1532,7 +1530,6 @@ public class SocioTarjeta extends javax.swing.JPanel {
                                         }
                                         temporizar(labelInformativo, "M");
                                     } else if (diaFebrero == 29) {//Si Febrero tiene 29 días
-
                                         if ((anyoIngresado % 4 == 0 && anyoIngresado % 100 != 0) || (anyoIngresado % 400 == 0)) {//Si es año bisiesto
                                             caracteresIngresados = caracteresIngresados.replaceAll("[-/]", " | ");
                                             valoresModificados.setVisible(false);
@@ -1557,16 +1554,11 @@ public class SocioTarjeta extends javax.swing.JPanel {
 
                                 } else {//Si NO es Febrero
                                     if (fechaDeBAJA < fechaActual) {//Si la fecha de baja es menor a la fecha Actual MODIFICAR
-                                        
-                                        
-                                        
-                                        
-                                        if (fechaDeBajaSM > fechaActual) {//Si la fecha anterior era mayor a la fecha de hoy
 
+                                        if (fechaDeBajaSM > fechaActual) {//Si la fecha anterior era mayor a la fecha de hoy
                                             int idSocioE = Integer.parseInt(this.jLEfecto.getText());
                                             prestamos = metodoDePrestamo.listarPrestamosSuperCargado(idSocioE);
                                             if (!prestamos.isEmpty()) {//Si hay préstamos activos
-
                                                 for (Prestamo prestamo : prestamos) {
 
                                                     JLabel ejemplar = new JLabel();
@@ -1586,41 +1578,43 @@ public class SocioTarjeta extends javax.swing.JPanel {
 
                                                 this.jLABM.setForeground(Color.RED);
 
-                                                this.jLABM.setText("La Modificación de la Fecha de Baja del Socio ha sido anulada debido a préstamos pendientes");
+                                                this.jLABM.setText("Modificación de Fecha de Baja de Socio, anulada por préstamos pendientes");
                                                 temporizar(this.jLABM, "M");
 
                                             } else {//Si no hay préstamos activos
 
-                                                //Si la baja es menor a la fecha de alta entonces se toma como reinscripción
-                                                caracteresIngresados = caracteresIngresados.replaceAll("[-/]", " | ");
-                                                valoresModificados.setVisible(false);
-                                                valorMod.setText(caracteresIngresados);
-                                                valorMod.setVisible(true);
-                                                metodoDeSocio.eliminarSocio("M", soloMod, "fechaDeBaja", fechaDB, this.jLNumeroDeSocio.getText());
-                                                labelInformativo.setText("La Fecha de Baja ha sido modificado correctamente");
-                                                labelInformativo.setForeground(Color.GREEN);
-                                                if (this.jLEstado.getText().equals("Socio Activo")) {
-                                            this.jLEstado.setText("Desasociado");
-                                            metodoDeSocio.eliminarSocio("M", this.jLNumeroDeSocio.getText(), this.jLEst.getText().replace(":", ""), "0", this.jLNumeroDeSocio.getText());
-                                        }
-                                                this.jLEstado.setForeground(Color.RED);
-                                                temporizar(labelInformativo, "M");
+                                                int respuesta = JOptionPane.showConfirmDialog(this, "Modificar la Fecha dará de baja al Socio", "Baja de Socio Nº " + this.jLNumeroDeSocio.getText(), WIDTH, JOptionPane.PLAIN_MESSAGE, this.jLFoto.getIcon());
+                                                if (respuesta == 0) {
+                                                    //Si la baja es menor a la fecha de alta entonces se toma como reinscripción
+                                                    caracteresIngresados = caracteresIngresados.replaceAll("[-/]", " | ");
+                                                    valoresModificados.setVisible(false);
+                                                    valorMod.setText(caracteresIngresados);
+                                                    valorMod.setVisible(true);
+                                                    metodoDeSocio.eliminarSocio("M", soloMod, "fechaDeBaja", fechaDB, this.jLNumeroDeSocio.getText());
+                                                    labelInformativo.setText("La Fecha de Baja ha sido modificado correctamente");
+                                                    labelInformativo.setForeground(Color.GREEN);
+                                                    if (this.jLEstado.getText().equals("Socio Activo")) {
+                                                        this.jLEstado.setText("Desasociado");
+                                                        metodoDeSocio.eliminarSocio("M", this.jLNumeroDeSocio.getText(), this.jLEst.getText().replace(":", ""), "0", this.jLNumeroDeSocio.getText());
+
+                                                        this.jLEstado.setForeground(Color.RED);
+                                                        temporizar(labelInformativo, "M");
+                                                    }
+                                                }
                                             }
-                                        }else{
-                                        
-                                        
-                                        caracteresIngresados = caracteresIngresados.replaceAll("[-/]", " | ");
-                                        valoresModificados.setVisible(false);
-                                        valorMod.setText(caracteresIngresados);
-                                        valorMod.setVisible(true);
-                                        metodoDeSocio.eliminarSocio("M", soloMod, "fechaDeBaja", fechaDB, this.jLNumeroDeSocio.getText());
-                                        labelInformativo.setText("La Fecha de Baja ha sido modificado correctamente");
-                                        labelInformativo.setForeground(Color.GREEN);
-                                        if (this.jLEstado.getText().equals("Desasociado")) {
-                                            this.jLEstado.setText("Socio Activo");
-                                            metodoDeSocio.eliminarSocio("M", this.jLNumeroDeSocio.getText(), this.jLEst.getText().replace(":", ""), "1", this.jLNumeroDeSocio.getText());
-                                        }
-                                        temporizar(labelInformativo, "M");
+                                        } else {
+                                            caracteresIngresados = caracteresIngresados.replaceAll("[-/]", " | ");
+                                            valoresModificados.setVisible(false);
+                                            valorMod.setText(caracteresIngresados);
+                                            valorMod.setVisible(true);
+                                            metodoDeSocio.eliminarSocio("M", soloMod, "fechaDeBaja", fechaDB, this.jLNumeroDeSocio.getText());
+                                            labelInformativo.setText("La Fecha de Baja ha sido modificado correctamente");
+                                            labelInformativo.setForeground(Color.GREEN);
+                                            if (this.jLEstado.getText().equals("Desasociado")) {
+                                                this.jLEstado.setText("Socio Activo");
+                                                metodoDeSocio.eliminarSocio("M", this.jLNumeroDeSocio.getText(), this.jLEst.getText().replace(":", ""), "1", this.jLNumeroDeSocio.getText());
+                                            }
+                                            temporizar(labelInformativo, "M");
                                         }
                                     } else {//Si la fecha de Baja es mayor a la actual
                                         caracteresIngresados = caracteresIngresados.replaceAll("[-/]", " | ");
@@ -1648,13 +1642,11 @@ public class SocioTarjeta extends javax.swing.JPanel {
                                     int diaFebrero = Integer.parseInt(caracteresIngresados.substring(0, 2));
 
                                     if (diaFebrero < 29) {//Si Febrero tiene menos de 29 días
-
                                         if (fechaDeBajaSM > fechaActual) {//Si la fecha anterior era mayor a la fecha de hoy
 
                                             int idSocioE = Integer.parseInt(this.jLEfecto.getText());
                                             prestamos = metodoDePrestamo.listarPrestamosSuperCargado(idSocioE);
                                             if (!prestamos.isEmpty()) {//Si hay préstamos activos
-
                                                 for (Prestamo prestamo : prestamos) {
 
                                                     JLabel ejemplar = new JLabel();
@@ -1674,37 +1666,37 @@ public class SocioTarjeta extends javax.swing.JPanel {
 
                                                 this.jLABM.setForeground(Color.RED);
 
-                                                this.jLABM.setText("La Modificación de la Fecha de Baja del Socio ha sido anulada debido a préstamos pendientes");
+                                                this.jLABM.setText("Modificación de Fecha de Baja de Socio, anulada por préstamos pendientes");
                                                 temporizar(this.jLABM, "M");
 
                                             } else {//Si no hay préstamos activos
 
-                                                //Si la baja es menor a la fecha de alta entonces se toma como reinscripción
-                                                caracteresIngresados = caracteresIngresados.replaceAll("[-/]", " | ");
-                                                valoresModificados.setVisible(false);
-                                                valorMod.setText(caracteresIngresados);
-                                                valorMod.setVisible(true);
-                                                metodoDeSocio.eliminarSocio("M", soloMod, "fechaDeBaja", fechaDB, this.jLNumeroDeSocio.getText());
-                                                labelInformativo.setText("La Fecha de Baja ha sido modificado correctamente");
-                                                labelInformativo.setForeground(Color.GREEN);
-                                                if (this.jLEstado.getText().equals("Socio Activo")) {
-                                            this.jLEstado.setText("Desasociado");
-                                            metodoDeSocio.eliminarSocio("M", this.jLNumeroDeSocio.getText(), this.jLEst.getText().replace(":", ""), "0", this.jLNumeroDeSocio.getText());
-                                        }
-                                                this.jLEstado.setForeground(Color.RED);
-                                                temporizar(labelInformativo, "M");
+                                                int respuesta = JOptionPane.showConfirmDialog(this, "Modificar la Fecha dará de baja al Socio", "Baja de Socio Nº " + this.jLNumeroDeSocio.getText(), WIDTH, JOptionPane.PLAIN_MESSAGE, this.jLFoto.getIcon());
+                                                if (respuesta == 0) {
+                                                    //Si la baja es menor a la fecha de alta entonces se toma como reinscripción
+                                                    caracteresIngresados = caracteresIngresados.replaceAll("[-/]", " | ");
+                                                    valoresModificados.setVisible(false);
+                                                    valorMod.setText(caracteresIngresados);
+                                                    valorMod.setVisible(true);
+                                                    metodoDeSocio.eliminarSocio("M", soloMod, "fechaDeBaja", fechaDB, this.jLNumeroDeSocio.getText());
+                                                    labelInformativo.setText("La Fecha de Baja ha sido modificado correctamente");
+                                                    labelInformativo.setForeground(Color.GREEN);
+                                                    if (this.jLEstado.getText().equals("Socio Activo")) {
+                                                        this.jLEstado.setText("Desasociado");
+                                                        metodoDeSocio.eliminarSocio("M", this.jLNumeroDeSocio.getText(), this.jLEst.getText().replace(":", ""), "0", this.jLNumeroDeSocio.getText());
+                                                    }
+                                                    this.jLEstado.setForeground(Color.RED);
+                                                    temporizar(labelInformativo, "M");
+                                                }
                                             }
                                         }
                                     } else if (diaFebrero == 29) {//Si Febrero tiene 29 días
-
                                         if ((anyoIngresado % 4 == 0 && anyoIngresado % 100 != 0) || (anyoIngresado % 400 == 0)) {//Si es bisiesto
 
                                             if (fechaDeBajaSM > fechaActual) {//Si la fecha anterior era mayor a la fecha actual
-
                                                 int idSocioE = Integer.parseInt(this.jLEfecto.getText());
                                                 prestamos = metodoDePrestamo.listarPrestamosSuperCargado(idSocioE);
                                                 if (!prestamos.isEmpty()) {//Si hay préstamos activos
-
                                                     for (Prestamo prestamo : prestamos) {
 
                                                         JLabel ejemplar = new JLabel();
@@ -1724,24 +1716,26 @@ public class SocioTarjeta extends javax.swing.JPanel {
 
                                                     this.jLABM.setForeground(Color.RED);
 
-                                                    this.jLABM.setText("La Modificación de la Fecha de Baja del Socio ha sido anulada debido a préstamos pendientes");
+                                                    this.jLABM.setText("Modificación de Fecha de Baja de Socio, anulada por préstamos pendientes");
                                                     temporizar(this.jLABM, "M");
 
                                                 } else {//Si no hay préstamos activos
-
-                                                    caracteresIngresados = caracteresIngresados.replaceAll("[-/]", " | ");
-                                                    valoresModificados.setVisible(false);
-                                                    valorMod.setText(caracteresIngresados);
-                                                    valorMod.setVisible(true);
-                                                    metodoDeSocio.eliminarSocio("M", soloMod, "fechaDeBaja", fechaDB, this.jLNumeroDeSocio.getText());
-                                                    labelInformativo.setText("La Fecha de Baja ha sido modificado correctamente");
-                                                    labelInformativo.setForeground(Color.GREEN);
-                                                    if (this.jLEstado.getText().equals("Socio Activo")) {
-                                                this.jLEstado.setText("Desasociado");
-                                                metodoDeSocio.eliminarSocio("M", this.jLNumeroDeSocio.getText(), this.jLEst.getText().replace(":", ""), "0", this.jLNumeroDeSocio.getText());
-                                            }
-                                                    this.jLEstado.setForeground(Color.RED);
-                                                    temporizar(labelInformativo, "M");
+                                                    int respuesta = JOptionPane.showConfirmDialog(this, "Modificar la Fecha dará de baja al Socio", "Baja de Socio Nº " + this.jLNumeroDeSocio.getText(), WIDTH, JOptionPane.PLAIN_MESSAGE, this.jLFoto.getIcon());
+                                                    if (respuesta == 0) {
+                                                        caracteresIngresados = caracteresIngresados.replaceAll("[-/]", " | ");
+                                                        valoresModificados.setVisible(false);
+                                                        valorMod.setText(caracteresIngresados);
+                                                        valorMod.setVisible(true);
+                                                        metodoDeSocio.eliminarSocio("M", soloMod, "fechaDeBaja", fechaDB, this.jLNumeroDeSocio.getText());
+                                                        labelInformativo.setText("La Fecha de Baja ha sido modificado correctamente");
+                                                        labelInformativo.setForeground(Color.GREEN);
+                                                        if (this.jLEstado.getText().equals("Socio Activo")) {
+                                                            this.jLEstado.setText("Desasociado");
+                                                            metodoDeSocio.eliminarSocio("M", this.jLNumeroDeSocio.getText(), this.jLEst.getText().replace(":", ""), "0", this.jLNumeroDeSocio.getText());
+                                                        }
+                                                        this.jLEstado.setForeground(Color.RED);
+                                                        temporizar(labelInformativo, "M");
+                                                    }
                                                 }
                                             }
                                         } else {//Si no es año bisiesto
@@ -1755,13 +1749,10 @@ public class SocioTarjeta extends javax.swing.JPanel {
 
                                 } else {//Si no es Febrero
                                     if (fechaDeBAJA > fechaDeALTA) {//Si la fecha de Baja es mayor a la fecha de hoy
-
                                         if (fechaDeBajaSM > fechaActual) {//Si la fecha anterior es mayor a la fecha de hoy
-
                                             int idSocioE = Integer.parseInt(this.jLEfecto.getText());
                                             prestamos = metodoDePrestamo.listarPrestamosSuperCargado(idSocioE);
                                             if (!prestamos.isEmpty()) {//Si tiene préstamos activos
-
                                                 for (Prestamo prestamo : prestamos) {
 
                                                     JLabel ejemplar = new JLabel();
@@ -1781,35 +1772,39 @@ public class SocioTarjeta extends javax.swing.JPanel {
 
                                                 this.jLABM.setForeground(Color.RED);
 
-                                                this.jLABM.setText("La Modificación de la Fecha de Baja del Socio ha sido anulada debido a préstamos pendientes");
+                                                this.jLABM.setText("Modificación de Fecha de Baja de Socio, anulada por préstamos pendientes");
                                                 temporizar(this.jLABM, "M");
 
-                                            }
+                                            } else {
 
-                                        } else {
-                                            caracteresIngresados = caracteresIngresados.replaceAll("[-/]", " | ");
-                                            valoresModificados.setVisible(false);
-                                            valorMod.setText(caracteresIngresados);
-                                            valorMod.setVisible(true);
-                                            metodoDeSocio.eliminarSocio("M", soloMod, "fechaDeBaja", fechaDB, this.jLNumeroDeSocio.getText());
-                                            labelInformativo.setText("La Fecha de Baja ha sido modificado correctamente");
-                                            labelInformativo.setForeground(Color.GREEN);
-                                            if (this.jLEstado.getText().equals("Socio Activo")) {
-                                            this.jLEstado.setText("Desasociado");
-                                            metodoDeSocio.eliminarSocio("M", this.jLNumeroDeSocio.getText(), this.jLEst.getText().replace(":", ""), "0", this.jLNumeroDeSocio.getText());
-                                        }
-                                            this.jLEstado.setForeground(Color.RED);
-                                            temporizar(labelInformativo, "M");
+                                                int respuesta = JOptionPane.showConfirmDialog(this, "Modificar la Fecha dará de baja al Socio", "Baja de Socio Nº " + this.jLNumeroDeSocio.getText(), WIDTH, JOptionPane.PLAIN_MESSAGE, this.jLFoto.getIcon());
+                                                if (respuesta == 0) {
+                                                    caracteresIngresados = caracteresIngresados.replaceAll("[-/]", " | ");
+                                                    valoresModificados.setVisible(false);
+                                                    valorMod.setText(caracteresIngresados);
+                                                    valorMod.setVisible(true);
+                                                    metodoDeSocio.eliminarSocio("M", soloMod, "fechaDeBaja", fechaDB, this.jLNumeroDeSocio.getText());
+                                                    labelInformativo.setText("La Fecha de Baja ha sido modificado correctamente");
+                                                    labelInformativo.setForeground(Color.GREEN);
+                                                    if (this.jLEstado.getText().equals("Socio Activo")) {
+                                                        this.jLEstado.setText("Desasociado");
+                                                        JOptionPane.showMessageDialog(null, "linea 1806");
+                                                        metodoDeSocio.eliminarSocio("M", this.jLNumeroDeSocio.getText(), this.jLEst.getText().replace(":", ""), "0", this.jLNumeroDeSocio.getText());
+                                                    }
+                                                    this.jLEstado.setForeground(Color.RED);
+                                                    temporizar(labelInformativo, "M");
+                                                }
+                                            }
                                         }
                                     }
+
                                 }
-                                
                             }
                         }
                     }
                 }
                 break;
-            case "Estado:":
+                case "Estado:":
 
                     break;
                 default:
@@ -1906,9 +1901,7 @@ public class SocioTarjeta extends javax.swing.JPanel {
                     break;
             }
         }
-        }
-
-    
+    }
 
     public void noEnterApellido(JLabel labelInformativo, JLabel valorMod, KeyEvent e) {
         if (e.getKeyCode() == 10) {
