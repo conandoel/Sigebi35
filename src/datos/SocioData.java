@@ -485,6 +485,9 @@ public class SocioData {
                         //Podría hacerse una sobrecarga de buscarHistorialSocios para que pueda devolver un socio
                         criterio = SocioBuscarView.getInstance().getCriterio();
                         valor = SocioBuscarView.getInstance().getValor();
+                        if(criterio.equals("Número de Socio")){
+                            criterio = "idSocio";
+                        }
                         sociosLocal = buscarHistorialSocios(criterio, valor);
                     }
                 }
