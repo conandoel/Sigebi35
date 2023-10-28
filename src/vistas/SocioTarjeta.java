@@ -239,6 +239,7 @@ public class SocioTarjeta extends javax.swing.JPanel {
             temporizador.start();
         }
     }
+    private int controlador = 0;
 
     //Método que devuelve un LISTADO de OBJETOS tipo SocioTarjeta (TARJETAS). Pide criterio (Si es por Nombre, por Estado, etc), pide valor ("Juan", "Activo", etc), y EFECTO (NADA, MODIFICAR y ELIMINAR)
     public List<SocioTarjeta> listarSocio(String criterio, String valor, String EFECTO) {
@@ -289,8 +290,24 @@ public class SocioTarjeta extends javax.swing.JPanel {
             String fechaDesde = SocioBuscarView.getInstance().getFechaDesde();
             String fechaHasta = SocioBuscarView.getInstance().getFechaHasta();
             String estado = SocioBuscarView.getInstance().getCBEstado();
-            if (criterio.equals("rango_fechas")) {
+            if (criterio.equals("rango_fechas") || criterio.equals("FECHA")) {
+                switch (Principal.getInstance().getAfectador()) {
+                    case "MODIFICAR":
+                        EFECTO = "MODIFICAR";
+                        break;
+                    case "ELIMINAR":
+                        EFECTO = "ELIMINAR";
+                        break;
+                    case "BUSCAR":
+                        EFECTO = "BUSCAR";
+                        break;
+                    default:
+                        break;
+                }
+
                 socios = metodoDeSocio.obtenerRangoFechas(fechaDesde, fechaHasta, criterio1, criterio2, estado);
+
+                
             } else {
                 socios = metodoDeSocio.obtenerFechas(valor, criterio);
                 EFECTO = "BUSCAR";
@@ -375,6 +392,7 @@ public class SocioTarjeta extends javax.swing.JPanel {
             NroX++;
         }
         //Finalmente el método devuelve la LISTA con todas las TARJETAS rellenadas
+        
         return tarjetas;
     }
 

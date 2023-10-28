@@ -10,6 +10,7 @@ import java.awt.MultipleGradientPaint;
 import java.awt.image.BufferedImage;
 import java.io.File;
 import javax.swing.JFrame;
+import javax.swing.JOptionPane;
 import javax.swing.JTextField;
 
 public class Principal extends javax.swing.JFrame {
@@ -358,6 +359,7 @@ public class Principal extends javax.swing.JFrame {
     private void jMBuscarSociosActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMBuscarSociosActionPerformed
         //Si es la primera vez "primeraVez" tiene valor "true"
         SocioTarjeta.getInstance().setJLABM("B");
+        afectador = "BUSCAR";
         if(primeraVez){
             Principal.getInstance().habilitarModificaciones(false, false, true);
             //Se guarda el CUADRO DE BÚSQUEDA utilizando el PATRÓN DE DISEÑO Singleton
@@ -400,11 +402,19 @@ public class Principal extends javax.swing.JFrame {
         jDPEscritorio.add(pv);
         jDPEscritorio.moveToFront(pv);
     }//GEN-LAST:event_jMenuItem6ActionPerformed
-    
+    public String getAfectador(){
+        return afectador;
+    }
+    private String afectador;
     //Manejador del evento al seleccionar MODIFICAR -> SOCIOS
     private void jMModificarSociosActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMModificarSociosActionPerformed
         //Utilizando el PATRÓN DE DISEÑO Singleton se envía que se REIMPRIMAN las TARJETAS con ÍCONO y OTROS de MODIFICAR
         SocioBuscarView.getInstance().afectarSocio(MODIFICAR);
+        afectador = "MODIFICAR";
+        if(SocioBuscarView.getInstance().getCriterio().equals("Fecha")){
+            
+        }
+        
         SocioTarjeta.getInstance().setJLABM("M");
         //Con el PATRÓN DE DISEÑO Singleton se chequea si el CRITERIO NO es "estado" Y "valor" es 0 (AMBOS) Y que el rótulo del label específico no sea "Desasociado"
         if(!(SocioBuscarView.getInstance().getCriterio().equalsIgnoreCase("estado") &&
@@ -426,6 +436,7 @@ public class Principal extends javax.swing.JFrame {
     private void jMElimSociosActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMElimSociosActionPerformed
         //Utilizando el PATRÓN DE DISEÑO Singleton se envía que se REIMPRIMAN las TARJETAS con ÍCONO y OTROS de ELIMINAR
         SocioBuscarView.getInstance().afectarSocio(ELIMINAR);
+        afectador = "ELIMINAR";
         SocioTarjeta.getInstance().setJLABM("E");
         //Si el criterio NO es estado Y al mismo tiempo el valor NO es 0 se habilita la MODIFICACIÓN y se deshabilita la ELIMINACIÓN pues ya está en modo ELIMINAR
         if(!(SocioBuscarView.getInstance().getCriterio().equalsIgnoreCase("estado") &&
