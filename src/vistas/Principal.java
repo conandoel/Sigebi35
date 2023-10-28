@@ -4,16 +4,13 @@ import datos.EjemplarData;
 import entidades.Libro;
 import datos.SocioData;
 import java.awt.Color;
-import java.awt.Container;
 import java.awt.Graphics2D;
 import java.awt.LinearGradientPaint;
 import java.awt.MultipleGradientPaint;
 import java.awt.image.BufferedImage;
 import java.io.File;
 import javax.swing.JFrame;
-import javax.swing.JOptionPane;
 import javax.swing.JTextField;
-import javax.swing.UIManager;
 
 public class Principal extends javax.swing.JFrame {
     //Clases de otras vistas, para manejar los metodos de los libros
@@ -413,14 +410,14 @@ public class Principal extends javax.swing.JFrame {
         if(!(SocioBuscarView.getInstance().getCriterio().equalsIgnoreCase("estado") &&
                 SocioBuscarView.getInstance().getValor().equalsIgnoreCase("0")) && !SocioTarjeta.getInstance().getEstado().equals("Desasociado")){
                 //...entonces se DESHABILITA el menú item para MODIFICAR (Pues ya está en "MODIFICAR" y se habilita la posibilidad de "ELIMINAR" pues son SOCIOS ACTIVOS
-                this.habilitarModificaciones(false, true, true);JOptionPane.showMessageDialog(this, "1");
+                this.habilitarModificaciones(false, true, true);
         }else{
             //Si son DESASOCIADOS entonces se DESHABILITA tanto MODIFICAR (pues ya está en "MODIFICAR" y "ELIMINAR" pues ya están DESASOCIADOS
-            if(SocioTarjeta.getInstance().getEstado().equals("Desasociado")){JOptionPane.showMessageDialog(this, "2");
+            if(SocioTarjeta.getInstance().getEstado().equals("Desasociado")){
                 this.habilitarModificaciones(false, true, true);
-                JOptionPane.showMessageDialog(this, SocioBuscarView.getInstance().getValor() + " " + SocioBuscarView.getInstance().getCriterio());
+
             //Si ninguna de estas dos cosas se da, es porque aún no hubo búsqueda alguna, por tanto se DESHABILITAN AMBAS
-            }else{JOptionPane.showMessageDialog(this, "3");
+            }else{
                 this.habilitarModificaciones(false, false, true);
             }
         }
