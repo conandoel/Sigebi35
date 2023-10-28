@@ -1,6 +1,5 @@
 package vistas;
 
-import datos.EjemplarData;
 import entidades.Prestamo;
 import entidades.Socio;
 import datos.PrestamoData;
@@ -1329,6 +1328,7 @@ public class SocioTarjeta extends javax.swing.JPanel {
                                 valorMod.setText(placeholder);
                                 valorMod.setVisible(true);
                                 valoresModificados.setVisible(false);
+                                labelInformativo.setText("CLICKEE SOBRE EL CAMPO PARA EDITAR EL VALOR DESEADO");
                             } else {
                                 labelInformativo.setText("La Fecha de Alta está mal especificada");
                             }
