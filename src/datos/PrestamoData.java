@@ -50,11 +50,15 @@ public class PrestamoData {
         }
     }
     public void eliminarPrestamos(int id){
+        int res=0;
         try {
-            String sql="delete * form prestamo where idPrestamo = "+id;
+            String sql="DELETE from prestamo where idPrestamo = ?";
             PreparedStatement ps=con.prepareStatement(sql);
-            ps.executeUpdate();
+            ps.setInt(1, id);
+            res=ps.executeUpdate();
+            if(res>0){
             JOptionPane.showMessageDialog(null, "Se ha eliminado el prestamo");
+            }
             ps.close();
         } catch (SQLException ex) {
             Logger.getLogger(PrestamoData.class.getName()).log(Level.SEVERE, null, ex);
@@ -100,29 +104,35 @@ public class PrestamoData {
     }
     
     public Prestamo buscarPrestamo(int codigo){
-        Prestamo pres=new Prestamo();
+        Prestamo prestamo=new Prestamo();
         Socio socio=new Socio();
         Ejemplar ejemplar=new Ejemplar();
         try{
-            String sql="select * from prestamo where idPrestamo = ?";
+            String sql="SELECT * FROM prestamo p JOIN ejemplar e on p.idEjemplar=e.idEjemplar JOIN libro l on e.isbn=l.isbn WHERE p.idPrestamo= ?";
             PreparedStatement ps=con.prepareStatement(sql);
             ps.setInt(1, codigo);
             ResultSet rs = ps.executeQuery();
             
-            socio.setIdSocio(rs.getInt(5));
-            ejemplar.setCodigo(rs.getInt(4));
-            
-            pres.setIdPrestamo(rs.getInt(1));
-            pres.setFechaInicio(rs.getDate(2).toLocalDate());
-            pres.setFechaFin(rs.getDate(3).toLocalDate());
-            pres.setLector(socio);
-            pres.setEjemplar(ejemplar);
-            pres.setEstado(rs.getBoolean(6));
+                Libro libro=new Libro();
+                
+                //System.out.println("El id del socio en el prestamo data "+socio.getIdSocio());
+                ejemplar.setCodigo(rs.getInt(4));
+                libro.setIsbn(rs.getLong(10));
+                libro.setTitulo(rs.getString(11));
+                ejemplar.setLibro(libro);
+                ejemplar.setEstado(rs.getString(9));
+                socio.setIdSocio(rs.getInt(5));
+                prestamo.setIdPrestamo(rs.getInt(1));
+                prestamo.setFechaInicio(rs.getDate(2).toLocalDate());
+                prestamo.setFechaFin(rs.getDate(3).toLocalDate());
+                prestamo.setEjemplar(ejemplar);
+                prestamo.setLector(socio);
+                prestamo.setEstado(rs.getBoolean(6));
             ps.close();
         }catch(SQLException ex){
         
         }
-        return pres;
+        return prestamo;
     }
     
     public List<Prestamo> listarPrestamos(){
@@ -205,18 +215,19 @@ public class PrestamoData {
                 Libro libro=new Libro();
                 
                 //System.out.println("El id del socio en el prestamo data "+socio.getIdSocio());
-                prestamo.setIdPrestamo(rs.getInt(1));
-                prestamo.setFechaInicio(rs.getDate(2).toLocalDate());
-                prestamo.setFechaFin(rs.getDate(3).toLocalDate());
-                prestamo.setEjemplar(ejemplar);
-                prestamo.setLector(socio);
-                prestamo.setEstado(rs.getBoolean(6));
                 ejemplar.setCodigo(rs.getInt(4));
                 libro.setIsbn(rs.getLong(10));
                 libro.setTitulo(rs.getString(11));
                 ejemplar.setLibro(libro);
                 ejemplar.setEstado(rs.getString(9));
                 socio.setIdSocio(rs.getInt(5));
+                prestamo.setIdPrestamo(rs.getInt(1));
+                prestamo.setFechaInicio(rs.getDate(2).toLocalDate());
+                prestamo.setFechaFin(rs.getDate(3).toLocalDate());
+                prestamo.setEjemplar(ejemplar);
+                prestamo.setLector(socio);
+                prestamo.setEstado(rs.getBoolean(6));
+                
                 
                 prestamos.add(prestamo);
             }
@@ -225,5 +236,62 @@ public class PrestamoData {
             Logger.getLogger(PrestamoData.class.getName()).log(Level.SEVERE, null, ex);
         }
         return prestamos;
+    }
+    
+    public List<Prestamo> listarPrestamosSC(){
+        
+            List<Prestamo> prestamos=new ArrayList<>();
+        try {
+            
+            String sql="SELECT * FROM prestamo p JOIN ejemplar e on p.idEjemplar=e.idEjemplar JOIN libro l on e.isbn=l.isbn ";
+            PreparedStatement ps = con.prepareStatement(sql);
+            ResultSet rs = ps.executeQuery();
+            while (rs.next()) {
+                Ejemplar ejemplar = new Ejemplar();
+                Socio socio = new Socio();
+                Prestamo prestamo=new Prestamo();
+                Libro libro=new Libro();
+                
+                //System.out.println("El id del socio en el prestamo data "+socio.getIdSocio());
+                ejemplar.setCodigo(rs.getInt(4));
+                libro.setIsbn(rs.getLong(10));
+                libro.setTitulo(rs.getString(11));
+                ejemplar.setLibro(libro);
+                ejemplar.setEstado(rs.getString(9));
+                socio.setIdSocio(rs.getInt(5));
+                prestamo.setIdPrestamo(rs.getInt(1));
+                prestamo.setFechaInicio(rs.getDate(2).toLocalDate());
+                prestamo.setFechaFin(rs.getDate(3).toLocalDate());
+                prestamo.setEjemplar(ejemplar);
+                prestamo.setLector(socio);
+                prestamo.setEstado(rs.getBoolean(6));
+                
+                
+                prestamos.add(prestamo);
+            }
+            ps.close();
+        } catch (SQLException ex) {
+            Logger.getLogger(PrestamoData.class.getName()).log(Level.SEVERE, null, ex);
+        }
+        return prestamos;
+    }
+    
+    public void modificarPrestamo(Prestamo prestamo){
+        String sql="update prestamo set estado = ?, fechaFin = ? where idPrestamo = ?";
+        int cod=0;
+        try{
+            PreparedStatement ps=con.prepareStatement(sql);
+            ps.setBoolean(1, prestamo.isEstado());
+            ps.setDate(2, Date.valueOf(prestamo.getFechaFin()));
+            ps.setInt(3, prestamo.getIdPrestamo());
+            
+            cod=ps.executeUpdate();
+            if(cod>0){
+                JOptionPane.showMessageDialog(null, "Se modifico 1 prestamo");
+            }
+            ps.close();
+        }catch(SQLException ex){
+            JOptionPane.showMessageDialog(null, ex.getMessage());
+        }
     }
 }

@@ -16,12 +16,9 @@ import java.awt.Container;
 import java.awt.Image;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
-import java.beans.PropertyVetoException;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
-import java.util.logging.Level;
-import java.util.logging.Logger;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 import javax.swing.ImageIcon;
@@ -119,7 +116,7 @@ public class SocioAgregarView extends javax.swing.JInternalFrame {
         );
         jPSocioAgregarLayout.setVerticalGroup(
             jPSocioAgregarLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 382, Short.MAX_VALUE)
+            .addGap(0, 423, Short.MAX_VALUE)
         );
 
         jLApellido.setText("Apellido:");
@@ -311,7 +308,7 @@ public class SocioAgregarView extends javax.swing.JInternalFrame {
                                     .addComponent(jTFDomicilio, javax.swing.GroupLayout.DEFAULT_SIZE, 332, Short.MAX_VALUE)
                                     .addComponent(jTFMail, javax.swing.GroupLayout.Alignment.TRAILING)
                                     .addComponent(jTFTelefono)
-                                    .addComponent(jLFechaDeBajaDEFAULT, javax.swing.GroupLayout.DEFAULT_SIZE, 332, Short.MAX_VALUE)
+                                    .addComponent(jLFechaDeBajaDEFAULT, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                                     .addComponent(jLFechaDeAltaDEFAULT, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                                     .addComponent(jTFDNI, javax.swing.GroupLayout.PREFERRED_SIZE, 212, javax.swing.GroupLayout.PREFERRED_SIZE))))
                         .addGap(52, 52, 52))
@@ -329,7 +326,7 @@ public class SocioAgregarView extends javax.swing.JInternalFrame {
                 .addComponent(jLCancelar, javax.swing.GroupLayout.PREFERRED_SIZE, 65, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(jLAgregar, javax.swing.GroupLayout.PREFERRED_SIZE, 62, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(0, 64, Short.MAX_VALUE))
+                .addGap(0, 164, Short.MAX_VALUE))
         );
         jPanel1Layout.setVerticalGroup(
             jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -373,7 +370,7 @@ public class SocioAgregarView extends javax.swing.JInternalFrame {
                         .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                             .addComponent(jTFMail, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                             .addComponent(jLMail))
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 54, Short.MAX_VALUE)
                         .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                             .addComponent(jLFechaDeAlta)
                             .addComponent(jLFechaDeAltaDEFAULT))
@@ -405,9 +402,12 @@ public class SocioAgregarView extends javax.swing.JInternalFrame {
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
-                .addComponent(jPSocioAgregar, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addComponent(jPSocioAgregar, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                    .addGroup(layout.createSequentialGroup()
+                        .addComponent(jPanel1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addGap(0, 0, Short.MAX_VALUE)))
                 .addContainerGap())
-            .addComponent(jPanel1, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
         );
 
         pack();
@@ -416,6 +416,7 @@ public class SocioAgregarView extends javax.swing.JInternalFrame {
     private void jTFDNIActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jTFDNIActionPerformed
         // TODO add your handling code here:
         String caracteresIngresados = this.jTFDNI.getText();
+        caracteresIngresados = caracteresIngresados.replaceAll("\\.", "");
         JTextField valoresModificados = this.jTFDNI;
         JLabel valorMod = new JLabel();
         String valorDelCampo = caracteresIngresados;
@@ -540,7 +541,7 @@ public class SocioAgregarView extends javax.swing.JInternalFrame {
                 }
             } catch (Exception ex) {
                 campoFoto = false;
-                SocioTarjeta.getInstance().retrasarTemporizador(0, this.jLImagen);
+                SocioTarjeta.getInstance().retrasarTemporizador(0, this.jLImagen, "");
             }
 
             
@@ -603,7 +604,7 @@ public class SocioAgregarView extends javax.swing.JInternalFrame {
         if (valor instanceof Integer) {
             if (((Integer) valor).intValue() <= 1) {
                 if (campo.equals("dni")) {
-                    SocioTarjeta.getInstance().retrasarTemporizador(2400, this.jLDni);
+                    SocioTarjeta.getInstance().retrasarTemporizador(2400, this.jLDni, "");
                 }
 
             } else {
@@ -613,19 +614,19 @@ public class SocioAgregarView extends javax.swing.JInternalFrame {
             if (valor.equals("")) {
                 switch (campo) {
                     case "apellido":
-                        SocioTarjeta.getInstance().retrasarTemporizador(600, this.jLApellido);
+                        SocioTarjeta.getInstance().retrasarTemporizador(600, this.jLApellido, "");
                         break;
                     case "nombre":
-                        SocioTarjeta.getInstance().retrasarTemporizador(1200, this.jLNombre);
+                        SocioTarjeta.getInstance().retrasarTemporizador(1200, this.jLNombre, "");
                         break;
                     case "domicilio":
-                        SocioTarjeta.getInstance().retrasarTemporizador(1800, this.jLDomicilio);
+                        SocioTarjeta.getInstance().retrasarTemporizador(1800, this.jLDomicilio, "");
                         break;
                     case "telefono":
-                        SocioTarjeta.getInstance().retrasarTemporizador(3000, this.jLTelefono);
+                        SocioTarjeta.getInstance().retrasarTemporizador(3000, this.jLTelefono, "");
                         break;
                     case "mail":
-                        SocioTarjeta.getInstance().retrasarTemporizador(3600, this.jLMail);
+                        SocioTarjeta.getInstance().retrasarTemporizador(3600, this.jLMail, "");
                         break;
                     default:
                         break;
@@ -639,7 +640,7 @@ public class SocioAgregarView extends javax.swing.JInternalFrame {
         }
 
         if (camposRellenos == TOTALMENTE_RELLENADOS && campoFoto) {
-            SocioTarjeta.getInstance().temporizar(this.labelInformativo);
+            SocioTarjeta.getInstance().temporizar(this.labelInformativo, "");
             this.labelInformativo.setText("Socio agregado con éxito");
             camposCorrectos = true;
             JOptionPane.showMessageDialog(this, "Saliendo al Menú Principal", "Socio Nº " + this.jLNumeroDeSocio.getText() + " agregado!", HEIGHT, this.jLAgregar.getIcon());
@@ -648,7 +649,7 @@ public class SocioAgregarView extends javax.swing.JInternalFrame {
             
             this.labelInformativo.setText("Confirme todos los campos que titilan");
             this.labelInformativo.setForeground(Color.RED);
-            SocioTarjeta.getInstance().temporizar(this.labelInformativo);
+            SocioTarjeta.getInstance().temporizar(this.labelInformativo, "");
             
         }
     }
@@ -686,7 +687,7 @@ public class SocioAgregarView extends javax.swing.JInternalFrame {
             labelInformativo.setText("Se resetearon todos los campos");
         }
         cargarFotoPerfilVacio(this.jLImagen);
-        SocioTarjeta.getInstance().temporizar(labelInformativo);
+        SocioTarjeta.getInstance().temporizar(labelInformativo, "");
     }
 
     /*public void resetearCampos() {

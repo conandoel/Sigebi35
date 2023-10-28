@@ -1,26 +1,18 @@
 package vistas;
 
-import com.toedter.calendar.JCalendar;
-import com.toedter.calendar.JDateChooser;
-import datos.SocioData;
-import entidades.Socio;
 import java.awt.AWTException;
 import java.awt.Color;
 import java.awt.Container;
-import java.awt.Dimension;
 import java.awt.FlowLayout;
 import java.awt.LayoutManager;
 import java.awt.Robot;
 import java.awt.event.KeyEvent;
 import java.util.ArrayList;
 import java.util.List;
-import java.util.logging.Level;
-import java.util.logging.Logger;
 import javax.swing.BoxLayout;
 import javax.swing.JButton;
 import javax.swing.JLabel;
 import javax.swing.JOptionPane;
-import javax.swing.JPopupMenu;
 import javax.swing.JTextField;
 import javax.swing.plaf.basic.BasicInternalFrameUI;
 
@@ -60,7 +52,6 @@ public class SocioBuscarView extends javax.swing.JInternalFrame {
     public String getValor() {
         return valor;
     }
- 
 
     //Getter para revisar el criterio dado en la búsqueda
     public String getCriterio() {
@@ -102,21 +93,62 @@ public class SocioBuscarView extends javax.swing.JInternalFrame {
         return sbr;
     }
 
+    private boolean puntoB = true;
+
+    public void noEnterDNIBusqueda(JLabel labelInformativo, JLabel valorMod, KeyEvent e) {
+
+        dni = this.jTFSocioBuscarIngreseValor;
+
+        if (e.getKeyCode() == 10) {
+
+        } else if (e.getKeyCode() == 110) {
+
+            dni.setText(dni.getText().substring(0, dni.getText().length() - 1));
+        } else {
+            //labelInformativo.setText("Ingresando el DNI");
+            //labelInformativo.setForeground(Color.BLACK);
+            valorMod.setVisible(false);
+
+            if ((dni.getText().length() == 2 && puntoB) || (dni.getText().length() == 6 && !puntoB)) {
+                dni.setText(dni.getText() + ".");
+                System.out.println(dni.getText());
+            } else if ((dni.getText().length() == 2) && !puntoB || (dni.getText().length() == 6 && puntoB)) {
+                if (dni.getText().length() == 6) {
+                    dni.setText(dni.getText().substring(0, 5));
+                } else if (dni.getText().length() == 2) {
+                    dni.setText(dni.getText().substring(0, 1));
+                }
+            }
+            if (dni.getText().length() > 2 && dni.getText().length() < 6) {
+                puntoB = false;
+            } else {
+                puntoB = true;
+            }
+            if (dni.getText().length() > 10) {
+                dni.setText(dni.getText().substring(0, 10));
+            }
+
+        }
+    }
+
     private int activarEliminar = 0;
 
     //Método que comunica criterio y valor elegido en la VISTA para ser utilizado por el método listarSocio para crear las TARJETAS.
     public void afectarSocio(String EFECTO) {
-        if(criterio == null){
+        if (criterio == null) {
+            JOptionPane.showMessageDialog(null, "criterio: " + criterio + " valor: " + valor + " EFECTO: " + EFECTO);
             criterio = "NINGUNO";
         }
-        
+        JOptionPane.showMessageDialog(null, "criterio: " + criterio + " valor: " + valor + " EFECTO: " + EFECTO);
         if (EFECTO.equals("AGREGAR")) {
             criterio = "NINGUNO";
             valor = "";
         }
 
+        JOptionPane.showMessageDialog(null, "criterio: " + criterio + " valor: " + valor + " EFECTO: " + EFECTO);
         //Se envía el pedido de rediseño de TARJETAS para ver si estarán en módo "BUSCAR", "ELIMINAR", o "MODIFICAR"
         resultados = SocioTarjeta.getInstance().listarSocio(criterio, valor, EFECTO);
+        JOptionPane.showMessageDialog(null, "activarEliminar " + activarEliminar);
         //Si el valor de EFECTO es "LIMPIAR" entonces la visibilidad de las TARJETAS es false
         if (EFECTO.equals("LIMPIAR")) {
             activarEliminar--;
@@ -138,7 +170,9 @@ public class SocioBuscarView extends javax.swing.JInternalFrame {
 
         } else {
             //AQUÍ LÓGICA DE MODIFICACIÓN
-
+            for (SocioTarjeta resultado : resultados) {
+                resultado.getInstance().getEfecto().setVisible(false);
+            }
         }
 
         //Se recargan las TARJETAS
@@ -152,11 +186,13 @@ public class SocioBuscarView extends javax.swing.JInternalFrame {
         SocioBuscarView.getInstance().jLBuscarSocios.setText("Modificar socios");
         //Según la SECCION que va a tomar en realidad el valor de "EFECTO" que puede ser "MODIFICAR", "ELIMINAR", "LIMPIAR" (Aún no hace nada eso), y "NADA"
         switch (SECCION) {
-            case "MODIFICAR" ->
+            case "MODIFICAR":
                 this.jLBuscarSocios.setText("Modificar Socios");
-            case "ELIMINAR" ->
+                break;
+            case "ELIMINAR":
                 this.jLBuscarSocios.setText("Eliminar Socios");
-            default ->
+                break;
+            default:
                 this.jLBuscarSocios.setText("Búsqueda de Socios");
         }
         //Cada case es para modificar el JLabel por tanto según sea el caso, la VISTA BUSCAR SOCIO será "Buscar socios" o "Eliminar Socios", etc
@@ -335,8 +371,8 @@ public class SocioBuscarView extends javax.swing.JInternalFrame {
                             .addComponent(jLInfo, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                             .addComponent(jPanel1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                             .addComponent(jPanel2, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)))
-                .addComponent(jSPResultados, javax.swing.GroupLayout.DEFAULT_SIZE, 445, Short.MAX_VALUE)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 55, Short.MAX_VALUE)))
+                .addComponent(jSPResultados, javax.swing.GroupLayout.DEFAULT_SIZE, 494, Short.MAX_VALUE)
                 .addGap(30, 30, 30))
         );
         jPSocioBuscarLayout.setVerticalGroup(
@@ -362,7 +398,7 @@ public class SocioBuscarView extends javax.swing.JInternalFrame {
                 .addComponent(jLInfo)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(jPanel2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 87, Short.MAX_VALUE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 127, Short.MAX_VALUE)
                 .addComponent(jPanel1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGap(21, 21, 21))
         );
@@ -384,11 +420,11 @@ public class SocioBuscarView extends javax.swing.JInternalFrame {
     private void jTFSocioBuscarIngreseValorActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jTFSocioBuscarIngreseValorActionPerformed
         //Cuando se presiona ENTER en el campo de texto, el JButton que se encarga de confirmar la búsqueda gana el FOCO
 
-        JTextField valoresModificados = this.jTFSocioBuscarIngreseValor;
+        /*JTextField valoresModificados = this.jTFSocioBuscarIngreseValor;
         String campo = this.jTFSocioBuscarIngreseValor.getText();
         String criterio = this.jCBSocioBuscarCriterio.getSelectedItem().toString();
-        direccionarCotejamiento(valoresModificados, campo, criterio);
-        this.jBBuscar.requestFocus();//puedo ponerlo dentro de direccionarCotejamiento. Si está bien accionar
+        direccionarCotejamiento(valoresModificados, campo, criterio);*/
+        //this.jBBuscar.requestFocus();//puedo ponerlo dentro de direccionarCotejamiento. Si está bien accionar
     }//GEN-LAST:event_jTFSocioBuscarIngreseValorActionPerformed
 
     private void direccionarCotejamiento(JTextField valoresModificados, String campo, String criterio) {
@@ -438,9 +474,9 @@ public class SocioBuscarView extends javax.swing.JInternalFrame {
         }
         primeraVez = true;
         String seleccion = jCBSocioBuscarCriterio.getSelectedItem().toString();
-        if(seleccion.equals("Fecha")){
+        if (seleccion.equals("Fecha")) {
             this.jBBuscar.setEnabled(true);
-        }else{
+        } else {
             this.jBBuscar.setEnabled(false);
             this.jBBuscar.setText("⦿");
             this.jBBuscar.setForeground(Color.BLACK);
@@ -565,10 +601,10 @@ public class SocioBuscarView extends javax.swing.JInternalFrame {
     private void jCBEstadoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jCBEstadoActionPerformed
         // TODO add your handling code here:
         String LIMPIAR = "LIMPIAR";
-        if(this.jCBSocioBuscarCriterio.getSelectedItem().toString().equals("Fecha")){
+        if (this.jCBSocioBuscarCriterio.getSelectedItem().toString().equals("Fecha")) {
             SocioBuscarView.getInstance().afectarSocio("FECHA");
-        }else{
-        SocioBuscarView.getInstance().afectarSocio("BUSCAR");
+        } else {
+            SocioBuscarView.getInstance().afectarSocio("BUSCAR");
         }
         this.jTFSocioBuscarIngreseValor.requestFocus();
     }//GEN-LAST:event_jCBEstadoActionPerformed
@@ -629,11 +665,11 @@ public class SocioBuscarView extends javax.swing.JInternalFrame {
         } else if (criterio.equals("DNI")) {
             this.criterio = "DNI";
             valorMod.setText("DNI");
-            String valor = this.jTFSocioBuscarIngreseValor.getText().replaceAll("\\.", "");
+            //String valor = this.jTFSocioBuscarIngreseValor.getText().replaceAll("\\.", "");
 
             char c = evt.getKeyChar();
             if (Character.isDigit(c) || evt.getKeyCode() == 8) {
-                SocioTarjeta.getInstance().noEnterDNI(this.jLInfo, valorMod, evt);
+                noEnterDNIBusqueda(this.jLInfo, valorMod, evt);
                 this.jTFSocioBuscarIngreseValor.setText(valor);
                 resultados = SocioTarjeta.getInstance().listarSocio(criterio, valor, "BUSCAR");
                 for (SocioTarjeta resultado : resultados) {
@@ -717,6 +753,24 @@ public class SocioBuscarView extends javax.swing.JInternalFrame {
                 cargarLasTarjetas();
                 resultados.clear();
             }
+        } else if (criterio.equals("Teléfono")) {
+            valorMod.setText("Teléfono");
+            this.criterio = "Teléfono";
+            SocioTarjeta.getInstance().noEnterTelefono(this.jLInfo, valorMod, evt);
+            resultados = SocioTarjeta.getInstance().listarSocio(criterio, this.jTFSocioBuscarIngreseValor.getText(), "BUSCAR");
+            for (SocioTarjeta resultado : resultados) {
+                resultado.setVisible(true);
+            }
+            cargarLasTarjetas();
+            resultados.clear();
+            if (this.jTFSocioBuscarIngreseValor.getText().equals("")) {
+                resultados = SocioTarjeta.getInstance().listarSocio(criterio, "*", "BUSCAR");
+                for (SocioTarjeta resultado : resultados) {
+                    resultado.setVisible(true);
+                }
+                cargarLasTarjetas();
+                resultados.clear();
+            }
         } else if (criterio.equals("Mail")) {
             valorMod.setText("Mail");
             this.criterio = "Mail";
@@ -773,7 +827,7 @@ public class SocioBuscarView extends javax.swing.JInternalFrame {
             }
         } else if (criterio.equals("Fecha")) {
             char c = evt.getKeyChar();
-            
+
             if (Character.isDigit(c) || c == '-' || c == ' ') {
                 fechaDesde = this.jTFSocioBuscarIngreseValor.getText();
                 fechaDesde = fechaDesde.replaceAll("-", "");
@@ -816,17 +870,17 @@ public class SocioBuscarView extends javax.swing.JInternalFrame {
                 cargarLasTarjetas();
                 resultados.clear();
             } else {
-                if(this.jTFSocioBuscarIngreseValor.getText().length() <= 11 && this.jTFFechaHasta.getText().length() <= 11 && !(evt.getKeyCode() == 8) && evt.getKeyCode() != KeyEvent.VK_SHIFT){
-                JTextField field = (JTextField) evt.getSource();
-                //Se obtiene el texto del textfield
-                String texto = field.getText();
-                //Se obtiene la posición del caracter no deseado
-                int pos = texto.indexOf(c);
-                //Se elimina el caracter no deseado usando substring
-                
-                texto = texto.substring(0, pos);
-                //Se asigna el nuevo texto al textfield sin el caracter no deseado
-                field.setText(texto);
+                if (this.jTFSocioBuscarIngreseValor.getText().length() <= 11 && this.jTFFechaHasta.getText().length() <= 11 && !(evt.getKeyCode() == 8) && evt.getKeyCode() != KeyEvent.VK_SHIFT) {
+                    JTextField field = (JTextField) evt.getSource();
+                    //Se obtiene el texto del textfield
+                    String texto = field.getText();
+                    //Se obtiene la posición del caracter no deseado
+                    int pos = texto.indexOf(c);
+                    //Se elimina el caracter no deseado usando substring
+
+                    texto = texto.substring(0, pos);
+                    //Se asigna el nuevo texto al textfield sin el caracter no deseado
+                    field.setText(texto);
                 }
             }
 

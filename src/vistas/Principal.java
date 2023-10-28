@@ -4,7 +4,6 @@ import datos.EjemplarData;
 import entidades.Libro;
 import datos.SocioData;
 import java.awt.Color;
-import java.awt.Container;
 import java.awt.Graphics2D;
 import java.awt.LinearGradientPaint;
 import java.awt.MultipleGradientPaint;
@@ -12,7 +11,6 @@ import java.awt.image.BufferedImage;
 import java.io.File;
 import javax.swing.JFrame;
 import javax.swing.JTextField;
-import javax.swing.UIManager;
 
 public class Principal extends javax.swing.JFrame {
     //Clases de otras vistas, para manejar los metodos de los libros
@@ -140,11 +138,11 @@ public class Principal extends javax.swing.JFrame {
         panel.setLayout(panelLayout);
         panelLayout.setHorizontalGroup(
             panelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 680, Short.MAX_VALUE)
+            .addGap(0, 802, Short.MAX_VALUE)
         );
         panelLayout.setVerticalGroup(
             panelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 397, Short.MAX_VALUE)
+            .addGap(0, 442, Short.MAX_VALUE)
         );
 
         jDPEscritorio.setLayer(panel, javax.swing.JLayeredPane.DEFAULT_LAYER);
@@ -238,6 +236,11 @@ public class Principal extends javax.swing.JFrame {
         jMModificar.add(jMModificarSocios);
 
         jMModPrestamos.setText("...préstamos");
+        jMModPrestamos.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jMModPrestamosActionPerformed(evt);
+            }
+        });
         jMModificar.add(jMModPrestamos);
 
         jMenuBar1.add(jMModificar);
@@ -359,6 +362,7 @@ public class Principal extends javax.swing.JFrame {
     //Manejador de eventos del menú al elegir "Buscar -> Socios"
     private void jMBuscarSociosActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMBuscarSociosActionPerformed
         //Si es la primera vez "primeraVez" tiene valor "true"
+        SocioTarjeta.getInstance().setJLABM("B");
         if(primeraVez){
             Principal.getInstance().habilitarModificaciones(false, false, true);
             //Se guarda el CUADRO DE BÚSQUEDA utilizando el PATRÓN DE DISEÑO Singleton
@@ -382,6 +386,12 @@ public class Principal extends javax.swing.JFrame {
 
     private void jMBuscarPréstamosActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMBuscarPréstamosActionPerformed
         // TODO add your handling code here:
+        jDPEscritorio.removeAll();
+        jDPEscritorio.repaint();
+        BuscarPrestamoView pv=new BuscarPrestamoView();
+        pv.setVisible(true);
+        jDPEscritorio.add(pv);
+        jDPEscritorio.moveToFront(pv);
     }//GEN-LAST:event_jMBuscarPréstamosActionPerformed
 
     private void jMElimPrestamosActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMElimPrestamosActionPerformed
@@ -406,6 +416,7 @@ public class Principal extends javax.swing.JFrame {
     private void jMModificarSociosActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMModificarSociosActionPerformed
         //Utilizando el PATRÓN DE DISEÑO Singleton se envía que se REIMPRIMAN las TARJETAS con ÍCONO y OTROS de MODIFICAR
         SocioBuscarView.getInstance().afectarSocio(MODIFICAR);
+        SocioTarjeta.getInstance().setJLABM("M");
         //Con el PATRÓN DE DISEÑO Singleton se chequea si el CRITERIO NO es "estado" Y "valor" es 0 (AMBOS) Y que el rótulo del label específico no sea "Desasociado"
         if(!(SocioBuscarView.getInstance().getCriterio().equalsIgnoreCase("estado") &&
                 SocioBuscarView.getInstance().getValor().equalsIgnoreCase("0")) && !SocioTarjeta.getInstance().getEstado().equals("Desasociado")){
@@ -414,7 +425,8 @@ public class Principal extends javax.swing.JFrame {
         }else{
             //Si son DESASOCIADOS entonces se DESHABILITA tanto MODIFICAR (pues ya está en "MODIFICAR" y "ELIMINAR" pues ya están DESASOCIADOS
             if(SocioTarjeta.getInstance().getEstado().equals("Desasociado")){
-                this.habilitarModificaciones(false, false, true);
+                this.habilitarModificaciones(false, true, true);
+
             //Si ninguna de estas dos cosas se da, es porque aún no hubo búsqueda alguna, por tanto se DESHABILITAN AMBAS
             }else{
                 this.habilitarModificaciones(false, false, true);
@@ -425,6 +437,7 @@ public class Principal extends javax.swing.JFrame {
     private void jMElimSociosActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMElimSociosActionPerformed
         //Utilizando el PATRÓN DE DISEÑO Singleton se envía que se REIMPRIMAN las TARJETAS con ÍCONO y OTROS de ELIMINAR
         SocioBuscarView.getInstance().afectarSocio(ELIMINAR);
+        SocioTarjeta.getInstance().setJLABM("E");
         //Si el criterio NO es estado Y al mismo tiempo el valor NO es 0 se habilita la MODIFICACIÓN y se deshabilita la ELIMINACIÓN pues ya está en modo ELIMINAR
         if(!(SocioBuscarView.getInstance().getCriterio().equalsIgnoreCase("estado") &&
                 SocioBuscarView.getInstance().getValor().equalsIgnoreCase("0"))){
@@ -504,6 +517,16 @@ public class Principal extends javax.swing.JFrame {
         jDPEscritorio.add(pv);
         jDPEscritorio.moveToFront(pv);
     }//GEN-LAST:event_jMenuItem5ActionPerformed
+
+    private void jMModPrestamosActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMModPrestamosActionPerformed
+        // TODO add your handling code here:
+        jDPEscritorio.removeAll();
+        jDPEscritorio.repaint();
+        ModificarPrestamoView pv=new ModificarPrestamoView();
+        pv.setVisible(true);
+        jDPEscritorio.add(pv);
+        jDPEscritorio.moveToFront(pv);
+    }//GEN-LAST:event_jMModPrestamosActionPerformed
   
     /**
      * @param args the command line arguments
