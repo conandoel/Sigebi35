@@ -1,13 +1,8 @@
 package vistas;
 
-import com.toedter.calendar.JCalendar;
-import com.toedter.calendar.JDateChooser;
-import datos.SocioData;
-import entidades.Socio;
 import java.awt.AWTException;
 import java.awt.Color;
 import java.awt.Container;
-import java.awt.Dimension;
 import java.awt.FlowLayout;
 import java.awt.LayoutManager;
 import java.awt.Robot;

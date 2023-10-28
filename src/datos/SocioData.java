@@ -54,10 +54,10 @@ public class SocioData {
                 sql = "UPDATE lector SET " + criterio + " = '" + valor + "' WHERE idSocio = '" + idSocio + "';";
                 valor = soloMod;
 
-            }else if(criterio.equals("Teléfono")){
+            } else if (criterio.equals("Teléfono")) {
                 criterio = "telefono";
                 sql = "UPDATE lector SET " + criterio + " = '" + valor + "' WHERE idSocio = '" + idSocio + "';";
-            }else if (criterio.equalsIgnoreCase("Número de Socio") || criterio.equalsIgnoreCase("Estado")) {//Ver si es Número de Socio o Socio número
+            } else if (criterio.equalsIgnoreCase("Número de Socio") || criterio.equalsIgnoreCase("Estado")) {//Ver si es Número de Socio o Socio número
                 criterio = "idSocio";
                 int valorInt = Integer.parseInt(valor);
                 int soloModInt = Integer.parseInt(soloMod);
@@ -212,7 +212,9 @@ public class SocioData {
         int valorInt = -1;
         String valorString = "";
         String sql;
-
+        if (criterio.equals("Número de Socio")) {
+            criterio = "idSocio";
+        }
         switch (estado) {
 
             case "Socio Activo":
@@ -253,7 +255,7 @@ public class SocioData {
 
             PreparedStatement ps = con.prepareStatement(sql);
             if (valorInt >= 0) {
-                ps.setString(1, ""+String.valueOf(valorInt)+"" + "%");
+                ps.setString(1, "" + String.valueOf(valorInt) + "" + "%");
             } else {
                 ps.setString(1, valorString + "%");
 
@@ -271,7 +273,6 @@ public class SocioData {
                 socioLocal.setMail(rs.getString("mail"));
                 socioLocal.setFechaDeAlta(rs.getDate("fechaDeAlta").toLocalDate());
 
-                
                 if (rs.getDate("fechaDeBaja") == null) {
                     LocalDate dia = LocalDate.now();
                     socioLocal.setFechaDeBaja(dia);
@@ -404,6 +405,7 @@ public class SocioData {
 
         }
     }
+
     //IMPORTANTE
     public void modificarFecha(String fechaNueva, String criterioFecha, String idSocio, String jCBCriterio, String JTFvalor) {
         List<Socio> sociosLocal = new ArrayList<>();
@@ -443,23 +445,23 @@ public class SocioData {
                 criterio = criterio.toLowerCase();
             }
             //Se crea la consulta con la actualización de estado por ejemplo WHERE "domicilio" = "Brown 333"
-            sql = "UPDATE lector SET estado = " + 0 + " WHERE " + criterio + " = '" + valor + "';";
+            sql = "UPDATE lector SET estado = " + 0 + " WHERE " + criterio + " = " + valor + ";";
         } else {
             if (criterio.equals("fechaDeAlta") || criterio.equals("fechaDeBaja")) {
                 //Se crea la consulta con la actualización de estado por ejemplo WHERE "domicilio" = "Brown 333"
-                sql = "UPDATE lector SET " + criterio + " = '" + valor + "' WHERE " + criterio + " = '" + soloMod + "';";
+                sql = "UPDATE lector SET " + criterio + " = " + valor + " WHERE " + criterio + " = " + soloMod + ";";
                 valor = soloMod;
 
             } else if (criterio.equalsIgnoreCase("Número de Socio") || criterio.equalsIgnoreCase("Estado")) {//Ver si es Número de Socio o Socio número
                 criterio = "idSocio";
                 int valorInt = Integer.parseInt(valor);
                 int soloModInt = Integer.parseInt(soloMod);
-                sql = "UPDATE lector SET estado = " + valorInt + " WHERE " + criterio + " = '" + soloModInt + "';";
+                sql = "UPDATE lector SET estado = " + valorInt + " WHERE " + criterio + " = " + soloModInt + ";";
                 valor = String.valueOf(soloModInt);
             } else {
                 criterio = criterio.toLowerCase();
                 //Se crea la consulta con la actualización de estado por ejemplo WHERE "domicilio" = "Brown 333"
-                sql = "UPDATE lector SET " + criterio + " = '" + valor + "' WHERE " + criterio + " = '" + soloMod + "';";
+                sql = "UPDATE lector SET " + criterio + " = " + valor + " WHERE " + criterio + " = " + soloMod + ";";
             }
         }
         System.out.println("MS: " + sql);
@@ -468,8 +470,7 @@ public class SocioData {
         try {
 
             PreparedStatement ps = con.prepareStatement(sql);
-            
-            
+
             int filas = ps.executeUpdate();
             //Se crea un ArrayList que se llena con los nombres de las columnas con el método utilitario
             columnas = new ArrayList<>();
@@ -485,9 +486,7 @@ public class SocioData {
                         //Podría hacerse una sobrecarga de buscarHistorialSocios para que pueda devolver un socio
                         criterio = SocioBuscarView.getInstance().getCriterio();
                         valor = SocioBuscarView.getInstance().getValor();
-                        if(criterio.equals("Número de Socio")){
-                            criterio = "idSocio";
-                        }
+
                         sociosLocal = buscarHistorialSocios(criterio, valor);
                     }
                 }
@@ -561,15 +560,15 @@ public class SocioData {
         fechaHasta = armarFechaHasta(fechaHasta);
 
         String sql = armarSQL(criterio1, criterio2);
-        
-        switch(estado){
+
+        switch (estado) {
             case "Socio Activo":
                 sql = sql + " AND estado = 1;";
                 break;
             case "Desasociado":
                 sql = sql + " AND estado = 0;";
                 break;
-            default:    
+            default:
                 break;
         }
 
@@ -828,5 +827,3 @@ public class SocioData {
     }
 
 }
-
-
