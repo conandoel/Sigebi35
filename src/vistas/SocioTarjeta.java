@@ -244,7 +244,7 @@ public class SocioTarjeta extends javax.swing.JPanel {
     public List<SocioTarjeta> listarSocio(String criterio, String valor, String EFECTO) {
         //Llama al método actualizarSeccion y pasa como argumento el EFECTO utilizando el PATRÓN DE DISEÑO Singleton
         SocioBuscarView.getInstance().actualizarSeccion(EFECTO);
-
+        
         //Se crean ArrayList utilizando los argumentos de clase. Son tipo Socio, String, y SocioTarjeta
         socios = new ArrayList<>();
         columnas = new ArrayList<>();
@@ -1124,7 +1124,7 @@ public class SocioTarjeta extends javax.swing.JPanel {
                         + fechaDB.substring(5, 7) + " | "
                         + fechaDB.substring(0, 4);
                 metodoDeSocio.eliminarSocio("M", fechaDesasociada, "fechaDeBaja", fechaDB, this.jLNumeroDeSocio.getText());
-
+                metodoDeSocio.modificarSocio("M", this.jLNumeroDeSocio.getText(), "Número de Socio", "1");
                 this.jLFechaDeBaja.setText(nuevaFecha);
                 //cambiar esto                 metodoDeSocio.modificarSocio("M", this.jLNumeroDeSocio.getText(), "Número de Socio", "1");
                 this.jLABM.setText("La Fecha de Alta ha sido modificado correctamente");

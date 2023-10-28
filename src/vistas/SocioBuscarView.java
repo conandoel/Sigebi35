@@ -12,6 +12,7 @@ import java.util.List;
 import javax.swing.BoxLayout;
 import javax.swing.JButton;
 import javax.swing.JLabel;
+import javax.swing.JOptionPane;
 import javax.swing.JTextField;
 import javax.swing.plaf.basic.BasicInternalFrameUI;
 
@@ -139,17 +140,19 @@ public class SocioBuscarView extends javax.swing.JInternalFrame {
 
     //Método que comunica criterio y valor elegido en la VISTA para ser utilizado por el método listarSocio para crear las TARJETAS.
     public void afectarSocio(String EFECTO) {
-        if(criterio == null){
+        if(criterio == null){JOptionPane.showMessageDialog(null, "criterio: " + criterio + " valor: " + valor + " EFECTO: " + EFECTO);
             criterio = "NINGUNO";
         }
-        
+        JOptionPane.showMessageDialog(null, "criterio: " + criterio + " valor: " + valor + " EFECTO: " + EFECTO);
         if (EFECTO.equals("AGREGAR")) {
             criterio = "NINGUNO";
             valor = "";
         }
-
+        
+        JOptionPane.showMessageDialog(null, "criterio: " + criterio + " valor: " + valor + " EFECTO: " + EFECTO);
         //Se envía el pedido de rediseño de TARJETAS para ver si estarán en módo "BUSCAR", "ELIMINAR", o "MODIFICAR"
         resultados = SocioTarjeta.getInstance().listarSocio(criterio, valor, EFECTO);
+        JOptionPane.showMessageDialog(null, "activarEliminar " + activarEliminar);
         //Si el valor de EFECTO es "LIMPIAR" entonces la visibilidad de las TARJETAS es false
         if (EFECTO.equals("LIMPIAR")) {
             activarEliminar--;
