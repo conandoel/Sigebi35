@@ -6,8 +6,16 @@ package vistas;
 
 import datos.EjemplarData;
 import entidades.Ejemplar;
+import java.awt.Image;
+import java.awt.image.BufferedImage;
+import java.io.File;
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.logging.Level;
+import java.util.logging.Logger;
+import javax.imageio.ImageIO;
+import javax.swing.ImageIcon;
 
 /**
  *
@@ -43,6 +51,8 @@ public class ModificarEjemplarView extends javax.swing.JInternalFrame {
         jcbEstados = new javax.swing.JComboBox<>();
         jbtnModificar = new javax.swing.JToggleButton();
         jLabel4 = new javax.swing.JLabel();
+        jPanel1 = new javax.swing.JPanel();
+        jLFoto = new javax.swing.JLabel();
 
         jLabel1.setText("Ejemplar:");
 
@@ -65,6 +75,25 @@ public class ModificarEjemplarView extends javax.swing.JInternalFrame {
 
         jLabel4.setText("Modificar Ejemplar");
 
+        jLFoto.setText("libro");
+
+        javax.swing.GroupLayout jPanel1Layout = new javax.swing.GroupLayout(jPanel1);
+        jPanel1.setLayout(jPanel1Layout);
+        jPanel1Layout.setHorizontalGroup(
+            jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(jPanel1Layout.createSequentialGroup()
+                .addContainerGap()
+                .addComponent(jLFoto)
+                .addContainerGap(53, Short.MAX_VALUE))
+        );
+        jPanel1Layout.setVerticalGroup(
+            jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(jPanel1Layout.createSequentialGroup()
+                .addContainerGap()
+                .addComponent(jLFoto)
+                .addContainerGap(91, Short.MAX_VALUE))
+        );
+
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
         layout.setHorizontalGroup(
@@ -80,35 +109,41 @@ public class ModificarEjemplarView extends javax.swing.JInternalFrame {
                         .addGap(18, 18, 18)
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                             .addComponent(jbtnModificar)
-                            .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                                .addComponent(jtfIdEjemplar)
-                                .addComponent(jtfLibro)
-                                .addComponent(jcbEstados, 0, 156, Short.MAX_VALUE))))
+                            .addGroup(layout.createSequentialGroup()
+                                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                                    .addComponent(jtfIdEjemplar)
+                                    .addComponent(jtfLibro)
+                                    .addComponent(jcbEstados, javax.swing.GroupLayout.PREFERRED_SIZE, 156, javax.swing.GroupLayout.PREFERRED_SIZE))
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 74, Short.MAX_VALUE)
+                                .addComponent(jPanel1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))))
                     .addGroup(layout.createSequentialGroup()
                         .addGap(143, 143, 143)
                         .addComponent(jLabel4)))
-                .addContainerGap(165, Short.MAX_VALUE))
+                .addGap(23, 23, 23))
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
                 .addContainerGap()
                 .addComponent(jLabel4)
-                .addGap(35, 35, 35)
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(jLabel1)
-                    .addComponent(jtfIdEjemplar, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addGap(18, 18, 18)
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(jLabel2)
-                    .addComponent(jtfLibro, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addGap(18, 18, 18)
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(jLabel3)
-                    .addComponent(jcbEstados, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addGap(18, 18, 18)
-                .addComponent(jbtnModificar)
-                .addContainerGap(24, Short.MAX_VALUE))
+                .addGap(26, 26, 26)
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addGroup(layout.createSequentialGroup()
+                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                            .addComponent(jLabel1)
+                            .addComponent(jtfIdEjemplar, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                        .addGap(18, 18, 18)
+                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                            .addComponent(jLabel2)
+                            .addComponent(jtfLibro, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                        .addGap(18, 18, 18)
+                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                            .addComponent(jLabel3)
+                            .addComponent(jcbEstados, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                        .addGap(18, 18, 18)
+                        .addComponent(jbtnModificar))
+                    .addComponent(jPanel1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addContainerGap(33, Short.MAX_VALUE))
         );
 
         pack();
@@ -125,6 +160,7 @@ public class ModificarEjemplarView extends javax.swing.JInternalFrame {
                     jtfLibro.setText(ejemplar.getLibro().getTitulo());
                     jcbEstados.setSelectedItem(ejemplar.getEstado());
                     jtfLibro.setEditable(false);
+                    cargarFotoLibro(ejemplar.getLibro().getIsbn());
                 }
             }
         }
@@ -151,11 +187,31 @@ public class ModificarEjemplarView extends javax.swing.JInternalFrame {
         jcbEstados.addItem("En Reparación");
         jcbEstados.addItem("Con Demora");
     }
+    
+    private void cargarFotoLibro(long isbn){
+        try {
+            File file = new File("./src/vistas/libros/" + isbn + ".jpg");
+            //Se  lee una imagen desde un archivo y se almacena en una variable de tipo BufferedImage
+            BufferedImage fotoPerfil = ImageIO.read(file);
+            
+            //Se borra el texto POR DEFECTO "Imagen" del JLabel y se establece su tamaño contenedor
+            jLFoto.setText("");
+            jLFoto.setSize(82, 113);
+            //Se dimensiona la IMAGEN para que tenga el mismo largo y ancho del JLabel
+            Image dFotoPerfil = fotoPerfil.getScaledInstance(jLFoto.getWidth(), jLFoto.getHeight(), Image.SCALE_SMOOTH);
+            //Se pone la imagen en el JLabel usando setIcon()
+            jLFoto.setIcon(new ImageIcon(dFotoPerfil));
+        } catch (IOException ex) {
+            Logger.getLogger(PrestamosView.class.getName()).log(Level.SEVERE, null, ex);
+        }
+    }
     // Variables declaration - do not modify//GEN-BEGIN:variables
+    private javax.swing.JLabel jLFoto;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel2;
     private javax.swing.JLabel jLabel3;
     private javax.swing.JLabel jLabel4;
+    private javax.swing.JPanel jPanel1;
     private javax.swing.JToggleButton jbtnModificar;
     private javax.swing.JComboBox<String> jcbEstados;
     private javax.swing.JTextField jtfIdEjemplar;
