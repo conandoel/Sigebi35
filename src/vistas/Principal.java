@@ -237,6 +237,11 @@ public class Principal extends javax.swing.JFrame {
         jMModificar.add(jMModificarSocios);
 
         jMModPrestamos.setText("...préstamos");
+        jMModPrestamos.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jMModPrestamosActionPerformed(evt);
+            }
+        });
         jMModificar.add(jMModPrestamos);
 
         jMenuBar1.add(jMModificar);
@@ -383,6 +388,12 @@ public class Principal extends javax.swing.JFrame {
 
     private void jMBuscarPréstamosActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMBuscarPréstamosActionPerformed
         // TODO add your handling code here:
+        jDPEscritorio.removeAll();
+        jDPEscritorio.repaint();
+        BuscarPrestamoView pv=new BuscarPrestamoView();
+        pv.setVisible(true);
+        jDPEscritorio.add(pv);
+        jDPEscritorio.moveToFront(pv);
     }//GEN-LAST:event_jMBuscarPréstamosActionPerformed
 
     private void jMElimPrestamosActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMElimPrestamosActionPerformed
@@ -517,6 +528,16 @@ public class Principal extends javax.swing.JFrame {
         jDPEscritorio.add(pv);
         jDPEscritorio.moveToFront(pv);
     }//GEN-LAST:event_jMenuItem5ActionPerformed
+
+    private void jMModPrestamosActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMModPrestamosActionPerformed
+        // TODO add your handling code here:
+        jDPEscritorio.removeAll();
+        jDPEscritorio.repaint();
+        ModificarPrestamoView pv=new ModificarPrestamoView();
+        pv.setVisible(true);
+        jDPEscritorio.add(pv);
+        jDPEscritorio.moveToFront(pv);
+    }//GEN-LAST:event_jMModPrestamosActionPerformed
   
     /**
      * @param args the command line arguments

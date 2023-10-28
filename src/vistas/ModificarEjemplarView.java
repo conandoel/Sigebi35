@@ -16,6 +16,7 @@ import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.imageio.ImageIO;
 import javax.swing.ImageIcon;
+import javax.swing.JOptionPane;
 
 /**
  *
@@ -168,12 +169,16 @@ public class ModificarEjemplarView extends javax.swing.JInternalFrame {
 
     private void jbtnModificarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jbtnModificarActionPerformed
         // TODO add your handling code here:
+        if(!jtfIdEjemplar.getText().equals("")){
         EjemplarData ed=new EjemplarData();
         Ejemplar ejemplar =new Ejemplar();
         ejemplar.setCodigo(Integer.parseInt(jtfIdEjemplar.getText()));
         ejemplar.setEstado(jcbEstados.getSelectedItem().toString());
         ed.modificarEjemplar(ejemplar);
         cargarEjemplares();
+        }else{
+            JOptionPane.showMessageDialog(null, "El id del ejemplar no puede estar vacio");
+        }
     }//GEN-LAST:event_jbtnModificarActionPerformed
 
     private void cargarEjemplares(){
