@@ -335,9 +335,9 @@ public class SocioTarjeta extends javax.swing.JPanel {
             int fechaDeBAJA = Integer.parseInt(fechaBaja);
 
             if (socio.isEstado() && fechaDeBAJA > fechaActual) {
-                tarjeta.jLFechaDeBaja.setForeground(Color.RED);
-            } else {
                 tarjeta.jLFechaDeBaja.setForeground(Color.GREEN);
+            } else {
+                tarjeta.jLFechaDeBaja.setForeground(Color.RED);
             }
 
             //Se le asigna un tamaño al JLabel que contiene los ÍCONOS de MODIFICAR y ELIMINAR según sea el caso
