@@ -30,10 +30,15 @@
     <DimensionLayout dim="1">
       <Group type="103" groupAlignment="0" attributes="0">
           <Group type="102" attributes="0">
-              <Component id="jPSocioAgregar" max="32767" attributes="0"/>
+              <Group type="103" groupAlignment="0" attributes="0">
+                  <Component id="jPSocioAgregar" max="32767" attributes="0"/>
+                  <Group type="102" attributes="0">
+                      <Component id="jPanel1" min="-2" max="-2" attributes="0"/>
+                      <EmptySpace min="0" pref="0" max="32767" attributes="0"/>
+                  </Group>
+              </Group>
               <EmptySpace max="-2" attributes="0"/>
           </Group>
-          <Component id="jPanel1" max="32767" attributes="0"/>
       </Group>
     </DimensionLayout>
   </Layout>
@@ -48,7 +53,7 @@
         </DimensionLayout>
         <DimensionLayout dim="1">
           <Group type="103" groupAlignment="0" attributes="0">
-              <EmptySpace min="0" pref="382" max="32767" attributes="0"/>
+              <EmptySpace min="0" pref="423" max="32767" attributes="0"/>
           </Group>
         </DimensionLayout>
       </Layout>
@@ -107,7 +112,7 @@
                                       <Component id="jTFDomicilio" pref="332" max="32767" attributes="0"/>
                                       <Component id="jTFMail" alignment="1" max="32767" attributes="0"/>
                                       <Component id="jTFTelefono" alignment="0" max="32767" attributes="0"/>
-                                      <Component id="jLFechaDeBajaDEFAULT" alignment="0" pref="332" max="32767" attributes="0"/>
+                                      <Component id="jLFechaDeBajaDEFAULT" alignment="0" max="32767" attributes="0"/>
                                       <Component id="jLFechaDeAltaDEFAULT" alignment="0" max="32767" attributes="0"/>
                                       <Component id="jTFDNI" alignment="0" min="-2" pref="212" max="-2" attributes="0"/>
                                   </Group>
@@ -133,7 +138,7 @@
                   <Component id="jLCancelar" min="-2" pref="65" max="-2" attributes="0"/>
                   <EmptySpace max="-2" attributes="0"/>
                   <Component id="jLAgregar" min="-2" pref="62" max="-2" attributes="0"/>
-                  <EmptySpace min="0" pref="64" max="32767" attributes="0"/>
+                  <EmptySpace min="0" pref="164" max="32767" attributes="0"/>
               </Group>
           </Group>
         </DimensionLayout>
@@ -188,7 +193,7 @@
                               <Component id="jTFMail" alignment="3" min="-2" max="-2" attributes="0"/>
                               <Component id="jLMail" alignment="3" min="-2" max="-2" attributes="0"/>
                           </Group>
-                          <EmptySpace max="32767" attributes="0"/>
+                          <EmptySpace pref="54" max="32767" attributes="0"/>
                           <Group type="103" groupAlignment="3" attributes="0">
                               <Component id="jLFechaDeAlta" alignment="3" min="-2" max="-2" attributes="0"/>
                               <Component id="jLFechaDeAltaDEFAULT" alignment="3" min="-2" max="-2" attributes="0"/>

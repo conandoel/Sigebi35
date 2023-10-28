@@ -52,7 +52,6 @@ public class SocioBuscarView extends javax.swing.JInternalFrame {
     public String getValor() {
         return valor;
     }
- 
 
     //Getter para revisar el criterio dado en la búsqueda
     public String getCriterio() {
@@ -93,17 +92,17 @@ public class SocioBuscarView extends javax.swing.JInternalFrame {
         //Se devuelve el atributo sbr
         return sbr;
     }
-    
+
     private boolean puntoB = true;
+
     public void noEnterDNIBusqueda(JLabel labelInformativo, JLabel valorMod, KeyEvent e) {
 
-        
-            dni = this.jTFSocioBuscarIngreseValor;
+        dni = this.jTFSocioBuscarIngreseValor;
 
         if (e.getKeyCode() == 10) {
 
         } else if (e.getKeyCode() == 110) {
-            
+
             dni.setText(dni.getText().substring(0, dni.getText().length() - 1));
         } else {
             //labelInformativo.setText("Ingresando el DNI");
@@ -131,16 +130,13 @@ public class SocioBuscarView extends javax.swing.JInternalFrame {
 
         }
     }
-    
-    
-    
-    
 
     private int activarEliminar = 0;
 
     //Método que comunica criterio y valor elegido en la VISTA para ser utilizado por el método listarSocio para crear las TARJETAS.
     public void afectarSocio(String EFECTO) {
-        if(criterio == null){JOptionPane.showMessageDialog(null, "criterio: " + criterio + " valor: " + valor + " EFECTO: " + EFECTO);
+        if (criterio == null) {
+            JOptionPane.showMessageDialog(null, "criterio: " + criterio + " valor: " + valor + " EFECTO: " + EFECTO);
             criterio = "NINGUNO";
         }
         JOptionPane.showMessageDialog(null, "criterio: " + criterio + " valor: " + valor + " EFECTO: " + EFECTO);
@@ -148,7 +144,7 @@ public class SocioBuscarView extends javax.swing.JInternalFrame {
             criterio = "NINGUNO";
             valor = "";
         }
-        
+
         JOptionPane.showMessageDialog(null, "criterio: " + criterio + " valor: " + valor + " EFECTO: " + EFECTO);
         //Se envía el pedido de rediseño de TARJETAS para ver si estarán en módo "BUSCAR", "ELIMINAR", o "MODIFICAR"
         resultados = SocioTarjeta.getInstance().listarSocio(criterio, valor, EFECTO);
@@ -174,7 +170,9 @@ public class SocioBuscarView extends javax.swing.JInternalFrame {
 
         } else {
             //AQUÍ LÓGICA DE MODIFICACIÓN
-
+            for (SocioTarjeta resultado : resultados) {
+                resultado.getInstance().getEfecto().setVisible(false);
+            }
         }
 
         //Se recargan las TARJETAS
@@ -188,11 +186,13 @@ public class SocioBuscarView extends javax.swing.JInternalFrame {
         SocioBuscarView.getInstance().jLBuscarSocios.setText("Modificar socios");
         //Según la SECCION que va a tomar en realidad el valor de "EFECTO" que puede ser "MODIFICAR", "ELIMINAR", "LIMPIAR" (Aún no hace nada eso), y "NADA"
         switch (SECCION) {
-            case "MODIFICAR" ->
+            case "MODIFICAR":
                 this.jLBuscarSocios.setText("Modificar Socios");
-            case "ELIMINAR" ->
+                break;
+            case "ELIMINAR":
                 this.jLBuscarSocios.setText("Eliminar Socios");
-            default ->
+                break;
+            default:
                 this.jLBuscarSocios.setText("Búsqueda de Socios");
         }
         //Cada case es para modificar el JLabel por tanto según sea el caso, la VISTA BUSCAR SOCIO será "Buscar socios" o "Eliminar Socios", etc
@@ -371,8 +371,8 @@ public class SocioBuscarView extends javax.swing.JInternalFrame {
                             .addComponent(jLInfo, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                             .addComponent(jPanel1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                             .addComponent(jPanel2, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)))
-                .addComponent(jSPResultados, javax.swing.GroupLayout.DEFAULT_SIZE, 445, Short.MAX_VALUE)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 55, Short.MAX_VALUE)))
+                .addComponent(jSPResultados, javax.swing.GroupLayout.DEFAULT_SIZE, 494, Short.MAX_VALUE)
                 .addGap(30, 30, 30))
         );
         jPSocioBuscarLayout.setVerticalGroup(
@@ -398,7 +398,7 @@ public class SocioBuscarView extends javax.swing.JInternalFrame {
                 .addComponent(jLInfo)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(jPanel2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 87, Short.MAX_VALUE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 127, Short.MAX_VALUE)
                 .addComponent(jPanel1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGap(21, 21, 21))
         );
@@ -474,9 +474,9 @@ public class SocioBuscarView extends javax.swing.JInternalFrame {
         }
         primeraVez = true;
         String seleccion = jCBSocioBuscarCriterio.getSelectedItem().toString();
-        if(seleccion.equals("Fecha")){
+        if (seleccion.equals("Fecha")) {
             this.jBBuscar.setEnabled(true);
-        }else{
+        } else {
             this.jBBuscar.setEnabled(false);
             this.jBBuscar.setText("⦿");
             this.jBBuscar.setForeground(Color.BLACK);
@@ -601,10 +601,10 @@ public class SocioBuscarView extends javax.swing.JInternalFrame {
     private void jCBEstadoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jCBEstadoActionPerformed
         // TODO add your handling code here:
         String LIMPIAR = "LIMPIAR";
-        if(this.jCBSocioBuscarCriterio.getSelectedItem().toString().equals("Fecha")){
+        if (this.jCBSocioBuscarCriterio.getSelectedItem().toString().equals("Fecha")) {
             SocioBuscarView.getInstance().afectarSocio("FECHA");
-        }else{
-        SocioBuscarView.getInstance().afectarSocio("BUSCAR");
+        } else {
+            SocioBuscarView.getInstance().afectarSocio("BUSCAR");
         }
         this.jTFSocioBuscarIngreseValor.requestFocus();
     }//GEN-LAST:event_jCBEstadoActionPerformed
@@ -666,7 +666,7 @@ public class SocioBuscarView extends javax.swing.JInternalFrame {
             this.criterio = "DNI";
             valorMod.setText("DNI");
             //String valor = this.jTFSocioBuscarIngreseValor.getText().replaceAll("\\.", "");
-            
+
             char c = evt.getKeyChar();
             if (Character.isDigit(c) || evt.getKeyCode() == 8) {
                 noEnterDNIBusqueda(this.jLInfo, valorMod, evt);
@@ -753,7 +753,7 @@ public class SocioBuscarView extends javax.swing.JInternalFrame {
                 cargarLasTarjetas();
                 resultados.clear();
             }
-        }else if (criterio.equals("Teléfono")) {
+        } else if (criterio.equals("Teléfono")) {
             valorMod.setText("Teléfono");
             this.criterio = "Teléfono";
             SocioTarjeta.getInstance().noEnterTelefono(this.jLInfo, valorMod, evt);
@@ -827,7 +827,7 @@ public class SocioBuscarView extends javax.swing.JInternalFrame {
             }
         } else if (criterio.equals("Fecha")) {
             char c = evt.getKeyChar();
-            
+
             if (Character.isDigit(c) || c == '-' || c == ' ') {
                 fechaDesde = this.jTFSocioBuscarIngreseValor.getText();
                 fechaDesde = fechaDesde.replaceAll("-", "");
@@ -870,17 +870,17 @@ public class SocioBuscarView extends javax.swing.JInternalFrame {
                 cargarLasTarjetas();
                 resultados.clear();
             } else {
-                if(this.jTFSocioBuscarIngreseValor.getText().length() <= 11 && this.jTFFechaHasta.getText().length() <= 11 && !(evt.getKeyCode() == 8) && evt.getKeyCode() != KeyEvent.VK_SHIFT){
-                JTextField field = (JTextField) evt.getSource();
-                //Se obtiene el texto del textfield
-                String texto = field.getText();
-                //Se obtiene la posición del caracter no deseado
-                int pos = texto.indexOf(c);
-                //Se elimina el caracter no deseado usando substring
-                
-                texto = texto.substring(0, pos);
-                //Se asigna el nuevo texto al textfield sin el caracter no deseado
-                field.setText(texto);
+                if (this.jTFSocioBuscarIngreseValor.getText().length() <= 11 && this.jTFFechaHasta.getText().length() <= 11 && !(evt.getKeyCode() == 8) && evt.getKeyCode() != KeyEvent.VK_SHIFT) {
+                    JTextField field = (JTextField) evt.getSource();
+                    //Se obtiene el texto del textfield
+                    String texto = field.getText();
+                    //Se obtiene la posición del caracter no deseado
+                    int pos = texto.indexOf(c);
+                    //Se elimina el caracter no deseado usando substring
+
+                    texto = texto.substring(0, pos);
+                    //Se asigna el nuevo texto al textfield sin el caracter no deseado
+                    field.setText(texto);
                 }
             }
 
