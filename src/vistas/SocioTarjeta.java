@@ -162,6 +162,7 @@ public class SocioTarjeta extends javax.swing.JPanel {
     private final Image eliminar = new ImageIcon(getClass().getResource("/vistas/imagenes/eliminar.png")).getImage();
 
     //Esto es un Override de paintComponent del JPanel SocioTarjeta para darle color
+    
     @Override
     protected void paintComponent(Graphics g) {
         super.paintComponent(g);
@@ -304,7 +305,6 @@ public class SocioTarjeta extends javax.swing.JPanel {
                     default:
                         break;
                 }
-
                 socios = metodoDeSocio.obtenerRangoFechas(fechaDesde, fechaHasta, criterio1, criterio2, estado);
 
                 
@@ -1141,7 +1141,7 @@ public class SocioTarjeta extends javax.swing.JPanel {
                         + fechaDB.substring(5, 7) + " | "
                         + fechaDB.substring(0, 4);
                 metodoDeSocio.eliminarSocio("M", fechaDesasociada, "fechaDeBaja", fechaDB, this.jLNumeroDeSocio.getText());
-                metodoDeSocio.modificarSocio("M", this.jLNumeroDeSocio.getText(), "Número de Socio", "1");
+                metodoDeSocio.modificarSocio("E", "1", "Número de Socio", this.jLNumeroDeSocio.getText());
                 this.jLFechaDeBaja.setText(nuevaFecha);
                 //cambiar esto                 metodoDeSocio.modificarSocio("M", this.jLNumeroDeSocio.getText(), "Número de Socio", "1");
                 this.jLABM.setText("La Fecha de Alta ha sido modificado correctamente");
@@ -1215,7 +1215,7 @@ public class SocioTarjeta extends javax.swing.JPanel {
                     String valorBusqueda = SocioBuscarView.getInstance().getValor();
 
                     metodoDeSocio.modificarFecha(fechaActualDeBaja, "fechaDeBaja", this.jLEfecto.getText(), criterioBusqueda, valorBusqueda);
-                    metodoDeSocio.modificarSocio("E", this.jLNumeroDeSocio.getText(), "Número de Socio", this.jLNumeroDeSocio.getText());
+                    metodoDeSocio.modificarSocio("E", "0", "Número de Socio", this.jLNumeroDeSocio.getText());
 
                     this.jLABM.setText("El Socio ha sido dado de Baja");
                     temporizar(this.jLABM, "M");
@@ -1805,7 +1805,6 @@ public class SocioTarjeta extends javax.swing.JPanel {
                                                     labelInformativo.setForeground(Color.GREEN);
                                                     if (this.jLEstado.getText().equals("Socio Activo")) {
                                                         this.jLEstado.setText("Desasociado");
-                                                        JOptionPane.showMessageDialog(null, "linea 1806");
                                                         metodoDeSocio.eliminarSocio("M", this.jLNumeroDeSocio.getText(), this.jLEst.getText().replace(":", ""), "0", this.jLNumeroDeSocio.getText());
                                                     }
                                                     this.jLEstado.setForeground(Color.RED);

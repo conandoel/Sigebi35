@@ -13,7 +13,11 @@ import javax.swing.JTextField;
 import java.lang.reflect.Field;
 import java.awt.Color;
 import java.awt.Container;
+import java.awt.Graphics;
+import java.awt.Graphics2D;
 import java.awt.Image;
+import java.awt.LinearGradientPaint;
+import java.awt.MultipleGradientPaint;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.util.ArrayList;
@@ -40,7 +44,32 @@ public class SocioAgregarView extends javax.swing.JInternalFrame {
 
         Container pane = ((BasicInternalFrameUI) this.getUI()).getNorthPane();
         pane.remove(0);
+        
         sar = this;
+
+    }
+    
+    private static final Color CELESTITO = new Color(143, 147, 149);
+    private static final Color VERDECITO = new Color(183, 187, 189);
+    private static final Color AZULCITO = new Color(80, 87, 89);
+    //Estas son los dos Íconos que aparecen en las TARJETAS para MODIFICAR y ELIMINAR
+
+    //Esto es un Override de paintComponent del JPanel SocioTarjeta para darle color
+    @Override
+    protected void paintComponent(Graphics g) {
+        super.paintComponent(g);
+        Graphics2D g2d = (Graphics2D) g;
+
+        //Esto es un arreglo de COLORES ya establecidos anteriormente
+        Color[] colors = {CELESTITO, VERDECITO, AZULCITO};
+        //Esto es un arreglo de fracciones que indica cómo se distribuyen los colores
+        float[] fractions = {0f, 0.2f, 1f};
+        //Se crea el DEGRADADO LINEAL dándole indicaciones de en dónde comienza horizontal y verticalmente, cuánto ocuparán los colores con las fracciones, y el tipo de rellenado
+        LinearGradientPaint gp = new LinearGradientPaint(0, 0, getHeight(), 0, fractions, colors, MultipleGradientPaint.CycleMethod.NO_CYCLE);
+        //Se aplica el degradado al panel
+        g2d.setPaint(gp);
+        //Se rellena el panel con el degradado
+        g2d.fillRect(0, 0, getWidth(), getHeight());
 
     }
 
@@ -79,7 +108,6 @@ public class SocioAgregarView extends javax.swing.JInternalFrame {
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
     private void initComponents() {
 
-        jPSocioAgregar = new javax.swing.JPanel();
         jPanel1 = new javax.swing.JPanel();
         jLApellido = new javax.swing.JLabel();
         jLNombre = new javax.swing.JLabel();
@@ -107,17 +135,7 @@ public class SocioAgregarView extends javax.swing.JInternalFrame {
         jLFechaDeAltaDEFAULT = new javax.swing.JLabel();
         jLFechaDeBajaDEFAULT = new javax.swing.JLabel();
         labelInformativo = new javax.swing.JLabel();
-
-        javax.swing.GroupLayout jPSocioAgregarLayout = new javax.swing.GroupLayout(jPSocioAgregar);
-        jPSocioAgregar.setLayout(jPSocioAgregarLayout);
-        jPSocioAgregarLayout.setHorizontalGroup(
-            jPSocioAgregarLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 0, Short.MAX_VALUE)
-        );
-        jPSocioAgregarLayout.setVerticalGroup(
-            jPSocioAgregarLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 423, Short.MAX_VALUE)
-        );
+        jPSocioAgregar = new javax.swing.JPanel();
 
         jLApellido.setText("Apellido:");
 
@@ -389,24 +407,29 @@ public class SocioAgregarView extends javax.swing.JInternalFrame {
                 .addGap(53, 53, 53))
         );
 
+        javax.swing.GroupLayout jPSocioAgregarLayout = new javax.swing.GroupLayout(jPSocioAgregar);
+        jPSocioAgregar.setLayout(jPSocioAgregarLayout);
+        jPSocioAgregarLayout.setHorizontalGroup(
+            jPSocioAgregarLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGap(0, 784, Short.MAX_VALUE)
+        );
+        jPSocioAgregarLayout.setVerticalGroup(
+            jPSocioAgregarLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGap(0, 423, Short.MAX_VALUE)
+        );
+
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
         layout.setHorizontalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(layout.createSequentialGroup()
-                .addComponent(jPanel1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
                 .addComponent(jPSocioAgregar, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                 .addContainerGap())
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(jPSocioAgregar, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                    .addGroup(layout.createSequentialGroup()
-                        .addComponent(jPanel1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addGap(0, 0, Short.MAX_VALUE)))
+                .addComponent(jPSocioAgregar, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                 .addContainerGap())
         );
 
@@ -744,7 +767,7 @@ public class SocioAgregarView extends javax.swing.JInternalFrame {
         String valorDelCampo = caracteresIngresados;
         String campo = this.jTFNombre.getText();
 
-        SocioTarjeta.getInstance().cotejarApellido(caracteresIngresados, labelInformativo, valorMod, valoresModificados,
+        SocioTarjeta.getInstance().cotejarNombre(caracteresIngresados, labelInformativo, valorMod, valoresModificados,
                 valorDelCampo, campo);
     }//GEN-LAST:event_jTFNombreActionPerformed
 

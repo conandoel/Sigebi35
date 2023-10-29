@@ -12,7 +12,6 @@ import java.util.List;
 import javax.swing.BoxLayout;
 import javax.swing.JButton;
 import javax.swing.JLabel;
-import javax.swing.JOptionPane;
 import javax.swing.JTextField;
 import javax.swing.plaf.basic.BasicInternalFrameUI;
 
@@ -47,7 +46,8 @@ public class SocioBuscarView extends javax.swing.JInternalFrame {
         pane.remove(0);
 
     }
-
+    
+    
     //Getter para revisar el valor dado en la búsqueda
     public String getValor() {
         return valor;
@@ -164,7 +164,7 @@ public class SocioBuscarView extends javax.swing.JInternalFrame {
             }
         } else if (EFECTO.equals("AGREGAR")) {
 
-        } else if(EFECTO.equals("FECHA")){
+        } else {/*if(EFECTO.equals("FECHA")){
             for (SocioTarjeta resultado : resultados) {
 
                 this.jSPResultados.setVisible(true);
@@ -172,7 +172,7 @@ public class SocioBuscarView extends javax.swing.JInternalFrame {
                 SocioBuscarView.getInstance().afectarSocio("FECHA");
             }
             cargarLasTarjetas();
-            
+            */
         }
 
         //Se recargan las TARJETAS

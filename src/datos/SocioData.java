@@ -70,7 +70,7 @@ public class SocioData {
             }
         }
         System.out.println("-------------------------------------------------");
-        System.out.println(sql);
+        System.out.println("ES: " + sql);
         System.out.println("-------------------------------------------------");
         List<String> columnas;
         //Se ejecuta la consulta SQL
@@ -108,7 +108,12 @@ public class SocioData {
     public void eliminarSocio(File file, FileInputStream fis, String rutaMasNombreDeFoto) throws FileNotFoundException {
 
         String sql = "UPDATE lector SET fotoPerfil = ? WHERE fotoPerfilNombre = '?';";
-
+        
+        
+        System.out.println("-------------------------------------------------");
+        System.out.println("ES(imagen): " + sql);
+        System.out.println("-------------------------------------------------");
+        
         PreparedStatement ps = null; // declarar el PreparedStatement fuera del bloque try
         try {
             ps = con.prepareStatement(sql);
@@ -145,13 +150,14 @@ public class SocioData {
         }
     }
 
-    //CREO QUE SE PUEDE BORRAR
-    public void buscarLectorPorDNI() {
-    }
 
     public Socio obtenerNombreDeImagen(String idSocioString) {
         int idSocio = Integer.parseInt(idSocioString);
         String sql = "SELECT fotoPerfilNombre FROM lector WHERE idSocio = " + idSocio;
+        
+        System.out.println("-------------------------------------------------");
+        System.out.println("ONI: " + sql);
+        System.out.println("-------------------------------------------------");
         Socio socioLocal = null;
         try {
             PreparedStatement ps = con.prepareStatement(sql);
@@ -171,9 +177,13 @@ public class SocioData {
     }
 
     public List<Socio> buscarSociosPorFecha(String criterioFecha, String fecha) {
-
+        
         String sql = "SELECT * FROM lector WHERE ? = '" + fecha + "';";
-
+        
+        System.out.println("-------------------------------------------------");
+        System.out.println("BSF: " + sql);
+        System.out.println("-------------------------------------------------");
+        
         try {
             PreparedStatement ps = con.prepareStatement(sql);
             ps.setString(1, criterioFecha);
@@ -207,7 +217,9 @@ public class SocioData {
 
     //OTRA VEZ ME VOLVIÓ A TIRAR EL PUTO ERROR
     public List<Socio> buscarHistorialSocios(String criterio, String valorStringInt) {
-        //ESE -1 EN ALGÚN LADO ME TIRÓ ERROR
+        if(criterio.equals("rango_fechas")){
+            criterio = "idSocio";
+        }
         String estado = SocioBuscarView.getInstance().getCBEstado();
         int valorInt = -1;
         String valorString = "";
@@ -295,6 +307,10 @@ public class SocioData {
         //Consulta que devuelve el nombre de las COLUMNAS de la TABLA lector de la BASE DE DATOS biblioteca
         String sql = "SELECT COLUMN_NAME FROM INFORMATION_SCHEMA.COLUMNS WHERE TABLE_SCHEMA = 'biblioteca' AND TABLE_NAME = 'lector';";
         //Se crea un ArrayList (Parece ser que podría utilizarse el atributo pero hay que chequearlo) para guardar los nombres de las columnas en formato String
+        
+        /*System.out.println("-------------------------------------------------");
+        System.out.println("LC: " + sql);
+        System.out.println("-------------------------------------------------");*/
         List<String> columnas = new ArrayList<>();
         try {
             PreparedStatement ps = con.prepareStatement(sql);
@@ -315,6 +331,9 @@ public class SocioData {
         //Esta consulta devuelve la cantidad de REGISTROS (o FILAS) de la TABLA lector
         String sql = "SELECT COUNT(*) AS total FROM lector;";
         //Se inicializa la variable que guardará la cantidad de REGISTROS
+        System.out.println("-------------------------------------------------");
+        System.out.println("OCS: " + sql);
+        System.out.println("-------------------------------------------------");
         int cantidad = 0;
         try {
             PreparedStatement ps = con.prepareStatement(sql);
@@ -334,7 +353,9 @@ public class SocioData {
     public void obtenerImagenesSocio() {
         //Consulta que  devuelve las imágenes y su path de la TABLA lector
         String sql = "SELECT fotoPerfil, fotoPerfilNombre FROM lector";
-
+        System.out.println("-------------------------------------------------");
+        System.out.println("OIS: " + sql);
+        System.out.println("-------------------------------------------------");
         try {
             //Se crea un objeto Statement con la consulta
             Statement st = con.createStatement();
@@ -387,6 +408,9 @@ public class SocioData {
                 //Esta consulta inserta la imagen y el nombre según el idSocio
                 String sql = "UPDATE lector SET fotoPerfil = ?, fotoPerfilNombre = ? WHERE idSocio = ?;";
                 //Se crea un objeto PreparedStatement con la consulta
+                System.out.println("-------------------------------------------------");
+                System.out.println("IIS: " + sql);
+                System.out.println("-------------------------------------------------");
                 PreparedStatement ps = con.prepareStatement(sql);
                 //Se establece el primer parámetro con el flujo binario de la imagen y su longitud
                 ps.setBinaryStream(1, fis, fotoPerfilLength);
@@ -410,6 +434,10 @@ public class SocioData {
     public void modificarFecha(String fechaNueva, String criterioFecha, String idSocio, String jCBCriterio, String JTFvalor) {
         List<Socio> sociosLocal = new ArrayList<>();
         String sql = "UPDATE lector SET " + criterioFecha + " = ? WHERE idSocio = " + idSocio + ";";
+        
+        System.out.println("-------------------------------------------------");
+        System.out.println("MF: " + sql);
+        System.out.println("-------------------------------------------------");
         Socio socioLocal;
         try {
             PreparedStatement ps = con.prepareStatement(sql);
@@ -445,7 +473,7 @@ public class SocioData {
                 criterio = criterio.toLowerCase();
             }
             //Se crea la consulta con la actualización de estado por ejemplo WHERE "domicilio" = "Brown 333"
-            sql = "UPDATE lector SET estado = " + 0 + " WHERE " + criterio + " = " + valor + ";";
+            sql = "UPDATE lector SET estado = " + soloMod + " WHERE " + criterio + " = " + valor + ";";
         } else {
             if (criterio.equals("fechaDeAlta") || criterio.equals("fechaDeBaja")) {
                 //Se crea la consulta con la actualización de estado por ejemplo WHERE "domicilio" = "Brown 333"
@@ -523,7 +551,9 @@ public class SocioData {
         FileInputStream fis = foto.getFis();
 
         String sql = "INSERT INTO lector VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?);";
-
+        System.out.println("-------------------------------------------------");
+        System.out.println("AS: " + sql);
+        System.out.println("-------------------------------------------------");
         try {
 
             PreparedStatement ps = con.prepareStatement(sql, Statement.RETURN_GENERATED_KEYS);
@@ -571,7 +601,9 @@ public class SocioData {
             default:
                 break;
         }
-
+        System.out.println("-------------------------------------------------");
+        System.out.println("ORF: " + sql);
+        System.out.println("-------------------------------------------------");
         try {
             //Se crea un objeto Statement con la consulta
             PreparedStatement ps = con.prepareStatement(sql);
@@ -589,6 +621,8 @@ public class SocioData {
                 socioLocal.setNombre(rs.getString("nombre"));
                 socioLocal.setDomicilio(rs.getString("domicilio"));
                 socioLocal.setMail(rs.getString("mail"));
+                socioLocal.setDni(rs.getInt("dni"));
+                socioLocal.setTelefono(rs.getString("telefono"));
                 socioLocal.setFechaDeAlta(rs.getDate("fechaDeAlta").toLocalDate());
                 //Esta parte hay que arreglarla
                 //si el campo es null en la base de datos se muere
