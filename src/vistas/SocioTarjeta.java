@@ -270,13 +270,13 @@ public class SocioTarjeta extends javax.swing.JPanel {
             //Si no es "Número de Socio" el criterio, entonces se pasa a minúsculas. Por ejemplo "Estado" pasará a ser "estado" para poder ser comparado con el nombre de la columna en la BASE DE DATOS
             criterio = criterio.toLowerCase();
         }
-        JOptionPane.showMessageDialog(null, "criterio: " + criterio + " valor: " + " EFECTO: " + EFECTO);
+        
         if (!criterio.equals("rango_fechas")) {
 //Se itera por la LISTA de nombres de columnas de la TABLA lector y compara el valor de criterio con alguna de las columnas de lector 
             for (String columna : columnas) {
                 //Al encontrar coincidencia se llama al método buscarHistorialSocios de SocioData, el cual devuelve a todos los SOCIOS ya sean activos o no y lo guarda en la LISTA socios
                 if (criterio.equals(columna)) {
-                    if (columna.equals("fechaDeAlta") || columna.equals("fechaDeBaja")) {JOptionPane.showMessageDialog(null, criterio + " " + valor);
+                    if (columna.equals("fechaDeAlta") || columna.equals("fechaDeBaja")) {
                         socios = metodoDeSocio.obtenerFechas(valor, criterio);
                     } else {
                         socios = metodoDeSocio.buscarHistorialSocios(criterio, valor);
