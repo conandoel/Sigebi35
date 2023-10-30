@@ -245,7 +245,7 @@ public class SocioTarjeta extends javax.swing.JPanel {
     public List<SocioTarjeta> listarSocio(String criterio, String valor, String EFECTO) {
         //Llama al método actualizarSeccion y pasa como argumento el EFECTO utilizando el PATRÓN DE DISEÑO Singleton
         SocioBuscarView.getInstance().actualizarSeccion(EFECTO);
-
+        
         //Se crean ArrayList utilizando los argumentos de clase. Son tipo Socio, String, y SocioTarjeta
         socios = new ArrayList<>();
         columnas = new ArrayList<>();
