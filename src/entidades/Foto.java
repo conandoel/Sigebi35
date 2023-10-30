@@ -23,6 +23,8 @@ public class Foto {
         this.idSocio = idSocio;
     }
     
+    public Foto(){}
+    
     
     public String getFotoPerfilNombre(){
         return this.fotoPerfilNombre;

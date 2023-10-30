@@ -44,11 +44,11 @@ public class SocioAgregarView extends javax.swing.JInternalFrame {
 
         Container pane = ((BasicInternalFrameUI) this.getUI()).getNorthPane();
         pane.remove(0);
-        
+
         sar = this;
 
     }
-    
+
     private static final Color CELESTITO = new Color(143, 147, 149);
     private static final Color VERDECITO = new Color(183, 187, 189);
     private static final Color AZULCITO = new Color(80, 87, 89);
@@ -108,6 +108,7 @@ public class SocioAgregarView extends javax.swing.JInternalFrame {
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
     private void initComponents() {
 
+        jPSocioAgregar = new javax.swing.JPanel();
         jPanel1 = new javax.swing.JPanel();
         jLApellido = new javax.swing.JLabel();
         jLNombre = new javax.swing.JLabel();
@@ -135,7 +136,6 @@ public class SocioAgregarView extends javax.swing.JInternalFrame {
         jLFechaDeAltaDEFAULT = new javax.swing.JLabel();
         jLFechaDeBajaDEFAULT = new javax.swing.JLabel();
         labelInformativo = new javax.swing.JLabel();
-        jPSocioAgregar = new javax.swing.JPanel();
 
         jLApellido.setText("Apellido:");
 
@@ -412,10 +412,20 @@ public class SocioAgregarView extends javax.swing.JInternalFrame {
         jPSocioAgregarLayout.setHorizontalGroup(
             jPSocioAgregarLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGap(0, 784, Short.MAX_VALUE)
+            .addGroup(jPSocioAgregarLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                .addGroup(jPSocioAgregarLayout.createSequentialGroup()
+                    .addGap(0, 0, Short.MAX_VALUE)
+                    .addComponent(jPanel1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addGap(0, 0, Short.MAX_VALUE)))
         );
         jPSocioAgregarLayout.setVerticalGroup(
             jPSocioAgregarLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGap(0, 423, Short.MAX_VALUE)
+            .addGroup(jPSocioAgregarLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                .addGroup(jPSocioAgregarLayout.createSequentialGroup()
+                    .addGap(0, 0, Short.MAX_VALUE)
+                    .addComponent(jPanel1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addGap(0, 0, Short.MAX_VALUE)))
         );
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
@@ -459,8 +469,14 @@ public class SocioAgregarView extends javax.swing.JInternalFrame {
         String valorDelCampo = caracteresIngresados;
         String campo = this.jTFDomicilio.getText();
 
-        SocioTarjeta.getInstance().cotejarDomicilio(caracteresIngresados, labelInformativo, valorMod, valoresModificados,
-                valorDelCampo, campo);
+        if (!(this.jTFDomicilio.getText().length() == 0)) {
+            SocioTarjeta.getInstance().cotejarDomicilio(caracteresIngresados, labelInformativo, valorMod, valoresModificados,
+                    valorDelCampo, campo);
+        } else {
+            labelInformativo.setText("El Domicilio no puede estar vacío");
+            labelInformativo.setForeground(Color.RED);
+            SocioTarjeta.getInstance().temporizar(labelInformativo, "");
+        }
     }//GEN-LAST:event_jTFDomicilioActionPerformed
 
     private void jTFTelefonoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jTFTelefonoActionPerformed
@@ -478,14 +494,14 @@ public class SocioAgregarView extends javax.swing.JInternalFrame {
     private void jLImagenMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jLImagenMouseClicked
         // TODO add your handling code here:
         SocioData metodoDeSocio = new SocioData();
-        int idSocio = metodoDeSocio.obtenerCantidadSocios() + 5556;
+        int idSocio = metodoDeSocio.obtenerUltimoSocio() + 1;
         this.foto = SocioTarjeta.getInstance().editarCamposSocio("Imagen", this.jLNumeroDeSocio, this.jLImagen);
     }//GEN-LAST:event_jLImagenMouseClicked
 
     private void establecerDefault() {
         Principal.getInstance().habilitarModificaciones(false, false, false);
 
-        int idSocio = metodoDeSocio.obtenerCantidadSocios() + 5556;
+        int idSocio = metodoDeSocio.obtenerUltimoSocio() + 1;
         this.jLNumeroDeSocio.setText(String.valueOf(idSocio));
 
         DateTimeFormatter formatoDate = DateTimeFormatter.ofPattern("yyyy-MM-dd");
@@ -521,12 +537,13 @@ public class SocioAgregarView extends javax.swing.JInternalFrame {
     }
     private boolean camposCorrectos = false;
     private boolean campoFoto = true;
+    private Socio socio;
     private void jLAgregarMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jLAgregarMouseClicked
         camposRellenos = 0;
         try {
-            Socio socio;
-            int idSocio = metodoDeSocio.obtenerCantidadSocios() + 5556; //Ese 5556 hacer método para obtener el valor más bajo de id
 
+            int idSocio = metodoDeSocio.obtenerUltimoSocio() + 1; //Ese 5556 hacer método para obtener el valor más bajo de id
+            JOptionPane.showMessageDialog(this, idSocio);
             String apellido = controlarConfirmados(this.jTFApellido);
             String nombre = controlarConfirmados(this.jTFNombre);
             String domicilio = controlarConfirmados(this.jTFDomicilio);
@@ -549,9 +566,6 @@ public class SocioAgregarView extends javax.swing.JInternalFrame {
             String fechaDeAltaDEFAULT = formatoDEFAULT.format(fechaDeAlta);
             String fechaDeBajaDEFAULT = formatoDEFAULT.format(fechaDeBaja);
 
-            
-            
-            
             try {
                 File file = this.foto.getFile();
                 FileInputStream fis = this.foto.getFis();
@@ -567,8 +581,6 @@ public class SocioAgregarView extends javax.swing.JInternalFrame {
                 SocioTarjeta.getInstance().retrasarTemporizador(0, this.jLImagen, "");
             }
 
-            
-            
             String ruta = "./src/vistas/imagenes/foto_" + String.valueOf(idSocio);
             String fotoPerfilNombre = ruta;
 
@@ -592,14 +604,11 @@ public class SocioAgregarView extends javax.swing.JInternalFrame {
                 JOptionPane.showMessageDialog(this, "Se pudrió todo iterando en el objeto socio para ver si están todos los campos llenos");
             }
             if (camposCorrectos) {
-                metodoDeSocio.agregarSocio(socio, this.foto);
-                camposCorrectos = false;
+
             }
 
         } catch (NumberFormatException ex) {
-            //labelInformativo.setText("Debes ingresar el DNI");
-            //labelInformativo.setForeground(Color.red); 
-            //SocioTarjeta.getInstance().temporizar(labelInformativo);
+
         }
 
 
@@ -663,19 +672,51 @@ public class SocioAgregarView extends javax.swing.JInternalFrame {
         }
 
         if (camposRellenos == TOTALMENTE_RELLENADOS && campoFoto) {
-            SocioTarjeta.getInstance().temporizar(this.labelInformativo, "");
-            this.labelInformativo.setText("Socio agregado con éxito");
-            camposCorrectos = true;
-            JOptionPane.showMessageDialog(this, "Saliendo al Menú Principal", "Socio Nº " + this.jLNumeroDeSocio.getText() + " agregado!", HEIGHT, this.jLAgregar.getIcon());
-            SocioAgregarView.getInstance().setVisible(false);
+            confirmarSocio();
+
         } else {
-            
+
             this.labelInformativo.setText("Confirme todos los campos que titilan");
             this.labelInformativo.setForeground(Color.RED);
             SocioTarjeta.getInstance().temporizar(this.labelInformativo, "");
-            
+
         }
     }
+
+    private void confirmarSocio() {
+
+            if (camposRellenos == TOTALMENTE_RELLENADOS && campoFoto) {
+                SocioTarjeta.getInstance().temporizar(this.labelInformativo, "");
+                this.labelInformativo.setText("Socio Listo para confirmar");
+
+                int respuesta = JOptionPane.showConfirmDialog(this, "Confirmar al Socio y Salir al Menú Principal?", "Socio Nº " + this.jLNumeroDeSocio.getText() + " Listo para agregar!", JOptionPane.INFORMATION_MESSAGE, JOptionPane.INFORMATION_MESSAGE, this.jLAgregar.getIcon());
+                if (respuesta == 0) {
+                    metodoDeSocio.agregarSocio(socio, this.foto);
+                    Principal.getInstance().habilitarModificaciones(false, false, true);
+                    this.dispose();
+                } else if (respuesta == 1) {
+                    this.labelInformativo.setText("Socio agregado con éxito!");
+                    SocioTarjeta.getInstance().retrasarTemporizador(2500, this.labelInformativo, "");
+                    metodoDeSocio.agregarSocio(socio, this.foto);
+
+                    this.jLNumeroDeSocio.setText(String.valueOf(metodoDeSocio.obtenerUltimoSocio()+1));
+                    this.revalidate();
+                    this.repaint();
+                    resetearCampos();
+                } else {
+                    this.labelInformativo.setText("Este Socio está listo para confirmar");
+                    SocioTarjeta.getInstance().temporizar(this.labelInformativo, "");
+                }
+            } else {
+
+                this.labelInformativo.setText("Confirme todos los campos que titilan");
+                this.labelInformativo.setForeground(Color.RED);
+                SocioTarjeta.getInstance().temporizar(this.labelInformativo, "");
+            }
+
+        }
+
+    
 
     private List devolverListadoTF() {
         List<JTextField> lista = Arrays.asList(this.jTFApellido, this.jTFNombre, this.jTFDNI, this.jTFDomicilio,
@@ -742,7 +783,7 @@ public class SocioAgregarView extends javax.swing.JInternalFrame {
         cargarFotoPerfilVacio(this.jLImagen);
         SocioTarjeta.getInstance().temporizar(labelInformativo);
     }*/
-
+    public boolean impedir = true;
     private void jTFApellidoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jTFApellidoActionPerformed
         // TODO add your handling code here:
         String caracteresIngresados = darFormatoPalabras(this.jTFApellido.getText().toLowerCase(), this.jLApellido.getText());
@@ -752,9 +793,14 @@ public class SocioAgregarView extends javax.swing.JInternalFrame {
         JLabel valorMod = new JLabel();
         String valorDelCampo = caracteresIngresados;
         String campo = this.jLApellido.getText();
-
-        SocioTarjeta.getInstance().cotejarApellido(caracteresIngresados, labelInformativo, valorMod, valoresModificados,
-                valorDelCampo, campo);
+        if (!(this.jTFApellido.getText().length() == 0)) {
+            SocioTarjeta.getInstance().cotejarApellido(caracteresIngresados, labelInformativo, valorMod, valoresModificados,
+                    valorDelCampo, campo);
+        } else {
+            labelInformativo.setForeground(Color.RED);
+            labelInformativo.setText("El Apellido debe incluír letras");
+            SocioTarjeta.getInstance().temporizar(labelInformativo, "");
+        }
     }//GEN-LAST:event_jTFApellidoActionPerformed
 
     private void jTFNombreActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jTFNombreActionPerformed
@@ -767,8 +813,14 @@ public class SocioAgregarView extends javax.swing.JInternalFrame {
         String valorDelCampo = caracteresIngresados;
         String campo = this.jTFNombre.getText();
 
-        SocioTarjeta.getInstance().cotejarNombre(caracteresIngresados, labelInformativo, valorMod, valoresModificados,
-                valorDelCampo, campo);
+        if (!(this.jTFNombre.getText().length() == 0)) {
+            SocioTarjeta.getInstance().cotejarNombre(caracteresIngresados, labelInformativo, valorMod, valoresModificados,
+                    valorDelCampo, campo);
+        } else {
+            labelInformativo.setForeground(Color.RED);
+            labelInformativo.setText("El Nombre debe incluír letras");
+            SocioTarjeta.getInstance().temporizar(labelInformativo, "");
+        }
     }//GEN-LAST:event_jTFNombreActionPerformed
 
     private void jTFMailActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jTFMailActionPerformed
@@ -872,7 +924,7 @@ public class SocioAgregarView extends javax.swing.JInternalFrame {
     private void jLResetMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jLResetMouseClicked
         // TODO add your handling code here:
         int respuesta = JOptionPane.showConfirmDialog(this, "Se perderán todos los datos. Desea continuar?", "Reseteando", WIDTH, JOptionPane.PLAIN_MESSAGE, jLReset.getIcon());
-        if(respuesta == 0){
+        if (respuesta == 0) {
             resetearCampos();
         }
     }//GEN-LAST:event_jLResetMouseClicked
@@ -880,9 +932,9 @@ public class SocioAgregarView extends javax.swing.JInternalFrame {
     private void jLCancelarMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jLCancelarMouseClicked
         // TODO add your handling code here:
         int respuesta = JOptionPane.showConfirmDialog(this, "Se perderán todos los datos. Desea continuar?", "Cancelando", WIDTH, JOptionPane.PLAIN_MESSAGE, jLCancelar.getIcon());
-        
+
         if (respuesta == 0) {
-            
+
             this.dispose();
         }
         Principal.getInstance().revalidate();

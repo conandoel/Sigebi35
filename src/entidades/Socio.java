@@ -15,6 +15,7 @@ public class Socio {
     private String fotoPerfilNombre;
     private boolean estado;
     
+    
     public Socio(){}
         
     public Socio(int idSocio, String apellido, String nombre, String domicilio, int dni, String telefono, String mail, LocalDate fechaDeAlta, LocalDate fechaDeBaja, String fotoPerfilNombre, boolean estado) {

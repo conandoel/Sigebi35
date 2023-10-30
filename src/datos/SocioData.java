@@ -327,7 +327,7 @@ public class SocioData {
     }
 
     //Método utilitario para obtener la cantidad de socios
-    public int obtenerCantidadSocios() {
+    private int obtenerCantidadSocios() {
         //Esta consulta devuelve la cantidad de REGISTROS (o FILAS) de la TABLA lector
         String sql = "SELECT COUNT(*) AS total FROM lector;";
         //Se inicializa la variable que guardará la cantidad de REGISTROS
@@ -521,7 +521,11 @@ public class SocioData {
             }
 
             //el primer socio (Siempre va a ser uno) se guarda en una instancia de socio
+            try{
             socioLocal = sociosLocal.get(0);
+            }catch(IndexOutOfBoundsException ex){
+                   socioLocal = new Socio(); 
+                    }
         } catch (SQLException ex) {
 
         }
@@ -838,15 +842,10 @@ public class SocioData {
                 socioLocal.setNombre(rs.getString("nombre"));
                 socioLocal.setDomicilio(rs.getString("domicilio"));
                 socioLocal.setMail(rs.getString("mail"));
+                socioLocal.setDni(rs.getInt("dni"));
+                socioLocal.setTelefono(rs.getString("telefono"));
                 socioLocal.setFechaDeAlta(rs.getDate("fechaDeAlta").toLocalDate());
-                //Esta parte hay que arreglarla
-                //si el campo es null en la base de datos se muere
-                if (rs.getDate("fechaDeBaja") == null) {
-                    LocalDate dia = LocalDate.now();
-                    socioLocal.setFechaDeBaja(dia);
-                } else {
-                    socioLocal.setFechaDeBaja(rs.getDate("fechaDeBaja").toLocalDate());
-                }
+                socioLocal.setFechaDeBaja(rs.getDate("fechaDeBaja").toLocalDate());
                 socioLocal.setEstado(rs.getBoolean("estado"));
                 sociosLocal.add(socioLocal);
             }
@@ -858,6 +857,101 @@ public class SocioData {
 
         }
         return sociosLocal;
+    }
+    
+    
+    public int obtenerUltimoSocio(){
+        String sql = "SELECT MAX(idSocio) FROM lector;";
+        
+        System.out.println("-------------------------------------------------");
+        System.out.println("OUS: " + sql);
+        System.out.println("-------------------------------------------------");
+        int ultimoSocio = 0;
+        try {
+            Statement st = con.createStatement();
+            ResultSet rs = st.executeQuery(sql);
+            //Se obtiene la cantidad que devuelve la consulta de existir registros
+            if(rs.next()) {
+                ultimoSocio = rs.getInt(1);
+            }
+        } catch (SQLException ex) {
+            // Manejar la excepción
+        }
+
+        return ultimoSocio;
+    }
+    
+    /*private Socio obtenerSocioPorId(String idSocio){
+        String sql = "SELECT * FROM lector WHERE idSocio = " + idSocio;
+        
+        System.out.println("-------------------------------------------------");
+        System.out.println("OSPID: " + sql);
+        System.out.println("-------------------------------------------------");
+        
+        Socio socioLocal = new Socio();
+        Foto fotoLocal = new Foto();
+        
+        try {
+            Statement st = con.createStatement();
+            ResultSet rs = st.executeQuery(sql);
+            //Se obtiene la cantidad que devuelve la consulta de existir registros
+            while(rs.next()) {
+                socioLocal.setIdSocio(rs.getInt("idSocio"));
+                socioLocal.setApellido(rs.getString("apellido"));
+                socioLocal.setNombre(rs.getString("nombre"));
+                socioLocal.setDomicilio(rs.getString("domicilio"));
+                socioLocal.setMail(rs.getString("mail"));
+                socioLocal.setDni(rs.getInt("dni"));
+                socioLocal.setTelefono(rs.getString("telefono"));
+                socioLocal.setFechaDeAlta(rs.getDate("fechaDeAlta").toLocalDate());
+                socioLocal.setFechaDeBaja(rs.getDate("fechaDeBaja").toLocalDate());
+                socioLocal.setEstado(rs.getBoolean("estado"));
+                fotoLocal.setFotoPerfilNombre(rs.getString("fotoPerfilNombre"));
+                fotoLocal.setFile(rs.get("fotoPerfil"));
+            }
+        } catch (SQLException ex) {
+            // Manejar la excepción
+        }
+        //Devuelve la cantidad de REGISTROS (y por tanto SOCIOS). Si no hay devuelve 0
+        return ultimoSocio;
+        
+    }*/
+    
+    public void intercambiarIdSocio(String idSocio1, String idSocio2){
+
+        String sql1 = "ALTER TABLE lector MODIFY idSocio INT";
+        String sql2 = "SELECT fotoPerfil INTO @fotoPerfil FROM lector WHERE idSocio = " + idSocio2;
+        String sql3 = "SELECT fotoPerfil INTO @perfilFoto FROM lector WHERE idSocio = " + idSocio1;
+
+        String sql4 = "UPDATE lector SET idSocio = 1 WHERE idSocio = " + idSocio2;
+        
+        String sql5 = "UPDATE lector SET idSocio = " + idSocio2 + " WHERE idSocio = " + idSocio1;
+        String sql6 = "UPDATE lector SET fotoPerfilNombre = './src/vistas/imagenes/foto_" + idSocio1 + "' WHERE idSocio = 1 ";
+        String sql7 = "UPDATE lector SET fotoPerfil = @perfilFoto WHERE idSocio = " + idSocio2;
+        String sql8 = "UPDATE lector SET fotoPerfilNombre = './src/vistas/imagenes/foto_" + idSocio2 + "' WHERE idSocio = " + idSocio2;
+        
+        String sql9 = "UPDATE lector SET idSocio = " + idSocio1 + " WHERE idSocio = 1";
+        String sql10 = "UPDATE lector SET fotoPerfil = @fotoPerfil WHERE idSocio = " + idSocio1;
+        String sql11 = "ALTER TABLE lector MODIFY idSocio INT AUTO_INCREMENT PRIMARY KEY";
+
+        
+        try{
+            Statement st = con.createStatement();
+            st.execute(sql1);
+            st.execute(sql2);
+            st.execute(sql3);
+            st.execute(sql4);
+            st.execute(sql5);
+            st.execute(sql6);
+            st.execute(sql7);
+            st.execute(sql8);
+            st.execute(sql9);
+            st.execute(sql10);
+            st.execute(sql11);
+            con.commit();
+        }catch(SQLException ex){
+            
+        }
     }
 
 }

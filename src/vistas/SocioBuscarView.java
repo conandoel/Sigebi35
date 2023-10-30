@@ -7,7 +7,6 @@ import java.awt.FlowLayout;
 import java.awt.LayoutManager;
 import java.awt.Robot;
 import java.awt.event.KeyEvent;
-import java.util.ArrayList;
 import java.util.List;
 import javax.swing.BoxLayout;
 import javax.swing.JButton;
@@ -142,7 +141,6 @@ public class SocioBuscarView extends javax.swing.JInternalFrame {
             criterio = "NINGUNO";
             valor = "";
         }
-
         //Se envía el pedido de rediseño de TARJETAS para ver si estarán en módo "BUSCAR", "ELIMINAR", o "MODIFICAR"
         resultados = SocioTarjeta.getInstance().listarSocio(criterio, valor, EFECTO);
         //Si el valor de EFECTO es "LIMPIAR" entonces la visibilidad de las TARJETAS es false
@@ -164,15 +162,11 @@ public class SocioBuscarView extends javax.swing.JInternalFrame {
             }
         } else if (EFECTO.equals("AGREGAR")) {
 
-        } else {/*if(EFECTO.equals("FECHA")){
+        } else {
             for (SocioTarjeta resultado : resultados) {
-
-                this.jSPResultados.setVisible(true);
-                this.jSPResultados.repaint();
-                SocioBuscarView.getInstance().afectarSocio("FECHA");
-            }
-            cargarLasTarjetas();
-            */
+                    resultado.setVisible(true);
+                }
+            actualizarSeccion("MODIFICAR");
         }
 
         //Se recargan las TARJETAS
@@ -246,7 +240,7 @@ public class SocioBuscarView extends javax.swing.JInternalFrame {
 
         jLSocioBuscarCriterio.setText(" Ingrese criterio de búsqueda:");
 
-        jLSocioBuscarIngreseValor.setText("Ingrese el X:");
+        jLSocioBuscarIngreseValor.setText("Ingrese");
 
         jSPResultados.setHorizontalScrollBarPolicy(javax.swing.ScrollPaneConstants.HORIZONTAL_SCROLLBAR_NEVER);
         jSPResultados.setHorizontalScrollBar(null);
@@ -287,7 +281,7 @@ public class SocioBuscarView extends javax.swing.JInternalFrame {
             }
         });
 
-        jLFechaHasta.setText("Fecha de Alta  ");
+        jLFechaHasta.setText("Ingrese Fecha");
 
         jBFechaHasta.setFont(new java.awt.Font("Segoe UI Symbol", 1, 10)); // NOI18N
         jBFechaHasta.setText("▲");
@@ -307,13 +301,12 @@ public class SocioBuscarView extends javax.swing.JInternalFrame {
         jPanel2Layout.setHorizontalGroup(
             jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(jPanel2Layout.createSequentialGroup()
-                .addContainerGap()
-                .addComponent(jLFechaHasta, javax.swing.GroupLayout.PREFERRED_SIZE, 129, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
-            .addGroup(jPanel2Layout.createSequentialGroup()
-                .addComponent(jTFFechaHasta, javax.swing.GroupLayout.PREFERRED_SIZE, 159, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(jBFechaHasta, javax.swing.GroupLayout.PREFERRED_SIZE, 40, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addGroup(jPanel2Layout.createSequentialGroup()
+                        .addComponent(jTFFechaHasta, javax.swing.GroupLayout.PREFERRED_SIZE, 159, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addComponent(jBFechaHasta, javax.swing.GroupLayout.PREFERRED_SIZE, 40, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addComponent(jLFechaHasta, javax.swing.GroupLayout.PREFERRED_SIZE, 135, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addGap(0, 0, Short.MAX_VALUE))
         );
         jPanel2Layout.setVerticalGroup(
@@ -482,7 +475,7 @@ public class SocioBuscarView extends javax.swing.JInternalFrame {
             this.jBBuscar.setForeground(Color.BLACK);
         }
         jBFechaHasta.setVisible(false);
-        jBFechaHasta.setForeground(Color.GREEN);
+        jBFechaHasta.setForeground(new Color (0, 100, 05));
         jTFFechaHasta.setVisible(false);
         jLFechaHasta.setVisible(false);
         this.jTFSocioBuscarIngreseValor.setText("");
@@ -491,13 +484,13 @@ public class SocioBuscarView extends javax.swing.JInternalFrame {
             jTFFechaHasta.setVisible(true);
             jLFechaHasta.setVisible(true);
             jBBuscar.setText("▲");
-            jBBuscar.setForeground(Color.GREEN);
+            jBBuscar.setForeground(new Color (0, 100, 05));
             jLSocioBuscarIngreseValor.setText("Desde Fecha de Alta:");
         } else if (seleccion.equals("Estado")) {
             jCBEstado.setVisible(true);
         }
         //Se adapta el JLabel que apunta qué debe hacer el usuario. Por ejemplo "Ingrese el " + "Número de Socio":
-        jLSocioBuscarIngreseValor.setText("Ingrese el " + seleccion);
+        jLSocioBuscarIngreseValor.setText("Ingrese " + seleccion);
     }//GEN-LAST:event_jCBSocioBuscarCriterioActionPerformed
     //Método manejador del BOTÓN que realiza la confirmación de las búsquedas
     private void jBBuscarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jBBuscarActionPerformed
@@ -614,7 +607,7 @@ public class SocioBuscarView extends javax.swing.JInternalFrame {
             boton.setForeground(Color.RED);
         } else if (boton.getText().equals("▼")) {
             boton.setText("▲");
-            boton.setForeground(Color.GREEN);
+            boton.setForeground(new Color (0, 100, 05));
         }
 
         Robot robot;
@@ -827,13 +820,16 @@ public class SocioBuscarView extends javax.swing.JInternalFrame {
             }
         } else if (criterio.equals("Fecha")) {
             char c = evt.getKeyChar();
-
+            if (evt.getKeyCode() == 32 || this.jTFSocioBuscarIngreseValor.getText().length() > 10) {
+                this.jTFSocioBuscarIngreseValor.setText(this.jTFSocioBuscarIngreseValor.getText().substring(0, this.jTFSocioBuscarIngreseValor.getText().length() - 1));
+            }else if (evt.getKeyCode() == 32 || this.jTFFechaHasta.getText().length() > 10) {
+                this.jTFFechaHasta.setText(this.jTFFechaHasta.getText().substring(0, this.jTFFechaHasta.getText().length() - 1));
+            }else{
             if (Character.isDigit(c) || c == '-' || c == ' ') {
                 fechaDesde = this.jTFSocioBuscarIngreseValor.getText();
                 fechaDesde = fechaDesde.replaceAll("-", "");
                 fechaHasta = this.jTFFechaHasta.getText();
                 fechaHasta = fechaHasta.replaceAll("-", "");
-                List<SocioTarjeta> tarjetas = new ArrayList<>();
                 if (evt.getKeyCode() == 32) {
                     this.jTFSocioBuscarIngreseValor.setText(this.jTFSocioBuscarIngreseValor.getText().trim());
                     this.jTFFechaHasta.setText(this.jTFFechaHasta.getText().trim());
@@ -862,15 +858,17 @@ public class SocioBuscarView extends javax.swing.JInternalFrame {
                 this.criterio = "rango_fechas";
                 this.valor = ""; //ESTO ES PARA MANEJAR EL ESTADO. AGREGAR A LA VISTA SI QUIERE QUE SEAN SOCIOS O TODOS
                 criterio = "rango_fechas";
-                resultados = SocioTarjeta.getInstance().listarSocio(criterio, "", "FECHA");
+                if (this.jTFSocioBuscarIngreseValor.getText().length() <= 10) {
+                resultados = SocioTarjeta.getInstance().listarSocio(criterio, "", "BUSCAR");
 
                 for (SocioTarjeta resultado : resultados) {
                     resultado.setVisible(true);
                 }
                 cargarLasTarjetas();
                 resultados.clear();
+                }
             } else {
-                if (this.jTFSocioBuscarIngreseValor.getText().length() <= 11 && this.jTFFechaHasta.getText().length() <= 11 && !(evt.getKeyCode() == 8) && evt.getKeyCode() != KeyEvent.VK_SHIFT) {
+                if ((this.jTFSocioBuscarIngreseValor.getText().length() >= 10 || this.jTFFechaHasta.getText().length() >= 10) && !(evt.getKeyCode() == 8) && evt.getKeyCode() != KeyEvent.VK_SHIFT) {
                     JTextField field = (JTextField) evt.getSource();
                     //Se obtiene el texto del textfield
                     String texto = field.getText();
@@ -883,7 +881,7 @@ public class SocioBuscarView extends javax.swing.JInternalFrame {
                     field.setText(texto);
                 }
             }
-
+            }
         }
     }
 

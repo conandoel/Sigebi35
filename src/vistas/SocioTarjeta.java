@@ -162,7 +162,6 @@ public class SocioTarjeta extends javax.swing.JPanel {
     private final Image eliminar = new ImageIcon(getClass().getResource("/vistas/imagenes/eliminar.png")).getImage();
 
     //Esto es un Override de paintComponent del JPanel SocioTarjeta para darle color
-    
     @Override
     protected void paintComponent(Graphics g) {
         super.paintComponent(g);
@@ -273,7 +272,7 @@ public class SocioTarjeta extends javax.swing.JPanel {
             criterio = criterio.toLowerCase();
         }
 
-        if (!EFECTO.equals("FECHA")) {
+        if (!criterio.equals("rango_fechas")) {
 //Se itera por la LISTA de nombres de columnas de la TABLA lector y compara el valor de criterio con alguna de las columnas de lector 
             for (String columna : columnas) {
                 //Al encontrar coincidencia se llama al método buscarHistorialSocios de SocioData, el cual devuelve a todos los SOCIOS ya sean activos o no y lo guarda en la LISTA socios
@@ -292,22 +291,9 @@ public class SocioTarjeta extends javax.swing.JPanel {
             String fechaHasta = SocioBuscarView.getInstance().getFechaHasta();
             String estado = SocioBuscarView.getInstance().getCBEstado();
             if (criterio.equals("rango_fechas") || criterio.equals("FECHA")) {
-                switch (Principal.getInstance().getAfectador()) {
-                    case "MODIFICAR":
-                        EFECTO = "MODIFICAR";
-                        break;
-                    case "ELIMINAR":
-                        EFECTO = "ELIMINAR";
-                        break;
-                    case "BUSCAR":
-                        EFECTO = "BUSCAR";
-                        break;
-                    default:
-                        break;
-                }
+
                 socios = metodoDeSocio.obtenerRangoFechas(fechaDesde, fechaHasta, criterio1, criterio2, estado);
 
-                
             } else {
                 socios = metodoDeSocio.obtenerFechas(valor, criterio);
                 EFECTO = "BUSCAR";
@@ -352,7 +338,7 @@ public class SocioTarjeta extends javax.swing.JPanel {
             int fechaDeBAJA = Integer.parseInt(fechaBaja);
 
             if (socio.isEstado() && fechaDeBAJA > fechaActual) {
-                tarjeta.jLFechaDeBaja.setForeground(Color.GREEN);
+                tarjeta.jLFechaDeBaja.setForeground(new Color(0, 100, 05));
             } else {
                 tarjeta.jLFechaDeBaja.setForeground(Color.RED);
             }
@@ -392,7 +378,7 @@ public class SocioTarjeta extends javax.swing.JPanel {
             NroX++;
         }
         //Finalmente el método devuelve la LISTA con todas las TARJETAS rellenadas
-        
+
         return tarjetas;
     }
 
@@ -650,7 +636,7 @@ public class SocioTarjeta extends javax.swing.JPanel {
                                     .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                                         .addComponent(jLEmail, javax.swing.GroupLayout.PREFERRED_SIZE, 214, javax.swing.GroupLayout.PREFERRED_SIZE)
                                         .addComponent(jLDomicilio, javax.swing.GroupLayout.PREFERRED_SIZE, 214, javax.swing.GroupLayout.PREFERRED_SIZE)))))
-                        .addGap(0, 0, Short.MAX_VALUE))
+                        .addGap(0, 62, Short.MAX_VALUE))
                     .addGroup(layout.createSequentialGroup()
                         .addContainerGap()
                         .addComponent(jLABM, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
@@ -773,8 +759,6 @@ public class SocioTarjeta extends javax.swing.JPanel {
 
                             this.jLABM.setText("Se ha anulado la Baja del Socio debido a préstamos pendientes");
                             temporizar(this.jLABM, "E");
-                            //this.jLABM.setText("Clickee en el ícono para eliminar");
-                            //retrasarTemporizador(1500, this.jLABM, "E");
 
                         } else {
                             int respuesta = JOptionPane.showConfirmDialog(this, "Está seguro que quiere dar de baja al Socio?", "Baja de Socio Nº " + this.jLNumeroDeSocio.getText(), WIDTH, JOptionPane.PLAIN_MESSAGE, this.jLFoto.getIcon());
@@ -802,7 +786,7 @@ public class SocioTarjeta extends javax.swing.JPanel {
                                 String valorBusqueda = SocioBuscarView.getInstance().getValor();
 
                                 metodoDeSocio.modificarFecha(fechaActualDeBaja, "fechaDeBaja", this.jLEfecto.getText(), criterioBusqueda, valorBusqueda);
-                                metodoDeSocio.modificarSocio("E", this.jLNumeroDeSocio.getText(), "Número de Socio", this.jLNumeroDeSocio.getText());
+                                metodoDeSocio.modificarSocio("E", "0", "Número de Socio", this.jLNumeroDeSocio.getText());
 
                                 this.jLABM.setText("El Socio ha sido dado de Baja");
                                 temporizar(this.jLABM, "E");
@@ -1092,7 +1076,7 @@ public class SocioTarjeta extends javax.swing.JPanel {
 
             this.add(jCBEstado);
             this.jCBEstado.requestFocus(true);
-            jLabel.setForeground(Color.GREEN);
+            jLabel.setForeground(new Color(0, 100, 05));
             placeh = jLabel.getText();
 
             this.repaint();
@@ -1103,7 +1087,7 @@ public class SocioTarjeta extends javax.swing.JPanel {
             this.add(jTFSocioMod);
             this.jTFSocioMod.requestFocus(true);
 
-            jLabel.setForeground(Color.GREEN);
+            jLabel.setForeground(new Color(0, 100, 05));
             placeh = jLabel.getText();
 
             this.repaint();
@@ -1269,33 +1253,71 @@ public class SocioTarjeta extends javax.swing.JPanel {
             switch (campo) {
                 case "Socio número:":
                     //Se pone dentro de un try para manejar la excepción de que pongan letras en lugar de números y para ello creamos una variable entera (Puede mejorarse el nombre)
-                    int forzarNullPointerException;
-                    valorDelCampo = caracteresIngresados;
-                    labelInformativo.setText("El Número de socio ha sido modificado correctamente");
-                    try {
-                        //Si la cantidad de caracteres es igual a 4 (ESTO ES SÓLO PARA EL NÚMEO DE SOCIO)
-                        switch (cantidadDeCaracteres) {
-                            case 4:
-                                //Se fuerza la excepción pasando a entero el número ingresado como cadena
-                                forzarNullPointerException = Integer.parseInt(valorDelCampo);
-                                //Si no hay NumberFormatException entonces se establece en el JLabel a MODIFICAR el valor String del número de socio y luego se quita de pantalla el JTextField
-                                valorMod.setText(Integer.toString(forzarNullPointerException));
-                                valoresModificados.setVisible(false);
-                                //Si se ha apretado ENTER y dentro del JTextField no hay nada, entonces se establece el valor previo y luego se quita de pantalla el JTextField
-                                break;
-                            case 0:
-                                valorMod.setText(placeholder);
-                                valoresModificados.setVisible(false);
-                                break;
-                            default:
-                                //Si se presiona ENTER y no es ni 0 ni 4 la cantidad de caracteres en el JTextField, entonces se informa en un JLabel la situación
-                                labelInformativo.setText("Debe ser un número entero de 4 cifras");
-                                break;
-                        }
-                    } catch (NumberFormatException ex) {
-                        //Se maneja la excepción utilizando un JLabel
-                        labelInformativo.setText("Se han ingresado caracteres no válidos");
+
+                    int forzarNumberFormatException = 0;
+                    //Si la cantidad de caracteres es igual a 4 (ESTO ES SÓLO PARA EL NÚMEO DE SOCIO)
+                    switch (cantidadDeCaracteres) {
+                        case 4:
+                            //Se fuerza la excepción pasando a entero el número ingresado como cadena
+                            try {
+                                forzarNumberFormatException = Integer.parseInt(valorDelCampo);
+                            } catch (NumberFormatException ex) {
+                                //Se maneja la excepción utilizando un JLabel
+                                labelInformativo.setText("Se han ingresado caracteres no válidos");
+                            }
+                            int idDado = Integer.parseInt(valoresModificados.getText());
+                            int maximo = metodoDeSocio.obtenerUltimoSocio();
+                            int minimo = 5555;
+                            
+                            
+                            if (idDado > minimo && idDado <= maximo) {
+                                if(idDado != Integer.parseInt(placeholder)){
+                                
+                                
+                                int swap = JOptionPane.showConfirmDialog(this, "Intercambiar ID de Socios?");
+                                if (swap == 0) {
+                                    String rutaCambiante = "./src/vistas/imagenes/foto_" + placeholder + ".jpg";
+                                    String rutaObjetivo = "./src/vistas/imagenes/foto_" + caracteresIngresados + ".jpg";
+                                    String rutaTemporal = "./src/vistas/imagenes/foto_" + caracteresIngresados + "_temporal.jpg";
+
+                                    File fotoCambiante = new File(rutaCambiante);
+                                    File fotoObjetivo = new File(rutaObjetivo);
+                                    File fotoTemporal = new File(rutaTemporal);
+
+                                    fotoCambiante.renameTo(fotoTemporal);
+                                    fotoObjetivo.renameTo(fotoCambiante);
+                                    fotoTemporal.renameTo(fotoObjetivo);
+                                    fotoCambiante.renameTo(fotoObjetivo);
+
+                                    metodoDeSocio.intercambiarIdSocio(placeholder, caracteresIngresados);
+                                    valorDelCampo = caracteresIngresados;
+                                    labelInformativo.setText("El Número de socio ha sido modificado correctamente");
+                                    this.temporizar(labelInformativo, "M");
+                                    //Si no hay NumberFormatException entonces se establece en el JLabel a MODIFICAR el valor String del número de socio y luego se quita de pantalla el JTextField
+                                    valorMod.setText(String.valueOf(idDado));
+                                    valoresModificados.setVisible(false);
+                                    //Si se ha apretado ENTER y dentro del JTextField no hay nada, entonces se establece el valor previo y luego se quita de pantalla el JTextField
+                                } else {
+                                    labelInformativo.setText("Se debe ingresar un ID diferente");
+                                    temporizar(labelInformativo, "M");
+                                }
+                            }
+                            } else {
+                                labelInformativo.setText("Se debe ingresar un ID entre " + minimo + " y " + maximo);
+                                temporizar(labelInformativo, "M");
+                            }
+
+                            break;
+                        case 0:
+                            valorMod.setText(placeholder);
+                            valoresModificados.setVisible(false);
+                            break;
+                        default:
+                            //Si se presiona ENTER y no es ni 0 ni 4 la cantidad de caracteres en el JTextField, entonces se informa en un JLabel la situación
+                            labelInformativo.setText("Debe ser un número entero de 4 cifras");
+                            break;
                     }
+
                     break;
                 //Si la tecla presionada es ENTER
                 case "Apellido:":
@@ -1540,7 +1562,7 @@ public class SocioTarjeta extends javax.swing.JPanel {
                                         valorMod.setVisible(true);
                                         metodoDeSocio.eliminarSocio("M", soloMod, "fechaDeBaja", fechaDB, this.jLNumeroDeSocio.getText());
                                         labelInformativo.setText("La Fecha de Baja ha sido modificado correctamente");
-                                        labelInformativo.setForeground(Color.GREEN);
+                                        labelInformativo.setForeground(new Color(0, 100, 05));
                                         if (this.jLEstado.getText().equals("Desasociado")) {
                                             this.jLEstado.setText("Socio Activo");
                                             metodoDeSocio.eliminarSocio("M", this.jLNumeroDeSocio.getText(), this.jLEst.getText().replace(":", ""), "1", this.jLNumeroDeSocio.getText());
@@ -1554,7 +1576,7 @@ public class SocioTarjeta extends javax.swing.JPanel {
                                             valorMod.setVisible(true);
                                             metodoDeSocio.eliminarSocio("M", soloMod, "fechaDeBaja", fechaDB, this.jLNumeroDeSocio.getText());
                                             labelInformativo.setText("La Fecha de Baja ha sido modificado correctamente");
-                                            labelInformativo.setForeground(Color.GREEN);
+                                            labelInformativo.setForeground(new Color(0, 100, 05));
                                             if (this.jLEstado.getText().equals("Desasociado")) {
                                                 this.jLEstado.setText("Socio Activo");
                                                 metodoDeSocio.eliminarSocio("M", this.jLNumeroDeSocio.getText(), this.jLEst.getText().replace(":", ""), "1", this.jLNumeroDeSocio.getText());
@@ -1609,7 +1631,7 @@ public class SocioTarjeta extends javax.swing.JPanel {
                                                     valorMod.setVisible(true);
                                                     metodoDeSocio.eliminarSocio("M", soloMod, "fechaDeBaja", fechaDB, this.jLNumeroDeSocio.getText());
                                                     labelInformativo.setText("La Fecha de Baja ha sido modificado correctamente");
-                                                    labelInformativo.setForeground(Color.GREEN);
+                                                    labelInformativo.setForeground(new Color(0, 100, 05));
                                                     if (this.jLEstado.getText().equals("Socio Activo")) {
                                                         this.jLEstado.setText("Desasociado");
                                                         metodoDeSocio.eliminarSocio("M", this.jLNumeroDeSocio.getText(), this.jLEst.getText().replace(":", ""), "0", this.jLNumeroDeSocio.getText());
@@ -1626,7 +1648,7 @@ public class SocioTarjeta extends javax.swing.JPanel {
                                             valorMod.setVisible(true);
                                             metodoDeSocio.eliminarSocio("M", soloMod, "fechaDeBaja", fechaDB, this.jLNumeroDeSocio.getText());
                                             labelInformativo.setText("La Fecha de Baja ha sido modificado correctamente");
-                                            labelInformativo.setForeground(Color.GREEN);
+                                            labelInformativo.setForeground(new Color(0, 100, 05));
                                             if (this.jLEstado.getText().equals("Desasociado")) {
                                                 this.jLEstado.setText("Socio Activo");
                                                 metodoDeSocio.eliminarSocio("M", this.jLNumeroDeSocio.getText(), this.jLEst.getText().replace(":", ""), "1", this.jLNumeroDeSocio.getText());
@@ -1640,12 +1662,12 @@ public class SocioTarjeta extends javax.swing.JPanel {
                                         valorMod.setVisible(true);
                                         metodoDeSocio.eliminarSocio("M", soloMod, "fechaDeBaja", fechaDB, this.jLNumeroDeSocio.getText());
                                         labelInformativo.setText("La Fecha de Baja ha sido modificado correctamente");
-                                        labelInformativo.setForeground(Color.GREEN);
+                                        labelInformativo.setForeground(new Color(0, 100, 05));
                                         if (this.jLEstado.getText().equals("Desasociado")) {
                                             this.jLEstado.setText("Socio Activo");
                                             metodoDeSocio.eliminarSocio("M", this.jLNumeroDeSocio.getText(), this.jLEst.getText().replace(":", ""), "1", this.jLNumeroDeSocio.getText());
                                         }
-                                        this.jLEstado.setForeground(Color.GREEN);
+                                        this.jLEstado.setForeground(new Color(0, 100, 05));
                                         temporizar(labelInformativo, "M");
                                     }
                                 }
@@ -1697,7 +1719,7 @@ public class SocioTarjeta extends javax.swing.JPanel {
                                                     valorMod.setVisible(true);
                                                     metodoDeSocio.eliminarSocio("M", soloMod, "fechaDeBaja", fechaDB, this.jLNumeroDeSocio.getText());
                                                     labelInformativo.setText("La Fecha de Baja ha sido modificado correctamente");
-                                                    labelInformativo.setForeground(Color.GREEN);
+                                                    labelInformativo.setForeground(new Color(0, 100, 05));
                                                     if (this.jLEstado.getText().equals("Socio Activo")) {
                                                         this.jLEstado.setText("Desasociado");
                                                         metodoDeSocio.eliminarSocio("M", this.jLNumeroDeSocio.getText(), this.jLEst.getText().replace(":", ""), "0", this.jLNumeroDeSocio.getText());
@@ -1745,7 +1767,7 @@ public class SocioTarjeta extends javax.swing.JPanel {
                                                         valorMod.setVisible(true);
                                                         metodoDeSocio.eliminarSocio("M", soloMod, "fechaDeBaja", fechaDB, this.jLNumeroDeSocio.getText());
                                                         labelInformativo.setText("La Fecha de Baja ha sido modificado correctamente");
-                                                        labelInformativo.setForeground(Color.GREEN);
+                                                        labelInformativo.setForeground(new Color(0, 100, 05));
                                                         if (this.jLEstado.getText().equals("Socio Activo")) {
                                                             this.jLEstado.setText("Desasociado");
                                                             metodoDeSocio.eliminarSocio("M", this.jLNumeroDeSocio.getText(), this.jLEst.getText().replace(":", ""), "0", this.jLNumeroDeSocio.getText());
@@ -1802,7 +1824,7 @@ public class SocioTarjeta extends javax.swing.JPanel {
                                                     valorMod.setVisible(true);
                                                     metodoDeSocio.eliminarSocio("M", soloMod, "fechaDeBaja", fechaDB, this.jLNumeroDeSocio.getText());
                                                     labelInformativo.setText("La Fecha de Baja ha sido modificado correctamente");
-                                                    labelInformativo.setForeground(Color.GREEN);
+                                                    labelInformativo.setForeground(new Color(0, 100, 05));
                                                     if (this.jLEstado.getText().equals("Socio Activo")) {
                                                         this.jLEstado.setText("Desasociado");
                                                         metodoDeSocio.eliminarSocio("M", this.jLNumeroDeSocio.getText(), this.jLEst.getText().replace(":", ""), "0", this.jLNumeroDeSocio.getText());
@@ -1864,7 +1886,7 @@ public class SocioTarjeta extends javax.swing.JPanel {
                         //En este case se cerciora que la cantidad de caracteres no sea mayor a 4 forzando un borrado del quinto caracter y enviando un molesto aviso de JOptionPane
                         case 5:
                             valoresModificados.setText(caracteresIngresados.substring(0, 4));
-                            int socioMayor = metodoDeSocio.obtenerCantidadSocios() + 1;
+                            int socioMayor = metodoDeSocio.obtenerUltimoSocio() + 1;
                             JOptionPane.showMessageDialog(this, "No se admite un número mayor a: " + socioMayor); //Aquí hay que chequear con la BASE DE DATOS cuál es el último idSocio
                             controlarENTER = false;
                             this.repaint();
@@ -2172,7 +2194,7 @@ public class SocioTarjeta extends javax.swing.JPanel {
                     valoresModificados.setForeground(Color.CYAN);
                 }
                 labelInformativo.setText("El Apellido ha sido ingresado correctamente");
-                labelInformativo.setForeground(Color.GREEN);
+                labelInformativo.setForeground(new Color(0, 100, 05));
                 temporizar(labelInformativo, "M");
             }
         }
@@ -2196,7 +2218,7 @@ public class SocioTarjeta extends javax.swing.JPanel {
                 valoresModificados.setForeground(Color.CYAN);
             }
             labelInformativo.setText("El Nombre ha sido ingresado correctamente");
-            labelInformativo.setForeground(Color.GREEN);
+            labelInformativo.setForeground(new Color(0, 100, 05));
             temporizar(labelInformativo, "M");
         }
     }
@@ -2219,7 +2241,7 @@ public class SocioTarjeta extends javax.swing.JPanel {
                 valoresModificados.setForeground(Color.CYAN);
             }
             labelInformativo.setText("El Domicilio ha sido ingresado correctamente");
-            labelInformativo.setForeground(Color.GREEN);
+            labelInformativo.setForeground(new Color(0, 100, 05));
             temporizar(labelInformativo, "M");
         }
     }
@@ -2243,7 +2265,7 @@ public class SocioTarjeta extends javax.swing.JPanel {
                     valoresModificados.setForeground(Color.CYAN);
                 }
                 labelInformativo.setText("El DNI ha sido ingresado correctamente");
-                labelInformativo.setForeground(Color.GREEN);
+                labelInformativo.setForeground(new Color(0, 100, 05));
                 temporizar(labelInformativo, "M");
             }
         } else {
@@ -2262,7 +2284,7 @@ public class SocioTarjeta extends javax.swing.JPanel {
                     valoresModificados.setForeground(Color.CYAN);
                 }
                 labelInformativo.setText("El DNI ha sido ingresado correctamente");
-                labelInformativo.setForeground(Color.GREEN);
+                labelInformativo.setForeground(new Color(0, 100, 05));
                 temporizar(labelInformativo, "M");
             }
         }
@@ -2286,7 +2308,7 @@ public class SocioTarjeta extends javax.swing.JPanel {
                 valoresModificados.setForeground(Color.CYAN);
             }
             labelInformativo.setText("El Teléfono ha sido ingresado correctamente");
-            labelInformativo.setForeground(Color.GREEN);
+            labelInformativo.setForeground(new Color(0, 100, 05));
             temporizar(labelInformativo, "M");
         }
     }
@@ -2308,8 +2330,8 @@ public class SocioTarjeta extends javax.swing.JPanel {
             } else {
                 valoresModificados.setForeground(Color.CYAN);
             }
-            labelInformativo.setText("El E-Mail ha sido ingresado ncorrectamente");
-            labelInformativo.setForeground(Color.GREEN);
+            labelInformativo.setText("El E-Mail ha sido ingresado correctamente");
+            labelInformativo.setForeground(new Color(0, 100, 05));
             temporizar(labelInformativo, "M");
         }
     }
@@ -2331,8 +2353,8 @@ public class SocioTarjeta extends javax.swing.JPanel {
             } else {
                 valoresModificados.setForeground(Color.CYAN);
             }
-            labelInformativo.setText("La fecha ha sido ingresada\ncorrectamente");
-            labelInformativo.setForeground(Color.GREEN);
+            labelInformativo.setText("Fecha ingresada correctamente");
+            labelInformativo.setForeground(new Color(0, 100, 05));
             temporizar(labelInformativo, "M");
         }
     }
@@ -2354,8 +2376,8 @@ public class SocioTarjeta extends javax.swing.JPanel {
             } else {
                 valoresModificados.setForeground(Color.CYAN);
             }
-            labelInformativo.setText("La fecha ha sido ingresada\ncorrectamente");
-            labelInformativo.setForeground(Color.GREEN);
+            labelInformativo.setText("Fecha ingresada correctamente");
+            labelInformativo.setForeground(new Color(0, 100, 05));;
             temporizar(labelInformativo, "M");
         }
     }
