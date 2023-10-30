@@ -6,6 +6,8 @@ import java.awt.Container;
 import java.awt.FlowLayout;
 import java.awt.LayoutManager;
 import java.awt.Robot;
+import java.awt.event.AdjustmentEvent;
+import java.awt.event.AdjustmentListener;
 import java.awt.event.KeyEvent;
 import java.util.List;
 import javax.swing.BoxLayout;
@@ -13,12 +15,13 @@ import javax.swing.JButton;
 import javax.swing.JLabel;
 import javax.swing.JTextField;
 import javax.swing.plaf.basic.BasicInternalFrameUI;
+import javax.swing.JScrollBar;
 
 public class SocioBuscarView extends javax.swing.JInternalFrame {
 
     //Se crea un ArrayList de tipo String que contiene el criterio de búsqueda para rellenar JLabel sobre el campo de texto de la VISTA BUSCAR SOCIO
     private final String[] criteriosDeBusqueda
-            = {"Número de Socio", "Apellido", "Nombre", "Domicilio", "DNI", "Teléfono", "Mail", "Fecha de Alta", "Fecha de Baja", "Estado", "Fecha"};
+            = {"Número de Socio", "Apellido", "Nombre", "Domicilio", "DNI", "Teléfono", "Mail"/*, "Fecha de Alta", "Fecha de Baja", "Estado"*/, "Fecha"};
     //Se declara un List para guardar las TARJETAS
     private List<SocioTarjeta> resultados;
     //Se declara una instancia de la TARJETA
@@ -43,9 +46,16 @@ public class SocioBuscarView extends javax.swing.JInternalFrame {
         Container pane = ((BasicInternalFrameUI) this.getUI()).getNorthPane();
         // Eliminar el botón del menú
         pane.remove(0);
+        tarjetasScroll = this.jSPResultados.getVerticalScrollBar();
+        tarjetasScroll.addAdjustmentListener(new AdjustmentListener(){
+        @Override
+        public void adjustmentValueChanged(AdjustmentEvent e){
+            int valorScroll = e.getValue();
+        }
+    });
 
     }
-    
+    public JScrollBar tarjetasScroll;
     
     //Getter para revisar el valor dado en la búsqueda
     public String getValor() {
@@ -131,7 +141,7 @@ public class SocioBuscarView extends javax.swing.JInternalFrame {
     }
 
     private int activarEliminar = 0;
-
+    private int valorScroll = 0;
     //Método que comunica criterio y valor elegido en la VISTA para ser utilizado por el método listarSocio para crear las TARJETAS.
     public void afectarSocio(String EFECTO) {
         if (criterio == null) {
@@ -141,6 +151,10 @@ public class SocioBuscarView extends javax.swing.JInternalFrame {
             criterio = "NINGUNO";
             valor = "";
         }
+        valorScroll = this.tarjetasScroll.getValue();
+        
+            
+ 
         //Se envía el pedido de rediseño de TARJETAS para ver si estarán en módo "BUSCAR", "ELIMINAR", o "MODIFICAR"
         resultados = SocioTarjeta.getInstance().listarSocio(criterio, valor, EFECTO);
         //Si el valor de EFECTO es "LIMPIAR" entonces la visibilidad de las TARJETAS es false
@@ -172,6 +186,7 @@ public class SocioBuscarView extends javax.swing.JInternalFrame {
         //Se recargan las TARJETAS
         cargarLasTarjetas();
         resultados.clear();
+        this.tarjetasScroll.setValue(valorScroll);
     }
 
     //Método para modificar la VISTA SocioBuscarView para que se adapte al modo "BUSCAR", "ELIMINAR", o "MODIFICAR"

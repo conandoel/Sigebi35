@@ -543,7 +543,6 @@ public class SocioAgregarView extends javax.swing.JInternalFrame {
         try {
 
             int idSocio = metodoDeSocio.obtenerUltimoSocio() + 1; //Ese 5556 hacer método para obtener el valor más bajo de id
-            JOptionPane.showMessageDialog(this, idSocio);
             String apellido = controlarConfirmados(this.jTFApellido);
             String nombre = controlarConfirmados(this.jTFNombre);
             String domicilio = controlarConfirmados(this.jTFDomicilio);
