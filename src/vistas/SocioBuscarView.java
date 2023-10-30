@@ -484,10 +484,22 @@ public class SocioBuscarView extends javax.swing.JInternalFrame {
         String seleccion = jCBSocioBuscarCriterio.getSelectedItem().toString();
         if (seleccion.equals("Fecha")) {
             this.jBBuscar.setEnabled(true);
-        } else {
+            this.jTFSocioBuscarIngreseValor.setEnabled(true);
+        } else if(seleccion.equals("Estado")){
+            this.jTFSocioBuscarIngreseValor.setEnabled(false);
+            jTFFechaHasta.setVisible(false);
+            jLFechaHasta.setVisible(false);
+            jBFechaHasta.setVisible(false);
             this.jBBuscar.setEnabled(false);
             this.jBBuscar.setText("⦿");
             this.jBBuscar.setForeground(Color.BLACK);
+            criterio="estado";
+            valor="";
+        }else {
+            this.jBBuscar.setEnabled(false);
+            this.jBBuscar.setText("⦿");
+            this.jBBuscar.setForeground(Color.BLACK);
+            this.jTFSocioBuscarIngreseValor.setEnabled(true);
         }
         jBFechaHasta.setVisible(false);
         jBFechaHasta.setForeground(new Color (0, 100, 05));
@@ -823,7 +835,7 @@ public class SocioBuscarView extends javax.swing.JInternalFrame {
                         SocioTarjeta.getInstance().noEnterFecha(this.jLInfo, valorMod, evt);
                     }
                     if (this.jTFSocioBuscarIngreseValor.getText().length() <= 10) {
-                        resultados = SocioTarjeta.getInstance().listarSocio(criterio, fechaIngresada, "FECHA");
+                        resultados = SocioTarjeta.getInstance().listarSocio(criterio, fechaIngresada, "BUSCAR");
                         for (SocioTarjeta resultado : resultados) {
                             resultado.setVisible(true);
                         }
