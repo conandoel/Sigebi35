@@ -327,6 +327,7 @@ public class LibroModificarView extends javax.swing.JInternalFrame {
                 
                 if(libro.getCantEjemplares() < 1){
                     if(apertura == 0){
+                        jlbCambio.setVisible(true);
                         jlbCambio.setForeground(Color.BLUE);
                         jlbCambio.setText("La cantidad de Ejemplares debe ser mayor a 0");
                     }else{
