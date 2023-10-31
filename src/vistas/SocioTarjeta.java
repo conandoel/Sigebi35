@@ -160,6 +160,9 @@ public class SocioTarjeta extends javax.swing.JPanel {
     //Estas son los dos Íconos que aparecen en las TARJETAS para MODIFICAR y ELIMINAR
     private final Image modificar = new ImageIcon(getClass().getResource("/vistas/imagenes/modificar.png")).getImage();
     private final Image eliminar = new ImageIcon(getClass().getResource("/vistas/imagenes/eliminar.png")).getImage();
+    private final Image normal = new ImageIcon(getClass().getResource("/vistas/imagenes/normal.jpg")).getImage();
+    private final Image retraso = new ImageIcon(getClass().getResource("/vistas/imagenes/retraso.jpg")).getImage();
+    private final Image demora = new ImageIcon(getClass().getResource("/vistas/imagenes/demora.jpg")).getImage();
 
     //Esto es un Override de paintComponent del JPanel SocioTarjeta para darle color
     @Override
@@ -240,12 +243,15 @@ public class SocioTarjeta extends javax.swing.JPanel {
         }
     }
     private int controlador = 0;
+    private boolean demorado = false;
+    private boolean hoy = false;
+    private boolean bien = false;
 
     //Método que devuelve un LISTADO de OBJETOS tipo SocioTarjeta (TARJETAS). Pide criterio (Si es por Nombre, por Estado, etc), pide valor ("Juan", "Activo", etc), y EFECTO (NADA, MODIFICAR y ELIMINAR)
     public List<SocioTarjeta> listarSocio(String criterio, String valor, String EFECTO) {
         //Llama al método actualizarSeccion y pasa como argumento el EFECTO utilizando el PATRÓN DE DISEÑO Singleton
         SocioBuscarView.getInstance().actualizarSeccion(EFECTO);
-        
+
         //Se crean ArrayList utilizando los argumentos de clase. Son tipo Socio, String, y SocioTarjeta
         socios = new ArrayList<>();
         columnas = new ArrayList<>();
@@ -270,7 +276,7 @@ public class SocioTarjeta extends javax.swing.JPanel {
             //Si no es "Número de Socio" el criterio, entonces se pasa a minúsculas. Por ejemplo "Estado" pasará a ser "estado" para poder ser comparado con el nombre de la columna en la BASE DE DATOS
             criterio = criterio.toLowerCase();
         }
-        
+
         if (!criterio.equals("rango_fechas")) {
 //Se itera por la LISTA de nombres de columnas de la TABLA lector y compara el valor de criterio con alguna de las columnas de lector 
             for (String columna : columnas) {
@@ -298,7 +304,6 @@ public class SocioTarjeta extends javax.swing.JPanel {
                 EFECTO = "BUSCAR";
             }
         }
-      
 
         if (EFECTO.equals("AGREGAR")) {
             SocioTarjeta tarjeta = new SocioTarjeta();
@@ -370,6 +375,53 @@ public class SocioTarjeta extends javax.swing.JPanel {
 
             //Según el EFECTO que fue pasado como argumento al llamar a este método se realizan acciones en consecuencia
             establecerIconos(EFECTO, tarjeta, NroX);
+            PrestamoData pd = new PrestamoData();
+
+            
+            if (socio.isEstado()) {
+                int idSocioE = Integer.parseInt(tarjeta.jLNumeroDeSocio.getText());
+
+                prestamos = metodoDePrestamo.listarPrestamosSuperCargado(idSocioE);
+                if (!prestamos.isEmpty()) {
+
+                    for (Prestamo prestamo : prestamos) {
+                        int devolucion = LocalDate.now().compareTo(prestamo.getFechaFin());
+                        tarjeta.jLPrestamo.setSize(30, 10);
+                        tarjeta.jLPrestamo.setText(String.valueOf(prestamo.getIdPrestamo()));
+                        if (devolucion < 0) {
+                            bien = true;
+                        } else if (devolucion > 0) {
+                            demorado = true;
+                        } else {
+                            hoy = true;
+                        }
+
+                        if (demorado) {
+                            Image dDemora = demora.getScaledInstance(tarjeta.jLPrestamo.getWidth(), tarjeta.jLPrestamo.getHeight(), Image.SCALE_SMOOTH);
+                            ImageIcon iconDemora = new ImageIcon(dDemora);
+                            tarjeta.jLPrestamo.setIcon(iconDemora);
+                        } else if (hoy) {
+                            Image dRetraso = retraso.getScaledInstance(tarjeta.jLPrestamo.getWidth(), tarjeta.jLPrestamo.getHeight(), Image.SCALE_SMOOTH);
+                            ImageIcon iconRetraso = new ImageIcon(dRetraso);
+                            tarjeta.jLPrestamo.setIcon(iconRetraso);
+                        } else if (bien) {
+                            Image dNormal = normal.getScaledInstance(tarjeta.jLPrestamo.getWidth(), tarjeta.jLPrestamo.getHeight(), Image.SCALE_SMOOTH);
+                            ImageIcon iconNormal = new ImageIcon(dNormal);
+                            tarjeta.jLPrestamo.setIcon(iconNormal);
+                        }
+
+                    }
+                    //Image libro = new ImageIcon(getClass().getResource("/vistas/libros/" + isbn + ".jpg")).getImage();
+
+                } else {
+                    tarjeta.jLPrestamo.setVisible(false);
+                }
+
+            }
+
+            bien = false;
+            hoy = false;
+            demorado = false;
 
             //La tarjeta ya rellenada con los datos se agrega a la LISTA tarjetas
             tarjetas.add(tarjeta);
@@ -459,6 +511,7 @@ public class SocioTarjeta extends javax.swing.JPanel {
         jLDNI = new javax.swing.JLabel();
         jLTel = new javax.swing.JLabel();
         jLTelefono = new javax.swing.JLabel();
+        jLPrestamo = new javax.swing.JLabel();
 
         jLNumSocio.setForeground(new java.awt.Color(102, 102, 102));
         jLNumSocio.setText("Socio número:");
@@ -578,6 +631,12 @@ public class SocioTarjeta extends javax.swing.JPanel {
         jLTelefono.setFont(new java.awt.Font("Yu Gothic UI Semilight", 1, 12)); // NOI18N
         jLTelefono.setText("3413208245");
 
+        jLPrestamo.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                jLPrestamoMouseClicked(evt);
+            }
+        });
+
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(this);
         this.setLayout(layout);
         layout.setHorizontalGroup(
@@ -600,43 +659,44 @@ public class SocioTarjeta extends javax.swing.JPanel {
                                 .addContainerGap()
                                 .addComponent(jLNumSocio)))
                         .addGap(16, 16, 16)
-                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                            .addGroup(layout.createSequentialGroup()
-                                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                                    .addComponent(jLTelefono)
-                                    .addComponent(jLEstado, javax.swing.GroupLayout.PREFERRED_SIZE, 76, javax.swing.GroupLayout.PREFERRED_SIZE))
-                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                                .addComponent(jLEfecto))
-                            .addGroup(layout.createSequentialGroup()
-                                .addComponent(jLNom)
-                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                                .addComponent(jLNombre, javax.swing.GroupLayout.PREFERRED_SIZE, 214, javax.swing.GroupLayout.PREFERRED_SIZE))
-                            .addComponent(jLFechaDeAlta, javax.swing.GroupLayout.PREFERRED_SIZE, 92, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addGroup(layout.createSequentialGroup()
-                                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                                    .addComponent(jLApe)
-                                    .addComponent(jLNumeroDeSocio))
-                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                                    .addGroup(layout.createSequentialGroup()
-                                        .addGap(92, 92, 92)
-                                        .addComponent(jLDni)
-                                        .addGap(18, 18, 18)
-                                        .addComponent(jLDNI, javax.swing.GroupLayout.PREFERRED_SIZE, 81, javax.swing.GroupLayout.PREFERRED_SIZE))
-                                    .addComponent(jLApellido, javax.swing.GroupLayout.PREFERRED_SIZE, 214, javax.swing.GroupLayout.PREFERRED_SIZE)))
-                            .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
+                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
                                 .addGroup(layout.createSequentialGroup()
-                                    .addComponent(jLFechaDeBaja, javax.swing.GroupLayout.PREFERRED_SIZE, 92, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                    .addGap(182, 182, 182))
+                                    .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                                        .addComponent(jLTelefono)
+                                        .addComponent(jLEstado, javax.swing.GroupLayout.PREFERRED_SIZE, 76, javax.swing.GroupLayout.PREFERRED_SIZE))
+                                    .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                                    .addComponent(jLEfecto))
                                 .addGroup(layout.createSequentialGroup()
+                                    .addComponent(jLNom)
+                                    .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                                    .addComponent(jLNombre, javax.swing.GroupLayout.PREFERRED_SIZE, 214, javax.swing.GroupLayout.PREFERRED_SIZE))
+                                .addGroup(layout.createSequentialGroup()
+                                    .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                                        .addComponent(jLApe)
+                                        .addComponent(jLNumeroDeSocio))
+                                    .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                                    .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                                        .addComponent(jLApellido, javax.swing.GroupLayout.PREFERRED_SIZE, 214, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                        .addGroup(layout.createSequentialGroup()
+                                            .addGap(92, 92, 92)
+                                            .addComponent(jLDni)
+                                            .addGap(18, 18, 18)
+                                            .addComponent(jLDNI, javax.swing.GroupLayout.PREFERRED_SIZE, 94, javax.swing.GroupLayout.PREFERRED_SIZE))))
+                                .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
                                     .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                                         .addComponent(jLDom)
                                         .addComponent(jLEm))
                                     .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                                     .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                                         .addComponent(jLEmail, javax.swing.GroupLayout.PREFERRED_SIZE, 214, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                        .addComponent(jLDomicilio, javax.swing.GroupLayout.PREFERRED_SIZE, 214, javax.swing.GroupLayout.PREFERRED_SIZE)))))
-                        .addGap(0, 62, Short.MAX_VALUE))
+                                        .addComponent(jLDomicilio, javax.swing.GroupLayout.PREFERRED_SIZE, 214, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                                .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
+                                    .addComponent(jLFechaDeAlta, javax.swing.GroupLayout.PREFERRED_SIZE, 92, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                    .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                                    .addComponent(jLPrestamo)))
+                            .addComponent(jLFechaDeBaja, javax.swing.GroupLayout.PREFERRED_SIZE, 92, javax.swing.GroupLayout.PREFERRED_SIZE))
+                        .addGap(0, 50, Short.MAX_VALUE))
                     .addGroup(layout.createSequentialGroup()
                         .addContainerGap()
                         .addComponent(jLABM, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
@@ -673,14 +733,19 @@ public class SocioTarjeta extends javax.swing.JPanel {
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                             .addComponent(jLEm)
                             .addComponent(jLEmail))))
-                .addGap(7, 7, 7)
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(jLFecAlta)
-                    .addComponent(jLFechaDeAlta))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(jLFecBaja)
-                    .addComponent(jLFechaDeBaja))
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addGroup(layout.createSequentialGroup()
+                        .addGap(7, 7, 7)
+                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                            .addComponent(jLFecAlta)
+                            .addComponent(jLFechaDeAlta))
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                            .addComponent(jLFecBaja)
+                            .addComponent(jLFechaDeBaja)))
+                    .addGroup(layout.createSequentialGroup()
+                        .addGap(18, 18, 18)
+                        .addComponent(jLPrestamo)))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
                     .addGroup(layout.createSequentialGroup()
@@ -996,6 +1061,21 @@ public class SocioTarjeta extends javax.swing.JPanel {
         preEditarCamposSocio(this.campoAModificar);
     }//GEN-LAST:event_jLTelMouseClicked
 
+    private void jLPrestamoMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jLPrestamoMouseClicked
+        // TODO add your handling code here:
+        Principal.getInstance().getJDPEscritorio().removeAll();
+        Principal.getInstance().getJDPEscritorio().repaint();
+        BuscarPrestamoView pv=new BuscarPrestamoView();
+        pv.setVisible(true);
+        JTextField idPrestamo = pv.jtfPrestamo;
+        pv.jtListaPrestamos.setRowSelectionInterval(Integer.parseInt(this.jLPrestamo.getText()) -1,
+                Integer.parseInt(this.jLPrestamo.getText()) -1);
+        idPrestamo.setText(this.jLPrestamo.getText());
+        Principal.getInstance().getJDPEscritorio().add(pv);
+        Principal.getInstance().getJDPEscritorio().moveToFront(pv);
+        
+    }//GEN-LAST:event_jLPrestamoMouseClicked
+
     //Manejador de eventos para cuando se suelta una tecla en el JLabel jTFSocioMod
     public void jTFSocioModKeyReleased(java.awt.event.KeyEvent evt) {
         //Al largarse la tecla se llama al método indicado (Esto está en construcción)
@@ -1260,20 +1340,18 @@ public class SocioTarjeta extends javax.swing.JPanel {
                         case 4:
                             //Se fuerza la excepción pasando a entero el número ingresado como cadena
                             try {
-                                forzarNumberFormatException = Integer.parseInt(valorDelCampo);
-                            } catch (NumberFormatException ex) {
-                                //Se maneja la excepción utilizando un JLabel
-                                labelInformativo.setText("Se han ingresado caracteres no válidos");
-                            }
-                            int idDado = Integer.parseInt(valoresModificados.getText());
-                            int maximo = metodoDeSocio.obtenerUltimoSocio();
-                            int minimo = 5555;
-                            
-                            
-                            if (idDado > minimo && idDado <= maximo) {
-                                if(idDado != Integer.parseInt(placeholder)){
-                                
-                                
+                            forzarNumberFormatException = Integer.parseInt(valorDelCampo);
+                        } catch (NumberFormatException ex) {
+                            //Se maneja la excepción utilizando un JLabel
+                            labelInformativo.setText("Se han ingresado caracteres no válidos");
+                        }
+                        int idDado = Integer.parseInt(valoresModificados.getText());
+                        int maximo = metodoDeSocio.obtenerUltimoSocio();
+                        int minimo = 5555;
+
+                        if (idDado > minimo && idDado <= maximo) {
+                            if (idDado != Integer.parseInt(placeholder)) {
+
                                 int swap = JOptionPane.showConfirmDialog(this, "Intercambiar ID de Socios?");
                                 if (swap == 0) {
                                     String rutaCambiante = "./src/vistas/imagenes/foto_" + placeholder + ".jpg";
@@ -1302,12 +1380,12 @@ public class SocioTarjeta extends javax.swing.JPanel {
                                     temporizar(labelInformativo, "M");
                                 }
                             }
-                            } else {
-                                labelInformativo.setText("Se debe ingresar un ID entre " + minimo + " y " + maximo);
-                                temporizar(labelInformativo, "M");
-                            }
+                        } else {
+                            labelInformativo.setText("Se debe ingresar un ID entre " + minimo + " y " + maximo);
+                            temporizar(labelInformativo, "M");
+                        }
 
-                            break;
+                        break;
                         case 0:
                             valorMod.setText(placeholder);
                             valoresModificados.setVisible(false);
@@ -1572,7 +1650,8 @@ public class SocioTarjeta extends javax.swing.JPanel {
                                         labelInformativo.setText("La Fecha de Baja ha sido modificado correctamente");
                                         labelInformativo.setForeground(new Color(0, 100, 05));
                                         if (this.jLEstado.getText().equals("Desasociado")) {
-                                            this.jLEstado.setText("Socio Activo");System.out.println("9");
+                                            this.jLEstado.setText("Socio Activo");
+                                            System.out.println("9");
                                             metodoDeSocio.eliminarSocio("M", this.jLNumeroDeSocio.getText(), this.jLEst.getText().replace(":", ""), "1", this.jLNumeroDeSocio.getText());
                                         }
                                         temporizar(labelInformativo, "M");
@@ -1588,7 +1667,8 @@ public class SocioTarjeta extends javax.swing.JPanel {
                                             labelInformativo.setText("La Fecha de Baja ha sido modificado correctamente");
                                             labelInformativo.setForeground(new Color(0, 100, 05));
                                             if (this.jLEstado.getText().equals("Desasociado")) {
-                                                this.jLEstado.setText("Socio Activo");System.out.println("12");
+                                                this.jLEstado.setText("Socio Activo");
+                                                System.out.println("12");
                                                 metodoDeSocio.eliminarSocio("M", this.jLNumeroDeSocio.getText(), this.jLEst.getText().replace(":", ""), "1", this.jLNumeroDeSocio.getText());
                                             }
                                             temporizar(labelInformativo, "M");
@@ -1649,7 +1729,8 @@ public class SocioTarjeta extends javax.swing.JPanel {
                                                     labelInformativo.setText("La Fecha de Baja ha sido modificado correctamente");
                                                     labelInformativo.setForeground(new Color(0, 100, 05));
                                                     if (this.jLEstado.getText().equals("Socio Activo")) {
-                                                        this.jLEstado.setText("Desasociado");System.out.println("2");
+                                                        this.jLEstado.setText("Desasociado");
+                                                        System.out.println("2");
                                                         metodoDeSocio.eliminarSocio("M", this.jLNumeroDeSocio.getText(), this.jLEst.getText().replace(":", ""), "0", this.jLNumeroDeSocio.getText());
 
                                                         this.jLEstado.setForeground(Color.RED);
@@ -1667,7 +1748,8 @@ public class SocioTarjeta extends javax.swing.JPanel {
                                             labelInformativo.setText("La Fecha de Baja ha sido modificado correctamente");
                                             labelInformativo.setForeground(new Color(0, 100, 05));
                                             if (this.jLEstado.getText().equals("Desasociado")) {
-                                                this.jLEstado.setText("Socio Activo");System.out.println("24");
+                                                this.jLEstado.setText("Socio Activo");
+                                                System.out.println("24");
                                                 metodoDeSocio.eliminarSocio("M", this.jLNumeroDeSocio.getText(), this.jLEst.getText().replace(":", ""), "1", this.jLNumeroDeSocio.getText());
                                             }
                                             temporizar(labelInformativo, "M");
@@ -1682,7 +1764,8 @@ public class SocioTarjeta extends javax.swing.JPanel {
                                         labelInformativo.setText("La Fecha de Baja ha sido modificado correctamente");
                                         labelInformativo.setForeground(new Color(0, 100, 05));
                                         if (this.jLEstado.getText().equals("Desasociado")) {
-                                            this.jLEstado.setText("Socio Activo");System.out.println("26");
+                                            this.jLEstado.setText("Socio Activo");
+                                            System.out.println("26");
                                             metodoDeSocio.eliminarSocio("M", this.jLNumeroDeSocio.getText(), this.jLEst.getText().replace(":", ""), "1", this.jLNumeroDeSocio.getText());
                                         }
                                         this.jLEstado.setForeground(new Color(0, 100, 05));
@@ -1744,7 +1827,8 @@ public class SocioTarjeta extends javax.swing.JPanel {
                                                     labelInformativo.setText("La Fecha de Baja ha sido modificado correctamente");
                                                     labelInformativo.setForeground(new Color(0, 100, 05));
                                                     if (this.jLEstado.getText().equals("Socio Activo")) {
-                                                        this.jLEstado.setText("Desasociado");System.out.println("34");
+                                                        this.jLEstado.setText("Desasociado");
+                                                        System.out.println("34");
                                                         metodoDeSocio.eliminarSocio("M", this.jLNumeroDeSocio.getText(), this.jLEst.getText().replace(":", ""), "0", this.jLNumeroDeSocio.getText());
                                                     }
                                                     this.jLEstado.setForeground(Color.RED);
@@ -1797,7 +1881,8 @@ public class SocioTarjeta extends javax.swing.JPanel {
                                                         labelInformativo.setText("La Fecha de Baja ha sido modificado correctamente");
                                                         labelInformativo.setForeground(new Color(0, 100, 05));
                                                         if (this.jLEstado.getText().equals("Socio Activo")) {
-                                                            this.jLEstado.setText("Desasociado");System.out.println("42");
+                                                            this.jLEstado.setText("Desasociado");
+                                                            System.out.println("42");
                                                             metodoDeSocio.eliminarSocio("M", this.jLNumeroDeSocio.getText(), this.jLEst.getText().replace(":", ""), "0", this.jLNumeroDeSocio.getText());
                                                         }
                                                         this.jLEstado.setForeground(Color.RED);
@@ -1860,7 +1945,8 @@ public class SocioTarjeta extends javax.swing.JPanel {
                                                     labelInformativo.setText("La Fecha de Baja ha sido modificado correctamente");
                                                     labelInformativo.setForeground(new Color(0, 100, 05));
                                                     if (this.jLEstado.getText().equals("Socio Activo")) {
-                                                        this.jLEstado.setText("Desasociado");System.out.println("51");
+                                                        this.jLEstado.setText("Desasociado");
+                                                        System.out.println("51");
                                                         metodoDeSocio.eliminarSocio("M", this.jLNumeroDeSocio.getText(), this.jLEst.getText().replace(":", ""), "0", this.jLNumeroDeSocio.getText());
                                                     }
                                                     this.jLEstado.setForeground(Color.RED);
@@ -2099,7 +2185,7 @@ public class SocioTarjeta extends javax.swing.JPanel {
         if (e.getKeyCode() == 10) {
 
         } else {
-            labelInformativo.setText("El E-Mail debe tener el formato ejemplo@dominio.extensión");
+            labelInformativo.setText("E-Mail debe tener formato ejemplo@dom.com");
             labelInformativo.setForeground(Color.BLACK);
             valorMod.setVisible(false);
         }
@@ -2227,7 +2313,7 @@ public class SocioTarjeta extends javax.swing.JPanel {
 
                     valoresModificados.setForeground(Color.CYAN);
                 }
-                labelInformativo.setText("El Apellido ha sido ingresado correctamente");
+                labelInformativo.setText("Apellido ingresado correctamente");
                 labelInformativo.setForeground(new Color(0, 100, 05));
                 temporizar(labelInformativo, "M");
             }
@@ -2251,7 +2337,7 @@ public class SocioTarjeta extends javax.swing.JPanel {
             } else {
                 valoresModificados.setForeground(Color.CYAN);
             }
-            labelInformativo.setText("El Nombre ha sido ingresado correctamente");
+            labelInformativo.setText("Nombre ingresado correctamente");
             labelInformativo.setForeground(new Color(0, 100, 05));
             temporizar(labelInformativo, "M");
         }
@@ -2274,7 +2360,7 @@ public class SocioTarjeta extends javax.swing.JPanel {
             } else {
                 valoresModificados.setForeground(Color.CYAN);
             }
-            labelInformativo.setText("El Domicilio ha sido ingresado correctamente");
+            labelInformativo.setText("Domicilio ingresado correctamente");
             labelInformativo.setForeground(new Color(0, 100, 05));
             temporizar(labelInformativo, "M");
         }
@@ -2298,7 +2384,7 @@ public class SocioTarjeta extends javax.swing.JPanel {
                 } else {
                     valoresModificados.setForeground(Color.CYAN);
                 }
-                labelInformativo.setText("El DNI ha sido ingresado correctamente");
+                labelInformativo.setText("DNI ingresado correctamente");
                 labelInformativo.setForeground(new Color(0, 100, 05));
                 temporizar(labelInformativo, "M");
             }
@@ -2317,7 +2403,7 @@ public class SocioTarjeta extends javax.swing.JPanel {
                 } else {
                     valoresModificados.setForeground(Color.CYAN);
                 }
-                labelInformativo.setText("El DNI ha sido ingresado correctamente");
+                labelInformativo.setText("DNI ingresado correctamente");
                 labelInformativo.setForeground(new Color(0, 100, 05));
                 temporizar(labelInformativo, "M");
             }
@@ -2341,7 +2427,7 @@ public class SocioTarjeta extends javax.swing.JPanel {
             } else {
                 valoresModificados.setForeground(Color.CYAN);
             }
-            labelInformativo.setText("El Teléfono ha sido ingresado correctamente");
+            labelInformativo.setText("Teléfono ingresado correctamente");
             labelInformativo.setForeground(new Color(0, 100, 05));
             temporizar(labelInformativo, "M");
         }
@@ -2364,7 +2450,7 @@ public class SocioTarjeta extends javax.swing.JPanel {
             } else {
                 valoresModificados.setForeground(Color.CYAN);
             }
-            labelInformativo.setText("El E-Mail ha sido ingresado correctamente");
+            labelInformativo.setText("E-Mail ingresado correctamente");
             labelInformativo.setForeground(new Color(0, 100, 05));
             temporizar(labelInformativo, "M");
         }
@@ -2382,7 +2468,7 @@ public class SocioTarjeta extends javax.swing.JPanel {
                 valorMod.setText(caracteresIngresados);
                 valoresModificados.setVisible(false);
                 valorMod.setVisible(true);
-                
+
                 metodoDeSocio.eliminarSocio("M", valorDelCampo, campo.replaceAll(":", ""), valorMod.getText(), this.jLNumeroDeSocio.getText());
             } else {
                 valoresModificados.setForeground(Color.CYAN);
@@ -2438,6 +2524,7 @@ public class SocioTarjeta extends javax.swing.JPanel {
     private javax.swing.JLabel jLNombre;
     private javax.swing.JLabel jLNumSocio;
     private javax.swing.JLabel jLNumeroDeSocio;
+    private javax.swing.JLabel jLPrestamo;
     private javax.swing.JLabel jLTel;
     private javax.swing.JLabel jLTelefono;
     private javax.swing.JSeparator jSeparator1;

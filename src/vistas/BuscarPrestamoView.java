@@ -164,7 +164,7 @@ public class BuscarPrestamoView extends javax.swing.JInternalFrame {
     private javax.swing.JLabel jLabel1;
     private javax.swing.JScrollPane jScrollPane1;
     private javax.swing.JButton jbtnEliminar;
-    private javax.swing.JTable jtListaPrestamos;
-    private javax.swing.JTextField jtfPrestamo;
+    public javax.swing.JTable jtListaPrestamos;
+    public javax.swing.JTextField jtfPrestamo;
     // End of variables declaration//GEN-END:variables
 }

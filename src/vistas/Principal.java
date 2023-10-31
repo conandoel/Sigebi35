@@ -9,6 +9,7 @@ import java.awt.LinearGradientPaint;
 import java.awt.MultipleGradientPaint;
 import java.awt.image.BufferedImage;
 import java.io.File;
+import javax.swing.JDesktopPane;
 import javax.swing.JFrame;
 import javax.swing.JTextField;
 
@@ -91,7 +92,9 @@ public class Principal extends javax.swing.JFrame {
         setVisible(true);
 
     }
-
+    public JDesktopPane getJDPEscritorio(){
+        return this.jDPEscritorio;
+    }
   
     /**
      * This method is called from within the constructor to initialize the form.

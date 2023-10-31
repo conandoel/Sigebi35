@@ -180,7 +180,7 @@ public class PrestamoData {
                 Ejemplar ejemplar = new Ejemplar();
                 Socio socio = new Socio();
                 Prestamo prestamo=new Prestamo();
-                ejemplar.setCodigo(rs.getInt(4));
+                ejemplar.setCodigo(rs.getInt("idEjemplar"));
                 socio.setIdSocio(rs.getInt(5));
                 //System.out.println("El id del socio en el prestamo data "+socio.getIdSocio());
                 prestamo.setIdPrestamo(rs.getInt(1));
