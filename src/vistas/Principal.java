@@ -478,7 +478,7 @@ public class Principal extends javax.swing.JFrame {
     private void jMenuAgregarLibroActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMenuAgregarLibroActionPerformed
         jDPEscritorio.removeAll();
         jDPEscritorio.repaint();
-        cargarNuevoLibro();
+        cargarNuevoLibro(0);
     }//GEN-LAST:event_jMenuAgregarLibroActionPerformed
 
 

@@ -169,6 +169,7 @@ public class ModificarEjemplarView extends javax.swing.JInternalFrame {
 
     private void jbtnModificarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jbtnModificarActionPerformed
         // TODO add your handling code here:
+        try{
         if(!jtfIdEjemplar.getText().equals("")){
         EjemplarData ed=new EjemplarData();
         Ejemplar ejemplar =new Ejemplar();
@@ -178,6 +179,10 @@ public class ModificarEjemplarView extends javax.swing.JInternalFrame {
         cargarEjemplares();
         }else{
             JOptionPane.showMessageDialog(null, "El id del ejemplar no puede estar vacio");
+        }
+        }catch(NumberFormatException ex){
+            JOptionPane.showMessageDialog(null, "Debe ingresar un numero de ejemplar");
+            limpiarcampos();
         }
     }//GEN-LAST:event_jbtnModificarActionPerformed
 
@@ -209,6 +214,11 @@ public class ModificarEjemplarView extends javax.swing.JInternalFrame {
         } catch (IOException ex) {
             Logger.getLogger(PrestamosView.class.getName()).log(Level.SEVERE, null, ex);
         }
+    }
+    
+    private void limpiarcampos(){
+        jtfLibro.setText("");
+        jLFoto.setText("");
     }
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JLabel jLFoto;
