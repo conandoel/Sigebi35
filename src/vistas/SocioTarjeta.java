@@ -631,6 +631,7 @@ public class SocioTarjeta extends javax.swing.JPanel {
         jLTelefono.setFont(new java.awt.Font("Yu Gothic UI Semilight", 1, 12)); // NOI18N
         jLTelefono.setText("3413208245");
 
+        jLPrestamo.setForeground(new java.awt.Color(242, 242, 242));
         jLPrestamo.addMouseListener(new java.awt.event.MouseAdapter() {
             public void mouseClicked(java.awt.event.MouseEvent evt) {
                 jLPrestamoMouseClicked(evt);
