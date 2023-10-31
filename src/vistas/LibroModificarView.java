@@ -34,7 +34,6 @@ public class LibroModificarView extends javax.swing.JInternalFrame {
         jlbEditorial = new javax.swing.JLabel();
         jlbEstado = new javax.swing.JLabel();
         jtfISBN = new javax.swing.JTextField();
-        jtfISBNmod = new javax.swing.JTextField();
         jtfTitulo = new javax.swing.JTextField();
         jtfTitulomod = new javax.swing.JTextField();
         jtfAutor = new javax.swing.JTextField();
@@ -83,17 +82,6 @@ public class LibroModificarView extends javax.swing.JInternalFrame {
 
         jtfISBN.setEnabled(false);
         jtfISBN.setDisabledTextColor(Color.black);
-
-        jtfISBNmod.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jtfISBNmodActionPerformed(evt);
-            }
-        });
-        jtfISBNmod.addKeyListener(new java.awt.event.KeyAdapter() {
-            public void keyTyped(java.awt.event.KeyEvent evt) {
-                jtfISBNmodKeyTyped(evt);
-            }
-        });
 
         jtfTitulo.setDisabledTextColor(Color.black);
         jtfTitulo.setEnabled(false);
@@ -215,7 +203,6 @@ public class LibroModificarView extends javax.swing.JInternalFrame {
                                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
                                     .addComponent(jlbDatoMod, javax.swing.GroupLayout.DEFAULT_SIZE, 140, Short.MAX_VALUE)
-                                    .addComponent(jtfISBNmod, javax.swing.GroupLayout.DEFAULT_SIZE, 140, Short.MAX_VALUE)
                                     .addComponent(jtfTitulomod, javax.swing.GroupLayout.DEFAULT_SIZE, 140, Short.MAX_VALUE)
                                     .addComponent(jtfAutormod, javax.swing.GroupLayout.DEFAULT_SIZE, 140, Short.MAX_VALUE)
                                     .addComponent(jtfAniomod, javax.swing.GroupLayout.DEFAULT_SIZE, 140, Short.MAX_VALUE)
@@ -239,8 +226,7 @@ public class LibroModificarView extends javax.swing.JInternalFrame {
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jlbISBN)
-                    .addComponent(jtfISBN, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(jtfISBNmod, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addComponent(jtfISBN, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addComponent(jtfTitulo, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.PREFERRED_SIZE, 24, javax.swing.GroupLayout.PREFERRED_SIZE)
@@ -292,10 +278,6 @@ public class LibroModificarView extends javax.swing.JInternalFrame {
         this.dispose();
     }//GEN-LAST:event_jbtnCancelarActionPerformed
 
-    private void jtfISBNmodActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jtfISBNmodActionPerformed
-        // TODO add your handling code here:
-    }//GEN-LAST:event_jtfISBNmodActionPerformed
-
     private void jtfEditorialActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jtfEditorialActionPerformed
         // TODO add your handling code here:
     }//GEN-LAST:event_jtfEditorialActionPerformed
@@ -305,6 +287,7 @@ public class LibroModificarView extends javax.swing.JInternalFrame {
         Libro libro = new Libro();
         
         if(jtbLibros.getSelectedRow() == -1 && apertura == 0){
+            jlbCambio.setVisible(true);
             jlbCambio.setForeground(Color.black);
             jlbCambio.setText("Seleccione un libro para modificar");
         }else{
@@ -312,12 +295,13 @@ public class LibroModificarView extends javax.swing.JInternalFrame {
                 if(apertura == 1){//Cuando se abre de BuscarLibro(La ventana se cierra cuando se termina de modificar)
                     JOptionPane.showMessageDialog(null, "No se efectuaron cambios");
                 }else{//Cuando se abre de Principal(La ventana se mantiene cuando se termina de modificar)
+                    jlbCambio.setVisible(true);
                     jlbCambio.setText("No hay cambios aplicables");
                     jlbCambio.setForeground(Color.RED);
                 }
             }else{
                 try{
-                if(jtfISBNmod.getText().equalsIgnoreCase("")){libro.setIsbn(Long.parseLong(llll(jtfISBN.getText())));}else{libro.setIsbn(Long.parseLong(llll(jtfISBNmod.getText())));}
+                /*if(jtfISBNmod.getText().equalsIgnoreCase("")){*/libro.setIsbn(Long.parseLong(llll(jtfISBN.getText())));/*}else{libro.setIsbn(Long.parseLong(llll(jtfISBNmod.getText())));}*/
                 if(jtfTitulomod.getText().equalsIgnoreCase("")){libro.setTitulo(jtfTitulo.getText());}else{libro.setTitulo(jtfTitulomod.getText());}
                 if(jtfAutormod.getText().equalsIgnoreCase("")){libro.setAutor(jtfAutor.getText());}else{libro.setAutor(jtfAutormod.getText());}
                 if(jtfAniomod.getText().equalsIgnoreCase("")){libro.setAnio(Integer.parseInt(llll(jtfAnio.getText())));}else{libro.setAnio(Integer.parseInt(llll(jtfAniomod.getText())));}
@@ -346,12 +330,12 @@ public class LibroModificarView extends javax.swing.JInternalFrame {
                 //jtfEditorial.setText("");
                 //jtfCantEjemplares.setText("");
                 //jlbDisponible.setText("");
-                
+                    jlbCambio.setVisible(false);
+                    limpiarTabla();
+                    cargarFilas();
+                    limpiar();
                 }
-                jlbCambio.setVisible(false);
-                limpiarTabla();
-                cargarFilas();
-                limpiar();
+                
             }catch(NumberFormatException e){
                 String err = "Se espera Numero en: ";
                 if(apertura == 1){
@@ -403,10 +387,6 @@ public class LibroModificarView extends javax.swing.JInternalFrame {
             principal.lBuscar.llenarTabla();
         }
     }//GEN-LAST:event_jbtCommitActionPerformed
-
-    private void jtfISBNmodKeyTyped(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_jtfISBNmodKeyTyped
-
-    }//GEN-LAST:event_jtfISBNmodKeyTyped
 
     private void jtbLibrosMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jtbLibrosMouseClicked
         int fila = jtbLibros.getSelectedRow();
@@ -460,7 +440,6 @@ public class LibroModificarView extends javax.swing.JInternalFrame {
     private javax.swing.JTextField jtfGenero;
     private javax.swing.JTextField jtfGeneromod;
     private javax.swing.JTextField jtfISBN;
-    private javax.swing.JTextField jtfISBNmod;
     private javax.swing.JTextField jtfTitulo;
     private javax.swing.JTextField jtfTitulomod;
     // End of variables declaration//GEN-END:variables
@@ -533,7 +512,7 @@ public class LibroModificarView extends javax.swing.JInternalFrame {
             modelo.removeRow(i);
         }
         
-        jtfISBNmod.setText("");
+        //jtfISBNmod.setText("");
         jtfTitulomod.setText("");
         jtfAutormod.setText("");
         jtfAniomod.setText("");
@@ -586,7 +565,7 @@ public class LibroModificarView extends javax.swing.JInternalFrame {
     }
         
     private void limpiar(){
-        jtfISBNmod.setText("");
+        //jtfISBNmod.setText("");
         jtfTitulomod.setText("");
         jtfAutormod.setText("");
         jtfAniomod.setText("");

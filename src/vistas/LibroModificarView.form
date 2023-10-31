@@ -85,7 +85,6 @@
                               <EmptySpace max="-2" attributes="0"/>
                               <Group type="103" groupAlignment="0" max="-2" attributes="0">
                                   <Component id="jlbDatoMod" alignment="0" pref="140" max="32767" attributes="0"/>
-                                  <Component id="jtfISBNmod" alignment="0" pref="140" max="32767" attributes="0"/>
                                   <Component id="jtfTitulomod" alignment="0" pref="140" max="32767" attributes="0"/>
                                   <Component id="jtfAutormod" alignment="0" pref="140" max="32767" attributes="0"/>
                                   <Component id="jtfAniomod" alignment="0" pref="140" max="32767" attributes="0"/>
@@ -119,7 +118,6 @@
               <Group type="103" groupAlignment="3" attributes="0">
                   <Component id="jlbISBN" alignment="3" min="-2" max="-2" attributes="0"/>
                   <Component id="jtfISBN" alignment="3" min="-2" max="-2" attributes="0"/>
-                  <Component id="jtfISBNmod" alignment="3" min="-2" max="-2" attributes="0"/>
               </Group>
               <EmptySpace type="unrelated" max="-2" attributes="0"/>
               <Group type="103" groupAlignment="0" attributes="0">
@@ -240,12 +238,6 @@
       <AuxValues>
         <AuxValue name="JavaCodeGenerator_InitCodePost" type="java.lang.String" value="jtfISBN.setDisabledTextColor(Color.black);"/>
       </AuxValues>
-    </Component>
-    <Component class="javax.swing.JTextField" name="jtfISBNmod">
-      <Events>
-        <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="jtfISBNmodActionPerformed"/>
-        <EventHandler event="keyTyped" listener="java.awt.event.KeyListener" parameters="java.awt.event.KeyEvent" handler="jtfISBNmodKeyTyped"/>
-      </Events>
     </Component>
     <Component class="javax.swing.JTextField" name="jtfTitulo">
       <Properties>

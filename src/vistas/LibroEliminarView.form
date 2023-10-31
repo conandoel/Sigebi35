@@ -69,6 +69,11 @@
                           <Component id="jlbGeneroMod" alignment="0" max="32767" attributes="0"/>
                       </Group>
                   </Group>
+                  <Group type="102" alignment="0" attributes="0">
+                      <Component id="jlbEjemplares" min="-2" max="-2" attributes="0"/>
+                      <EmptySpace type="unrelated" max="-2" attributes="0"/>
+                      <Component id="jlbCantEjemplaresmod" max="32767" attributes="0"/>
+                  </Group>
               </Group>
               <EmptySpace max="-2" attributes="0"/>
               <Group type="103" groupAlignment="0" attributes="0">
@@ -115,7 +120,12 @@
                           <Component id="jlbEditorial" alignment="3" min="-2" max="-2" attributes="0"/>
                           <Component id="jlbEditorialMod" alignment="3" min="-2" max="-2" attributes="0"/>
                       </Group>
-                      <EmptySpace pref="50" max="32767" attributes="0"/>
+                      <EmptySpace max="-2" attributes="0"/>
+                      <Group type="103" groupAlignment="3" attributes="0">
+                          <Component id="jlbEjemplares" alignment="3" min="-2" max="-2" attributes="0"/>
+                          <Component id="jlbCantEjemplaresmod" alignment="3" min="-2" pref="16" max="-2" attributes="0"/>
+                      </Group>
+                      <EmptySpace pref="28" max="32767" attributes="0"/>
                       <Group type="103" groupAlignment="3" attributes="0">
                           <Component id="jlbEliminar" alignment="3" min="-2" max="-2" attributes="0"/>
                           <Component id="jbtCancelar" alignment="3" min="-2" max="-2" attributes="0"/>
@@ -183,7 +193,7 @@
         <Property name="font" type="java.awt.Font" editor="org.netbeans.beaninfo.editors.FontEditor">
           <Font name="Dialog" size="14" style="1"/>
         </Property>
-        <Property name="text" type="java.lang.String" value="Libros Inhabilitados:"/>
+        <Property name="text" type="java.lang.String" value="Libros Disponibles:"/>
       </Properties>
     </Component>
     <Component class="javax.swing.JLabel" name="jlbIsbn">
@@ -245,6 +255,13 @@
       <Properties>
         <Property name="text" type="java.lang.String" value=" "/>
       </Properties>
+    </Component>
+    <Component class="javax.swing.JLabel" name="jlbEjemplares">
+      <Properties>
+        <Property name="text" type="java.lang.String" value="Ejemplares"/>
+      </Properties>
+    </Component>
+    <Component class="javax.swing.JLabel" name="jlbCantEjemplaresmod">
     </Component>
   </SubComponents>
 </Form>

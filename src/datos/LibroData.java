@@ -82,7 +82,7 @@ public class LibroData {
             //PreparedStatement ps = con.prepareStatement(sql);
             //ps.setLong(1, isbn);
             //int fila = ps.executeUpdate();
-            String sql = "Update libro set estado = 0, cantEjemplares = 0 where isbn = ?";
+            String sql = "Update libro set estado = 0 where isbn = ? and cantEjemplares = 0";
             PreparedStatement ps = con.prepareStatement(sql);
             ps.setLong(1, isbn);
             int fila = ps.executeUpdate();
