@@ -18,18 +18,18 @@ public class LibroData {
     
     public void guardarLibro(Libro libro){
         try {
-            String sql="insert into libro (isbn, titulo, autor, anio, genero,cantEjemplares, editorial, estado) values(?,?,?,?,?,?,?,?)";
+            String sql="insert into libro (isbn, titulo, autor, anio, genero, editorial, cantEjemplares) values(?, ?,?,?,?,?,?)";
             PreparedStatement ps = con.prepareStatement(sql,Statement.RETURN_GENERATED_KEYS);
             ps.setLong(1, libro.getIsbn());
             ps.setString(2, libro.getTitulo());
             ps.setString(3, libro.getAutor());
             ps.setInt(4, libro.getAnio());
             ps.setString(5, libro.getGenero());
-            ps.setInt(6, libro.getCantEjemplares());
-            ps.setString(7, libro.getEditorial());
-            ps.setBoolean(8, true);
+            ps.setString(6, libro.getEditorial());
+            ps.setInt(7, libro.getCantEjemplares());
 
             ps.executeUpdate();
+            actualizarEstado(libro);
             ps.close();
             JOptionPane.showMessageDialog(null, "Se agrego el Libro correctamente");
         } catch (SQLException ex) {
@@ -46,7 +46,7 @@ public class LibroData {
     }
     
     public void modificarLibro(long isbn, Libro libro2){
-        String sql = "update libro set isbn = ?, titulo = ?, autor = ?, anio = ?, genero = ?,cantEjemplares = ?, editorial = ?, estado = ? where isbn = " + isbn;
+        String sql = "update libro set isbn = ?, titulo = ?, autor = ?, anio = ?, genero = ?, editorial = ?, cantEjemplares = ? where isbn = " + isbn;
         try {
             PreparedStatement ps = con.prepareStatement(sql, Statement.RETURN_GENERATED_KEYS);
             
@@ -55,9 +55,10 @@ public class LibroData {
             ps.setString(3, libro2.getAutor());
             ps.setInt(4, libro2.getAnio());
             ps.setString(5, libro2.getGenero());
-            ps.setInt(6, libro2.getCantEjemplares());
-            ps.setString(7, libro2.getEditorial());
-            ps.setBoolean(8, libro2.isEstado());
+            ps.setString(6, libro2.getEditorial());
+            ps.setInt(7, libro2.getCantEjemplares());
+            
+            actualizarEstado(libro2);
             
             int cambios = ps.executeUpdate();
             
@@ -77,7 +78,11 @@ public class LibroData {
     
     public void eliminarLibro(long isbn){
         try {
-            String sql = "UPDATE libro SET estado = 0 WHERE isbn = ?";
+            //String sql = "UPDATE libro SET estado = 0 cantEjemplares = 0 WHERE isbn = ?";
+            //PreparedStatement ps = con.prepareStatement(sql);
+            //ps.setLong(1, isbn);
+            //int fila = ps.executeUpdate();
+            String sql = "Update libro set estado = 0, cantEjemplares = 0 where isbn = ?";
             PreparedStatement ps = con.prepareStatement(sql);
             ps.setLong(1, isbn);
             int fila = ps.executeUpdate();
@@ -111,8 +116,8 @@ public class LibroData {
                 libro.setAutor(rs.getString("autor"));
                 libro.setAnio(rs.getInt("anio"));
                 libro.setGenero(rs.getString("genero"));
-                libro.setCantEjemplares(rs.getInt("cantEjemplares"));
                 libro.setEditorial(rs.getString("editorial"));
+                libro.setCantEjemplares(rs.getInt("cantEjemplares"));
                 libro.setEstado(rs.getBoolean("estado"));
                 
                 listaLibros.add(libro);
@@ -143,8 +148,8 @@ public class LibroData {
                 libro.setAutor(rs.getString("autor"));
                 libro.setAnio(rs.getInt("anio"));
                 libro.setGenero(rs.getString("genero"));
-                libro.setCantEjemplares(rs.getInt("cantEjemplares"));
                 libro.setEditorial(rs.getString("Editorial"));
+                libro.setCantEjemplares(rs.getInt("cantEjemplares"));
                 libro.setEstado(rs.getBoolean("estado"));
             
                 listaLibros.add(libro);
@@ -170,8 +175,8 @@ public class LibroData {
                 libro.setAutor(rs.getString("autor"));
                 libro.setAnio(rs.getInt("anio"));
                 libro.setGenero(rs.getString("genero"));
-                libro.setCantEjemplares(rs.getInt("cantEjemplares"));
                 libro.setEditorial(rs.getString("editorial"));
+                libro.setCantEjemplares(rs.getInt("cantEjemplares"));
                 libro.setEstado(rs.getBoolean("estado"));
                 
                 listaLibros.add(libro);
@@ -190,8 +195,7 @@ public class LibroData {
         }else{
             sql = "select * from libro where estado = " + est;
         }
-        
-        
+       
         try {
             
             PreparedStatement ps = con.prepareStatement(sql);
@@ -205,8 +209,8 @@ public class LibroData {
                 libro.setAutor(rs.getString("autor"));
                 libro.setAnio(rs.getInt("anio"));
                 libro.setGenero(rs.getString("genero"));
-                libro.setCantEjemplares(rs.getInt("cantEjemplares"));
                 libro.setEditorial(rs.getString("editorial"));
+                libro.setCantEjemplares(rs.getInt("cantEjemplares"));
                 libro.setEstado(rs.getBoolean("estado"));
 
                 listaLibro.add(libro);
@@ -267,8 +271,8 @@ public class LibroData {
                 libro.setAutor(rs.getString("autor"));
                 libro.setAnio(rs.getInt("anio"));
                 libro.setGenero(rs.getString("genero"));
-                libro.setCantEjemplares(rs.getInt("cantEjemplares"));
                 libro.setEditorial(rs.getString("editorial"));
+                libro.setCantEjemplares(rs.getInt("cantEjemplares"));
                 libro.setEstado(rs.getBoolean("estado"));
             }
             
@@ -296,16 +300,32 @@ public class LibroData {
                 libro.setAutor(rs.getString("autor"));
                 libro.setAnio(rs.getInt("anio"));
                 libro.setGenero(rs.getString("genero"));
-                libro.setCantEjemplares(rs.getInt("cantEjemplares"));
                 libro.setEditorial(rs.getString("Editorial"));
+                libro.setCantEjemplares(rs.getInt("cantEjemplares"));
                 libro.setEstado(rs.getBoolean("estado"));
 
-            
                 listaLibro.add(libro);
             }    
         } catch (SQLException ex) {
             Logger.getLogger(LibroData.class.getName()).log(Level.SEVERE, null, ex);
         }
         return listaLibro;
+    }
+    
+    public void actualizarEstado(Libro libro){
+        String sql;
+        if(libro.getCantEjemplares() > 0){
+            sql = "update libro set estado = 1 where isbn = " + libro.getIsbn();
+        }else{
+            sql = "update libro set estado = 0 where isbn = " + libro.getIsbn();
+        }
+        
+        try {
+            PreparedStatement ps = con.prepareStatement(sql);
+            ps.executeUpdate();
+        } catch (SQLException ex) {
+            Logger.getLogger(LibroData.class.getName()).log(Level.SEVERE, null, ex);
+        }
+        
     }
 }

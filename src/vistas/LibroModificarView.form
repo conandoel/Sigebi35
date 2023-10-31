@@ -29,7 +29,7 @@
       <Group type="103" groupAlignment="0" attributes="0">
           <Group type="102" alignment="0" attributes="0">
               <EmptySpace max="-2" attributes="0"/>
-              <Group type="103" groupAlignment="0" attributes="0">
+              <Group type="103" groupAlignment="0" max="-2" attributes="0">
                   <Group type="102" attributes="0">
                       <Group type="103" groupAlignment="0" attributes="0">
                           <Group type="102" alignment="0" attributes="0">
@@ -48,11 +48,6 @@
                               <Component id="jtfGenero" min="-2" pref="140" max="-2" attributes="0"/>
                           </Group>
                           <Group type="102" alignment="0" attributes="0">
-                              <Component id="jlbEditorial" min="-2" pref="82" max="-2" attributes="0"/>
-                              <EmptySpace max="-2" attributes="0"/>
-                              <Component id="jtfEditorial" min="-2" pref="140" max="-2" attributes="0"/>
-                          </Group>
-                          <Group type="102" alignment="0" attributes="0">
                               <EmptySpace min="-2" pref="88" max="-2" attributes="0"/>
                               <Component id="jlbDatoActual" min="-2" pref="140" max="-2" attributes="0"/>
                           </Group>
@@ -67,41 +62,55 @@
                                   <Component id="jtfAutor" min="-2" pref="140" max="-2" attributes="0"/>
                               </Group>
                           </Group>
-                      </Group>
-                      <EmptySpace max="-2" attributes="0"/>
-                      <Group type="103" groupAlignment="0" attributes="0">
-                          <Component id="jlbDatoMod" alignment="0" min="-2" pref="140" max="-2" attributes="0"/>
-                          <Component id="jtfISBNmod" alignment="0" min="-2" pref="140" max="-2" attributes="0"/>
-                          <Component id="jtfTitulomod" alignment="0" min="-2" pref="140" max="-2" attributes="0"/>
-                          <Component id="jtfAutormod" alignment="0" min="-2" pref="140" max="-2" attributes="0"/>
-                          <Component id="jtfAniomod" alignment="0" min="-2" pref="140" max="-2" attributes="0"/>
-                          <Component id="jtfGeneromod" alignment="0" min="-2" pref="140" max="-2" attributes="0"/>
-                          <Component id="jtfEditorialmod" alignment="0" min="-2" pref="140" max="-2" attributes="0"/>
-                      </Group>
-                  </Group>
-                  <Group type="102" alignment="0" attributes="0">
-                      <Component id="jlbEstado" min="-2" pref="82" max="-2" attributes="0"/>
-                      <EmptySpace max="-2" attributes="0"/>
-                      <Group type="103" groupAlignment="0" attributes="0">
-                          <Component id="jlbDisponible" alignment="0" min="-2" pref="140" max="-2" attributes="0"/>
+                          <Group type="102" alignment="0" attributes="0">
+                              <Group type="103" groupAlignment="0" attributes="0">
+                                  <Component id="jlbEditorial" alignment="0" min="-2" pref="82" max="-2" attributes="0"/>
+                                  <Component id="jlbCantEjemplares" alignment="0" min="-2" max="-2" attributes="0"/>
+                              </Group>
+                              <EmptySpace max="-2" attributes="0"/>
+                              <Group type="103" groupAlignment="0" max="-2" attributes="0">
+                                  <Component id="jtfCantEjemplares" pref="144" max="32767" attributes="0"/>
+                                  <Component id="jtfEditorial" max="32767" attributes="0"/>
+                              </Group>
+                          </Group>
+                          <Group type="102" alignment="0" attributes="0">
+                              <Component id="jlbEstado" min="-2" pref="82" max="-2" attributes="0"/>
+                              <EmptySpace max="-2" attributes="0"/>
+                              <Component id="jlbDisponible" min="-2" pref="134" max="-2" attributes="0"/>
+                          </Group>
                           <Component id="jbtCommit" alignment="0" min="-2" max="-2" attributes="0"/>
                       </Group>
-                      <EmptySpace max="-2" attributes="0"/>
-                      <Group type="103" groupAlignment="0" attributes="0">
-                          <Component id="jbtnCancelar" min="-2" max="-2" attributes="0"/>
-                          <Component id="jrbEstadomod" min="-2" max="-2" attributes="0"/>
+                      <Group type="103" groupAlignment="0" max="-2" attributes="0">
+                          <Group type="102" attributes="0">
+                              <EmptySpace max="-2" attributes="0"/>
+                              <Group type="103" groupAlignment="0" max="-2" attributes="0">
+                                  <Component id="jlbDatoMod" alignment="0" pref="140" max="32767" attributes="0"/>
+                                  <Component id="jtfISBNmod" alignment="0" pref="140" max="32767" attributes="0"/>
+                                  <Component id="jtfTitulomod" alignment="0" pref="140" max="32767" attributes="0"/>
+                                  <Component id="jtfAutormod" alignment="0" pref="140" max="32767" attributes="0"/>
+                                  <Component id="jtfAniomod" alignment="0" pref="140" max="32767" attributes="0"/>
+                                  <Component id="jtfGeneromod" alignment="0" pref="140" max="32767" attributes="0"/>
+                                  <Component id="jtfEditorialmod" alignment="0" pref="140" max="32767" attributes="0"/>
+                                  <Component id="jtfCantEjemplaresmod" alignment="0" max="32767" attributes="0"/>
+                              </Group>
+                          </Group>
+                          <Group type="102" alignment="1" attributes="0">
+                              <EmptySpace max="32767" attributes="0"/>
+                              <Component id="jbtnCancelar" min="-2" max="-2" attributes="0"/>
+                          </Group>
                       </Group>
                   </Group>
+                  <Component id="jlbCambio" max="32767" attributes="0"/>
               </Group>
               <EmptySpace max="-2" attributes="0"/>
-              <Component id="jScrollPane1" pref="462" max="32767" attributes="0"/>
+              <Component id="jScrollPane1" pref="458" max="32767" attributes="0"/>
           </Group>
       </Group>
     </DimensionLayout>
     <DimensionLayout dim="1">
       <Group type="103" groupAlignment="0" attributes="0">
-          <Group type="102" alignment="0" attributes="0">
-              <EmptySpace min="13" pref="13" max="-2" attributes="0"/>
+          <Component id="jScrollPane1" pref="398" max="32767" attributes="0"/>
+          <Group type="102" attributes="0">
               <Group type="103" groupAlignment="3" attributes="0">
                   <Component id="jlbDatoActual" alignment="3" min="-2" max="-2" attributes="0"/>
                   <Component id="jlbDatoMod" alignment="3" min="-2" max="-2" attributes="0"/>
@@ -115,7 +124,7 @@
               <EmptySpace type="unrelated" max="-2" attributes="0"/>
               <Group type="103" groupAlignment="0" attributes="0">
                   <Component id="jtfTitulo" alignment="1" min="-2" pref="24" max="-2" attributes="0"/>
-                  <Group type="103" groupAlignment="3" attributes="0">
+                  <Group type="103" alignment="0" groupAlignment="3" attributes="0">
                       <Component id="jlbTitulo" alignment="3" min="-2" max="-2" attributes="0"/>
                       <Component id="jtfTitulomod" alignment="3" min="-2" max="-2" attributes="0"/>
                   </Group>
@@ -140,24 +149,30 @@
               </Group>
               <EmptySpace type="unrelated" max="-2" attributes="0"/>
               <Group type="103" groupAlignment="3" attributes="0">
-                  <Component id="jlbEditorial" alignment="0" min="-2" max="-2" attributes="0"/>
                   <Component id="jtfEditorial" alignment="3" min="-2" max="-2" attributes="0"/>
                   <Component id="jtfEditorialmod" alignment="3" min="-2" max="-2" attributes="0"/>
+                  <Component id="jlbEditorial" alignment="3" min="-2" max="-2" attributes="0"/>
               </Group>
               <EmptySpace type="unrelated" max="-2" attributes="0"/>
-              <Group type="103" groupAlignment="0" attributes="0">
-                  <Component id="jlbEstado" min="-2" pref="28" max="-2" attributes="0"/>
-                  <Component id="jlbDisponible" min="-2" pref="28" max="-2" attributes="0"/>
-                  <Component id="jrbEstadomod" min="-2" max="-2" attributes="0"/>
+              <Group type="103" groupAlignment="3" attributes="0">
+                  <Component id="jlbCantEjemplares" alignment="3" min="-2" max="-2" attributes="0"/>
+                  <Component id="jtfCantEjemplares" alignment="3" min="-2" max="-2" attributes="0"/>
+                  <Component id="jtfCantEjemplaresmod" alignment="3" min="-2" max="-2" attributes="0"/>
+              </Group>
+              <EmptySpace type="unrelated" max="-2" attributes="0"/>
+              <Group type="103" groupAlignment="1" attributes="0">
+                  <Component id="jlbEstado" alignment="1" min="-2" pref="28" max="-2" attributes="0"/>
+                  <Component id="jlbDisponible" alignment="1" min="-2" pref="28" max="-2" attributes="0"/>
               </Group>
               <EmptySpace max="-2" attributes="0"/>
-              <Group type="103" groupAlignment="0" attributes="0">
-                  <Component id="jbtCommit" min="-2" max="-2" attributes="0"/>
-                  <Component id="jbtnCancelar" min="-2" max="-2" attributes="0"/>
+              <Component id="jlbCambio" min="-2" pref="18" max="-2" attributes="0"/>
+              <EmptySpace type="unrelated" max="-2" attributes="0"/>
+              <Group type="103" groupAlignment="3" attributes="0">
+                  <Component id="jbtCommit" alignment="3" min="-2" max="-2" attributes="0"/>
+                  <Component id="jbtnCancelar" alignment="3" min="-2" max="-2" attributes="0"/>
               </Group>
-              <EmptySpace pref="20" max="32767" attributes="0"/>
+              <EmptySpace min="0" pref="0" max="32767" attributes="0"/>
           </Group>
-          <Component id="jScrollPane1" alignment="0" pref="0" max="32767" attributes="0"/>
       </Group>
     </DimensionLayout>
   </Layout>
@@ -301,8 +316,6 @@
         <Property name="text" type="java.lang.String" value="Modificacion:"/>
       </Properties>
     </Component>
-    <Component class="javax.swing.JRadioButton" name="jrbEstadomod">
-    </Component>
     <Component class="javax.swing.JButton" name="jbtCommit">
       <Properties>
         <Property name="font" type="java.awt.Font" editor="org.netbeans.beaninfo.editors.FontEditor">
@@ -356,5 +369,30 @@
         </Component>
       </SubComponents>
     </Container>
+    <Component class="javax.swing.JLabel" name="jlbCantEjemplares">
+      <Properties>
+        <Property name="font" type="java.awt.Font" editor="org.netbeans.beaninfo.editors.FontEditor">
+          <Font name="Dialog" size="14" style="1"/>
+        </Property>
+        <Property name="text" type="java.lang.String" value="Ejemplares"/>
+      </Properties>
+    </Component>
+    <Component class="javax.swing.JTextField" name="jtfCantEjemplares">
+      <Properties>
+        <Property name="enabled" type="boolean" value="false"/>
+      </Properties>
+      <AuxValues>
+        <AuxValue name="JavaCodeGenerator_InitCodePost" type="java.lang.String" value="jtfCantEjemplares.setDisabledTextColor(Color.BLACK);"/>
+      </AuxValues>
+    </Component>
+    <Component class="javax.swing.JTextField" name="jtfCantEjemplaresmod">
+      <Properties>
+        <Property name="font" type="java.awt.Font" editor="org.netbeans.beaninfo.editors.FontEditor">
+          <Font name="Dialog" size="14" style="0"/>
+        </Property>
+      </Properties>
+    </Component>
+    <Component class="javax.swing.JLabel" name="jlbCambio">
+    </Component>
   </SubComponents>
 </Form>

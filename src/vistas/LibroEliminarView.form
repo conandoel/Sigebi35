@@ -42,17 +42,33 @@
           <Group type="102" alignment="1" attributes="0">
               <EmptySpace max="-2" attributes="0"/>
               <Group type="103" groupAlignment="0" attributes="0">
-                  <Component id="jlbAutor" alignment="0" pref="268" max="32767" attributes="0"/>
-                  <Component id="jlbEditorial" alignment="0" pref="268" max="32767" attributes="0"/>
-                  <Group type="102" alignment="0" attributes="0">
+                  <Group type="102" attributes="0">
                       <Component id="jlbEliminar" min="-2" max="-2" attributes="0"/>
-                      <EmptySpace max="32767" attributes="0"/>
+                      <EmptySpace pref="90" max="32767" attributes="0"/>
                       <Component id="jbtCancelar" min="-2" max="-2" attributes="0"/>
                   </Group>
-                  <Component id="jlbGenero" alignment="0" pref="268" max="32767" attributes="0"/>
-                  <Component id="jlbAnio" alignment="0" pref="268" max="32767" attributes="0"/>
-                  <Component id="jlbISBN" alignment="0" max="32767" attributes="0"/>
-                  <Component id="jlbTitulo" alignment="0" max="32767" attributes="0"/>
+                  <Group type="102" attributes="0">
+                      <Component id="jlbEditorial" min="-2" max="-2" attributes="0"/>
+                      <EmptySpace max="-2" attributes="0"/>
+                      <Component id="jlbEditorialMod" max="32767" attributes="0"/>
+                  </Group>
+                  <Group type="102" attributes="0">
+                      <Group type="103" groupAlignment="0" attributes="0">
+                          <Component id="jlbGenero" alignment="0" min="-2" max="-2" attributes="0"/>
+                          <Component id="jlbAnio" alignment="0" min="-2" max="-2" attributes="0"/>
+                          <Component id="jlbAutor" alignment="0" min="-2" max="-2" attributes="0"/>
+                          <Component id="jlbTitulo" alignment="0" min="-2" max="-2" attributes="0"/>
+                          <Component id="jlbIsbn" alignment="0" min="-2" max="-2" attributes="0"/>
+                      </Group>
+                      <EmptySpace type="unrelated" max="-2" attributes="0"/>
+                      <Group type="103" groupAlignment="0" attributes="0">
+                          <Component id="jlbIsbnMod" alignment="0" max="32767" attributes="0"/>
+                          <Component id="jlbTituloMod" alignment="0" max="32767" attributes="0"/>
+                          <Component id="jlbAutorMod" alignment="0" max="32767" attributes="0"/>
+                          <Component id="jlbAnioMod" max="32767" attributes="0"/>
+                          <Component id="jlbGeneroMod" alignment="0" max="32767" attributes="0"/>
+                      </Group>
+                  </Group>
               </Group>
               <EmptySpace max="-2" attributes="0"/>
               <Group type="103" groupAlignment="0" attributes="0">
@@ -70,17 +86,35 @@
               <EmptySpace max="-2" attributes="0"/>
               <Group type="103" groupAlignment="0" attributes="0">
                   <Group type="102" attributes="0">
-                      <Component id="jlbISBN" min="-2" max="-2" attributes="0"/>
+                      <Group type="103" groupAlignment="3" attributes="0">
+                          <Component id="jlbIsbn" alignment="3" min="-2" max="-2" attributes="0"/>
+                          <Component id="jlbIsbnMod" alignment="3" min="-2" max="-2" attributes="0"/>
+                      </Group>
                       <EmptySpace type="unrelated" max="-2" attributes="0"/>
-                      <Component id="jlbTitulo" min="-2" max="-2" attributes="0"/>
+                      <Group type="103" groupAlignment="3" attributes="0">
+                          <Component id="jlbTitulo" alignment="3" min="-2" max="-2" attributes="0"/>
+                          <Component id="jlbTituloMod" alignment="3" min="-2" max="-2" attributes="0"/>
+                      </Group>
                       <EmptySpace type="unrelated" max="-2" attributes="0"/>
-                      <Component id="jlbAutor" min="-2" max="-2" attributes="0"/>
+                      <Group type="103" groupAlignment="3" attributes="0">
+                          <Component id="jlbAutor" alignment="3" min="-2" max="-2" attributes="0"/>
+                          <Component id="jlbAutorMod" alignment="3" min="-2" max="-2" attributes="0"/>
+                      </Group>
                       <EmptySpace type="unrelated" max="-2" attributes="0"/>
-                      <Component id="jlbAnio" min="-2" max="-2" attributes="0"/>
+                      <Group type="103" groupAlignment="3" attributes="0">
+                          <Component id="jlbAnio" alignment="3" min="-2" max="-2" attributes="0"/>
+                          <Component id="jlbAnioMod" alignment="3" min="-2" max="-2" attributes="0"/>
+                      </Group>
                       <EmptySpace type="unrelated" max="-2" attributes="0"/>
-                      <Component id="jlbGenero" min="-2" max="-2" attributes="0"/>
+                      <Group type="103" groupAlignment="3" attributes="0">
+                          <Component id="jlbGenero" alignment="3" min="-2" max="-2" attributes="0"/>
+                          <Component id="jlbGeneroMod" alignment="3" min="-2" max="-2" attributes="0"/>
+                      </Group>
                       <EmptySpace type="unrelated" max="-2" attributes="0"/>
-                      <Component id="jlbEditorial" min="-2" max="-2" attributes="0"/>
+                      <Group type="103" groupAlignment="3" attributes="0">
+                          <Component id="jlbEditorial" alignment="3" min="-2" max="-2" attributes="0"/>
+                          <Component id="jlbEditorialMod" alignment="3" min="-2" max="-2" attributes="0"/>
+                      </Group>
                       <EmptySpace pref="50" max="32767" attributes="0"/>
                       <Group type="103" groupAlignment="3" attributes="0">
                           <Component id="jlbEliminar" alignment="3" min="-2" max="-2" attributes="0"/>
@@ -122,31 +156,6 @@
         </Component>
       </SubComponents>
     </Container>
-    <Component class="javax.swing.JLabel" name="jlbISBN">
-      <Properties>
-        <Property name="text" type="java.lang.String" value="ISBN:"/>
-      </Properties>
-    </Component>
-    <Component class="javax.swing.JLabel" name="jlbTitulo">
-      <Properties>
-        <Property name="text" type="java.lang.String" value="Titulo:"/>
-      </Properties>
-    </Component>
-    <Component class="javax.swing.JLabel" name="jlbAutor">
-      <Properties>
-        <Property name="text" type="java.lang.String" value="Autor:"/>
-      </Properties>
-    </Component>
-    <Component class="javax.swing.JLabel" name="jlbGenero">
-      <Properties>
-        <Property name="text" type="java.lang.String" value="Genero:"/>
-      </Properties>
-    </Component>
-    <Component class="javax.swing.JLabel" name="jlbEditorial">
-      <Properties>
-        <Property name="text" type="java.lang.String" value="Editorial:"/>
-      </Properties>
-    </Component>
     <Component class="javax.swing.JButton" name="jlbEliminar">
       <Properties>
         <Property name="font" type="java.awt.Font" editor="org.netbeans.beaninfo.editors.FontEditor">
@@ -154,6 +163,9 @@
         </Property>
         <Property name="text" type="java.lang.String" value="Eliminar"/>
       </Properties>
+      <Events>
+        <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="jlbEliminarActionPerformed"/>
+      </Events>
     </Component>
     <Component class="javax.swing.JButton" name="jbtCancelar">
       <Properties>
@@ -174,9 +186,64 @@
         <Property name="text" type="java.lang.String" value="Libros Inhabilitados:"/>
       </Properties>
     </Component>
+    <Component class="javax.swing.JLabel" name="jlbIsbn">
+      <Properties>
+        <Property name="text" type="java.lang.String" value="ISBN"/>
+      </Properties>
+    </Component>
+    <Component class="javax.swing.JLabel" name="jlbTitulo">
+      <Properties>
+        <Property name="text" type="java.lang.String" value="Titulo"/>
+      </Properties>
+    </Component>
+    <Component class="javax.swing.JLabel" name="jlbAutor">
+      <Properties>
+        <Property name="text" type="java.lang.String" value="Autor"/>
+      </Properties>
+    </Component>
     <Component class="javax.swing.JLabel" name="jlbAnio">
       <Properties>
-        <Property name="text" type="java.lang.String" value="A&#xf1;o:"/>
+        <Property name="text" type="java.lang.String" value="A&#xf1;o"/>
+      </Properties>
+    </Component>
+    <Component class="javax.swing.JLabel" name="jlbGenero">
+      <Properties>
+        <Property name="text" type="java.lang.String" value="Genero"/>
+      </Properties>
+    </Component>
+    <Component class="javax.swing.JLabel" name="jlbEditorial">
+      <Properties>
+        <Property name="text" type="java.lang.String" value="Editorial"/>
+      </Properties>
+    </Component>
+    <Component class="javax.swing.JLabel" name="jlbEditorialMod">
+      <Properties>
+        <Property name="text" type="java.lang.String" value=" "/>
+      </Properties>
+    </Component>
+    <Component class="javax.swing.JLabel" name="jlbGeneroMod">
+      <Properties>
+        <Property name="text" type="java.lang.String" value=" "/>
+      </Properties>
+    </Component>
+    <Component class="javax.swing.JLabel" name="jlbAnioMod">
+      <Properties>
+        <Property name="text" type="java.lang.String" value=" "/>
+      </Properties>
+    </Component>
+    <Component class="javax.swing.JLabel" name="jlbAutorMod">
+      <Properties>
+        <Property name="text" type="java.lang.String" value=" "/>
+      </Properties>
+    </Component>
+    <Component class="javax.swing.JLabel" name="jlbTituloMod">
+      <Properties>
+        <Property name="text" type="java.lang.String" value=" "/>
+      </Properties>
+    </Component>
+    <Component class="javax.swing.JLabel" name="jlbIsbnMod">
+      <Properties>
+        <Property name="text" type="java.lang.String" value=" "/>
       </Properties>
     </Component>
   </SubComponents>
