@@ -4,11 +4,13 @@ import entidades.Libro;
 import datos.SocioData;
 import java.awt.Dimension;
 import java.io.File;
+import javax.swing.JFrame;
 import javax.swing.JTextField;
 
 public class Principal extends javax.swing.JFrame {
     //Clases de otras vistas, para manejar los metodos de los libros
-    LibroNuevoView lNuevo; LibroModificarView lMod;
+    //LibroNuevoView lNuevo = new LibroNuevoView();
+    LibroBuscarView lBuscar = new LibroBuscarView(this); LibroModificarView lMod;
     
     //Constantes para manejar la creación de TARJETAS
     private static final String MODIFICAR = "MODIFICAR";
@@ -403,7 +405,7 @@ public class Principal extends javax.swing.JFrame {
     private void jMenuAgregarLibroActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMenuAgregarLibroActionPerformed
         jDPEscritorio.removeAll();
         jDPEscritorio.repaint();
-        cargarNuevoLibro();
+        cargarNuevoLibro(0);
     }//GEN-LAST:event_jMenuAgregarLibroActionPerformed
 
 
@@ -411,8 +413,8 @@ public class Principal extends javax.swing.JFrame {
         jDPEscritorio.removeAll();
 
         jDPEscritorio.repaint();
-        LibroBuscarView lBuscar = new LibroBuscarView(this);
         lBuscar.setVisible(true);
+        lBuscar.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         jDPEscritorio.add(lBuscar);
         jDPEscritorio.moveToFront(lBuscar);
     }//GEN-LAST:event_jMBuscarLibrosActionPerformed
@@ -426,7 +428,7 @@ public class Principal extends javax.swing.JFrame {
         jDPEscritorio.removeAll();
         jDPEscritorio.repaint();
         Libro libro = new Libro();
-        cargarModLibro(libro, 850, 380);
+        cargarModLibro(libro, 850, 430, 0);
         
     }//GEN-LAST:event_jMModLibrosActionPerformed
 
@@ -503,16 +505,16 @@ public class Principal extends javax.swing.JFrame {
     private javax.swing.JPanel panel;
     // End of variables declaration//GEN-END:variables
 
-    public void cargarNuevoLibro(){
+    public void cargarNuevoLibro(int ap){
         
-        LibroNuevoView lNuevo = new LibroNuevoView();
+        LibroNuevoView lNuevo = new LibroNuevoView(this, ap);
         lNuevo.setVisible(true);
         jDPEscritorio.add(lNuevo);
         jDPEscritorio.moveToFront(lNuevo);
     }
     
-    public void cargarModLibro(Libro libro, int i, int j){
-        LibroModificarView lMod = new LibroModificarView(this);
+    public void cargarModLibro(Libro libro, int i, int j, int apertura){
+        LibroModificarView lMod = new LibroModificarView(this, apertura);
         lMod.setSize(i, j);
         lMod.setVisible(true);
         jDPEscritorio.add(lMod);
