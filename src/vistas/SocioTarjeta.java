@@ -250,7 +250,6 @@ public class SocioTarjeta extends javax.swing.JPanel {
         socios = new ArrayList<>();
         columnas = new ArrayList<>();
         tarjetas = new ArrayList<>();
-
         //Se crea un OBJETO socioData el cual MANIPULA las consultas con la BASE DE DATOS
         metodoDeSocio = new SocioData();
         //Se llena la LISTA columnas con los nombres de las columnas de la tabla "lector" de la BASE DE DATOS utilizando el método de SocioData listarColumnas (idSocio, nombre, fechaDeAlta, etc)
@@ -271,14 +270,14 @@ public class SocioTarjeta extends javax.swing.JPanel {
             //Si no es "Número de Socio" el criterio, entonces se pasa a minúsculas. Por ejemplo "Estado" pasará a ser "estado" para poder ser comparado con el nombre de la columna en la BASE DE DATOS
             criterio = criterio.toLowerCase();
         }
-
+        
         if (!criterio.equals("rango_fechas")) {
 //Se itera por la LISTA de nombres de columnas de la TABLA lector y compara el valor de criterio con alguna de las columnas de lector 
             for (String columna : columnas) {
                 //Al encontrar coincidencia se llama al método buscarHistorialSocios de SocioData, el cual devuelve a todos los SOCIOS ya sean activos o no y lo guarda en la LISTA socios
                 if (criterio.equals(columna)) {
-                    if (!columna.equals("dni")) {
-                        socios = metodoDeSocio.buscarHistorialSocios(criterio, valor);
+                    if (columna.equals("fechaDeAlta") || columna.equals("fechaDeBaja")) {
+                        socios = metodoDeSocio.obtenerFechas(valor, criterio);
                     } else {
                         socios = metodoDeSocio.buscarHistorialSocios(criterio, valor);
                     }
@@ -299,6 +298,7 @@ public class SocioTarjeta extends javax.swing.JPanel {
                 EFECTO = "BUSCAR";
             }
         }
+      
 
         if (EFECTO.equals("AGREGAR")) {
             SocioTarjeta tarjeta = new SocioTarjeta();
@@ -1503,18 +1503,22 @@ public class SocioTarjeta extends javax.swing.JPanel {
                     //Si los caracteresIngresados NO concuerdan con la expresión regular
                     if (!caracteresIngresados.matches(fechaAdecuada)) {//Si no tiene el formato adecuado
                         //Si la cantidad de caracteres es 0, o sea si no se ingresó nada
+                        System.out.println("1");
                         if (cantidadDeCaracteres == 0) {
+                            System.out.println("2");
                             //Se deja la fecha vieja y se quita desactiva el editado
                             valorMod.setText(valorDelCampo);
                             valorMod.setVisible(true);
                             valoresModificados.setVisible(false);
                         } else {
+                            System.out.println("3");
                             //Si tiene más de 0 caracteres pero no concuerda con el regex se informa el error
                             labelInformativo.setText("La Fecha de Baja está mal especificada");
                             labelInformativo.setForeground(Color.RED);
                         }
                         //Si los caracteresIngresados concuerdan con el regex
                     } else {//Si tiene el formato adecuado
+                        System.out.println("4");
                         //Se toman día, mes, y año de la fecha de baja de la tarjeta
                         String diaBajaSM = valorDelCampo.replaceAll(" \\| ", "").substring(0, 2);
                         String mesBajaSM = valorDelCampo.replaceAll(" \\| ", "").substring(2, 4);
@@ -1541,11 +1545,13 @@ public class SocioTarjeta extends javax.swing.JPanel {
 
                         //Se coteja si la fecha de baja ingresada por el usuario es menor que la fecha de alta de la tarjeta
                         if (fechaDeBAJA < fechaDeALTA) {//si fecha de baja es menor a la fecha de alta
+                            System.out.println("5");
                             //Se informa que la fecha de Alta debe ser menor a la fecha de baja
                             labelInformativo.setText("La Fecha de Alta debe ser menor a la Fecha de Baja");
                             labelInformativo.setForeground(Color.RED);
                         } else {//Si la fecha de baja es mayora a la fecha de alta
                             //Si la fecha de baja es mayor a la fecha de alta, y también mayor al día de la fecha
+                            System.out.println("6");
                             if (fechaDeBAJA > fechaActual) {//Si la fecha de baja es mayor a la fecha de hoy
                                 //Se prepara una variable para que guarde el valor verdadero o false de si es el mes de Febrero
                                 boolean febrero = Integer.parseInt(caracteresIngresados.substring(3, 5)) == 2 ? true : false;
@@ -1553,9 +1559,11 @@ public class SocioTarjeta extends javax.swing.JPanel {
                                 int anyoIngresado = Integer.parseInt(caracteresIngresados.substring(6, 10));
 
                                 if (febrero) {//Si es Febrero
+                                    System.out.println("7");
                                     int diaFebrero = Integer.parseInt(caracteresIngresados.substring(0, 2));
 
                                     if (diaFebrero < 29) {//Si Febrero tiene menos de 29 días
+                                        System.out.println("8");
                                         caracteresIngresados = caracteresIngresados.replaceAll("[-/]", " | ");
                                         valoresModificados.setVisible(false);
                                         valorMod.setText(caracteresIngresados);
@@ -1564,12 +1572,14 @@ public class SocioTarjeta extends javax.swing.JPanel {
                                         labelInformativo.setText("La Fecha de Baja ha sido modificado correctamente");
                                         labelInformativo.setForeground(new Color(0, 100, 05));
                                         if (this.jLEstado.getText().equals("Desasociado")) {
-                                            this.jLEstado.setText("Socio Activo");
+                                            this.jLEstado.setText("Socio Activo");System.out.println("9");
                                             metodoDeSocio.eliminarSocio("M", this.jLNumeroDeSocio.getText(), this.jLEst.getText().replace(":", ""), "1", this.jLNumeroDeSocio.getText());
                                         }
                                         temporizar(labelInformativo, "M");
                                     } else if (diaFebrero == 29) {//Si Febrero tiene 29 días
+                                        System.out.println("10");
                                         if ((anyoIngresado % 4 == 0 && anyoIngresado % 100 != 0) || (anyoIngresado % 400 == 0)) {//Si es año bisiesto
+                                            System.out.println("11");
                                             caracteresIngresados = caracteresIngresados.replaceAll("[-/]", " | ");
                                             valoresModificados.setVisible(false);
                                             valorMod.setText(caracteresIngresados);
@@ -1578,28 +1588,33 @@ public class SocioTarjeta extends javax.swing.JPanel {
                                             labelInformativo.setText("La Fecha de Baja ha sido modificado correctamente");
                                             labelInformativo.setForeground(new Color(0, 100, 05));
                                             if (this.jLEstado.getText().equals("Desasociado")) {
-                                                this.jLEstado.setText("Socio Activo");
+                                                this.jLEstado.setText("Socio Activo");System.out.println("12");
                                                 metodoDeSocio.eliminarSocio("M", this.jLNumeroDeSocio.getText(), this.jLEst.getText().replace(":", ""), "1", this.jLNumeroDeSocio.getText());
                                             }
                                             temporizar(labelInformativo, "M");
                                         } else {//Si no es año bisiesto
+                                            System.out.println("13");
                                             labelInformativo.setText("Revise la Fecha de Baja pues el año ingresado no es un año bisiesto");
                                             labelInformativo.setForeground(Color.RED);
                                         }
                                     } else {//Si Febrero tiene más de 29 días
+                                        System.out.println("14");
                                         labelInformativo.setText("Febrero no tiene más de 29 días");
                                         labelInformativo.setForeground(Color.RED);
                                     }
 
                                 } else {//Si NO es Febrero
+                                    System.out.println("15");
                                     if (fechaDeBAJA < fechaActual) {//Si la fecha de baja es menor a la fecha Actual MODIFICAR
-
+                                        System.out.println("16");
                                         if (fechaDeBajaSM > fechaActual) {//Si la fecha anterior era mayor a la fecha de hoy
+                                            System.out.println("17");
                                             int idSocioE = Integer.parseInt(this.jLEfecto.getText());
                                             prestamos = metodoDePrestamo.listarPrestamosSuperCargado(idSocioE);
                                             if (!prestamos.isEmpty()) {//Si hay préstamos activos
+                                                System.out.println("18");
                                                 for (Prestamo prestamo : prestamos) {
-
+                                                    System.out.println("19");
                                                     JLabel ejemplar = new JLabel();
                                                     ejemplar.setSize(60, 95);
 
@@ -1621,9 +1636,10 @@ public class SocioTarjeta extends javax.swing.JPanel {
                                                 temporizar(this.jLABM, "M");
 
                                             } else {//Si no hay préstamos activos
-
+                                                System.out.println("20");
                                                 int respuesta = JOptionPane.showConfirmDialog(this, "Modificar la Fecha dará de baja al Socio", "Baja de Socio Nº " + this.jLNumeroDeSocio.getText(), WIDTH, JOptionPane.PLAIN_MESSAGE, this.jLFoto.getIcon());
                                                 if (respuesta == 0) {
+                                                    System.out.println("21");
                                                     //Si la baja es menor a la fecha de alta entonces se toma como reinscripción
                                                     caracteresIngresados = caracteresIngresados.replaceAll("[-/]", " | ");
                                                     valoresModificados.setVisible(false);
@@ -1633,7 +1649,7 @@ public class SocioTarjeta extends javax.swing.JPanel {
                                                     labelInformativo.setText("La Fecha de Baja ha sido modificado correctamente");
                                                     labelInformativo.setForeground(new Color(0, 100, 05));
                                                     if (this.jLEstado.getText().equals("Socio Activo")) {
-                                                        this.jLEstado.setText("Desasociado");
+                                                        this.jLEstado.setText("Desasociado");System.out.println("2");
                                                         metodoDeSocio.eliminarSocio("M", this.jLNumeroDeSocio.getText(), this.jLEst.getText().replace(":", ""), "0", this.jLNumeroDeSocio.getText());
 
                                                         this.jLEstado.setForeground(Color.RED);
@@ -1642,6 +1658,7 @@ public class SocioTarjeta extends javax.swing.JPanel {
                                                 }
                                             }
                                         } else {
+                                            System.out.println("23");
                                             caracteresIngresados = caracteresIngresados.replaceAll("[-/]", " | ");
                                             valoresModificados.setVisible(false);
                                             valorMod.setText(caracteresIngresados);
@@ -1650,12 +1667,13 @@ public class SocioTarjeta extends javax.swing.JPanel {
                                             labelInformativo.setText("La Fecha de Baja ha sido modificado correctamente");
                                             labelInformativo.setForeground(new Color(0, 100, 05));
                                             if (this.jLEstado.getText().equals("Desasociado")) {
-                                                this.jLEstado.setText("Socio Activo");
+                                                this.jLEstado.setText("Socio Activo");System.out.println("24");
                                                 metodoDeSocio.eliminarSocio("M", this.jLNumeroDeSocio.getText(), this.jLEst.getText().replace(":", ""), "1", this.jLNumeroDeSocio.getText());
                                             }
                                             temporizar(labelInformativo, "M");
                                         }
                                     } else {//Si la fecha de Baja es mayor a la actual
+                                        System.out.println("25");
                                         caracteresIngresados = caracteresIngresados.replaceAll("[-/]", " | ");
                                         valoresModificados.setVisible(false);
                                         valorMod.setText(caracteresIngresados);
@@ -1664,7 +1682,7 @@ public class SocioTarjeta extends javax.swing.JPanel {
                                         labelInformativo.setText("La Fecha de Baja ha sido modificado correctamente");
                                         labelInformativo.setForeground(new Color(0, 100, 05));
                                         if (this.jLEstado.getText().equals("Desasociado")) {
-                                            this.jLEstado.setText("Socio Activo");
+                                            this.jLEstado.setText("Socio Activo");System.out.println("26");
                                             metodoDeSocio.eliminarSocio("M", this.jLNumeroDeSocio.getText(), this.jLEst.getText().replace(":", ""), "1", this.jLNumeroDeSocio.getText());
                                         }
                                         this.jLEstado.setForeground(new Color(0, 100, 05));
@@ -1673,21 +1691,25 @@ public class SocioTarjeta extends javax.swing.JPanel {
                                 }
 
                             } else {//Si la fecha de baja es menor a la fecha de hoy
+                                System.out.println("27");
                                 boolean febrero = Integer.parseInt(caracteresIngresados.substring(3, 5)) == 2 ? true : false;
                                 int anyoDeAlta = Integer.parseInt(this.jLFechaDeAlta.getText().substring(10, 14));
                                 int anyoIngresado = Integer.parseInt(caracteresIngresados.substring(6, 10));
 
                                 if (febrero) {//Si es Febrero
+                                    System.out.println("28");
                                     int diaFebrero = Integer.parseInt(caracteresIngresados.substring(0, 2));
 
                                     if (diaFebrero < 29) {//Si Febrero tiene menos de 29 días
+                                        System.out.println("29");
                                         if (fechaDeBajaSM > fechaActual) {//Si la fecha anterior era mayor a la fecha de hoy
 
                                             int idSocioE = Integer.parseInt(this.jLEfecto.getText());
                                             prestamos = metodoDePrestamo.listarPrestamosSuperCargado(idSocioE);
                                             if (!prestamos.isEmpty()) {//Si hay préstamos activos
+                                                System.out.println("30");
                                                 for (Prestamo prestamo : prestamos) {
-
+                                                    System.out.println("31");
                                                     JLabel ejemplar = new JLabel();
                                                     ejemplar.setSize(60, 95);
 
@@ -1709,9 +1731,10 @@ public class SocioTarjeta extends javax.swing.JPanel {
                                                 temporizar(this.jLABM, "M");
 
                                             } else {//Si no hay préstamos activos
-
+                                                System.out.println("32");
                                                 int respuesta = JOptionPane.showConfirmDialog(this, "Modificar la Fecha dará de baja al Socio", "Baja de Socio Nº " + this.jLNumeroDeSocio.getText(), WIDTH, JOptionPane.PLAIN_MESSAGE, this.jLFoto.getIcon());
                                                 if (respuesta == 0) {
+                                                    System.out.println("33");
                                                     //Si la baja es menor a la fecha de alta entonces se toma como reinscripción
                                                     caracteresIngresados = caracteresIngresados.replaceAll("[-/]", " | ");
                                                     valoresModificados.setVisible(false);
@@ -1721,7 +1744,7 @@ public class SocioTarjeta extends javax.swing.JPanel {
                                                     labelInformativo.setText("La Fecha de Baja ha sido modificado correctamente");
                                                     labelInformativo.setForeground(new Color(0, 100, 05));
                                                     if (this.jLEstado.getText().equals("Socio Activo")) {
-                                                        this.jLEstado.setText("Desasociado");
+                                                        this.jLEstado.setText("Desasociado");System.out.println("34");
                                                         metodoDeSocio.eliminarSocio("M", this.jLNumeroDeSocio.getText(), this.jLEst.getText().replace(":", ""), "0", this.jLNumeroDeSocio.getText());
                                                     }
                                                     this.jLEstado.setForeground(Color.RED);
@@ -1730,14 +1753,17 @@ public class SocioTarjeta extends javax.swing.JPanel {
                                             }
                                         }
                                     } else if (diaFebrero == 29) {//Si Febrero tiene 29 días
+                                        System.out.println("35");
                                         if ((anyoIngresado % 4 == 0 && anyoIngresado % 100 != 0) || (anyoIngresado % 400 == 0)) {//Si es bisiesto
-
+                                            System.out.println("36");
                                             if (fechaDeBajaSM > fechaActual) {//Si la fecha anterior era mayor a la fecha actual
+                                                System.out.println("37");
                                                 int idSocioE = Integer.parseInt(this.jLEfecto.getText());
                                                 prestamos = metodoDePrestamo.listarPrestamosSuperCargado(idSocioE);
                                                 if (!prestamos.isEmpty()) {//Si hay préstamos activos
+                                                    System.out.println("38");
                                                     for (Prestamo prestamo : prestamos) {
-
+                                                        System.out.println("39");
                                                         JLabel ejemplar = new JLabel();
                                                         ejemplar.setSize(60, 95);
 
@@ -1759,8 +1785,10 @@ public class SocioTarjeta extends javax.swing.JPanel {
                                                     temporizar(this.jLABM, "M");
 
                                                 } else {//Si no hay préstamos activos
+                                                    System.out.println("40");
                                                     int respuesta = JOptionPane.showConfirmDialog(this, "Modificar la Fecha dará de baja al Socio", "Baja de Socio Nº " + this.jLNumeroDeSocio.getText(), WIDTH, JOptionPane.PLAIN_MESSAGE, this.jLFoto.getIcon());
                                                     if (respuesta == 0) {
+                                                        System.out.println("41");
                                                         caracteresIngresados = caracteresIngresados.replaceAll("[-/]", " | ");
                                                         valoresModificados.setVisible(false);
                                                         valorMod.setText(caracteresIngresados);
@@ -1769,7 +1797,7 @@ public class SocioTarjeta extends javax.swing.JPanel {
                                                         labelInformativo.setText("La Fecha de Baja ha sido modificado correctamente");
                                                         labelInformativo.setForeground(new Color(0, 100, 05));
                                                         if (this.jLEstado.getText().equals("Socio Activo")) {
-                                                            this.jLEstado.setText("Desasociado");
+                                                            this.jLEstado.setText("Desasociado");System.out.println("42");
                                                             metodoDeSocio.eliminarSocio("M", this.jLNumeroDeSocio.getText(), this.jLEst.getText().replace(":", ""), "0", this.jLNumeroDeSocio.getText());
                                                         }
                                                         this.jLEstado.setForeground(Color.RED);
@@ -1778,22 +1806,27 @@ public class SocioTarjeta extends javax.swing.JPanel {
                                                 }
                                             }
                                         } else {//Si no es año bisiesto
+                                            System.out.println("43");
                                             labelInformativo.setText("El año ingresado no es un año bisiesto");
                                             labelInformativo.setForeground(Color.RED);
                                         }
                                     } else {//Si Febrero tiene más de 29 días
+                                        System.out.println("44");
                                         labelInformativo.setText("Febrero no tiene más de 29 días");
                                         labelInformativo.setForeground(Color.RED);
                                     }
 
                                 } else {//Si no es Febrero
+                                    System.out.println("45");
                                     if (fechaDeBAJA > fechaDeALTA) {//Si la fecha de Baja es mayor a la fecha de hoy
+                                        System.out.println("46");
                                         if (fechaDeBajaSM > fechaActual) {//Si la fecha anterior es mayor a la fecha de hoy
                                             int idSocioE = Integer.parseInt(this.jLEfecto.getText());
                                             prestamos = metodoDePrestamo.listarPrestamosSuperCargado(idSocioE);
                                             if (!prestamos.isEmpty()) {//Si tiene préstamos activos
+                                                System.out.println("47");
                                                 for (Prestamo prestamo : prestamos) {
-
+                                                    System.out.println("48");
                                                     JLabel ejemplar = new JLabel();
                                                     ejemplar.setSize(60, 95);
 
@@ -1815,9 +1848,10 @@ public class SocioTarjeta extends javax.swing.JPanel {
                                                 temporizar(this.jLABM, "M");
 
                                             } else {
-
+                                                System.out.println("49");
                                                 int respuesta = JOptionPane.showConfirmDialog(this, "Modificar la Fecha dará de baja al Socio", "Baja de Socio Nº " + this.jLNumeroDeSocio.getText(), WIDTH, JOptionPane.PLAIN_MESSAGE, this.jLFoto.getIcon());
                                                 if (respuesta == 0) {
+                                                    System.out.println("50");
                                                     caracteresIngresados = caracteresIngresados.replaceAll("[-/]", " | ");
                                                     valoresModificados.setVisible(false);
                                                     valorMod.setText(caracteresIngresados);
@@ -1826,7 +1860,7 @@ public class SocioTarjeta extends javax.swing.JPanel {
                                                     labelInformativo.setText("La Fecha de Baja ha sido modificado correctamente");
                                                     labelInformativo.setForeground(new Color(0, 100, 05));
                                                     if (this.jLEstado.getText().equals("Socio Activo")) {
-                                                        this.jLEstado.setText("Desasociado");
+                                                        this.jLEstado.setText("Desasociado");System.out.println("51");
                                                         metodoDeSocio.eliminarSocio("M", this.jLNumeroDeSocio.getText(), this.jLEst.getText().replace(":", ""), "0", this.jLNumeroDeSocio.getText());
                                                     }
                                                     this.jLEstado.setForeground(Color.RED);
@@ -2348,7 +2382,7 @@ public class SocioTarjeta extends javax.swing.JPanel {
                 valorMod.setText(caracteresIngresados);
                 valoresModificados.setVisible(false);
                 valorMod.setVisible(true);
-
+                
                 metodoDeSocio.eliminarSocio("M", valorDelCampo, campo.replaceAll(":", ""), valorMod.getText(), this.jLNumeroDeSocio.getText());
             } else {
                 valoresModificados.setForeground(Color.CYAN);
