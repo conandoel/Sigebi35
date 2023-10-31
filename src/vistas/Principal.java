@@ -123,7 +123,6 @@ public class Principal extends javax.swing.JFrame {
         jMElimLibros = new javax.swing.JMenuItem();
         jMenuItem7 = new javax.swing.JMenuItem();
         jMElimSocios = new javax.swing.JMenuItem();
-        jMElimPrestamos = new javax.swing.JMenuItem();
         JMAgregarSocio = new javax.swing.JMenu();
         jMenuAgregarLibro = new javax.swing.JMenuItem();
         jMAgregarSocio = new javax.swing.JMenuItem();
@@ -217,6 +216,11 @@ public class Principal extends javax.swing.JFrame {
         jMModificar.setText("Modificar");
 
         jMModLibros.setText("...libros");
+        jMModLibros.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jMModLibrosActionPerformed(evt);
+            }
+        });
         jMModificar.add(jMModLibros);
 
         jMenuItem6.setText("...ejemplar");
@@ -248,6 +252,11 @@ public class Principal extends javax.swing.JFrame {
         jMEliminar.setText("Eliminar");
 
         jMElimLibros.setText("...libros");
+        jMElimLibros.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jMElimLibrosActionPerformed(evt);
+            }
+        });
         jMEliminar.add(jMElimLibros);
 
         jMenuItem7.setText("...ejemplar");
@@ -265,14 +274,6 @@ public class Principal extends javax.swing.JFrame {
             }
         });
         jMEliminar.add(jMElimSocios);
-
-        jMElimPrestamos.setText("...préstamos");
-        jMElimPrestamos.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jMElimPrestamosActionPerformed(evt);
-            }
-        });
-        jMEliminar.add(jMElimPrestamos);
 
         jMenuBar1.add(jMEliminar);
 
@@ -395,10 +396,6 @@ public class Principal extends javax.swing.JFrame {
         jDPEscritorio.moveToFront(pv);
     }//GEN-LAST:event_jMBuscarPréstamosActionPerformed
 
-    private void jMElimPrestamosActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMElimPrestamosActionPerformed
-        // TODO add your handling code here:
-    }//GEN-LAST:event_jMElimPrestamosActionPerformed
-
     private void jMSalirActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMSalirActionPerformed
         // TODO add your handling code here:
     }//GEN-LAST:event_jMSalirActionPerformed
@@ -483,13 +480,13 @@ public class Principal extends javax.swing.JFrame {
 
 
     private void jMBuscarLibrosActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMBuscarLibrosActionPerformed
-        /*jDPEscritorio.removeAll();
+        jDPEscritorio.removeAll();
 
         jDPEscritorio.repaint();
         LibroBuscarView lBuscar = new LibroBuscarView(this);
         lBuscar.setVisible(true);
         jDPEscritorio.add(lBuscar);
-        jDPEscritorio.moveToFront(lBuscar);*/
+        jDPEscritorio.moveToFront(lBuscar);
     }//GEN-LAST:event_jMBuscarLibrosActionPerformed
 
     private void JMAgregarSocioActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_JMAgregarSocioActionPerformed
@@ -537,6 +534,27 @@ public class Principal extends javax.swing.JFrame {
         jDPEscritorio.add(pv);
         jDPEscritorio.moveToFront(pv);
     }//GEN-LAST:event_jMModPrestamosActionPerformed
+
+    private void jMModLibrosActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMModLibrosActionPerformed
+        // TODO add your handling code here:
+        jDPEscritorio.removeAll();
+        jDPEscritorio.repaint();
+        //LibroModificarView pv=new LibroModificarView();
+        LibroModificarView pv=new LibroModificarView(this);
+        pv.setVisible(true);
+        jDPEscritorio.add(pv);
+        jDPEscritorio.moveToFront(pv);
+    }//GEN-LAST:event_jMModLibrosActionPerformed
+
+    private void jMElimLibrosActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMElimLibrosActionPerformed
+        // TODO add your handling code here:
+        jDPEscritorio.removeAll();
+        jDPEscritorio.repaint();
+        LibroEliminarView pv=new LibroEliminarView();
+        pv.setVisible(true);
+        jDPEscritorio.add(pv);
+        jDPEscritorio.moveToFront(pv);
+    }//GEN-LAST:event_jMElimLibrosActionPerformed
   
     /**
      * @param args the command line arguments
@@ -583,7 +601,6 @@ public class Principal extends javax.swing.JFrame {
     private javax.swing.JMenuItem jMBuscarPréstamos;
     private javax.swing.JMenuItem jMBuscarSocios;
     private javax.swing.JMenuItem jMElimLibros;
-    private javax.swing.JMenuItem jMElimPrestamos;
     private javax.swing.JMenuItem jMElimSocios;
     private javax.swing.JMenu jMEliminar;
     private javax.swing.JMenuItem jMModLibros;
