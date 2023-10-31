@@ -312,13 +312,10 @@ public class LibroModificarView extends javax.swing.JInternalFrame {
                 if(apertura == 1){//Cuando se abre de BuscarLibro(La ventana se cierra cuando se termina de modificar)
                     JOptionPane.showMessageDialog(null, "No se efectuaron cambios");
                 }else{//Cuando se abre de Principal(La ventana se mantiene cuando se termina de modificar)
-                    System.out.println("Sin cambios");
                     jlbCambio.setText("No hay cambios aplicables");
                     jlbCambio.setForeground(Color.RED);
                 }
-                
             }else{
-                System.out.println("Con cambios");
                 try{
                 if(jtfISBNmod.getText().equalsIgnoreCase("")){libro.setIsbn(Long.parseLong(llll(jtfISBN.getText())));}else{libro.setIsbn(Long.parseLong(llll(jtfISBNmod.getText())));}
                 if(jtfTitulomod.getText().equalsIgnoreCase("")){libro.setTitulo(jtfTitulo.getText());}else{libro.setTitulo(jtfTitulomod.getText());}
@@ -329,8 +326,12 @@ public class LibroModificarView extends javax.swing.JInternalFrame {
                 if(jtfCantEjemplaresmod.getText().equalsIgnoreCase("")){libro.setCantEjemplares(Integer.parseInt(jtfCantEjemplares.getText()));}else{libro.setCantEjemplares(Integer.parseInt(jtfCantEjemplaresmod.getText()));}
                 
                 if(libro.getCantEjemplares() < 1){
-                    jlbCambio.setForeground(Color.BLUE);
-                    jlbCambio.setText("La cantidad de Ejemplares debe ser mayor a 0");
+                    if(apertura == 0){
+                        jlbCambio.setForeground(Color.BLUE);
+                        jlbCambio.setText("La cantidad de Ejemplares debe ser mayor a 0");
+                    }else{
+                        JOptionPane.showMessageDialog(null, "La cantidad de Ejemplares debe ser mayor que 0");
+                    }   
                 }else{
                 lData.modificarLibro(Long.parseLong(llll(jtfISBN.getText())), libro);
                 
@@ -346,13 +347,46 @@ public class LibroModificarView extends javax.swing.JInternalFrame {
                 //jlbDisponible.setText("");
                 
                 }
-                
+                jlbCambio.setVisible(false);
+                limpiarTabla();
+                cargarFilas();
+                limpiar();
             }catch(NumberFormatException e){
+                String err = "Se espera Numero en: ";
                 if(apertura == 1){
-                    JOptionPane.showMessageDialog(null, "Formato ingresado incorrecto(Esperado Numero en vez de Caracter)");
+                    try{
+                        int i2 = Integer.parseInt(jtfAniomod.getText());
+                    }catch(NumberFormatException e2){
+                        err = err.concat("Año ");
+                    }
+                    try{
+                        int i3 = Integer.parseInt(jtfCantEjemplaresmod.getText());
+                    }catch(NumberFormatException e3){
+                        if(err.contains("Año")){
+                            err = err.concat(", Ejemplares");
+                        }else{
+                            err = err.concat("Ejemplares");
+                        }
+                    }
+                    JOptionPane.showMessageDialog(null, err.concat(". No se efectuaron cambios"));
                 }else{
-                    jlbCambio.setForeground(Color.RED);
-                    jlbCambio.setText("Formato ingresado incorrecto(Esperado Numero en vez de Caracter)");
+                    try{
+                        int i2 = Integer.parseInt(jtfAniomod.getText());
+                    }catch(NumberFormatException e2){
+                        err = err.concat("Año ");
+                    }
+                    try{
+                        int i3 = Integer.parseInt(jtfCantEjemplaresmod.getText());
+                    }catch(NumberFormatException e3){
+                        if(err.contains("Año")){
+                            err = err.concat(", Ejemplares");
+                        }else{
+                            err = err.concat("Ejemplares");
+                        }
+                    }
+                    jlbCambio.setVisible(true);
+                    jlbCambio.setForeground(Color.red);
+                    jlbCambio.setText(err);  
                 }
                 
                 
@@ -361,16 +395,11 @@ public class LibroModificarView extends javax.swing.JInternalFrame {
             
         }
             
-        limpiarTabla();
-        cargarFilas();
-        limpiar();
+        
         
         if(apertura == 1){
             this.dispose();
             principal.lBuscar.llenarTabla();
-        }
-        if(!corroborarCambio()){
-            jlbCambio.setText("");
         }
     }//GEN-LAST:event_jbtCommitActionPerformed
 
@@ -436,32 +465,56 @@ public class LibroModificarView extends javax.swing.JInternalFrame {
     // End of variables declaration//GEN-END:variables
 
     public void cargarDatosActuales(Libro libro){
-        
-        if(libro.getIsbn() == 0){
-            jtfISBN.setText("");
-        }else{
-            jtfISBN.setText(Long.toString(libro.getIsbn()));
-        }
-        
+//        if(libro.getIsbn() == 0){
+//            jtfISBN.setText("");
+//        }else{
+//            jtfISBN.setText(Long.toString(libro.getIsbn()));
+//        }
+//        
+//        jtfTitulo.setText(libro.getTitulo());
+//        jtfAutor.setText(libro.getAutor());
+//        
+//        
+//        if(libro.getAnio() == 0){
+//            jtfAnio.setText("");
+//        }else{
+//            jtfAnio.setText(Integer.toString(libro.getAnio()));
+//        }
+//        
+//        
+//        jtfEditorial.setText(libro.getEditorial());
+//        jtfGenero.setText(libro.getGenero());
+//        jtfCantEjemplares.setText(Integer.toString(libro.getCantEjemplares()));
+//        if(libro.isEstado()){
+//            jlbDisponible.setText("Disponible");
+//        }else{
+//            jlbDisponible.setText("No disponible");
+//        }
+
+    if(apertura == 0){
+        jtfISBN.setText("");
+        jtfTitulo.setText("");
+        jtfAutor.setText("");
+        jtfAnio.setText("");
+        jtfGenero.setText("");
+        jtfEditorial.setText("");
+        jtfCantEjemplares.setText("");
+        jlbDisponible.setText("");
+    }else{
+        jtfISBN.setText(String.valueOf(libro.getIsbn()));
         jtfTitulo.setText(libro.getTitulo());
         jtfAutor.setText(libro.getAutor());
-        
-        
-        if(libro.getAnio() == 0){
-            jtfAnio.setText("");
-        }else{
-            jtfAnio.setText(Integer.toString(libro.getAnio()));
-        }
-        
-        
-        jtfEditorial.setText(libro.getEditorial());
+        jtfAnio.setText(String.valueOf(libro.getAnio()));
         jtfGenero.setText(libro.getGenero());
-        jtfCantEjemplares.setText(Integer.toString(libro.getCantEjemplares()));
+        jtfEditorial.setText(libro.getEditorial());
+        jtfCantEjemplares.setText(String.valueOf(libro.getCantEjemplares()));
         if(libro.isEstado()){
             jlbDisponible.setText("Disponible");
         }else{
             jlbDisponible.setText("No disponible");
         }
+    }
+        
     }
 
 
@@ -470,7 +523,6 @@ public class LibroModificarView extends javax.swing.JInternalFrame {
         
         String llll2 = llll.replaceAll("\\s", "");
             
-        
         return llll2;
     }
     

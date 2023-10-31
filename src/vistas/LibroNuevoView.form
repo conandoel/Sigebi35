@@ -10,7 +10,7 @@
   </NonVisualComponents>
   <Properties>
     <Property name="preferredSize" type="java.awt.Dimension" editor="org.netbeans.beaninfo.editors.DimensionEditor">
-      <Dimension value="[500, 420]"/>
+      <Dimension value="[500, 450]"/>
     </Property>
   </Properties>
   <SyntheticProperties>
@@ -76,15 +76,14 @@
     <DimensionLayout dim="1">
       <Group type="103" groupAlignment="0" attributes="0">
           <Group type="102" alignment="0" attributes="0">
-              <EmptySpace max="-2" attributes="0"/>
               <Group type="103" groupAlignment="1" attributes="0">
                   <Component id="jlbISBN" min="-2" max="-2" attributes="0"/>
                   <Component id="jtfIsbn" min="-2" max="-2" attributes="0"/>
               </Group>
-              <EmptySpace type="unrelated" max="-2" attributes="0"/>
-              <Group type="103" groupAlignment="1" attributes="0">
-                  <Component id="jlbConfISBN" min="-2" max="-2" attributes="0"/>
-                  <Component id="jtfConfIsbn" min="-2" max="-2" attributes="0"/>
+              <EmptySpace max="-2" attributes="0"/>
+              <Group type="103" groupAlignment="3" attributes="0">
+                  <Component id="jtfConfIsbn" alignment="3" min="-2" max="-2" attributes="0"/>
+                  <Component id="jlbConfISBN" alignment="3" min="-2" max="-2" attributes="0"/>
               </Group>
               <EmptySpace max="-2" attributes="0"/>
               <Component id="jlbCoincidir" min="-2" pref="16" max="-2" attributes="0"/>
@@ -120,12 +119,12 @@
               </Group>
               <EmptySpace max="-2" attributes="0"/>
               <Component id="jlbError" min="-2" pref="16" max="-2" attributes="0"/>
-              <EmptySpace pref="10" max="32767" attributes="0"/>
+              <EmptySpace type="unrelated" max="-2" attributes="0"/>
               <Group type="103" groupAlignment="3" attributes="0">
-                  <Component id="jbtAñadir" alignment="3" min="-2" max="-2" attributes="0"/>
                   <Component id="jbtCancelar" alignment="3" min="-2" max="-2" attributes="0"/>
+                  <Component id="jbtAñadir" alignment="3" min="-2" max="-2" attributes="0"/>
               </Group>
-              <EmptySpace min="-2" pref="15" max="-2" attributes="0"/>
+              <EmptySpace max="32767" attributes="0"/>
           </Group>
       </Group>
     </DimensionLayout>
