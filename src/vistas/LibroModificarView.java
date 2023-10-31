@@ -305,6 +305,7 @@ public class LibroModificarView extends javax.swing.JInternalFrame {
         Libro libro = new Libro();
         
         if(jtbLibros.getSelectedRow() == -1 && apertura == 0){
+            jlbCambio.setVisible(true);
             jlbCambio.setForeground(Color.black);
             jlbCambio.setText("Seleccione un libro para modificar");
         }else{
@@ -312,6 +313,7 @@ public class LibroModificarView extends javax.swing.JInternalFrame {
                 if(apertura == 1){//Cuando se abre de BuscarLibro(La ventana se cierra cuando se termina de modificar)
                     JOptionPane.showMessageDialog(null, "No se efectuaron cambios");
                 }else{//Cuando se abre de Principal(La ventana se mantiene cuando se termina de modificar)
+                    jlbCambio.setVisible(true);
                     jlbCambio.setText("No hay cambios aplicables");
                     jlbCambio.setForeground(Color.RED);
                 }
@@ -327,6 +329,7 @@ public class LibroModificarView extends javax.swing.JInternalFrame {
                 
                 if(libro.getCantEjemplares() < 1){
                     if(apertura == 0){
+                        jlbCambio.setVisible(true);
                         jlbCambio.setForeground(Color.BLUE);
                         jlbCambio.setText("La cantidad de Ejemplares debe ser mayor a 0");
                     }else{
