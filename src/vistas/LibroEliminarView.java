@@ -89,7 +89,7 @@ public class LibroEliminarView extends javax.swing.JInternalFrame {
         });
 
         jlbLibrosInhabilitados.setFont(new java.awt.Font("Dialog", 1, 14)); // NOI18N
-        jlbLibrosInhabilitados.setText("Libros Inhabilitados:");
+        jlbLibrosInhabilitados.setText("Libros Habilitados:");
 
         jlbIsbn.setText("ISBN");
 

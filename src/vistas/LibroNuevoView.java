@@ -5,7 +5,10 @@ import entidades.Libro;
 import entidades.Autor;
 import datos.LibroData;
 import java.awt.Color;
+import java.awt.event.KeyEvent;
+import javax.swing.JComponent;
 import javax.swing.JOptionPane;
+import javax.swing.KeyStroke;
 
 public class LibroNuevoView extends javax.swing.JInternalFrame {
     LibroData lData = new LibroData();
@@ -55,9 +58,31 @@ public class LibroNuevoView extends javax.swing.JInternalFrame {
         jlbConfISBN.setFont(new java.awt.Font("Dialog", 1, 14)); // NOI18N
         jlbConfISBN.setText("Confirmar ISBN");
 
+        jtfConfIsbn.addAncestorListener(new javax.swing.event.AncestorListener() {
+            public void ancestorMoved(javax.swing.event.AncestorEvent evt) {
+            }
+            public void ancestorAdded(javax.swing.event.AncestorEvent evt) {
+                jtfConfIsbnAncestorAdded(evt);
+            }
+            public void ancestorRemoved(javax.swing.event.AncestorEvent evt) {
+            }
+        });
         jtfConfIsbn.addFocusListener(new java.awt.event.FocusAdapter() {
             public void focusLost(java.awt.event.FocusEvent evt) {
                 jtfConfIsbnFocusLost(evt);
+            }
+        });
+        jtfConfIsbn.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jtfConfIsbnActionPerformed(evt);
+            }
+        });
+        jtfConfIsbn.addKeyListener(new java.awt.event.KeyAdapter() {
+            public void keyPressed(java.awt.event.KeyEvent evt) {
+                jtfConfIsbnKeyPressed(evt);
+            }
+            public void keyTyped(java.awt.event.KeyEvent evt) {
+                jtfConfIsbnKeyTyped(evt);
             }
         });
 
@@ -269,6 +294,27 @@ public class LibroNuevoView extends javax.swing.JInternalFrame {
         }
 
     }//GEN-LAST:event_jbtAñadirActionPerformed
+
+    private void jtfConfIsbnKeyPressed(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_jtfConfIsbnKeyPressed
+
+    }//GEN-LAST:event_jtfConfIsbnKeyPressed
+
+    private void jtfConfIsbnKeyTyped(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_jtfConfIsbnKeyTyped
+//        System.out.println(evt.getModifiers() == KeyEvent.CTRL_MASK);
+//        System.out.println(KeyEvent.getKeyText(0));
+//        if(KeyEvent. && evt.getModifiers() == KeyEvent.CTRL_DOWN_MASK){
+//            jtfConfIsbn.setText("");
+//        }
+        
+    }//GEN-LAST:event_jtfConfIsbnKeyTyped
+
+    private void jtfConfIsbnAncestorAdded(javax.swing.event.AncestorEvent evt) {//GEN-FIRST:event_jtfConfIsbnAncestorAdded
+        // TODO add your handling code here:
+    }//GEN-LAST:event_jtfConfIsbnAncestorAdded
+
+    private void jtfConfIsbnActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jtfConfIsbnActionPerformed
+        
+    }//GEN-LAST:event_jtfConfIsbnActionPerformed
 
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
