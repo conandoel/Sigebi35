@@ -183,7 +183,7 @@ public class LibroBuscarView extends javax.swing.JInternalFrame {
         libro = libroSeleccionado(libro);
         
         if(libro != null){
-            p.cargarModLibro(libro, 400, 430, 1);
+            p.cargarModLibro(libro,400,430,1);
         }
         
     }//GEN-LAST:event_jbtnModificarActionPerformed

@@ -479,6 +479,7 @@ public class Principal extends javax.swing.JFrame {
         jDPEscritorio.removeAll();
         jDPEscritorio.repaint();
         cargarNuevoLibro(0);
+/**/
     }//GEN-LAST:event_jMenuAgregarLibroActionPerformed
 
 

@@ -659,44 +659,47 @@ public class SocioTarjeta extends javax.swing.JPanel {
                             .addGroup(layout.createSequentialGroup()
                                 .addContainerGap()
                                 .addComponent(jLNumSocio)))
-                        .addGap(16, 16, 16)
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                                .addGroup(layout.createSequentialGroup()
-                                    .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                                        .addComponent(jLTelefono)
-                                        .addComponent(jLEstado, javax.swing.GroupLayout.PREFERRED_SIZE, 76, javax.swing.GroupLayout.PREFERRED_SIZE))
-                                    .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                                    .addComponent(jLEfecto))
-                                .addGroup(layout.createSequentialGroup()
-                                    .addComponent(jLNom)
-                                    .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                                    .addComponent(jLNombre, javax.swing.GroupLayout.PREFERRED_SIZE, 214, javax.swing.GroupLayout.PREFERRED_SIZE))
-                                .addGroup(layout.createSequentialGroup()
-                                    .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                                        .addComponent(jLApe)
-                                        .addComponent(jLNumeroDeSocio))
-                                    .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                                    .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                                        .addComponent(jLApellido, javax.swing.GroupLayout.PREFERRED_SIZE, 214, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addGroup(layout.createSequentialGroup()
+                                .addGap(16, 16, 16)
+                                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                                    .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
                                         .addGroup(layout.createSequentialGroup()
-                                            .addGap(92, 92, 92)
+                                            .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                                                .addComponent(jLTelefono)
+                                                .addComponent(jLEstado, javax.swing.GroupLayout.PREFERRED_SIZE, 76, javax.swing.GroupLayout.PREFERRED_SIZE))
+                                            .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                                            .addComponent(jLEfecto))
+                                        .addGroup(layout.createSequentialGroup()
+                                            .addComponent(jLNumeroDeSocio)
+                                            .addGap(119, 119, 119)
                                             .addComponent(jLDni)
                                             .addGap(18, 18, 18)
-                                            .addComponent(jLDNI, javax.swing.GroupLayout.PREFERRED_SIZE, 94, javax.swing.GroupLayout.PREFERRED_SIZE))))
-                                .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
-                                    .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                                        .addComponent(jLDom)
-                                        .addComponent(jLEm))
-                                    .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                                    .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                                        .addComponent(jLEmail, javax.swing.GroupLayout.PREFERRED_SIZE, 214, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                        .addComponent(jLDomicilio, javax.swing.GroupLayout.PREFERRED_SIZE, 214, javax.swing.GroupLayout.PREFERRED_SIZE)))
-                                .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
-                                    .addComponent(jLFechaDeAlta, javax.swing.GroupLayout.PREFERRED_SIZE, 92, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                    .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                                    .addComponent(jLPrestamo)))
-                            .addComponent(jLFechaDeBaja, javax.swing.GroupLayout.PREFERRED_SIZE, 92, javax.swing.GroupLayout.PREFERRED_SIZE))
+                                            .addComponent(jLDNI, javax.swing.GroupLayout.PREFERRED_SIZE, 94, javax.swing.GroupLayout.PREFERRED_SIZE))
+                                        .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
+                                            .addComponent(jLFechaDeAlta, javax.swing.GroupLayout.PREFERRED_SIZE, 92, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                            .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                                            .addComponent(jLPrestamo)))
+                                    .addComponent(jLFechaDeBaja, javax.swing.GroupLayout.PREFERRED_SIZE, 92, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                            .addGroup(layout.createSequentialGroup()
+                                .addGap(18, 18, 18)
+                                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                                    .addGroup(layout.createSequentialGroup()
+                                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                                            .addComponent(jLDom)
+                                            .addComponent(jLEm))
+                                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                                            .addComponent(jLEmail, javax.swing.GroupLayout.PREFERRED_SIZE, 214, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                            .addComponent(jLDomicilio, javax.swing.GroupLayout.PREFERRED_SIZE, 214, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                                    .addGroup(layout.createSequentialGroup()
+                                        .addComponent(jLNom)
+                                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                                        .addComponent(jLNombre, javax.swing.GroupLayout.PREFERRED_SIZE, 214, javax.swing.GroupLayout.PREFERRED_SIZE))
+                                    .addGroup(layout.createSequentialGroup()
+                                        .addComponent(jLApe)
+                                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                                        .addComponent(jLApellido, javax.swing.GroupLayout.PREFERRED_SIZE, 214, javax.swing.GroupLayout.PREFERRED_SIZE)))))
                         .addGap(0, 50, Short.MAX_VALUE))
                     .addGroup(layout.createSequentialGroup()
                         .addContainerGap()
@@ -1118,22 +1121,22 @@ public class SocioTarjeta extends javax.swing.JPanel {
                 selectImage(numeroDeFoto);
                 break;
             case "Apellido:":
-                modificar(this.jLApellido, this.jLApellido.getText(), 160, 52, 100, 24, Font.PLAIN, 12);
+                modificar(this.jLApellido, this.jLApellido.getText(), 160, 50, 100, 24, Font.PLAIN, 12);
                 break;
             case "Nombre:":
-                modificar(this.jLNombre, this.jLNombre.getText(), 160, 74, 100, 24, Font.PLAIN, 12);
+                modificar(this.jLNombre, this.jLNombre.getText(), 160, 72, 100, 24, Font.PLAIN, 12);
                 break;
             case "Domicilio:":
-                modificar(this.jLDomicilio, this.jLDomicilio.getText(), 160, 96, 100, 24, Font.PLAIN, 12);
+                modificar(this.jLDomicilio, this.jLDomicilio.getText(), 160, 94, 100, 24, Font.PLAIN, 12);
                 break;
             case "E-Mail:":
-                modificar(this.jLEmail, this.jLEmail.getText(), 160, 118, 220, 24, Font.PLAIN, 12);
+                modificar(this.jLEmail, this.jLEmail.getText(), 160, 116, 220, 24, Font.PLAIN, 12);
                 break;
             case "Fecha de Alta:":
-                modificar(this.jLFechaDeAlta, this.jLFechaDeAlta.getText(), 100, 141, 86, 24, Font.BOLD, 12);
+                modificar(this.jLFechaDeAlta, this.jLFechaDeAlta.getText(), 100, 139, 86, 24, Font.BOLD, 12);
                 break;
             case "Fecha de Baja:":
-                modificar(this.jLFechaDeBaja, this.jLFechaDeBaja.getText(), 100, 163, 86, 24, Font.BOLD, 12);
+                modificar(this.jLFechaDeBaja, this.jLFechaDeBaja.getText(), 100, 161, 86, 24, Font.BOLD, 12);
                 break;
             case "DNI:":
                 modificar(this.jLDNI, this.jLDNI.getText(), 292, 26, 80, 24, Font.BOLD, 14);
@@ -2303,12 +2306,13 @@ public class SocioTarjeta extends javax.swing.JPanel {
                 valorMod.setText(placeholder);
                 valoresModificados.setVisible(false);
                 valorMod.setVisible(true);
+                temporizar(this.jLABM, "M");
             } else {
                 if (labelInformativo == this.jLABM) {
                     valorMod.setText(caracteresIngresados);
                     valoresModificados.setVisible(false);
                     valorMod.setVisible(true);
-
+                    
                     metodoDeSocio.eliminarSocio("M", valorDelCampo, campo.replaceAll(":", ""), valorMod.getText(), this.jLNumeroDeSocio.getText());
                 } else {
 

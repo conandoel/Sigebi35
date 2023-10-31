@@ -104,6 +104,7 @@ public class EjemplarData {
             ps2.setInt(1, libro.getCantEjemplares()-1);
             ps2.setLong(2, libro.getIsbn());
             ps2.executeUpdate();
+            ld.actualizarEstado(libro);
             ps2.close();
             }catch(SQLException ex){JOptionPane.showMessageDialog(null, "No se pudo descontar ejemplar de libro");}
         }else{
