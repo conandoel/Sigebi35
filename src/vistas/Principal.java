@@ -15,7 +15,7 @@ import javax.swing.JTextField;
 
 public class Principal extends javax.swing.JFrame {
     //Clases de otras vistas, para manejar los metodos de los libros
-    LibroNuevoView lNuevo; LibroModificarView lMod;
+    LibroNuevoView lNuevo; LibroBuscarView lBuscar; LibroModificarView lMod;
     
     //Constantes para manejar la creación de TARJETAS
     private static final String MODIFICAR = "MODIFICAR";
@@ -543,7 +543,7 @@ public class Principal extends javax.swing.JFrame {
         jDPEscritorio.removeAll();
         jDPEscritorio.repaint();
         //LibroModificarView pv=new LibroModificarView();
-        LibroModificarView pv=new LibroModificarView(this);
+        LibroModificarView pv=new LibroModificarView(this, 0);
         pv.setVisible(true);
         jDPEscritorio.add(pv);
         jDPEscritorio.moveToFront(pv);
@@ -624,14 +624,15 @@ public class Principal extends javax.swing.JFrame {
 
     public void cargarNuevoLibro(){
         
-        LibroNuevoView lNuevo = new LibroNuevoView();
+        LibroNuevoView lNuevo = new LibroNuevoView(this, 0);
         lNuevo.setVisible(true);
         jDPEscritorio.add(lNuevo);
         jDPEscritorio.moveToFront(lNuevo);
     }
     
-    public void cargarModLibro(Libro libro){
-        LibroModificarView lMod = new LibroModificarView(this);
+    public void cargarModLibro(Libro libro, int i, int j, int ap){
+        LibroModificarView lMod = new LibroModificarView(this, 0);
+        lMod.setSize(i, j);
         lMod.setVisible(true);
         jDPEscritorio.add(lMod);
         jDPEscritorio.moveToFront(lMod);
