@@ -1957,6 +1957,26 @@ public class SocioTarjeta extends javax.swing.JPanel {
                                                     temporizar(labelInformativo, "M");
                                                 }
                                             }
+                                        }else{
+                                            System.out.println("40");
+                                                    int respuesta = JOptionPane.showConfirmDialog(this, "Modificar la Fecha dará de baja al Socio", "Baja de Socio Nº " + this.jLNumeroDeSocio.getText(), WIDTH, JOptionPane.PLAIN_MESSAGE, this.jLFoto.getIcon());
+                                                    if (respuesta == 0) {
+                                                        System.out.println("41");
+                                                        caracteresIngresados = caracteresIngresados.replaceAll("[-/]", " | ");
+                                                        valoresModificados.setVisible(false);
+                                                        valorMod.setText(caracteresIngresados);
+                                                        valorMod.setVisible(true);
+                                                        metodoDeSocio.eliminarSocio("M", soloMod, "fechaDeBaja", fechaDB, this.jLNumeroDeSocio.getText());
+                                                        labelInformativo.setText("La Fecha de Baja ha sido modificado correctamente");
+                                                        labelInformativo.setForeground(new Color(0, 100, 05));
+                                                        if (this.jLEstado.getText().equals("Socio Activo")) {
+                                                            this.jLEstado.setText("Desasociado");
+                                                            System.out.println("42");
+                                                            metodoDeSocio.eliminarSocio("M", this.jLNumeroDeSocio.getText(), this.jLEst.getText().replace(":", ""), "0", this.jLNumeroDeSocio.getText());
+                                                        }
+                                                        this.jLEstado.setForeground(Color.RED);
+                                                        temporizar(labelInformativo, "M");
+                                                    }
                                         }
                                     }
 
@@ -2051,7 +2071,7 @@ public class SocioTarjeta extends javax.swing.JPanel {
                     }
 
                     labelInformativo.setText("La Fecha debe tener el formato 01-01-2028");
-                    valorMod.setVisible(false);
+                    valorMod.setVisible(false);          
                     break;
                 case "Estado:":
 
