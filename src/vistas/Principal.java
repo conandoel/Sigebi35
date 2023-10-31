@@ -622,9 +622,9 @@ public class Principal extends javax.swing.JFrame {
     private javax.swing.JPanel panel;
     // End of variables declaration//GEN-END:variables
 
-    public void cargarNuevoLibro(){
+    public void cargarNuevoLibro(int i){
         
-        LibroNuevoView lNuevo = new LibroNuevoView(this, 0);
+        LibroNuevoView lNuevo = new LibroNuevoView(this, i);
         lNuevo.setVisible(true);
         jDPEscritorio.add(lNuevo);
         jDPEscritorio.moveToFront(lNuevo);
