@@ -630,11 +630,12 @@ public class Principal extends javax.swing.JFrame {
         jDPEscritorio.moveToFront(lNuevo);
     }
     
-    public void cargarModLibro(Libro libro, int i, int j, int ap){
-        LibroModificarView lMod = new LibroModificarView(this, 0);
+    public void cargarModLibro(Libro libro, int i, int j, int apertura){
+        LibroModificarView lMod = new LibroModificarView(this, apertura);
         lMod.setSize(i, j);
         lMod.setVisible(true);
         jDPEscritorio.add(lMod);
+        lMod.cargarDatosActuales(libro);
         jDPEscritorio.moveToFront(lMod);
     }
 }
