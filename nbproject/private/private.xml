@@ -3,13 +3,16 @@
     <editor-bookmarks xmlns="http://www.netbeans.org/ns/editor-bookmarks/2" lastBookmarkId="0"/>
     <open-files xmlns="http://www.netbeans.org/ns/projectui-open-files/2">
         <group>
-            <file>file:/C:/ARGENTINA%20PROGRAMA/ProyectoEquipo35/Sigebi35/src/vistas/SocioTarjeta.java</file>
-            <file>file:/C:/ARGENTINA%20PROGRAMA/ProyectoEquipo35/Sigebi35/src/vistas/Principal.java</file>
-            <file>file:/C:/ARGENTINA%20PROGRAMA/ProyectoEquipo35/Sigebi35/src/entidades/Foto.java</file>
-            <file>file:/C:/ARGENTINA%20PROGRAMA/ProyectoEquipo35/Sigebi35/src/datos/SocioData.java</file>
-            <file>file:/C:/ARGENTINA%20PROGRAMA/ProyectoEquipo35/Sigebi35/src/vistas/SocioBuscarView.java</file>
-            <file>file:/C:/ARGENTINA%20PROGRAMA/ProyectoEquipo35/Sigebi35/src/vistas/SocioAgregarView.java</file>
-            <file>file:/C:/ARGENTINA%20PROGRAMA/ProyectoEquipo35/Sigebi35/src/entidades/Socio.java</file>
+            <file>file:/C:/Users/damia/OneDrive/Documentos/GitHub/Sivebi35.2/Sigebi35/src/vistas/SocioTarjeta.java</file>
+            <file>file:/C:/Users/damia/OneDrive/Documentos/GitHub/Sivebi35.2/Sigebi35/src/vistas/ModificarEjemplarView.java</file>
+            <file>file:/C:/Users/damia/OneDrive/Documentos/GitHub/Sivebi35.2/Sigebi35/src/vistas/LibroModificarView.java</file>
+            <file>file:/C:/Users/damia/OneDrive/Documentos/GitHub/Sivebi35.2/Sigebi35/src/vistas/Principal.java</file>
+            <file>file:/C:/Users/damia/OneDrive/Documentos/GitHub/Sivebi35.2/Sigebi35/src/vistas/EliminarEjemplarView.java</file>
+            <file>file:/C:/Users/damia/OneDrive/Documentos/GitHub/Sivebi35.2/Sigebi35/src/vistas/LibroNuevoView.java</file>
+            <file>file:/C:/Users/damia/OneDrive/Documentos/GitHub/Sivebi35.2/Sigebi35/src/datos/Conexion.java</file>
+            <file>file:/C:/Users/damia/OneDrive/Documentos/GitHub/Sivebi35.2/Sigebi35/src/vistas/LibroBuscarView.java</file>
+            <file>file:/C:/Users/damia/OneDrive/Documentos/GitHub/Sivebi35.2/Sigebi35/src/vistas/LibroEliminarView.java</file>
+            <file>file:/C:/Users/damia/OneDrive/Documentos/GitHub/Sivebi35.2/Sigebi35/src/datos/EjemplarData.java</file>
         </group>
     </open-files>
 </project-private>
