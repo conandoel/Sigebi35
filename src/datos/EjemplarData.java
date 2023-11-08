@@ -85,12 +85,13 @@ public class EjemplarData {
     }
     
     public void eliminarEjemplar(Ejemplar ejemplar){
-        String sql ="delete ejemplar where codigo = "+ejemplar.getCodigo();
+        String sql ="delete ejemplar where codigo = ?";
         PrestamoData pd=new PrestamoData();
         if(pd.buscarPrestamoEjemplar(ejemplar.getCodigo())){
             try {
                 PreparedStatement ps = con.prepareStatement(sql);
-                ps.execute();
+                ps.setInt(1, ejemplar.getCodigo());
+                ps.executeUpdate();
                 ps.close();
             } catch (SQLException ex) {
                 Logger.getLogger(EjemplarData.class.getName()).log(Level.SEVERE, null, ex);
