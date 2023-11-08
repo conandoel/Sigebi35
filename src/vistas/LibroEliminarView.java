@@ -93,17 +93,17 @@ public class LibroEliminarView extends javax.swing.JInternalFrame {
         jlbLibrosInhabilitados.setFont(new java.awt.Font("Dialog", 1, 14)); // NOI18N
         jlbLibrosInhabilitados.setText("Libros Disponibles:");
 
-        jlbIsbn.setText("ISBN");
+        jlbIsbn.setText("ISBN:");
 
-        jlbTitulo.setText("Titulo");
+        jlbTitulo.setText("Titulo:");
 
-        jlbAutor.setText("Autor");
+        jlbAutor.setText("Autor:");
 
-        jlbAnio.setText("Año");
+        jlbAnio.setText("Año:");
 
-        jlbGenero.setText("Genero");
+        jlbGenero.setText("Genero:");
 
-        jlbEditorial.setText("Editorial");
+        jlbEditorial.setText("Editorial:");
 
         jlbEditorialMod.setText(" ");
 
@@ -117,7 +117,7 @@ public class LibroEliminarView extends javax.swing.JInternalFrame {
 
         jlbIsbnMod.setText(" ");
 
-        jlbEjemplares.setText("Ejemplares");
+        jlbEjemplares.setText("Ejemplares:");
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);

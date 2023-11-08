@@ -31,45 +31,58 @@
   <Layout>
     <DimensionLayout dim="0">
       <Group type="103" groupAlignment="0" attributes="0">
-          <Group type="102" alignment="1" attributes="0">
+          <Group type="102" attributes="0">
               <EmptySpace max="-2" attributes="0"/>
-              <Group type="103" groupAlignment="1" attributes="0">
-                  <Component id="jlbError" max="32767" attributes="0"/>
-                  <Group type="102" alignment="0" attributes="0">
-                      <Group type="103" groupAlignment="0" max="-2" attributes="0">
-                          <Component id="jlbTitulo" alignment="0" max="32767" attributes="0"/>
-                          <Component id="jlbAutor" alignment="0" max="32767" attributes="0"/>
-                          <Component id="jlbAnio" alignment="0" max="32767" attributes="0"/>
-                          <Component id="jlbGenero" alignment="0" max="32767" attributes="0"/>
-                          <Component id="jlbEditorial" alignment="0" max="32767" attributes="0"/>
-                          <Component id="jlbEjemplares" alignment="0" pref="110" max="32767" attributes="0"/>
-                      </Group>
-                      <EmptySpace type="unrelated" max="-2" attributes="0"/>
-                      <Group type="103" groupAlignment="0" attributes="0">
-                          <Component id="jtfTitulo" max="32767" attributes="0"/>
-                          <Component id="jtfAutor" alignment="0" max="32767" attributes="0"/>
-                          <Component id="jtfAnio" alignment="0" max="32767" attributes="0"/>
-                          <Component id="jtfGenero" alignment="0" max="32767" attributes="0"/>
-                          <Component id="jtfEditorial" max="32767" attributes="0"/>
-                          <Component id="jtfEjemplares" alignment="0" max="32767" attributes="0"/>
-                      </Group>
-                  </Group>
-                  <Component id="jlbCoincidir" alignment="1" max="32767" attributes="0"/>
+              <Group type="103" groupAlignment="0" attributes="0">
                   <Group type="102" alignment="1" attributes="0">
-                      <Group type="103" groupAlignment="0" attributes="0">
-                          <Component id="jlbConfISBN" alignment="0" max="32767" attributes="0"/>
-                          <Component id="jlbISBN" alignment="0" max="32767" attributes="0"/>
-                          <Component id="jbtAñadir" alignment="0" max="32767" attributes="0"/>
+                      <Group type="103" groupAlignment="1" attributes="0">
+                          <Component id="jLabel1" max="32767" attributes="0"/>
+                          <Group type="102" alignment="1" attributes="0">
+                              <Group type="103" groupAlignment="0" attributes="0">
+                                  <Component id="jlbISBN" alignment="0" max="32767" attributes="0"/>
+                                  <Component id="jbtAñadir" alignment="0" pref="106" max="32767" attributes="0"/>
+                              </Group>
+                              <EmptySpace type="separate" max="-2" attributes="0"/>
+                              <Group type="103" groupAlignment="1" attributes="0">
+                                  <Component id="jtfIsbn" alignment="0" min="-2" pref="200" max="-2" attributes="0"/>
+                                  <Component id="jbtCancelar" alignment="0" min="-2" max="-2" attributes="0"/>
+                              </Group>
+                          </Group>
                       </Group>
-                      <EmptySpace type="separate" max="-2" attributes="0"/>
-                      <Group type="103" groupAlignment="1" max="-2" attributes="0">
-                          <Component id="jtfConfIsbn" alignment="0" pref="200" max="32767" attributes="0"/>
-                          <Component id="jtfIsbn" alignment="0" max="32767" attributes="0"/>
-                          <Component id="jbtCancelar" alignment="0" min="-2" max="-2" attributes="0"/>
+                      <EmptySpace min="-2" pref="168" max="-2" attributes="0"/>
+                  </Group>
+                  <Group type="102" alignment="0" attributes="0">
+                      <Group type="103" groupAlignment="1" attributes="0">
+                          <Component id="jlbError" max="32767" attributes="0"/>
+                          <Group type="102" alignment="0" attributes="0">
+                              <Group type="103" groupAlignment="0" max="-2" attributes="0">
+                                  <Component id="jlbTitulo" alignment="0" max="32767" attributes="0"/>
+                                  <Component id="jlbAutor" alignment="0" max="32767" attributes="0"/>
+                                  <Component id="jlbAnio" alignment="0" max="32767" attributes="0"/>
+                                  <Component id="jlbGenero" alignment="0" max="32767" attributes="0"/>
+                                  <Component id="jlbEditorial" alignment="0" max="32767" attributes="0"/>
+                                  <Component id="jlbEjemplares" alignment="0" min="-2" pref="110" max="-2" attributes="0"/>
+                              </Group>
+                              <EmptySpace type="unrelated" max="-2" attributes="0"/>
+                              <Group type="103" groupAlignment="0" attributes="0">
+                                  <Component id="jtfTitulo" max="32767" attributes="0"/>
+                                  <Component id="jtfAutor" alignment="0" max="32767" attributes="0"/>
+                                  <Component id="jtfAnio" alignment="0" max="32767" attributes="0"/>
+                                  <Component id="jtfGenero" alignment="0" max="32767" attributes="0"/>
+                                  <Component id="jtfEditorial" max="32767" attributes="0"/>
+                                  <Component id="jtfEjemplares" alignment="0" max="32767" attributes="0"/>
+                              </Group>
+                          </Group>
+                          <Component id="jlbCoincidir" alignment="1" max="32767" attributes="0"/>
+                          <Group type="102" alignment="1" attributes="0">
+                              <Component id="jlbConfISBN" max="32767" attributes="0"/>
+                              <EmptySpace type="separate" max="-2" attributes="0"/>
+                              <Component id="jtfConfIsbn" pref="199" max="32767" attributes="0"/>
+                          </Group>
                       </Group>
+                      <EmptySpace min="-2" pref="168" max="-2" attributes="0"/>
                   </Group>
               </Group>
-              <EmptySpace min="-2" pref="168" max="-2" attributes="0"/>
           </Group>
       </Group>
     </DimensionLayout>
@@ -80,6 +93,8 @@
                   <Component id="jlbISBN" min="-2" max="-2" attributes="0"/>
                   <Component id="jtfIsbn" min="-2" max="-2" attributes="0"/>
               </Group>
+              <EmptySpace max="-2" attributes="0"/>
+              <Component id="jLabel1" min="-2" max="-2" attributes="0"/>
               <EmptySpace max="-2" attributes="0"/>
               <Group type="103" groupAlignment="3" attributes="0">
                   <Component id="jtfConfIsbn" alignment="3" min="-2" max="-2" attributes="0"/>
@@ -119,12 +134,12 @@
               </Group>
               <EmptySpace max="-2" attributes="0"/>
               <Component id="jlbError" min="-2" pref="16" max="-2" attributes="0"/>
-              <EmptySpace type="unrelated" max="-2" attributes="0"/>
+              <EmptySpace pref="23" max="32767" attributes="0"/>
               <Group type="103" groupAlignment="3" attributes="0">
-                  <Component id="jbtCancelar" alignment="3" min="-2" max="-2" attributes="0"/>
                   <Component id="jbtAñadir" alignment="3" min="-2" max="-2" attributes="0"/>
+                  <Component id="jbtCancelar" alignment="3" min="-2" max="-2" attributes="0"/>
               </Group>
-              <EmptySpace max="32767" attributes="0"/>
+              <EmptySpace max="-2" attributes="0"/>
           </Group>
       </Group>
     </DimensionLayout>
@@ -282,6 +297,14 @@
       </Properties>
       <AuxValues>
         <AuxValue name="JavaCodeGenerator_InitCodePost" type="java.lang.String" value="jlbCoincidir.setVisible(false);"/>
+      </AuxValues>
+    </Component>
+    <Component class="javax.swing.JLabel" name="jLabel1">
+      <Properties>
+        <Property name="horizontalAlignment" type="int" value="0"/>
+      </Properties>
+      <AuxValues>
+        <AuxValue name="JavaCodeGenerator_InitCodePost" type="java.lang.String" value="jLabel1.setVisible(false);"/>
       </AuxValues>
     </Component>
   </SubComponents>

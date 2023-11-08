@@ -30,6 +30,7 @@ public class Principal extends javax.swing.JFrame {
     public Principal() {
         
         initComponents();
+        this.setSize(850, 480);
         //spintarJFrame();
         //Se guarda en pr la instancia del PROGRAMA para utilizar el PATRÓN DE DISEÑO Singleton
         pr = this;
@@ -134,7 +135,12 @@ public class Principal extends javax.swing.JFrame {
         jMenu1.setText("jMenu1");
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
+        setPreferredSize(new java.awt.Dimension(850, 450));
         setResizable(false);
+
+        jDPEscritorio.setPreferredSize(new java.awt.Dimension(850, 450));
+
+        panel.setPreferredSize(new java.awt.Dimension(850, 460));
 
         javax.swing.GroupLayout panelLayout = new javax.swing.GroupLayout(panel);
         panel.setLayout(panelLayout);
@@ -153,11 +159,11 @@ public class Principal extends javax.swing.JFrame {
         jDPEscritorio.setLayout(jDPEscritorioLayout);
         jDPEscritorioLayout.setHorizontalGroup(
             jDPEscritorioLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addComponent(panel, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+            .addComponent(panel, javax.swing.GroupLayout.DEFAULT_SIZE, 802, Short.MAX_VALUE)
         );
         jDPEscritorioLayout.setVerticalGroup(
             jDPEscritorioLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addComponent(panel, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+            .addComponent(panel, javax.swing.GroupLayout.DEFAULT_SIZE, 442, Short.MAX_VALUE)
         );
 
         jMArchivo.setText("Archivo");
@@ -319,11 +325,11 @@ public class Principal extends javax.swing.JFrame {
         getContentPane().setLayout(layout);
         layout.setHorizontalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addComponent(jDPEscritorio)
+            .addComponent(jDPEscritorio, javax.swing.GroupLayout.DEFAULT_SIZE, 802, Short.MAX_VALUE)
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addComponent(jDPEscritorio)
+            .addComponent(jDPEscritorio, javax.swing.GroupLayout.DEFAULT_SIZE, 442, Short.MAX_VALUE)
         );
 
         pack();
@@ -541,13 +547,18 @@ public class Principal extends javax.swing.JFrame {
 
     private void jMModLibrosActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMModLibrosActionPerformed
         // TODO add your handling code here:
+//        jDPEscritorio.removeAll();
+//        jDPEscritorio.repaint();
+//        //LibroModificarView pv=new LibroModificarView();
+//        LibroModificarView pv=new LibroModificarView(this, 0);
+//        pv.setVisible(true);
+//        jDPEscritorio.add(pv);
+//        jDPEscritorio.moveToFront(pv);
+
         jDPEscritorio.removeAll();
         jDPEscritorio.repaint();
-        //LibroModificarView pv=new LibroModificarView();
-        LibroModificarView pv=new LibroModificarView(this, 0);
-        pv.setVisible(true);
-        jDPEscritorio.add(pv);
-        jDPEscritorio.moveToFront(pv);
+        Libro libro = new Libro();
+        cargarModLibro(libro, 850, 430, 0);
     }//GEN-LAST:event_jMModLibrosActionPerformed
 
     private void jMElimLibrosActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMElimLibrosActionPerformed

@@ -198,32 +198,32 @@
     </Component>
     <Component class="javax.swing.JLabel" name="jlbIsbn">
       <Properties>
-        <Property name="text" type="java.lang.String" value="ISBN"/>
+        <Property name="text" type="java.lang.String" value="ISBN:"/>
       </Properties>
     </Component>
     <Component class="javax.swing.JLabel" name="jlbTitulo">
       <Properties>
-        <Property name="text" type="java.lang.String" value="Titulo"/>
+        <Property name="text" type="java.lang.String" value="Titulo:"/>
       </Properties>
     </Component>
     <Component class="javax.swing.JLabel" name="jlbAutor">
       <Properties>
-        <Property name="text" type="java.lang.String" value="Autor"/>
+        <Property name="text" type="java.lang.String" value="Autor:"/>
       </Properties>
     </Component>
     <Component class="javax.swing.JLabel" name="jlbAnio">
       <Properties>
-        <Property name="text" type="java.lang.String" value="A&#xf1;o"/>
+        <Property name="text" type="java.lang.String" value="A&#xf1;o:"/>
       </Properties>
     </Component>
     <Component class="javax.swing.JLabel" name="jlbGenero">
       <Properties>
-        <Property name="text" type="java.lang.String" value="Genero"/>
+        <Property name="text" type="java.lang.String" value="Genero:"/>
       </Properties>
     </Component>
     <Component class="javax.swing.JLabel" name="jlbEditorial">
       <Properties>
-        <Property name="text" type="java.lang.String" value="Editorial"/>
+        <Property name="text" type="java.lang.String" value="Editorial:"/>
       </Properties>
     </Component>
     <Component class="javax.swing.JLabel" name="jlbEditorialMod">
@@ -258,7 +258,7 @@
     </Component>
     <Component class="javax.swing.JLabel" name="jlbEjemplares">
       <Properties>
-        <Property name="text" type="java.lang.String" value="Ejemplares"/>
+        <Property name="text" type="java.lang.String" value="Ejemplares:"/>
       </Properties>
     </Component>
     <Component class="javax.swing.JLabel" name="jlbCantEjemplaresmod">
